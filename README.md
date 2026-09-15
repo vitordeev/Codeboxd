@@ -1,6 +1,6 @@
 <div align="center">
 
-CodeBoxd
+CodeBoxd — Descubra e Compartilhe
 
 Seu universo cultural, em uma única comunidade.
 
