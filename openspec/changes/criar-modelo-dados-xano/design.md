@@ -1,57 +1,41 @@
 ## Context
 
-O Codeboxd é uma plataforma social para descoberta, registro e compartilhamento de experiências relacionadas a filmes, séries, animes e livros.
-
-A aplicação utilizará o Xano como backend e camada de persistência, enquanto o frontend será desenvolvido utilizando Streamlit. Informações detalhadas sobre mídias poderão ser obtidas através de APIs externas, enquanto os dados específicos da plataforma deverão ser persistidos no Xano.
-
-Esta arquitetura precisa suportar relacionamentos entre usuários, mídias, interações pessoais, listas e funcionalidades sociais sem duplicar informações ou comprometer a integridade dos dados.
-
-Veja `proposal.md` para a motivação da change e as specs desta change para os comportamentos esperados.
+Veja proposal.md e specs. Reflex é a aplicação Python e Xano é a fonte de verdade. O workspace já contém user, event_log e titulos, que devem ser preservados.
 
 ## Goals / Non-Goals
 
-**Goals:**
+**Goals:** persistência relacional, identidade externa estável, autorização e unicidade sob concorrência.
 
-- Criar um modelo de dados organizado para persistir as informações do Codeboxd.
-- Permitir a identificação única de usuários.
-- Separar dados de autenticação dos dados públicos de perfil.
-- Criar uma representação unificada para filmes, séries, animes e livros.
-- Permitir relacionamentos entre usuários e mídias.
-- Suportar avaliações, status e reviews.
-- Suportar relações sociais entre usuários.
-- Suportar posts, curtidas e comentários.
-- Suportar listas personalizadas.
-- Evitar duplicação de mídias provenientes de APIs externas.
-- Criar uma estrutura preparada para crescimento futuro da aplicação.
-
-**Non-Goals:**
-
-- Armazenar permanentemente todas as informações fornecidas pelas APIs externas.
-- Definir o layout ou comportamento visual do frontend.
-- Implementar algoritmos de recomendação.
-- Implementar notificações nesta etapa.
-- Implementar moderação ou denúncias de conteúdo nesta etapa.
-- Definir todos os endpoints da API nesta change.
+**Non-Goals:** copiar todo o catálogo externo ou migrar destrutivamente tabelas existentes.
 
 ## Decisions
 
-### 1. Utilizar uma tabela unificada para mídias
+| Tabela | Relações e restrições |
+|---|---|
+| user | Autenticação existente, email único, username normalizado para novos cadastros; preservar campos/papéis existentes. |
+| profile | user_id e username únicos; display_name, bio, avatar_url públicos. |
+| media | identity_key único (fonte + categoria + ID externo), title, media_type, description, cover_url, year, details. |
+| user_media_interaction | user_id + media_id únicos; status planned/in_progress/completed/dropped, rating, review, spoiler. |
+| user_follow | follower_id + followed_id únicos; sem auto-seguimento. |
+| post | user_id, media_id opcional, body, spoiler e datas. |
+| post_like | user_id + post_id únicos. |
+| comment | user_id, post_id, body e datas. |
+| user_list | user_id, title, description, is_public. |
+| user_list_item | list_id + media_id únicos. |
 
-O sistema utilizará uma única entidade `media` para representar:
+Chaves compostas determinísticas permitem operações idempotentes e índices únicos. Autoria vem de $auth.id. Endpoints verificam existência das referências e propriedade antes de modificar dados. Índices adicionais cobrem usuário, mídia, post, lista e seguidores.
 
-- filmes;
-- séries;
-- animes;
-- livros.
+Cadastro cria usuário e perfil em transação. Contas antigas podem completar perfil após login. Alterar username atualiza user e profile em transação, verificando colisões. A exclusão de posts e listas remove dependências em transação. Não há exclusão pública de mídias referenciadas.
 
-Cada registro possuirá um campo que identifica seu tipo.
+Listas privadas são filtradas no backend; seus itens herdam a mesma visibilidade. Logs recebem apenas metadados permitidos, nunca objetos completos de usuário.
 
-Exemplo:
+## Risks / Trade-offs
 
-```text
-media_type
+- Usernames legados duplicados → preservar esquema legado; unicidade de novos nomes via profile e validação de user.
+- Categorias legadas incluem games → preservar titulos sem conversões implícitas.
+- Corridas de inserção → índices únicos, além das verificações da API.
+- Relações Xano não substituem validação → verificar existência explicitamente.
 
-movie
-series
-anime
-book
+## Migration Plan
+
+Exportar o workspace, adicionar estruturas sem truncar tabelas, validar dry-run, publicar em transação e testar com dois usuários. Tarefas remotas só são concluídas após execução comprovada. Rollback restaura endpoints sem remover dados.

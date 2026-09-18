@@ -1,0 +1,14 @@
+*.db
+.web
+*.py[cod]
+__pycache__/
+.states
+assets/external/
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+.local/
+reflex.log
+.pytest_cache/

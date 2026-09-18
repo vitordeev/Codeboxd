@@ -1,6 +1,6 @@
 ## Why
 
-O Codeboxd necessita de uma estrutura persistente de dados para armazenar as informações próprias da plataforma, incluindo usuários, perfis, interações com mídias, listas e recursos sociais. Definir esse modelo antes da implementação evita inconsistências nas relações entre os dados e facilita a integração entre o frontend Streamlit, o backend Xano e as APIs externas.
+O Codeboxd necessita de uma estrutura persistente de dados para armazenar as informações próprias da plataforma, incluindo usuários, perfis, interações com mídias, listas e recursos sociais. Definir esse modelo antes da implementação evita inconsistências nas relações entre os dados e facilita a integração entre o frontend Reflex, o backend Xano e as APIs externas.
 
 ## What Changes
 
@@ -33,6 +33,6 @@ O Codeboxd necessita de uma estrutura persistente de dados para armazenar as inf
 
 - Xano database e estrutura de tabelas.
 - APIs do backend responsáveis pela criação e recuperação de dados.
-- Integração futura entre Streamlit e Xano.
+- Integração futura entre Reflex e Xano.
 - Persistência das interações sociais e pessoais dos usuários.
 - Integração com fontes externas de filmes, séries, animes e livros.
