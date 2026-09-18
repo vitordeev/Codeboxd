@@ -59,3 +59,62 @@ Resultado: compilação OK, 12 testes OK, duas changes válidas. Os testes usam 
 7. Atualizar checkboxes somente conforme a evidência. Arquivar OpenSpec apenas depois da implementação completa.
 
 Os arquivos estão salvos no diretório de trabalho. Não foi criado commit; o projeto já tinha diversos arquivos não rastreados antes desta implementação.
+
+## Checkpoint atualizado — 17/09/2026
+
+### Implementado nesta sessão
+
+- Criadas as páginas sociais Reflex em `Codeboxd_main/pages/social.py`: descoberta, obra, biblioteca, comunidade, perfil, feed e listas.
+- Rotas conectadas em `Codeboxd_main/Codeboxd_main.py`.
+- Mantido o login visual original em `Codeboxd_main/pages/login.py`; a tela social nova é uma base funcional provisória e deve ser adaptada ao mockup original quando o usuário indicar os demais arquivos visuais.
+- `SocialState` agora cobre busca, detalhes, interações, perfis, seguidores, feed, comentários, curtidas, listas, estados de carregamento, paginação local e limpeza de dados ao trocar de usuário/logout.
+- Detalhes externos preservam `external_source` e `external_id`; mídias persistidas abrem pelo ID interno após recarregar a página.
+- Catálogo ganhou validação rigorosa de URLs HTTPS, identidade externa e detalhes de Open Library; falhas parciais dos provedores são exibidas sem apagar dados locais.
+- Adicionado retry para HTTP 429 em `services/api.py`.
+- Adicionada paginação backend e agregação de páginas em `SocialState`.
+- Adicionado `xano/api/codeboxd/likes_GET.xs` para restaurar curtidas no feed.
+- Corrigidos erros encontrados pelo parser XanoScript em loops/condicionais; 68 arquivos agora passam no parser local.
+- Adicionadas 27 regressões unitárias em `tests/`, todas passando.
+- Adicionados scripts locais de verificação em `.local/` e capturas visuais; não contêm segredos publicados.
+
+### Estado remoto confirmado
+
+- Migração inicial publicada no workspace Xano `147717` (Pedro's Workspace): 9 tabelas, grupo Codeboxd e 30 endpoints; 9 endpoints legados atualizados.
+- Paginação publicada depois em 11 endpoints de consulta.
+- Teste real contra Xano passou em 10 grupos: cadastro/login de duas contas, duplicidade, privacidade, perfis, mídia, interações independentes, seguidores, feed, autoria, curtidas, comentários, listas e exclusões.
+- Contas de teste e tokens ficam somente em `.local/test-accounts.json`; não registrar nem publicar esses valores.
+- `.env` local recebeu `XANO_SOCIAL_URL` após a publicação. `TMDB_READ_TOKEN` continua ausente; filmes e séries ficam indisponíveis até o usuário configurá-lo localmente.
+- Open Library respondeu; Jikan retornou HTTP 504 temporário e o app trata essa falha corretamente.
+
+### Verificações
+
+- `python -m reflex compile --dry`: OK.
+- `python -m unittest discover -s tests -q`: 27 testes OK.
+- Parser XanoScript: 68 arquivos, 0 erros.
+- Servidor produção local respondeu HTTP 200 em `http://localhost:3001`.
+- Smoke test no Edge passou por descoberta, login, perfil, biblioteca, feed, comunidade e listas; houve uma falha conhecida ao testar logout porque `SessionState.logout` usava `external=True`, já corrigida para `is_external=True`. Reexecutar o smoke test amanhã.
+
+### Próximo passo exato
+
+1. Reexecutar `.local/browser_smoke.py` depois da correção do logout.
+2. Confirmar no Xano a prévia/publicação de `likes_GET.xs` e do filtro de identidade em `media_GET.xs` (a publicação foi iniciada no fim da sessão e deve ser conferida).
+3. Adaptar `pages/social.py` ao mockup visual original que o usuário indicará, preservando os handlers de `SocialState`.
+4. Configurar `TMDB_READ_TOKEN` somente no `.env` local e testar filmes/séries.
+5. Atualizar checkboxes OpenSpec apenas após essa evidência; não arquivar as changes ainda.
+
+## Checkpoint — 18/09/2026: referências visuais e cadastro
+
+- Referências recebidas em `Imagens/HomePage.png`, `Imagens/MoviePage.png` e `Imagens/image 3.png`.
+- Página inicial adaptada ao tema escuro/amarelo, cabeçalho com logo, navegação ativa, busca, filtros por categoria e cards. Banner de boas-vindas usa o mascote fornecido, copiado para `assets/mascot.png`.
+- Detalhes de obra com painel de capa/sinopse e avaliação conectada ao handler existente. Não foram inventados trailers, elenco ou comentários ausentes no backend.
+- Cadastro com layout responsivo, mascote, rótulos e orientação de username. Mantida integração real com Xano.
+- CSS compartilhado em `assets/codeboxd.css`, carregado pelo cabeçalho global.
+- Corrigido logout: `is_external=True` abria outra aba; agora usa navegação interna com `replace=True`. Regressão verifica limpeza dos tokens, identidade e dados sociais privados.
+- Compilação Reflex aprovada. 28 testes unitários passaram.
+- Teste no navegador criou uma conta real pelo cadastro e confirmou login automático e sessão após recarregar. Também verificou confirmação de senha e rejeição de cadastro duplicado pelo Xano.
+- Credenciais da conta de teste ficam somente em `.local/signup-test-account.json` (ignorado pelo Git).
+- Servidor de produção local em `http://localhost:3001`, log atual `.local/reflex-current.log`. A execução precisa de acesso à rede para alcançar o Xano.
+- `TMDB_READ_TOKEN` continua pendente; não declarar busca de filmes/séries validada. Restante do mockup, como trailers e enriquecimento dos detalhes, permanece para as próximas etapas.
+- Alterações salvas nos arquivos; nenhum commit criado nesta etapa. Preservado o checkpoint anterior que já estava no staging.
+- Após corrigir o logout, smoke tests passaram por login, perfil, biblioteca, feed, comunidade, listas, saída na mesma aba e bloqueio de rota privada após sair. A conta nova também fez logout e novo login com sucesso.
+- Navegação da descoberta aos detalhes de uma obra validada no navegador; cadastro e detalhes conferidos em 390 px sem overflow horizontal. Capturas e scripts de verificação ficam em `.local/`.

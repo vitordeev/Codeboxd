@@ -1,10 +1,11 @@
 """Public discovery and authenticated social pages."""
 import reflex as rx
 from ..state.social import SocialState as S
+from .login import _logo_icon
 
 INPUT = 'w-full rounded-xl border border-white/15 bg-[#151719] px-4 py-3 text-white'
 BUTTON = 'rounded-xl bg-[#F5B300] px-5 py-3 font-semibold text-black disabled:opacity-50'
-CARD = 'rounded-2xl border border-white/10 bg-[#17191c] p-5 space-y-4'
+CARD = 'rounded-2xl border border-white/10 bg-[#111114] p-5 space-y-4'
 
 
 def button(text, event=None, **props):
@@ -44,34 +45,37 @@ def confirm(label, action):
 def shell(title, subtitle, *children):
     return rx.el.div(
         rx.el.header(
-            rx.el.a('codeboxd', href='/', class_name='text-2xl font-bold text-[#F5B300]'),
-            rx.el.nav(*[rx.el.a(label, href=href, class_name='text-sm hover:text-[#F5B300]') for label,href in
-                        [('Descobrir','/'),('Biblioteca','/biblioteca'),('Feed','/feed'),('Comunidade','/comunidade'),('Listas','/listas')]],
-                      class_name='flex flex-wrap gap-5', aria_label='Navegação principal'),
+            rx.el.a(_logo_icon(), rx.el.span('code', rx.el.span('boxd', class_name='brand-yellow')),
+                    href='/', class_name='brand', aria_label='Codeboxd — início'),
+            rx.el.nav(*[rx.el.a(label, href=href,
+                        class_name=rx.cond(S.router.url.path == href, 'nav-link active', 'nav-link')) for label,href in
+                        [('Início','/'),('Feed','/feed'),('Listas','/listas'),('Perfil','/conta')]],
+                      class_name='main-nav', aria_label='Navegação principal'),
             rx.cond(S.is_authenticated,
                 rx.el.div(rx.el.a('Meu perfil',href='/conta'), button('Sair',S.logout_social),class_name='flex items-center gap-4'),
                 rx.el.a('Entrar',href='/login',class_name=BUTTON)),
-            class_name='flex flex-wrap items-center justify-between gap-6 border-b border-white/10 px-6 py-5'),
-        rx.el.main(rx.el.h1(title,class_name='text-3xl md:text-4xl font-bold'),
-            rx.el.p(subtitle,class_name='text-gray-400 mt-3 mb-8'),
+            class_name='site-header'),
+        rx.el.main(rx.el.h1(title,class_name='sr-only' if title in ('Sua próxima história começa aqui.', 'Detalhes da obra') else 'text-3xl md:text-4xl font-bold'),
+            rx.el.p(subtitle,class_name='sr-only' if title in ('Sua próxima história começa aqui.', 'Detalhes da obra') else 'text-gray-400 mt-3 mb-8'),
             rx.cond(S.notice!='',rx.el.p(S.notice,role='status',class_name='rounded-xl border border-amber-400/25 bg-amber-400/10 p-4 mb-6')),
             rx.cond(S.busy,rx.el.p('Carregando…',role='status',class_name='text-amber-300')),
             rx.cond(S.busy,rx.el.p('Preparando seu conteúdo…',class_name='py-12 text-gray-400'),rx.fragment(*children)),
-            class_name='max-w-6xl mx-auto px-6 py-10 space-y-6'),
-        rx.el.footer('CodeBoxd · Filmes, séries, animes e livros. Uma biblioteca de experiências.',
-                     class_name='max-w-6xl mx-auto px-6 py-8 text-sm text-gray-500'),
-        class_name='min-h-screen bg-[#0d0f11] text-[#f3f2ed]')
+            class_name='site-main space-y-8'),
+        rx.el.footer(rx.el.p('Codeboxd · Suas histórias, sua comunidade.'),
+            rx.el.div(rx.el.a('Biblioteca', href='/biblioteca'), rx.el.a('Comunidade', href='/comunidade'), class_name='flex gap-6'),
+            class_name='site-footer'),
+        class_name='site-shell')
 
 
 def media_card(m, search=False):
     content=rx.el.div(
-        rx.cond(m['cover']!='',rx.el.img(src=m['cover'],alt=m['title'],loading='lazy',class_name='w-full aspect-[2/3] object-cover rounded-xl'),
-                rx.el.div('Sem capa',class_name='w-full aspect-[2/3] bg-white/5 rounded-xl flex items-center justify-center text-gray-500')),
-        rx.el.p(m['kind']+' · '+m['year'],class_name='text-xs uppercase tracking-wide text-[#F5B300] mt-4'),
-        rx.el.h2(m['title'],class_name='font-semibold mt-2'),class_name='h-full')
+        rx.cond(m['cover']!='',rx.el.img(src=m['cover'],alt=m['title'],loading='lazy',class_name='media-cover'),
+                rx.el.div(rx.icon('clapperboard', size=36), rx.el.span('Capa indisponível'),class_name='media-cover cover-empty')),
+        rx.el.div(rx.el.h3(m['title'],class_name='font-semibold line-clamp-2'),
+            rx.el.p(m['kind']+' · '+m['year'],class_name='text-sm text-gray-400 mt-3'),class_name='p-4'),class_name='h-full')
     if search:
-        return rx.el.button(content,type='button',on_click=S.open_result(m['key']),class_name=CARD+' text-left hover:border-amber-400/50')
-    return rx.el.a(content,href='/obra/'+m['id'],class_name=CARD+' hover:border-amber-400/50')
+        return rx.el.button(content,type='button',on_click=S.open_result(m['key']),class_name='media-card text-left')
+    return rx.el.a(content,href='/obra/'+m['id'],class_name='media-card')
 
 
 def grid(items, render, empty):
@@ -82,36 +86,63 @@ def grid(items, render, empty):
 
 def discovery_page():
     return shell('Sua próxima história começa aqui.','Explore, registre e compartilhe o que faz parte do seu mundo.',
-        rx.el.form(rx.el.input(name='query',placeholder='Busque um título…',aria_label='Buscar título',max_length=200,class_name=INPUT),
-            rx.el.select(*[rx.el.option(label,value=value) for value,label in
-                         [('all','Todas as categorias'),('movie','Filmes'),('series','Séries'),('anime','Animes'),('book','Livros')]],
-                         name='kind',aria_label='Categoria',class_name=INPUT),
-            rx.el.button('Buscar',type='submit',disabled=S.busy,class_name=BUTTON),
-            on_submit=S.search,class_name='grid md:grid-cols-[1fr_220px_auto] gap-3'),
-        grid(S.search_results,lambda m:media_card(m,True),'Busque por um título para descobrir novas obras.'),
+        rx.el.form(
+            rx.el.div(rx.icon('search', size=24),
+                rx.el.input(name='query',placeholder='Pesquisar filmes, séries, animes e livros',aria_label='Buscar título',max_length=200,default_value=S.search_term),
+                rx.el.button('Buscar',type='submit',disabled=S.busy,class_name=BUTTON),class_name='search-box'),
+            rx.el.fieldset(rx.el.legend('Categoria',class_name='sr-only'),
+                *[rx.el.label(rx.el.input(type='radio',name='kind',value=value,default_checked=value=='all'),
+                              rx.el.span(label),class_name='category-chip') for value,label in
+                  [('all','Todos'),('movie','Filmes'),('anime','Animes'),('series','Séries'),('book','Livros')]],
+                class_name='category-filters'),
+            on_submit=S.search,class_name='space-y-7'),
+        rx.cond(S.search_results.length()>0,
+            rx.el.section(rx.el.h2('Resultados da busca',class_name='section-title'),
+                rx.el.div(rx.foreach(S.search_results,lambda m:media_card(m,True)),class_name='catalog-grid')),
+            rx.el.section(
+                rx.el.div(rx.el.p('CADA HISTÓRIA CONTA',class_name='eyebrow'),
+                    rx.el.h2('Seu próximo favorito\nestá por aqui.',class_name='hero-title'),
+                    rx.el.p('Descubra novas histórias, organize sua biblioteca e compartilhe o que você achou.',class_name='hero-description'),
+                    rx.el.a(rx.cond(S.is_authenticated,'Minha biblioteca','Criar minha conta'),
+                        href=rx.cond(S.is_authenticated,'/biblioteca','/cadastro'),class_name=BUTTON),class_name='hero-content'),
+                rx.el.img(src='/mascot.png',alt='Mascote Codeboxd com uma lupa e um rolo de filme',class_name='hero-mascot'),
+                class_name='discovery-hero')),
         rx.cond(S.search_results.length()>0,button('Carregar mais resultados',S.more_results,disabled=S.busy)),
-        rx.el.h2('Na comunidade',class_name='text-xl font-semibold'),
-        grid(S.catalog_items,lambda m:media_card(m),'As obras registradas pela comunidade aparecerão aqui.'))
+        rx.el.div(rx.el.h2('Na comunidade',class_name='section-title'),
+                  rx.el.a('Conhecer pessoas →',href='/comunidade',class_name='text-sm brand-yellow'),class_name='flex items-center justify-between gap-4'),
+        rx.cond(S.catalog_items.length()>0,
+            rx.el.div(rx.foreach(S.catalog_items,lambda m:media_card(m)),class_name='catalog-grid'),
+            rx.el.div(rx.icon('library',size=32),rx.el.p('Sua próxima descoberta começa com uma busca.'),
+                rx.el.p('Pesquise uma obra e salve sua primeira experiência.',class_name='text-sm text-gray-400'),class_name='empty-state')))
 
 
 def media_page():
     return shell('Detalhes da obra','Conheça a história e registre sua experiência.',
+        rx.el.a('← Voltar à descoberta',href='/',class_name='text-sm text-gray-400'),
         rx.cond(S.selected['title']!='',rx.el.div(
-            rx.el.div(rx.cond(S.selected['cover']!='',rx.el.img(src=S.selected['cover'],alt=S.selected['title'],class_name='w-full max-w-xs rounded-2xl'))),
-            rx.el.div(rx.el.p(S.selected['kind']+' · '+S.selected['year'],class_name='text-[#F5B300]'),
-                rx.el.h2(S.selected['title'],class_name='text-3xl font-bold'),rx.el.p(S.selected['description'],class_name='whitespace-pre-wrap text-gray-300'),
-                rx.el.p(S.selected['details'],class_name='text-sm text-gray-400'),
-                rx.el.p('Fonte: '+S.selected['source']+' · ID: '+S.selected['external_id'],class_name='text-xs text-gray-500'),
+            rx.el.section(
+                rx.cond(S.selected['cover']!='',rx.el.img(src=S.selected['cover'],alt=S.selected['title']),
+                    rx.el.div(rx.icon('clapperboard',size=48),class_name='media-cover cover-empty rounded-2xl')),
+                rx.el.div(rx.el.p(S.selected['kind']+' · '+S.selected['year'],class_name='eyebrow'),
+                    rx.el.h2(S.selected['title'],class_name='text-3xl md:text-4xl font-bold'),
+                    rx.el.p(rx.cond(S.selected['description']!='',S.selected['description'],'Sinopse ainda não disponível.'),class_name='whitespace-pre-wrap text-gray-200 leading-relaxed mt-5'),
+                    rx.el.p(S.selected['details'],class_name='text-sm text-gray-300 mt-5'),
+                    class_name='min-w-0'),class_name='media-hero'),
+            rx.el.div(rx.el.section(rx.el.h2('O que você achou?',class_name='section-title'),
                 rx.cond(S.is_authenticated,rx.el.form(
                     rx.el.label('Meu status',rx.el.select(*[rx.el.option(label,value=value) for value,label in
                         [('planned','Quero ver / ler'),('in_progress','Em andamento'),('completed','Concluído'),('dropped','Abandonado')]],
                         name='status',default_value=S.selected_status,class_name=INPUT)),
                     field('Nota (0 = sem nota)','rating',S.selected_rating,type='number',min=0,max=5,step=0.5),
-                    textarea('Minha review','review',S.selected_review,max_length=10000),
-                    check('Contém spoilers','spoiler',S.selected_spoiler),submit('Salvar experiência'),
+                    textarea('Minha avaliação','review',S.selected_review,max_length=10000,rows=5,placeholder='Conte o que achou desta história…'),
+                    check('Contém spoilers','spoiler',S.selected_spoiler),submit('Salvar avaliação'),
                     on_submit=S.save_interaction,key=S.selected['id']+S.selected_review+S.selected_rating,class_name=CARD),
-                    rx.el.a('Entre para avaliar e organizar suas obras',href='/login',class_name='text-[#F5B300]')),
-                class_name='space-y-5'),class_name='grid md:grid-cols-[240px_1fr] gap-8'),
+                    rx.el.div(rx.el.p('Entre para avaliar e organizar suas obras.'),rx.el.a('Entrar',href='/login',class_name=BUTTON+' inline-block'),class_name=CARD))),
+                rx.el.aside(rx.el.h2('Suas histórias organizadas',class_name='section-title'),
+                    rx.el.div(rx.el.p('Use o status da avaliação para guardar o que quer ver ou ler e registrar o que já concluiu.',class_name='text-gray-400 leading-relaxed'),
+                        rx.el.a('Minha biblioteca →',href='/biblioteca',class_name='block brand-yellow'),
+                        rx.el.a('Minhas listas →',href='/listas',class_name='block brand-yellow'),class_name=CARD)),
+                class_name='review-layout'),class_name='space-y-6'),
                 rx.el.p('Escolha uma obra pela página Descobrir.')))
 
 

@@ -31,6 +31,25 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(s.selected_review,'')
         self.assertEqual(s._token(),'')
 
+    async def test_logout_clears_private_data_and_redirects_in_same_tab(self):
+        s = self.state
+        s.auth_token = 'remembered'
+        s.session_token = 'tab-session'
+        s.user_id = 1
+        s._identity = 1
+        s.library = [{'review': 'private'}]
+        s.edit_post_body = 'private draft'
+        result = s.logout_social()
+        self.assertEqual(s._token(), '')
+        self.assertFalse(s.is_authenticated)
+        self.assertEqual(s.library, [])
+        self.assertEqual(s.edit_post_body, '')
+        self.assertEqual(s._identity, 0)
+        payload = {str(key): str(value) for key, value in result.args}
+        self.assertEqual(payload['path'], '"/login"')
+        self.assertEqual(payload['external'], 'false')
+        self.assertEqual(payload['replace'], 'true')
+
     async def test_missing_identity_never_writes(self):
         with patch('Codeboxd_main.state.social.request',new=AsyncMock()) as request:
             await self.state.save_interaction({'rating':'5','status':'completed'})

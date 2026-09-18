@@ -113,4 +113,4 @@ class SessionState(rx.State):
     @rx.event
     def logout(self):
         self._clear_session()
-        return rx.redirect('/login', is_external=True)
+        return rx.redirect('/login', replace=True)

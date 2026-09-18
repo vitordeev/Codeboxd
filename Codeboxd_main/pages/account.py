@@ -1,6 +1,7 @@
 """Account pages for the first implementation milestone."""
 import reflex as rx
 from ..state.session import SessionState
+from .login import _logo_icon
 
 
 def field(label: str, name: str, kind: str = 'text', **props) -> rx.Component:
@@ -14,13 +15,19 @@ def field(label: str, name: str, kind: str = 'text', **props) -> rx.Component:
 def signup_page() -> rx.Component:
     return rx.el.main(
         rx.el.div(
-            rx.el.a('codeboxd', href='/', class_name='text-2xl font-bold text-[#F5B300]'),
-            rx.el.h1('Faça parte da comunidade', class_name='text-3xl font-bold mt-6 mb-2'),
-            rx.el.p('Suas histórias merecem companhia.', class_name='text-gray-400 mb-8'),
+            rx.el.section(
+                rx.el.a(_logo_icon(), rx.el.span('code',rx.el.span('boxd',class_name='brand-yellow')),href='/',class_name='brand'),
+                rx.el.h1('Suas histórias merecem companhia.',class_name='text-4xl font-bold leading-tight'),
+                rx.el.p('Salve o que você quer assistir ou ler, avalie suas descobertas e encontre sua comunidade.',class_name='text-gray-400 leading-relaxed'),
+                rx.el.img(src='/mascot.png',alt='Mascote Codeboxd'),class_name='signup-intro'),
+            rx.el.section(
+            rx.el.h2('Faça parte da comunidade', class_name='text-2xl font-bold mb-2'),
+            rx.el.p('Crie sua conta e comece sua coleção.', class_name='text-gray-400 mb-8 text-sm'),
             rx.el.form(
                 field('Seu nome', 'name', auto_complete='name', max_length=80),
                 field('Nome de usuário', 'username', auto_complete='username',
-                      pattern='[a-zA-Z0-9_]{3,30}', min_length=3, max_length=30),
+                      pattern='[a-zA-Z0-9_]{3,30}', min_length=3, max_length=30,
+                      title='Use de 3 a 30 letras, números ou sublinhados.'),
                 field('E-mail', 'email', 'email', auto_complete='email'),
                 field('Senha', 'password', 'password', auto_complete='new-password', min_length=8),
                 rx.el.p('Use pelo menos 8 caracteres, incluindo letra e número.', class_name='text-xs text-gray-400'),
@@ -33,7 +40,8 @@ def signup_page() -> rx.Component:
                 on_submit=SessionState.signup, class_name='space-y-4',
             ),
             rx.el.a('Já tenho conta', href='/login', class_name='block mt-6 text-[#F5B300]'),
-            class_name='w-full max-w-md',
+            class_name='signup-panel'),
+            class_name='signup-layout',
         ),
         class_name='min-h-screen bg-black text-white flex justify-center items-center p-8',
     )
