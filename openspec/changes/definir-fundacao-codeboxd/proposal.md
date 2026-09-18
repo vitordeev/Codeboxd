@@ -40,4 +40,4 @@ Esta mudança estabelece a fundação funcional do Codeboxd e servirá como base
 
 Os sistemas afetados incluem a interface do usuário, os serviços de backend, o armazenamento de dados dos usuários e as integrações com fontes externas de informações sobre mídias.
 
-O projeto utilizará o Streamlit com Python para a interface do usuário e o Xano para os serviços de backend e armazenamento de dados. O sistema também dependerá de APIs externas para obter dados de filmes, séries, animes e livros.
+O projeto utilizará o Reflex com Python para a interface do usuário e o Xano para os serviços de backend e armazenamento de dados. O sistema também dependerá de APIs externas para obter dados de filmes, séries, animes e livros.

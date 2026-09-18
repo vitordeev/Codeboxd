@@ -1,9 +1,9 @@
 ## 1. Project Setup
 
-- [ ] 1.1 Create the initial Streamlit project structure and verify the application starts successfully with the Streamlit run command
+- [ ] 1.1 Create the initial Reflex project structure and verify the application starts successfully with the Reflex run command
 - [ ] 1.2 Define the frontend page and component structure and verify all main application sections can be accessed
 - [ ] 1.3 Configure the Xano backend workspace and verify authenticated requests can reach the backend
-- [ ] 1.4 Define environment configuration for external services and verify sensitive configuration is not hardcoded in the application
+- [x] 1.4 Define environment configuration for external services and verify sensitive configuration is not hardcoded in the application
 
 ## 2. User Authentication
 
@@ -110,3 +110,7 @@
 - [ ] 11.5 Verify posts can reference supported media types and associated media information remains accessible
 - [ ] 11.6 Verify user lists support media from all supported categories
 - [ ] 11.7 Validate the completed OpenSpec change and verify all proposal artifacts remain valid
+
+## Evidência e retomada
+
+Login, cadastro (aguardando migração Xano), conta e proteção do admin conectados ao Reflex. Compilação local e 12 testes de autenticação/transporte passaram. Serviços externos e estado social estão preparados, mas ainda não conectados às páginas ou validados ponta a ponta. Ver `docs/RETOMADA.md` na raiz do projeto. Manter tarefas de integração abertas até testes reais e publicação revisada do backend.

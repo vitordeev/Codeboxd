@@ -3,47 +3,73 @@ query "auth/signup" verb=POST {
   api_group = "Authentication"
 
   input {
-    text name?
-    email email? filters=trim|lower
-    text password?
+    text name filters=trim|min:1|max:80
+    text username filters=trim|lower|min:3|max:30
+    email email filters=trim|lower
+    text password filters=min:8
   }
 
   stack {
-    // Check if a user record with that email exists
-    db.get user {
-      field_name = "email"
-      field_value = $input.email
-    } as $user
+    api.lambda {
+      code = "return /^[a-z0-9_]{3,30}$/.test($input.username);"
+    } as $valid_username
   
-    // Verify that the email being used to sign up is unique
-    precondition ($user == null) {
-      error_type = "accessdenied"
-      error = "An account with this email already exists."
+    precondition ($valid_username) {
+      error_type = "inputerror"
+      error = "Nome de usuario invalido."
     }
   
-    // Create a new user record
-    db.add user {
-      data = {
-        created_at: "now"
-        name      : $input.name
-        email     : $input.email
-        password  : $input.password
-        role      : "member"
-      }
-    } as $user
+    db.query user {
+      where = $db.user.email == $input.email || $db.user.username == $input.username
+      return = {type: "single"}
+    } as $existing
   
-    // Create an authentiction token
+    precondition ($existing == null) {
+      error_type = "inputerror"
+      error = "E-mail ou nome de usuário indisponível."
+    }
+  
+    db.query profile {
+      where = $db.profile.username == $input.username
+      return = {type: "single"}
+    } as $existing_profile
+  
+    precondition ($existing_profile == null) {
+      error_type = "inputerror"
+      error = "Nome de usuário indisponível."
+    }
+  
+    db.transaction {
+      stack {
+        db.add user {
+          data = {
+            name          : $input.name
+            username      : $input.username
+            email         : $input.email
+            password      : $input.password
+            role          : "member"
+            account_status: "active"
+          }
+        } as $user
+      
+        db.add profile {
+          data = {
+            user_id     : $user.id
+            username    : $input.username
+            display_name: $input.name
+            bio         : ""
+            avatar_url  : ""
+          }
+        } as $profile
+      }
+    }
+  
     security.create_auth_token {
       table = "user"
       extras = {}
       expiration = 86400
       id = $user.id
     } as $authToken
-  
-    // Create an event log for signup
-    function.run "Quick Start/log_event" {
-      input = {user_id: $user.id, action: "signup", metadata: $user}
-    } as $event_log
   }
 
   response = {authToken: $authToken, user_id: $user.id}

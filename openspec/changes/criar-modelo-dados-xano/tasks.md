@@ -1,7 +1,7 @@
 ## 1. Preparação do modelo de dados
 
-- [ ] 1.1 Revisar as specs de persistência e verificar que todas as capabilities possuem requisitos definidos
-- [ ] 1.2 Confirmar a estrutura das entidades e relacionamentos definidos no design.md
+- [x] 1.1 Revisar as specs de persistência e verificar que todas as capabilities possuem requisitos definidos
+- [x] 1.2 Confirmar a estrutura das entidades e relacionamentos definidos no design.md
 - [ ] 1.3 Preparar o workspace do Xano e verificar que o banco de dados está disponível para criação das tabelas
 
 ## 2. Usuários e perfis
@@ -58,6 +58,10 @@
 
 ## 9. Validação final
 
-- [ ] 9.1 Executar `openspec validate criar-modelo-dados-xano` e verificar que a change está válida
+- [x] 9.1 Executar `openspec validate criar-modelo-dados-xano` e verificar que a change está válida
 - [ ] 9.2 Revisar todas as tabelas criadas no Xano e verificar que correspondem ao design.md
 - [ ] 9.3 Confirmar que todas as relações previstas nas specs podem ser persistidas e recuperadas
+
+## Evidência e retomada
+
+Esquema e endpoints preparados localmente, sem publicação. Sandbox indisponível no plano Free. Dry-run não valida execução. Ver `docs/RETOMADA.md` na raiz do projeto para arquivos, testes realizados e pendências. As tarefas de criação/persistência remota permanecem abertas até validação real.

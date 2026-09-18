@@ -1,54 +1,32 @@
 ## Context
 
-O Codeboxd é um novo projeto sem implementação existente. A plataforma será desenvolvida como uma aplicação social para descoberta, organização e compartilhamento de experiências relacionadas a filmes, séries, animes e livros.
-
-A motivação e as capacidades funcionais estão definidas em `proposal.md`. Os requisitos comportamentais serão definidos nas especificações da change.
-
-A solução precisa suportar diferentes fontes externas de dados e apresentar seus resultados de forma consistente para o usuário. Também precisa armazenar dados próprios da plataforma, como usuários, avaliações, reviews, posts, curtidas, comentários, seguidores e listas.
-
-As principais restrições tecnológicas iniciais são:
-
-- Interface desenvolvida com Python e Streamlit.
-- Backend e armazenamento de dados utilizando Xano.
-- Integração com fontes externas para obtenção de dados sobre mídias.
-- O catálogo externo não deverá ser completamente copiado para o banco do Codeboxd.
+Veja proposal.md e specs para o escopo. Existe um login em Reflex 0.9.11.post1 e um backend Xano com usuários, logs e catálogo administrativo legado (titulos). O produto é uma rede social cultural para filmes, séries, animes e livros.
 
 ## Goals / Non-Goals
 
-**Goals:**
+**Goals:** implementar os fluxos especificados, preservar dados existentes e aplicar autorização no backend.
 
-- Criar uma arquitetura que separe claramente a interface, os serviços do Codeboxd e as fontes externas de dados.
-- Utilizar o Xano como ponto central para as operações relacionadas aos dados do Codeboxd.
-- Criar uma representação consistente para filmes, séries, animes e livros.
-- Permitir que dados externos sejam associados a interações e conteúdos criados pelos usuários.
-- Evitar que o Streamlit dependa diretamente de múltiplas APIs externas.
-- Permitir a evolução futura da plataforma sem exigir mudanças significativas na interface para cada nova fonte de dados.
-
-**Non-Goals:**
-
-- Importar todos os filmes, séries, animes e livros disponíveis nas APIs externas.
-- Reproduzir integralmente as funcionalidades de plataformas como Instagram, Letterboxd, AniList ou Goodreads.
-- Definir detalhes visuais completos da interface neste documento.
-- Definir tarefas específicas de implementação ou código.
-- Definir uma infraestrutura de alta escala nesta primeira versão.
+**Non-Goals:** recomendações por aprendizado de máquina, chat, notificações e infraestrutura de grande escala.
 
 ## Decisions
 
-### Separar frontend, backend e fontes externas
+- Reflex implementa páginas, estado e serviços Python. O navegador nunca recebe credenciais dos provedores. Xano é responsável por autenticação, persistência e autorização.
+- Páginas: descoberta, detalhes, cadastro/login, biblioteca, feed, comunidade, perfil e listas. Admin exige papel verificado por /auth/me; token presente não equivale a sessão válida.
+- Adaptadores no servidor Python consultam TMDB (filmes/séries), Jikan (animes) e Open Library (livros). A camada isola normalização e falhas. Somente mídias utilizadas são persistidas no Xano. Esta decisão substitui o esboço que colocava todos os adaptadores no Xano.
+- O grupo Codeboxd oferece endpoints tipados. Mutações exigem autenticação e autoria derivada de $auth.id. Perfis públicos nunca retornam e-mail ou senha.
+- Sessões lembradas duram até 24 horas, igual ao token; sessões não lembradas usam SessionStorage. Revalidar perfil antes de ações protegidas; 401 encerra sessão, indisponibilidade recebe mensagem própria.
+- Notas em passos de 0,5 entre 0,5 e 5; zero significa sem nota. Reviews e posts com spoilers são recolhidos por padrão.
+- Feed contém posts de usuários seguidos; comunidade permite encontrar perfis. Interações aparecem na biblioteca e no perfil e podem ser compartilhadas como posts.
+- Listas públicas são legíveis por todos; privadas somente pelo proprietário. Exclusões removem dependências em transação.
+- Preservar titulos como catálogo legado, protegendo mutações por papel admin. media mantém a identidade externa do catálogo social.
 
-O Streamlit será responsável pela apresentação da interface e pelas interações do usuário.
+## Risks / Trade-offs
 
-O Xano será responsável pelos dados e operações do Codeboxd, incluindo autenticação, dados de usuários, atividades sociais e relacionamento entre os registros.
+- Falhas externas → avisos por fonte e acesso contínuo aos dados persistidos.
+- Token no navegador → evitar HTML não confiável, limitar validade e validar no Xano.
+- Alterações remotas da equipe → comparar exportação antes de publicar, sem apagar dados existentes.
+- Testes locais não comprovam publicação → registrar separadamente a validação remota.
 
-As APIs externas serão utilizadas para fornecer informações sobre mídias.
+## Migration Plan
 
-Fluxo principal:
-
-```text
-Usuário
-   ↓
-Streamlit
-   ↓
-Xano
-   ↓
-Fontes externas de dados
+Exportar esquema remoto sem registros/segredos; adicionar tabelas e endpoints; corrigir logs e autorização; testar contratos e compilar Reflex; revisar dry-run antes de publicar; configurar XANO_SOCIAL_URL e TMDB_READ_TOKEN. Rollback restaura endpoints sem excluir dados criados.
