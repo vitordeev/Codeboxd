@@ -45,9 +45,14 @@ class SessionState(rx.State):
             self.user_role=str(user.get('role') or 'member')
             return True
         except APIError as exc:
-            self._clear_identity()
-            if exc.status in (401,403): self._clear_session()
             self.error_message=str(exc)
+            if exc.status in (401,403):
+                self._clear_session()
+                return False
+            # A timeout, rate limit, or provider outage is not proof that the
+            # cached identity is invalid. Keep the UI signed in; protected
+            # writes still fail closed when their own request is attempted.
+            self.user_role=''
             return False
 
     @rx.event

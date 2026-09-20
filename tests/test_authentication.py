@@ -30,13 +30,15 @@ class SessionTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(self.state.is_admin)
         self.assertEqual(self.state._token(), '')
 
-    async def test_service_failure_fails_closed_but_keeps_token_for_retry(self):
+    async def test_service_failure_keeps_identity_but_denies_admin_validation(self):
         self.state.auth_token = 'existing'
         self.state.user_id = 42
         self.state.user_role = 'admin'
         with patch('Codeboxd_main.state.session.request', new=AsyncMock(side_effect=api.APIError('Unavailable',503))):
             self.assertFalse(await self.state._validate_session())
         self.assertFalse(self.state.is_admin)
+        self.assertTrue(self.state.is_authenticated)
+        self.assertEqual(self.state.user_id,42)
         self.assertEqual(self.state.auth_token, 'existing')
 
     async def test_member_is_authenticated_but_is_not_admin(self):
@@ -73,6 +75,15 @@ class SessionTests(unittest.IsolatedAsyncioTestCase):
                 pass
         mock.assert_not_awaited()
         self.assertIn('preparação',self.state.error_message)
+
+    async def test_invalid_login_does_not_create_a_session(self):
+        self.state._clear_session()
+        with patch('Codeboxd_main.state.session.request',new=AsyncMock(side_effect=api.APIError('Denied',401))):
+            async for _ in self.state._authenticate({'email':'maria@example.com','password':'wrong-pass1'},False):
+                pass
+        self.assertFalse(self.state.is_authenticated)
+        self.assertEqual(self.state._token(),'')
+        self.assertIn('inv',self.state.error_message.casefold())
 
     async def test_bad_login_has_specific_message(self):
         with patch('Codeboxd_main.state.session.request',new=AsyncMock(side_effect=api.APIError('Denied',401))):

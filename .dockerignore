@@ -1,0 +1,13 @@
+*
+!Dockerfile
+!requirements.txt
+!rxconfig.py
+!reflex.lock/
+!reflex.lock/**
+!Codeboxd_main/
+!Codeboxd_main/**
+!assets/
+!assets/**
+**/__pycache__/
+**/*.pyc
+assets/external/

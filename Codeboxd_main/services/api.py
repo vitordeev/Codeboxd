@@ -33,16 +33,16 @@ async def request(method: str, path: str, *, group: str = 'social', token: str =
     if token:
         headers['Authorization'] = f'Bearer {token}'
     try:
-        async with httpx.AsyncClient(timeout=httpx.Timeout(20, connect=8)) as client:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10, connect=3)) as client:
             for attempt in range(3):
                 response = await client.request(method, base_url(group) + path,
                                                 headers=headers, json=data, params=params)
                 if response.status_code != 429 or attempt == 2:
                     break
                 try:
-                    delay = min(30, max(1, int(response.headers.get('Retry-After', '21'))))
+                    delay = min(3, max(1, int(response.headers.get('Retry-After', '2'))))
                 except ValueError:
-                    delay = 21
+                    delay = 2
                 await asyncio.sleep(delay)
     except httpx.RequestError as exc:
         raise APIError('Não foi possível conectar. Tente novamente em instantes.') from exc

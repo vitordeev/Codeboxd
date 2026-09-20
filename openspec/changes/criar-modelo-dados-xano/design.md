@@ -1,6 +1,6 @@
 ## Context
 
-Veja proposal.md e specs. Reflex é a aplicação Python e Xano é a fonte de verdade. O workspace já contém user, event_log e titulos, que devem ser preservados.
+Reflex é a aplicação Python e Xano é a fonte de verdade. A migração inicial foi publicada no workspace 147717 e validada com duas contas de teste. As tabelas existentes `user`, `event_log` e `titulos` foram preservadas. No workspace remoto, `/likes` retorna HTTP 404 apesar do endpoint existir localmente; o feed usa a rota de discussão como compatibilidade.
 
 ## Goals / Non-Goals
 
@@ -38,4 +38,4 @@ Listas privadas são filtradas no backend; seus itens herdam a mesma visibilidad
 
 ## Migration Plan
 
-Exportar o workspace, adicionar estruturas sem truncar tabelas, validar dry-run, publicar em transação e testar com dois usuários. Tarefas remotas só são concluídas após execução comprovada. Rollback restaura endpoints sem remover dados.
+Exportar o workspace, adicionar estruturas sem truncar tabelas, validar dry-run e testar com dois usuários. A migração inicial e a paginação foram publicadas; os principais relacionamentos foram exercitados com operações reais. Resultados e credenciais de teste ficam em `.local/`. Rollback restaura endpoints sem remover dados.
