@@ -1,0 +1,26 @@
+[
+  {
+    "test": "anonymous auth/me rejected",
+    "result": "PASS"
+  },
+  {
+    "test": "invalid login rejected",
+    "result": "PASS"
+  },
+  {
+    "test": "new signup and auth/me",
+    "result": "PASS"
+  },
+  {
+    "test": "duplicate email rejected",
+    "result": "PASS"
+  },
+  {
+    "test": "duplicate username rejected",
+    "result": "PASS"
+  },
+  {
+    "test": "real login, session revalidation and local logout",
+    "result": "PASS"
+  }
+]

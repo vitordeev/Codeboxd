@@ -4,8 +4,8 @@ query "reset/update_password" verb=POST {
   auth = "user"
 
   input {
-    text password? filters=trim|min:8
-    text confirm_password? filters=trim
+    text password filters=min:8
+    text confirm_password
   }
 
   stack {
@@ -21,7 +21,7 @@ query "reset/update_password" verb=POST {
     } as $user
   
     // Check that the user record id matches the auth id
-    precondition ($user.id == $auth.id) {
+    precondition ($user != null && $user.id == $auth.id && $user.account_status != "disabled") {
       error_type = "accessdenied"
     }
   
@@ -37,7 +37,7 @@ query "reset/update_password" verb=POST {
       input = {
         user_id : $user.id
         action  : "reset_password"
-        metadata: $user
+        metadata: {}
       }
     } as $event_log
   }

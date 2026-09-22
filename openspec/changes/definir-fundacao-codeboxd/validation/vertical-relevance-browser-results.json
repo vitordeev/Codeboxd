@@ -1,0 +1,111 @@
+[
+  {
+    "test": "Movies and series use multiple vertical rows without horizontal scrolling",
+    "result": "PASS"
+  },
+  {
+    "test": "More movies append in the home section",
+    "result": "PASS",
+    "movie_count": 40
+  },
+  {
+    "test": "Mobile uses two columns with content continuing below",
+    "result": "PASS"
+  },
+  {
+    "test": "Relevant global results for homen aranha",
+    "result": "PASS",
+    "titles": [
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha: Um Novo Dia",
+      "Homem-Aranha: No Aranhaverso",
+      "Homem-Aranha 3",
+      "Homem-Aranha: Sem Volta Para Casa",
+      "O Espetacular Homem-Aranha",
+      "Homem-Aranha: Longe de Casa",
+      "Homem-Aranha: De Volta ao Lar",
+      "Homem-Aranha: Através do Aranhaverso",
+      "Homem-Aranha 2",
+      "Homem-Aranha: Arachne",
+      "O Espetacular Homem-Aranha 2: A Ameaça de Electro",
+      "O Espetacular Homem-Aranha",
+      "Homem-Aranha: Além do Aranhaverso",
+      "Homem-Aranha: O Filme",
+      "Demolidor vs. Homem Aranha",
+      "Tecnologia do Homem-Aranha",
+      "Homem Aranha: O Último Confronto",
+      "Homem-Aranha: A Saga de Venom",
+      "Homem-Aranha vs. Doutor Octopus",
+      "Ultimate Homem-Aranha",
+      "Marvel: Homem-Aranha",
+      "Homem-Aranha: A Série Animada",
+      "O Espetacular Homem-Aranha",
+      "Seu Amigão da Vizinhança: Homem-Aranha",
+      "Homem-Aranha: A Nova Série Animada",
+      "Homem-Aranha: Ação Sem Limites ",
+      "Homem-Aranha e seus Incríveis Amigos",
+      "Homem-aranha - Azul",
+      "Fernando Pessoa contra o Homem-Aranha e outras istórias",
+      "Homem-Aranha: Miles Morales",
+      "Homem-Aranha: Miles Morales"
+    ],
+    "provider_notices": [
+      "Anime: A fonte de catálogo está indisponível no momento."
+    ]
+  },
+  {
+    "test": "Relevant global results for homem aranha",
+    "result": "PASS",
+    "titles": [
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha",
+      "Homem-Aranha: Um Novo Dia",
+      "Homem-Aranha: No Aranhaverso",
+      "Homem-Aranha 3",
+      "Homem-Aranha: Sem Volta Para Casa",
+      "O Espetacular Homem-Aranha",
+      "Homem-Aranha: Longe de Casa",
+      "Homem-Aranha: De Volta ao Lar",
+      "Homem-Aranha: Através do Aranhaverso",
+      "Homem-Aranha 2",
+      "Homem-Aranha: Arachne",
+      "O Espetacular Homem-Aranha 2: A Ameaça de Electro",
+      "O Espetacular Homem-Aranha",
+      "Homem-Aranha: Além do Aranhaverso",
+      "Homem-Aranha: O Filme",
+      "Demolidor vs. Homem Aranha",
+      "Tecnologia do Homem-Aranha",
+      "Homem Aranha: O Último Confronto",
+      "Homem-Aranha: A Saga de Venom",
+      "Homem-Aranha vs. Doutor Octopus",
+      "Ultimate Homem-Aranha",
+      "Marvel: Homem-Aranha",
+      "Homem-Aranha: A Série Animada",
+      "O Espetacular Homem-Aranha",
+      "Seu Amigão da Vizinhança: Homem-Aranha",
+      "Homem-Aranha: A Nova Série Animada",
+      "Homem-Aranha: Ação Sem Limites ",
+      "Homem-Aranha e seus Incríveis Amigos",
+      "Homem-aranha - Azul",
+      "Fernando Pessoa contra o Homem-Aranha e outras istórias",
+      "Homem-Aranha: Miles Morales",
+      "Homem-Aranha: Miles Morales"
+    ],
+    "provider_notices": [
+      "Anime: A fonte de catálogo está indisponível no momento."
+    ]
+  },
+  {
+    "test": "No JavaScript exceptions",
+    "result": "PASS"
+  }
+]

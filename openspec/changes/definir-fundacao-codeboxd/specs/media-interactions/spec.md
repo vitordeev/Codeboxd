@@ -36,7 +36,7 @@ The system SHALL allow an authenticated user to update the consumption status as
 
 ### Requirement: Media rating
 
-The system SHALL allow authenticated users to assign a rating to a media item.
+The system SHALL allow authenticated users to assign a rating to a media item. Anonymous visitors MAY assign a personal rating stored only in that browser; it SHALL NOT be published, associated with a profile, or sent to the social API.
 
 Each user SHALL have no more than one active rating for the same media item.
 
@@ -44,6 +44,12 @@ Each user SHALL have no more than one active rating for the same media item.
 
 - **WHEN** an authenticated user submits a valid rating for a media item
 - **THEN** the system SHALL associate the rating with that user's interaction with the media item
+
+#### Scenario: Visitor rates a media item
+
+- **WHEN** an anonymous visitor rates a media item
+- **THEN** the system SHALL save that rating only in browser storage and restore it when that visitor opens the same item in that browser
+- **AND** the rating SHALL NOT appear as a public or account rating
 
 #### Scenario: Updating a rating
 

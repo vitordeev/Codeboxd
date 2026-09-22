@@ -1,0 +1,10 @@
+﻿venv\Scripts\python.exe : ----------------------------------------------------------------------
+No linha:6 caractere:1
++ venv\Scripts\python.exe -m unittest discover -s tests -q 2>&1 | Out-F ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 54 tests in 0.950s
+
+OK

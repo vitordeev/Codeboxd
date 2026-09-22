@@ -11,15 +11,19 @@ query "auth/me" verb=GET {
     db.get user {
       field_name = "id"
       field_value = $auth.id
-      output = ["id", "created_at", "name", "email", "role"]
+      output = ["id", "created_at", "name", "email", "role", "username", "account_status"]
     } as $user
   
+    precondition ($user.account_status != "disabled") {
+  error_type = "accessdenied"
+  error = "Operação não permitida."
+}
     // Create an event log for get user record
     function.run "Quick Start/log_event" {
       input = {
         user_id : $user.id
         action  : "get_auth_user"
-        metadata: $user
+        metadata: {}
       }
     } as $event_log
   }
