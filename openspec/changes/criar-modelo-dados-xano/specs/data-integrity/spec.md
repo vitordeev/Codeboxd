@@ -1,3 +1,4 @@
+
 ## Purpose
 
 Definir regras de integridade para os dados persistidos no Codeboxd, prevenindo duplicações e relações inválidas entre usuários, mídias e conteúdos.
