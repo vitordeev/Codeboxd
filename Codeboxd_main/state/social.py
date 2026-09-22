@@ -25,11 +25,17 @@ class SocialState(SessionState):
     busy: bool = False
     search_term: str = ''
     search_type: str = 'all'
+    submitted_query: str = ''
+    search_active: bool = False
+    has_more_results: bool = True
+    failed_covers: list[str] = []
     search_page: int = 1
     search_results: list[dict[str,str]] = []
     featured_items: list[dict[str,str]] = []
     popular_movies: list[dict[str,str]] = []
     popular_series: list[dict[str,str]] = []
+    popular_exhausted: list[str] = []
+    _popular_pages: dict[str,int] = {'movie':1, 'series':1}
     catalog_items: list[dict[str,str]] = []
     selected: dict[str,str] = {'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}
     recommendations: list[dict[str,str]] = []
@@ -245,15 +251,48 @@ class SocialState(SessionState):
     @rx.event
     async def load_home(self):
         self.notice=''
-        try: await asyncio.gather(self._validate_session(),self._load_media(per_page=20))
-        except APIError as exc: self._failure(exc)
-        if not self.featured_items:
-            (movies,movie_errors),(series,series_errors)=await asyncio.gather(
-                catalog.search('', 'movie'),catalog.search('', 'series'))
-            self.popular_movies = [present_media(m) for m in movies[:10]]
-            self.popular_series = [present_media(m) for m in series[:10]]
-            self.featured_items = self.popular_movies[:2]
-            self.notice = ' '.join(filter(None, [self.notice, *movie_errors, *series_errors]))
+        async def popular(kind):
+            attribute = 'popular_movies' if kind == 'movie' else 'popular_series'
+            if getattr(self, attribute): return
+            items, errors = await catalog.search('', kind)
+            setattr(self, attribute, [present_media(m) for m in items])
+            if kind == 'movie': self.featured_items = self.popular_movies[:2]
+            if errors: self.notice = ' '.join(filter(None, [self.notice, *errors]))
+
+        async def community():
+            try: await self._load_media(per_page=20)
+            except APIError as exc: self._failure(exc)
+
+        await asyncio.gather(self._validate_session(), community(), popular('movie'), popular('series'))
+
+    @rx.event
+    async def more_popular(self, kind: str):
+        if self.busy or kind not in ('movie', 'series') or kind in self.popular_exhausted: return
+        self.busy=True
+        yield
+        try:
+            page=self._popular_pages[kind]+1
+            found,errors=await catalog.search('',kind,page)
+            attribute='popular_movies' if kind=='movie' else 'popular_series'
+            existing={item['key']:item for item in getattr(self,attribute)}
+            existing.update({item['identity_key']:present_media(item) for item in found})
+            setattr(self,attribute,list(existing.values()))
+            if found or not errors: self._popular_pages[kind]=page
+            if not found and not errors: self.popular_exhausted=[*self.popular_exhausted,kind]
+            self.notice=' '.join(errors)
+        finally:
+            self.busy=False
+
+    @rx.event
+    def cover_failed(self, url: str):
+        if url and url not in self.failed_covers:
+            self.failed_covers = [*self.failed_covers, url]
+
+    @rx.event
+    async def browse_category(self, kind: str):
+        if kind not in catalog.TYPES and kind != 'all': return
+        async for event in self.search({'query': '', 'kind': kind}):
+            yield event
 
     @rx.event
     def open_featured(self, source: str, identifier: str, kind: str):
@@ -268,24 +307,30 @@ class SocialState(SessionState):
     async def search(self, form: dict):
         if self.busy: return
         self.busy=True; self.notice=''; self.search_page=1
-        self.search_term=str(form.get('query',self.search_term)).strip(); self.search_type=str(form.get('kind',self.search_type))
+        self.search_term=str(form.get('query',self.search_term)).strip()[:200]
+        self.submitted_query=self.search_term
+        self.search_type='all' if self.submitted_query else str(form.get('kind','all'))
+        if self.search_type not in ('all', *catalog.TYPES): self.search_type='all'
+        self.search_active=True; self.has_more_results=True
+        self._results={}; self.search_results=[]
         yield
         try:
             found,errors=await catalog.search(self.search_term,self.search_type)
             if errors and self.search_term:
                 try:
                     cached=await self._call('GET','/media',params={'per_page':50},paginate=False)
-                    query=self.search_term.casefold()
-                    found.extend(item for item in cached
-                        if query in str(item.get('title') or '').casefold()
+                    query=self.submitted_query
+                    found.extend(item for item in rows(cached)
+                        if catalog.title_score(query,item) > 0
                         and self.search_type in ('all',item.get('media_type')))
                 except APIError:
                     pass
             self._results={m['identity_key']:m for m in found}
             for m in self._media.values():
-                if self.search_term.casefold() in m['title'].casefold() and self.search_type in ('all',m['media_type']):
+                if catalog.title_score(self.submitted_query,m) > 0 and self.search_type in ('all',m['media_type']):
                     self._results[m['identity_key']]=m
-            self.search_results=[present_media(m) for m in self._results.values()]
+            self.search_results=[present_media(m) for m in catalog.relevant_results(self.submitted_query,list(self._results.values()))]
+            self.has_more_results=bool(found) or bool(errors)
             self.notice=' '.join(errors) or ('Nenhum resultado encontrado.' if not self.search_results else '')
         finally: self.busy=False
 
@@ -294,9 +339,11 @@ class SocialState(SessionState):
         if self.busy: return
         self.busy=True; yield
         try:
-            found,errors=await catalog.search(self.search_term,self.search_type,self.search_page+1)
+            found,errors=await catalog.search(self.submitted_query,self.search_type,self.search_page+1)
             self._results.update({m['identity_key']:m for m in found})
-            self.search_results=[present_media(m) for m in self._results.values()]; self.search_page+=1
+            self.search_results=[present_media(m) for m in catalog.relevant_results(self.submitted_query,list(self._results.values()))]
+            if found or not errors: self.search_page+=1
+            self.has_more_results=bool(found) or bool(errors)
             self.notice=' '.join(errors) or ('Não há mais resultados.' if not found else '')
         finally: self.busy=False
 

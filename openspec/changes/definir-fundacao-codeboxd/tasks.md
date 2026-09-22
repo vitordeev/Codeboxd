@@ -7,6 +7,8 @@
 
 ## 2. User Authentication
 
+Revalidação em 22/09/2026: 14 testes locais, 6 verificações com Xano real e compilação aprovados. Escopo, limitações, comandos e saídas em [validation/authentication-2026-09-22.md](validation/authentication-2026-09-22.md). A interação no navegador não foi retestada nesta rodada.
+
 - [x] 2.1 Create the user data structure required for registration and verify a new user account can be stored
 - [x] 2.2 Implement user registration and verify valid users can create accounts
 - [x] 2.3 Validate required registration information and verify incomplete registrations are rejected
@@ -49,7 +51,7 @@
 - [x] 6.1 Implement text-based media search and verify matching media results are displayed
 - [x] 6.2 Implement mixed media search results and verify movies, series, anime and books can appear in results
 - [x] 6.3 Display media type identification in search results and verify users can distinguish media categories
-- [x] 6.4 Implement media type filters and verify filtering limits results to the selected category
+- [x] 6.4 Implement category browsing independently from global text search and verify searches include all media types
 - [x] 6.5 Implement media detail navigation from discovery results and verify selecting a result opens the correct media details
 - [x] 6.6 Handle searches with no results and verify users receive a no-results response
 - [x] 6.7 Handle unavailable external search data and verify users receive an appropriate failure message
@@ -110,7 +112,7 @@
 - [x] 11.4 Verify social connections affect the content displayed in the social feed
 - [x] 11.5 Verify posts can reference supported media types and associated media information remains accessible
 - [x] 11.6 Verify user lists support media from all supported categories
-- [ ] 11.7 Validate the completed OpenSpec change and verify all proposal artifacts remain valid
+- [] 11.7 Validate the completed OpenSpec change and verify all proposal artifacts remain valid
 
 Evidence update 19/09/2026: task 11.6 passed against the published Xano API with movie, series, anime and book records in one temporary list; the list was removed after the check. A real Jikan anime record remains in the shared catalog. The UI now searches this cached catalog when an external provider fails, with a visible provider warning. Jikan's live anime search still returns HTTP 504, so task 5.2 and final task 11.7 remain open until the external search can be verified.
 
@@ -133,3 +135,7 @@ Evidência 19/09/2026: visitante usa armazenamento local por identidade da obra;
 Evidência 19/09/2026: 48 testes unitários passaram. Smoke no Edge da instância atualizada confirmou home responsiva, busca/detalhe públicos, login, biblioteca, feed, comunidade, listas, logout e bloqueio da biblioteca após sair, sem erros JavaScript. Quando `/likes` retorna 404, a carga do feed não consulta discussões por publicação. A sequência de sondagens consecutivas atingiu HTTP 429 no Xano; a aplicação mostrou aviso recuperável e preservou a sessão.
 Estado da change após debug: 85/87 tarefas. Permanecem busca Jikan ao vivo e validação final.
 - [x] 12.6 Manter o conteúdo visível e navegável enquanto as ações assíncronas estão carregando
+
+Evidência 22/09/2026: busca textual global separada da navegação por categoria, catálogos paginados e capas com fallback. 54 testes Python, compilação, validação OpenSpec e 7 verificações de browser aprovados. Detalhes: [validation/discovery-2026-09-22.md](validation/discovery-2026-09-22.md).
+
+Ajuste 22/09/2026: populares em grades verticais com mais páginas na própria home; pesquisa com correspondência por título e correção de “homen aranha”. 61 testes locais e 6 verificações de browser passaram; Jikan indisponível foi informado sem impedir filmes, séries e livros. Evidências: [validation/vertical-relevance-2026-09-22.md](validation/vertical-relevance-2026-09-22.md).

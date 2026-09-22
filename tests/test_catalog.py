@@ -34,7 +34,7 @@ class CatalogTests(unittest.IsolatedAsyncioTestCase):
     async def test_partial_failure_keeps_other_sources(self):
         async def provider(query, kind, page):
             if kind=='movie': raise APIError('Indisponível')
-            return [catalog.media('jikan' if kind=='anime' else 'tmdb' if kind=='series' else 'openlibrary',kind,'42','Título')]
+            return [catalog.media('jikan' if kind=='anime' else 'tmdb' if kind=='series' else 'openlibrary',kind,'42','Título de teste')]
         with patch.object(catalog,'search_one',side_effect=provider):
             items,errors=await catalog.search('teste')
         self.assertEqual(len(items),3)

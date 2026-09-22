@@ -2,6 +2,8 @@
 import asyncio
 import os
 import re
+import unicodedata
+from difflib import SequenceMatcher
 from urllib.parse import urlsplit
 from typing import Any
 
@@ -10,6 +12,48 @@ import httpx
 from .api import APIError
 
 TYPES = {'movie': 'Filme', 'series': 'Série', 'anime': 'Anime', 'book': 'Livro'}
+
+
+def normalized_title(value: str) -> str:
+    text = unicodedata.normalize('NFKD', str(value).casefold())
+    return ' '.join(re.findall(r'[^\W_]+', ''.join(c for c in text if not unicodedata.combining(c))))
+
+
+def search_query(value: str) -> str:
+    # Common Portuguese misspelling; keep other words and the user's visible input intact.
+    return re.sub(r'\bhomen\b', 'homem', value.strip()[:200], flags=re.IGNORECASE)
+
+
+def title_score(query: str, item: dict) -> float:
+    """Require every significant query word in a title, never in author/subject metadata."""
+    query = normalized_title(search_query(query))
+    if not query: return 1
+    stopwords = {'a', 'o', 'as', 'os', 'de', 'da', 'do', 'das', 'dos', 'e', 'the', 'of', 'and'}
+    terms = [word for word in query.split() if word not in stopwords] or query.split()
+    best = 0.0
+    titles = [item.get('title', ''), *(item.get('search_titles') or [])]
+    for value in titles:
+        title = normalized_title(value)
+        words = title.split()
+        if not words: continue
+        scores = []
+        for term in terms:
+            if term in words: scores.append(1.0)
+            elif len(term) >= 3 and any(word.startswith(term) for word in words): scores.append(0.9)
+            elif len(term) >= 5 and any(len(word) >= 5 and SequenceMatcher(None, term, word).ratio() >= 0.82 for word in words): scores.append(0.7)
+            else: break
+        if len(scores) != len(terms): continue
+        score = sum(scores) / len(scores)
+        if title == query: score += 2
+        elif query in title: score += 1
+        best = max(best, score)
+    return best
+
+
+def relevant_results(query: str, items: list[dict]) -> list[dict]:
+    if not query.strip(): return items
+    scored = [(title_score(query, item), item) for item in items]
+    return [item for score, item in sorted(scored, key=lambda pair: pair[0], reverse=True) if score > 0]
 
 
 def safe_url(value: Any) -> str:
@@ -26,7 +70,7 @@ def media(source: str, kind: str, identifier: str, title: str, **extra) -> dict:
                 external_id=str(identifier), media_type=kind, title=title or 'Sem título',
                 description=str(extra.get('description') or ''), cover_url=safe_url(extra.get('cover_url')),
                 year=int(extra.get('year') or 0), details=extra.get('details') or {},
-                backdrop_url=safe_url(extra.get('backdrop_url')))
+                backdrop_url=safe_url(extra.get('backdrop_url')), search_titles=extra.get('search_titles') or [])
 
 
 async def fetch(url: str, **kwargs) -> dict:
@@ -63,6 +107,7 @@ def tmdb_item(item: dict, kind: str) -> dict:
     if item.get('status'): details['Status'] = str(item['status'])
     if item.get('created_by'): details['Criação'] = ', '.join(p.get('name','') for p in item['created_by'][:5] if p.get('name'))
     return media('tmdb', kind, str(item['id']), item.get('title') or item.get('name'),
+                 search_titles=[item.get('original_title') or item.get('original_name') or ''],
                  description=item.get('overview'), year=year(item.get('release_date') or item.get('first_air_date')),
                  cover_url=('https://image.tmdb.org/t/p/w500'+item['poster_path']) if item.get('poster_path') else '',
                  details=details, backdrop_url=('https://image.tmdb.org/t/p/w1280'+item['backdrop_path']) if item.get('backdrop_path') else '')
@@ -70,6 +115,7 @@ def tmdb_item(item: dict, kind: str) -> dict:
 
 def anime_item(item: dict) -> dict:
     return media('jikan','anime',str(item['mal_id']),item.get('title'),description=item.get('synopsis'),
+                 search_titles=[item.get('title_english') or '', item.get('title_japanese') or '', *(item.get('title_synonyms') or [])],
                  year=item.get('year'), cover_url=item.get('images',{}).get('jpg',{}).get('image_url'),
                  details={'Episódios':str(item.get('episodes') or 'Não informado'),
                           'Estúdios':', '.join(s['name'] for s in item.get('studios',[])),
@@ -164,9 +210,11 @@ async def search_one(query: str, kind: str, page: int = 1) -> list[dict]:
         payload = await fetch('https://api.jikan.moe/v4/anime', params={'q':query,'page':page,'limit':12,'sfw':'true'})
         return [anime_item(item) for item in payload.get('data',[])]
     payload = await fetch('https://openlibrary.org/search.json',params={
-        'q':query or 'fiction','page':page,'limit':12,'fields':'key,title,author_name,first_publish_year,cover_i,number_of_pages_median'})
+        **({'title':query} if query else {'q':'fiction'}), 'lang':'pt',
+        'page':page,'limit':12,'fields':'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'})
     return [media('openlibrary','book',str(item['key']).split('/')[-1],item.get('title'),
                   year=item.get('first_publish_year'),
+                  search_titles=[edition.get('title','') for edition in (item.get('editions') or {}).get('docs',[])],
                   cover_url=f"https://covers.openlibrary.org/b/id/{item['cover_i']}-M.jpg" if item.get('cover_i') else '',
                   details={'Autores':', '.join(item.get('author_name',[])), 'Páginas':str(item.get('number_of_pages_median') or 'Não informado')})
             for item in payload.get('docs',[])]
@@ -175,12 +223,12 @@ async def search_one(query: str, kind: str, page: int = 1) -> list[dict]:
 async def search(query: str, kind: str = 'all', page: int = 1) -> tuple[list[dict], list[str]]:
     kinds = list(TYPES) if kind == 'all' else [kind]
     if any(k not in TYPES for k in kinds): raise ValueError('Unknown media type')
-    results = await asyncio.gather(*(search_one(query.strip()[:200],k,page) for k in kinds), return_exceptions=True)
+    results = await asyncio.gather(*(search_one(search_query(query),k,page) for k in kinds), return_exceptions=True)
     items, errors = [], []
     for k,result in zip(kinds,results):
         if isinstance(result,Exception): errors.append(f'{TYPES[k]}: {result if isinstance(result,APIError) else "Fonte indisponível."}')
         else: items.extend(result)
-    return items, errors
+    return relevant_results(query, items), errors
 
 
 async def detail(item: dict) -> dict:

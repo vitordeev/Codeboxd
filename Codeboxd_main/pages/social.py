@@ -1,5 +1,12 @@
 """Public discovery and authenticated social pages."""
 import reflex as rx
+from reflex_components_core.el.elements.media import Img
+
+
+class CoverImage(Img):
+    """Native image with the error event exposed by Reflex."""
+    on_error: rx.EventHandler[lambda: []]
+
 from ..state.social import SocialState as S
 from .login import _logo_icon
 
@@ -80,10 +87,19 @@ def shell(title, subtitle, *children):
         class_name='site-shell')
 
 
+def cover_image(m):
+    return rx.el.div(
+        rx.el.div(rx.icon('clapperboard', size=36), rx.el.span('Capa indisponível'),
+                  class_name='cover-placeholder'),
+        rx.cond((m['cover'] != '') & ~S.failed_covers.contains(m['cover']),
+            CoverImage.create(src=m['cover'], alt=m['title'], loading='lazy', decoding='async',
+                      width='100%', height='100%', on_error=S.cover_failed(m['cover']), class_name='media-cover')),
+        class_name='cover-frame')
+
+
 def media_card(m, search=False):
     content=rx.el.div(
-        rx.cond(m['cover']!='',rx.el.img(src=m['cover'],alt=m['title'],loading='lazy',class_name='media-cover'),
-                rx.el.div(rx.icon('clapperboard', size=36), rx.el.span('Capa indisponível'),class_name='media-cover cover-empty')),
+        cover_image(m),
         rx.el.div(rx.el.h3(m['title'],class_name='font-semibold line-clamp-2'),
             rx.el.p(m['kind']+' · '+m['year'],class_name='text-sm text-gray-400 mt-3'),class_name='p-4'),class_name='h-full')
     if search:
@@ -98,12 +114,17 @@ def grid(items, render, empty):
 
 
 def popular_section(title, items, kind):
-    return rx.cond(items.length()>0,rx.el.section(rx.el.h2(title,class_name='section-title'),
+    return rx.cond(items.length()>0,rx.el.section(
+        rx.el.h2(title,class_name='section-title'),
         rx.el.div(rx.foreach(items,lambda m:rx.el.button(
-            rx.el.img(src=m['cover'],alt=m['title'],loading='lazy',class_name='media-cover'),
+            cover_image(m),
             rx.el.div(rx.el.h3(m['title'],class_name='font-semibold line-clamp-2'),rx.el.p(m['year'],class_name='text-sm text-gray-400'),class_name='p-4'),
             on_click=S.open_featured(m['source'],m['external_id'],kind),class_name='media-card text-left',type='button')),
-            class_name='media-shelf')))
+            class_name='catalog-grid popular-grid'),
+        rx.cond(~S.popular_exhausted.contains(kind),
+            button('Carregar mais filmes' if kind == 'movie' else 'Carregar mais s\u00e9ries',
+                   S.more_popular(kind),disabled=S.busy)),
+        class_name='space-y-6'))
 
 
 def discovery_page():
@@ -112,21 +133,21 @@ def discovery_page():
             rx.el.div(rx.icon('search', size=24),
                 rx.el.input(name='query',placeholder='Pesquisar filmes, séries, animes e livros',aria_label='Buscar título',max_length=200,value=S.search_term,on_change=S.update_search_term),
                 rx.el.button('Buscar',type='submit',disabled=S.busy,class_name=BUTTON),class_name='search-box'),
-            rx.el.fieldset(rx.el.legend('Categoria',class_name='sr-only'),
-                *[rx.el.label(rx.el.input(type='radio',name='kind',value=value,default_checked=value=='all'),
-                              rx.el.span(label),class_name='category-chip') for value,label in
-                  [('all','Todos'),('movie','Filmes'),('anime','Animes'),('series','Séries'),('book','Livros')]],
-                class_name='category-filters'),
             on_submit=S.search,class_name='space-y-7'),
-        rx.cond((S.search_results.length()==0) & (S.featured_items.length()>0),
+        rx.el.div(*[rx.el.button(label,type='button',on_click=S.browse_category(value),
+            disabled=S.busy,aria_pressed=S.search_active & (S.submitted_query == '') & (S.search_type == value),
+            class_name='browse-category') for value,label in
+            [('all','Todos'),('movie','Filmes'),('anime','Animes'),('series','Séries'),('book','Livros')]],
+            class_name='category-filters',aria_label='Explorar categorias'),
+        rx.cond(~S.search_active & (S.featured_items.length()>0),
             rx.el.div(rx.foreach(S.featured_items,lambda m:rx.el.article(
-                rx.el.img(src=m['cover'],alt='',class_name='featured-image'),
+                rx.el.img(src=rx.cond(m['backdrop'] != '',m['backdrop'],m['cover']),alt='',class_name='featured-image'),
                 rx.el.div(rx.el.p('EM DESTAQUE',class_name='eyebrow'),rx.el.h2(m['title'],class_name='text-2xl font-bold'),
                     rx.el.p(m['description'],class_name='line-clamp-2 text-sm text-gray-300'),
                     button('Ver detalhes',S.open_featured(m['source'],m['external_id'],'movie')),class_name='featured-content'),
                 class_name='featured-card')),class_name='featured-grid')),
-        rx.cond(S.search_results.length()>0,
-            rx.el.section(rx.el.h2('Resultados da busca',class_name='section-title'),
+        rx.cond(S.search_active,
+            rx.el.section(rx.el.h2(rx.cond(S.submitted_query != '', 'Resultados da busca', 'Explorar catálogo'),class_name='section-title'),
                 rx.el.div(rx.foreach(S.search_results,lambda m:media_card(m,True)),class_name='catalog-grid')),
             rx.cond(S.featured_items.length()==0,rx.el.section(
                 rx.el.div(rx.el.p('CADA HISTÓRIA CONTA',class_name='eyebrow'),
@@ -136,16 +157,17 @@ def discovery_page():
                         href=rx.cond(S.is_authenticated,'/biblioteca','/cadastro'),class_name=BUTTON),class_name='hero-content'),
                 rx.el.img(src='/mascot.png',alt='Mascote Codeboxd com uma lupa e um rolo de filme',class_name='hero-mascot'),
                 class_name='discovery-hero'))),
-        rx.cond(S.search_results.length()==0,rx.fragment(
+        rx.cond(~S.search_active,rx.fragment(
             popular_section('Filmes populares',S.popular_movies,'movie'),
             popular_section('Séries populares',S.popular_series,'series'))),
-        rx.cond(S.search_results.length()>0,button('Carregar mais resultados',S.more_results,disabled=S.busy)),
+        rx.cond(S.search_active & S.has_more_results,button('Carregar mais resultados',S.more_results,disabled=S.busy)),
+        rx.cond(~S.search_active,rx.fragment(
         rx.el.div(rx.el.h2('Na comunidade',class_name='section-title'),
                   rx.el.a('Conhecer pessoas →',href='/comunidade',class_name='text-sm brand-yellow'),class_name='flex items-center justify-between gap-4'),
         rx.cond(S.catalog_items.length()>0,
             rx.el.div(rx.foreach(S.catalog_items,lambda m:media_card(m)),class_name='catalog-grid'),
             rx.el.div(rx.icon('library',size=32),rx.el.p('Sua próxima descoberta começa com uma busca.'),
-                rx.el.p('Pesquise uma obra e salve sua primeira experiência.',class_name='text-sm text-gray-400'),class_name='empty-state')))
+                rx.el.p('Pesquise uma obra e salve sua primeira experiência.',class_name='text-sm text-gray-400'),class_name='empty-state')))))
 
 
 def media_page():
@@ -210,7 +232,7 @@ def media_page():
             rx.el.section(rx.el.h2('Outras recomendações',class_name='section-title'),
                 rx.cond(S.recommendations.length()>0,
                     rx.el.div(rx.foreach(S.recommendations,lambda m:rx.el.button(
-                        rx.el.img(src=m['cover'],alt=m['title'],loading='lazy',class_name='media-cover'),
+                        cover_image(m),
                         rx.el.div(rx.el.h3(m['title'],class_name='font-semibold line-clamp-2'),rx.el.p(m['year'],class_name='text-sm text-gray-400'),class_name='p-4'),
                         on_click=S.open_recommendation(m['source'],m['external_id']),type='button',class_name='media-card text-left')),
                         class_name='media-shelf'),rx.el.p('Ainda não há recomendações desta fonte.',class_name='text-sm text-gray-400')),
