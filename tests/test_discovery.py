@@ -8,6 +8,9 @@ from Codeboxd_main.services import catalog
 class DiscoveryTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         self.state = rx.State(_reflex_internal_init=True).get_substate(SocialState.get_full_name().split('.'))
+        collections = patch.object(catalog, 'home_collection', new=AsyncMock(return_value=[]))
+        self.collection_fetch = collections.start()
+        self.addCleanup(collections.stop)
 
     async def drain(self, events):
         return [event async for event in events]
@@ -55,6 +58,34 @@ class DiscoveryTests(unittest.IsolatedAsyncioTestCase):
         self.state.cover_failed('https://example.com/missing.jpg')
         self.state.cover_failed('https://example.com/missing.jpg')
         self.assertEqual(len(self.state.failed_covers), 1)
+
+    async def test_home_collections_keep_other_providers_when_one_fails(self):
+        from Codeboxd_main.services.api import APIError
+        async def provider(key):
+            if key == 'books_fantasy': raise APIError('Unavailable')
+            kind=catalog.HOME_COLLECTIONS[key][0]
+            return [catalog.media('test',kind,key,'A story')]
+        self.collection_fetch.side_effect=provider
+        await self.state._load_home_collections()
+        self.assertEqual(self.state.home_collection_errors,['books_fantasy'])
+        self.assertEqual(self.state.home_collections['books_fiction'][0]['kind'],'Livro')
+        self.assertEqual(self.state.home_collections['anime_rated'][0]['kind'],'Anime')
+        self.collection_fetch.reset_mock()
+        self.collection_fetch.side_effect=None
+        self.collection_fetch.return_value=[catalog.media('openlibrary','book','OL1W','Fantasy')]
+        await self.state._load_home_collections()
+        self.collection_fetch.assert_awaited_once_with('books_fantasy')
+        self.assertEqual(self.state.home_collection_errors,[])
+
+    def test_return_to_home_clears_search_without_losing_collections(self):
+        self.state.search_active=True
+        self.state.search_term='Batman'
+        self.state.submitted_query='Batman'
+        self.state.home_collections['books_fiction']=[{'title':'Dune'}]
+        self.state.show_home_catalog()
+        self.assertFalse(self.state.search_active)
+        self.assertEqual(self.state.submitted_query,'')
+        self.assertEqual(self.state.home_collections['books_fiction'],[{'title':'Dune'}])
 
     async def test_failed_provider_keeps_cached_results_across_categories(self):
         self.state._media = {'1': dict(catalog.media('openlibrary', 'book', 'OL1W', 'Batman'), id=1)}

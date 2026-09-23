@@ -8,6 +8,7 @@ class CoverImage(Img):
     on_error: rx.EventHandler[lambda: []]
 
 from ..state.social import SocialState as S
+from ..services.catalog import HOME_COLLECTIONS
 from .login import _logo_icon
 
 INPUT = 'w-full rounded-xl border border-white/15 bg-[#151719] px-4 py-3 text-white'
@@ -89,8 +90,11 @@ def shell(title, subtitle, *children):
 
 def cover_image(m):
     return rx.el.div(
-        rx.el.div(rx.icon('clapperboard', size=36), rx.el.span('Capa indisponível'),
-                  class_name='cover-placeholder'),
+        rx.el.div(
+            rx.el.span('CODEBOXD', class_name='cover-placeholder-brand'),
+            rx.el.div(rx.el.span('Capa indisponível', class_name='cover-placeholder-label'),
+                      class_name='cover-placeholder-copy'),
+            class_name='cover-placeholder', aria_hidden=True),
         rx.cond((m['cover'] != '') & ~S.failed_covers.contains(m['cover']),
             CoverImage.create(src=m['cover'], alt=m['title'], loading='lazy', decoding='async',
                       width='100%', height='100%', on_error=S.cover_failed(m['cover']), class_name='media-cover')),
@@ -113,18 +117,65 @@ def grid(items, render, empty):
         rx.el.p(empty,class_name='p-8 border border-dashed border-white/15 rounded-2xl text-gray-400'))
 
 
+def shelf_arrow(shelf_id, title, direction):
+    # IDs and directions are constants defined here, never user input.
+    script = """(() => { const row = document.getElementById('%s');
+        if (row) row.scrollBy({left: row.clientWidth * .85 * %d,
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); })()""" % (shelf_id, direction)
+    return rx.el.button(rx.icon('chevron-left' if direction < 0 else 'chevron-right', size=19),
+        type='button', on_click=rx.call_script(script), class_name='shelf-arrow',
+        aria_label=('Anteriores: ' if direction < 0 else 'Próximos: ') + title,
+        aria_controls=shelf_id)
+
+
+def catalog_shelf(title, subtitle, items, kind, shelf_id, footer=None):
+    def card(m, index):
+        return rx.el.button(
+            rx.el.div(cover_image(m),
+                class_name='shelf-poster'),
+            rx.el.div(rx.el.h3(m['title'], class_name='shelf-card-title'),
+                rx.el.p(m['kind'] + ' · ' + m['year'], class_name='shelf-card-meta'), class_name='shelf-card-copy'),
+            type='button', on_click=S.open_featured(m['source'],m['external_id'],kind),
+            class_name='shelf-card', key=m['key'])
+    return rx.el.section(
+        rx.el.div(rx.el.div(rx.el.h3(title,id=shelf_id+'-heading',class_name='shelf-title'),
+            rx.el.p(subtitle,class_name='shelf-subtitle')),
+            rx.el.div(shelf_arrow(shelf_id,title,-1),shelf_arrow(shelf_id,title,1),class_name='shelf-controls'),
+            class_name='catalog-shelf-heading'),
+        rx.el.div(rx.foreach(items,card),id=shelf_id,class_name='catalog-rail',
+            role='region',aria_label=title,tab_index=0),
+        footer if footer is not None else rx.fragment(),
+        class_name='catalog-shelf',aria_labelledby=shelf_id+'-heading')
+
+
 def popular_section(title, items, kind):
-    return rx.cond(items.length()>0,rx.el.section(
-        rx.el.h2(title,class_name='section-title'),
-        rx.el.div(rx.foreach(items,lambda m:rx.el.button(
-            cover_image(m),
-            rx.el.div(rx.el.h3(m['title'],class_name='font-semibold line-clamp-2'),rx.el.p(m['year'],class_name='text-sm text-gray-400'),class_name='p-4'),
-            on_click=S.open_featured(m['source'],m['external_id'],kind),class_name='media-card text-left',type='button')),
-            class_name='catalog-grid popular-grid'),
-        rx.cond(~S.popular_exhausted.contains(kind),
-            button('Carregar mais filmes' if kind == 'movie' else 'Carregar mais s\u00e9ries',
-                   S.more_popular(kind),disabled=S.busy)),
-        class_name='space-y-6'))
+    return rx.cond(items.length()>0,catalog_shelf(title,
+        'Os títulos em alta no TMDB. Encontre o seu próximo favorito.',items,kind,'popular-'+kind,
+        footer=rx.cond(~S.popular_exhausted.contains(kind),
+            rx.el.button('Carregar mais filmes' if kind=='movie' else 'Carregar mais séries',
+                on_click=S.more_popular(kind),type='button',disabled=S.busy,class_name='shelf-more'))))
+
+
+def collection_section(key):
+    kind,title,subtitle,_ = HOME_COLLECTIONS[key]
+    return rx.cond(S.home_collections[key].length()>0,
+        catalog_shelf(title,subtitle,S.home_collections[key],kind,key),
+        rx.el.section(rx.el.h3(title,class_name='shelf-title'),
+            rx.cond(~S.home_loaded,
+                rx.el.div(*[rx.el.div(class_name='shelf-skeleton') for _ in range(6)],
+                    class_name='catalog-rail',aria_hidden=True),
+                rx.el.div(rx.el.p(rx.cond(S.home_collection_errors.contains(key),
+                    'Esta seleção está indisponível no momento.', 'Ainda não há títulos nesta seleção.')),
+                    rx.el.button('Tentar novamente',on_click=S.retry_home_collections,
+                        type='button',disabled=S.busy,class_name='quiet-button'),class_name='shelf-empty')),
+            class_name='catalog-shelf'))
+
+
+def catalog_group(anchor, label, description, icon, *shelves):
+    return rx.el.section(
+        rx.el.div(rx.el.div(rx.icon(icon,size=22),rx.el.span(label),class_name='catalog-group-label'),
+            rx.el.h2(description,class_name='catalog-group-title'),class_name='catalog-group-heading'),
+        *shelves,id=anchor,class_name='catalog-group')
 
 
 def discovery_page():
@@ -139,13 +190,23 @@ def discovery_page():
             class_name='browse-category') for value,label in
             [('all','Todos'),('movie','Filmes'),('anime','Animes'),('series','Séries'),('book','Livros')]],
             class_name='category-filters',aria_label='Explorar categorias'),
+        rx.cond(S.search_active,rx.el.button(rx.icon('arrow-left',size=16),'Voltar aos destaques',
+            type='button',on_click=S.show_home_catalog,class_name='quiet-button')),
         rx.cond(~S.search_active & (S.featured_items.length()>0),
-            rx.el.div(rx.foreach(S.featured_items,lambda m:rx.el.article(
-                rx.el.img(src=rx.cond(m['backdrop'] != '',m['backdrop'],m['cover']),alt='',class_name='featured-image'),
-                rx.el.div(rx.el.p('EM DESTAQUE',class_name='eyebrow'),rx.el.h2(m['title'],class_name='text-2xl font-bold'),
-                    rx.el.p(m['description'],class_name='line-clamp-2 text-sm text-gray-300'),
-                    button('Ver detalhes',S.open_featured(m['source'],m['external_id'],'movie')),class_name='featured-content'),
-                class_name='featured-card')),class_name='featured-grid')),
+            rx.el.div(rx.foreach(S.featured_items[:1],lambda m:rx.el.article(
+                rx.cond(((m['backdrop'] != '') & ~S.failed_covers.contains(m['backdrop'])) |
+                        ((m['cover'] != '') & ~S.failed_covers.contains(m['cover'])),
+                    CoverImage.create(src=rx.cond((m['backdrop'] != '') & ~S.failed_covers.contains(m['backdrop']),m['backdrop'],m['cover']),
+                        alt='',class_name='spotlight-image',
+                        on_error=S.cover_failed(rx.cond((m['backdrop'] != '') & ~S.failed_covers.contains(m['backdrop']),m['backdrop'],m['cover'])))),
+                rx.el.div(rx.el.p('HOJE NO SEU RADAR',class_name='eyebrow'),
+                    rx.el.p('Uma pausa. Uma grande história.',class_name='spotlight-kicker'),
+                    rx.el.h2(m['title'],class_name='spotlight-title'),
+                    rx.el.p(m['kind']+' · '+m['year'],class_name='spotlight-meta'),
+                    rx.el.p(m['description'],class_name='spotlight-description'),
+                    rx.el.div(button('Conhecer este filme',S.open_featured(m['source'],m['external_id'],'movie')),
+                        rx.el.a('Explorar catálogo',href='#home-filmes',class_name='spotlight-secondary'),class_name='spotlight-actions'),
+                    class_name='spotlight-copy'),class_name='home-spotlight')),class_name='spotlight-wrapper')),
         rx.cond(S.search_active,
             rx.el.section(rx.el.h2(rx.cond(S.submitted_query != '', 'Resultados da busca', 'Explorar catálogo'),class_name='section-title'),
                 rx.el.div(rx.foreach(S.search_results,lambda m:media_card(m,True)),class_name='catalog-grid')),
@@ -158,10 +219,27 @@ def discovery_page():
                 rx.el.img(src='/mascot.png',alt='Mascote Codeboxd com uma lupa e um rolo de filme',class_name='hero-mascot'),
                 class_name='discovery-hero'))),
         rx.cond(~S.search_active,rx.fragment(
-            popular_section('Filmes populares',S.popular_movies,'movie'),
-            popular_section('Séries populares',S.popular_series,'series'))),
+            rx.el.nav(rx.el.span('ESCOLHA SEU UNIVERSO',class_name='catalog-jump-label'),
+                *[rx.el.a(rx.icon(icon,size=18),label,href='#'+anchor,class_name='catalog-jump-link')
+                    for anchor,label,icon in [('home-filmes','Filmes','clapperboard'),('home-series','Séries','tv'),
+                        ('home-livros','Livros','book-open'),('home-animes','Animes','sparkles')]],
+                class_name='catalog-jump',aria_label='Ir para uma seção do catálogo'),
+            catalog_group('home-filmes','FILMES','Qual vai ser a sessão de hoje?','clapperboard',
+                popular_section('Filmes populares',S.popular_movies,'movie'),
+                collection_section('movies_now'),collection_section('movies_rated'),collection_section('movies_upcoming')),
+            catalog_group('home-series','SÉRIES','Histórias para ficar mais um episódio.','tv',
+                popular_section('Séries populares',S.popular_series,'series'),collection_section('series_rated')),
+            rx.el.aside(rx.el.div(rx.el.p('SEU REPERTÓRIO, DO SEU JEITO',class_name='eyebrow'),
+                rx.el.h2('Viu. Leu. Gostou? Guarde por aqui.'),
+                rx.el.p('Monte sua lista, dê sua nota e encontre sua próxima obsessão.')),
+                rx.el.a('Organizar minha biblioteca',href='/biblioteca',class_name='quiet-button'),class_name='home-library-banner'),
+            catalog_group('home-livros','LIVROS','Vire a página. Descubra outro mundo.','book-open',
+                collection_section('books_popular'),collection_section('books_fiction'),collection_section('books_fantasy'),
+                collection_section('books_mystery'),collection_section('books_game_theory')),
+            catalog_group('home-animes','ANIMES','Universos que vão além da imaginação.','sparkles',
+                collection_section('anime_rated'),collection_section('anime_popular'),collection_section('anime_current')))),
         rx.cond(S.search_active & S.has_more_results,button('Carregar mais resultados',S.more_results,disabled=S.busy)),
-        rx.cond(~S.search_active,rx.fragment(
+        rx.cond(False,rx.fragment(
         rx.el.div(rx.el.h2('Na comunidade',class_name='section-title'),
                   rx.el.a('Conhecer pessoas →',href='/comunidade',class_name='text-sm brand-yellow'),class_name='flex items-center justify-between gap-4'),
         rx.cond(S.catalog_items.length()>0,
@@ -175,16 +253,25 @@ def media_page():
         rx.el.a('← Voltar à descoberta',href='/',class_name='text-sm text-gray-400'),
         rx.cond(S.selected['title']!='',rx.el.div(
             rx.el.section(
+                rx.cond(S.selected['cover']!='',rx.el.img(src=S.selected['cover'],alt='Capa de '+S.selected['title'],class_name='media-detail-poster'),
+                    rx.el.div(rx.icon('clapperboard',size=48),class_name='media-detail-poster cover-empty')),
+                rx.cond(S.selected['backdrop']!='',rx.el.img(src=S.selected['backdrop'],alt='',aria_hidden=True,class_name='media-detail-backdrop'),rx.fragment()),
                 rx.el.div(rx.el.p(S.selected['kind']+'  ·  '+S.selected['year'],class_name='eyebrow'),
                     rx.el.h2(S.selected['title'],class_name='media-detail-title'),
                     rx.el.p(rx.cond(S.selected['description']!='',S.selected['description'],'Descrição ainda não disponível.'),class_name='media-detail-description'),
-                    rx.cond(S.selected['backdrop']!='',rx.el.img(src=S.selected['backdrop'],alt='Imagem de '+S.selected['title'],class_name='media-detail-poster'),
-                        rx.cond(S.selected['cover']!='',rx.el.img(src=S.selected['cover'],alt='Capa de '+S.selected['title'],class_name='media-detail-poster'),
-                        rx.el.div(rx.icon('clapperboard',size=48),class_name='media-detail-poster cover-empty'))),
                     class_name='media-detail-copy'),class_name='media-detail-hero'),
             rx.el.section(rx.el.h2('Ficha da obra',class_name='section-title'),
                 rx.el.p(rx.cond(S.selected['details']!='',S.selected['details']+'  ·  '+S.selected['kind']+'  ·  '+S.selected['year'],
                     S.selected['kind']+'  ·  '+S.selected['year']),class_name='media-facts'),class_name='space-y-3'),
+            rx.cond(S.selected['source']=='tmdb',
+                rx.el.section(rx.el.h2('Onde assistir',class_name='section-title'),
+                    rx.cond(S.availability.length()>0,
+                        rx.el.div(rx.foreach(S.availability,lambda provider:rx.el.a(
+                            rx.el.span(provider['name']), href=provider['url'], target='_blank',
+                            rel='noopener noreferrer', class_name='availability-chip')),
+                            class_name='availability-list'),
+                        rx.el.p('Nenhum servico de distribuicao foi informado para o Brasil.',class_name='text-sm text-gray-400')),
+                rx.fragment())),
             rx.cond(S.trailers.length()>0,rx.el.section(rx.el.h2('Trailers',class_name='section-title'),
                 rx.el.div(rx.foreach(S.trailers,lambda trailer:rx.el.article(
                     rx.el.h3(trailer['title'],class_name='font-semibold mb-3'),

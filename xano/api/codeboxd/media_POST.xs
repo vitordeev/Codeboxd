@@ -13,7 +13,7 @@ json details?
  }
  stack {
 api.lambda {
- code = "const i = $input; const valid = (i.external_source === 'tmdb' && ['movie','series'].includes(i.media_type) && /^[0-9]+$/.test(i.external_id)) || (i.external_source === 'jikan' && i.media_type === 'anime' && /^[0-9]+$/.test(i.external_id)) || (i.external_source === 'openlibrary' && i.media_type === 'book' && /^OL[0-9]+W$/.test(i.external_id)); if (!valid) return false; if (!i.cover_url) return true; try { const u = new URL(i.cover_url); return u.protocol === 'https:' && !!u.hostname && !u.username && !u.password; } catch { return false; }"
+ code = "const i = $input; const valid = (i.external_source === 'tmdb' && ['movie','series'].includes(i.media_type) && /^[0-9]+$/.test(i.external_id)) || (['jikan','kitsu'].includes(i.external_source) && i.media_type === 'anime' && /^[0-9]+$/.test(i.external_id)) || (i.external_source === 'openlibrary' && i.media_type === 'book' && /^OL[0-9]+W$/.test(i.external_id)); if (!valid) return false; if (!i.cover_url) return true; try { const u = new URL(i.cover_url); return u.protocol === 'https:' && !!u.hostname && !u.username && !u.password; } catch { return false; }"
 } as $valid_media
 precondition ($valid_media) {
  error_type = "inputerror"
@@ -33,14 +33,28 @@ db.get media {
  field_name = "identity_key"
  field_value = $key
 } as $existing
+api.lambda {
+ code = "const i = $input; const mal = String((i.details || {})['MyAnimeList ID'] || ''); return i.external_source === 'kitsu' && /^[0-9]+$/.test(mal) ? 'jikan:anime:' + mal : i.external_source + ':' + i.media_type + ':' + i.external_id;"
+} as $legacy_key
+db.get media {
+ field_name = "identity_key"
+ field_value = $legacy_key
+} as $legacy_existing
 conditional {
- if ($existing == null) {
-db.add media {
- data = {identity_key: $key, external_source: $input.external_source, external_id: $input.external_id, media_type: $input.media_type, title: $input.title, description: $input.description, cover_url: $input.cover_url, year: $input.year, details: $input.details}
-} as $result
+ if ($existing != null) {
+  var $result { value = $existing }
  }
  else {
- var $result { value = $existing }
+  conditional {
+   if ($legacy_existing != null) {
+    var $result { value = $legacy_existing }
+   }
+   else {
+    db.add media {
+     data = {identity_key: $key, external_source: $input.external_source, external_id: $input.external_id, media_type: $input.media_type, title: $input.title, description: $input.description, cover_url: $input.cover_url, year: $input.year, details: $input.details}
+    } as $result
+   }
+  }
  }
 }
  }
