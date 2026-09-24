@@ -17,7 +17,8 @@ def present_media(m: dict) -> dict[str,str]:
         year=m.get('year',''),cover=catalog.safe_url(m.get('cover_url')),description=m.get('description',''),
         backdrop=catalog.safe_url(m.get('backdrop_url')),
         source=m.get('external_source',''),external_id=m.get('external_id',''),
-        details=' · '.join(f'{k}: {v}' for k,v in details.items()) if isinstance(details,dict) else '').items()}
+        details=' · '.join(f'{k}: {v}' for k,v in details.items()
+            if k not in {'Kitsu ID', 'MyAnimeList ID', 'YouTube ID'}) if isinstance(details,dict) else '').items()}
 
 
 class SocialState(SessionState):
@@ -34,11 +35,15 @@ class SocialState(SessionState):
     featured_items: list[dict[str,str]] = []
     popular_movies: list[dict[str,str]] = []
     popular_series: list[dict[str,str]] = []
+    home_collections: dict[str,list[dict[str,str]]] = {key: [] for key in catalog.HOME_COLLECTIONS}
+    home_collection_errors: list[str] = []
+    home_loaded: bool = False
     popular_exhausted: list[str] = []
     _popular_pages: dict[str,int] = {'movie':1, 'series':1}
     catalog_items: list[dict[str,str]] = []
     selected: dict[str,str] = {'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}
     recommendations: list[dict[str,str]] = []
+    availability: list[dict[str,str]] = []
     community_reviews: list[dict[str,str]] = []
     selected_status: str = 'planned'
     selected_rating: str = '0'
@@ -118,6 +123,11 @@ class SocialState(SessionState):
     async def _load_trailers(self):
         self.trailers=[]
         try: self.trailers=await catalog.trailers(self._selected_raw)
+        except APIError: pass
+
+    async def _load_availability(self):
+        self.availability=[]
+        try: self.availability=await catalog.availability(self._selected_raw)
         except APIError: pass
 
     @rx.event
@@ -263,7 +273,40 @@ class SocialState(SessionState):
             try: await self._load_media(per_page=20)
             except APIError as exc: self._failure(exc)
 
-        await asyncio.gather(self._validate_session(), community(), popular('movie'), popular('series'))
+        await asyncio.gather(self._validate_session(), community(), popular('movie'), popular('series'), self._load_home_collections())
+        self.home_loaded=True
+
+    async def _load_home_collections(self):
+        # Bound requests so one slow or unavailable provider cannot erase other shelves.
+        slots=asyncio.Semaphore(2)
+        async def load(key):
+            if self.home_collections.get(key): return
+            async with slots:
+                try:
+                    items=await catalog.home_collection(key)
+                    self.home_collections[key]=[present_media(m) for m in items]
+                    self.home_collection_errors=[value for value in self.home_collection_errors if value != key]
+                except (APIError, KeyError, TypeError, ValueError):
+                    if key not in self.home_collection_errors:
+                        self.home_collection_errors=[*self.home_collection_errors,key]
+        await asyncio.gather(*(load(key) for key in catalog.HOME_COLLECTIONS))
+
+    @rx.event
+    async def retry_home_collections(self):
+        if self.busy: return
+        self.busy=True
+        yield
+        try:
+            await self.load_home()
+        finally:
+            self.busy=False
+
+    @rx.event
+    def show_home_catalog(self):
+        self.search_active=False
+        self.search_term=''
+        self.submitted_query=''
+        self.notice=''
 
     @rx.event
     async def more_popular(self, kind: str):
@@ -362,6 +405,7 @@ class SocialState(SessionState):
     async def load_external_media(self):
         self.notice=''; self._selected_raw={}
         self.recommendations=[]
+        self.availability=[]
         self.community_reviews=[]
         self.selected={'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}
         self.selected_status='planned'; self.selected_rating='0'; self.selected_review=''; self.selected_spoiler=False
@@ -377,7 +421,7 @@ class SocialState(SessionState):
             self._selected_raw=detail_result
             self.selected=present_media(self._selected_raw)
             self._restore_guest_rating()
-            await asyncio.gather(self._load_trailers(),self._load_recommendations(),self._load_community_reviews())
+            await asyncio.gather(self._load_trailers(),self._load_availability(),self._load_recommendations(),self._load_community_reviews())
         except APIError as exc: self._failure(exc)
 
     @rx.event
@@ -385,6 +429,7 @@ class SocialState(SessionState):
         identifier=self.router.url.path.rstrip('/').rsplit('/',1)[-1]
         self._selected_raw={}
         self.recommendations=[]
+        self.availability=[]
         self.community_reviews=[]
         self.selected={'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}
         if not str(identifier).isdigit(): return
@@ -394,7 +439,7 @@ class SocialState(SessionState):
             self._selected_raw,authenticated=await asyncio.gather(
                 self._call('GET',f'/media/{identifier}'),self._validate_session())
             self.selected=present_media(self._selected_raw)
-            await asyncio.gather(self._load_trailers(),self._load_recommendations(),
+            await asyncio.gather(self._load_trailers(),self._load_availability(),self._load_recommendations(),
                 self._load_community_reviews(),self._load_personal_interaction(str(identifier),authenticated))
         except APIError as exc:
             self.selected={'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}; self._failure(exc)

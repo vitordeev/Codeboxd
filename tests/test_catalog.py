@@ -8,6 +8,9 @@ from Codeboxd_main.services.api import APIError
 
 
 class CatalogTests(unittest.IsolatedAsyncioTestCase):
+    def setUp(self):
+        catalog._kitsu_cache.clear()
+
     async def test_provider_fetch_retries_transient_http_status(self):
         client=AsyncMock()
         request=httpx.Request('GET','https://provider.example/test')
@@ -45,7 +48,7 @@ class CatalogTests(unittest.IsolatedAsyncioTestCase):
         fixtures={
             'movie':{'results':[{'id':1,'title':'Filme'}]},
             'series':{'results':[{'id':2,'name':'Série'}]},
-            'anime':{'data':[{'mal_id':3,'title':'Anime','images':{}}]},
+            'anime':{'data':[{'id':'3','type':'anime','attributes':{'canonicalTitle':'Anime'}}]},
             'book':{'docs':[{'key':'/works/OL4W','title':'Livro','author_name':['Autora'],'first_publish_year':1999}]},
         }
         with patch.dict(os.environ,{'TMDB_READ_TOKEN':'test-only'}):
@@ -56,15 +59,15 @@ class CatalogTests(unittest.IsolatedAsyncioTestCase):
                     self.assertTrue(result[0]['external_id'])
                     self.assertTrue(result[0]['identity_key'])
 
-    async def test_anime_search_uses_jikan_v4_and_keeps_jikan_identity(self):
-        payload={'data':[{'mal_id':91,'title':'Anime de teste','images':{}}]}
+    async def test_anime_search_uses_kitsu_and_page_offsets(self):
+        payload={'data':[{'id':'91','type':'anime','attributes':{'canonicalTitle':'Anime de teste'}}]}
         with patch.object(catalog,'fetch',new=AsyncMock(return_value=payload)) as fetch:
-            items=await catalog.search_one('Anime de teste','anime')
-        self.assertEqual(items[0]['media_type'],'anime')
-        self.assertEqual(items[0]['external_source'],'jikan')
+            items=await catalog.search_one('Anime de teste','anime',page=2)
+        self.assertEqual(items[0]['external_source'],'kitsu')
         self.assertEqual(items[0]['external_id'],'91')
-        fetch.assert_awaited_once_with('https://api.jikan.moe/v4/anime',
-            params={'q':'Anime de teste','page':1,'limit':12,'sfw':'true'})
+        self.assertEqual(fetch.call_args.args[0],catalog.KITSU_URL+'/anime')
+        self.assertEqual(fetch.call_args.kwargs['params']['filter[text]'],'Anime de teste')
+        self.assertEqual(fetch.call_args.kwargs['params']['page[offset]'],12)
 
     async def test_external_detail_rejects_invalid_source_and_identifier(self):
         with patch.object(catalog,'fetch',new=AsyncMock()) as fetch:
@@ -80,14 +83,17 @@ class CatalogTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result['description'],'Resumo')
         self.assertEqual(result['details'],item['details'])
 
-    async def test_jikan_detail_uses_v4_full_endpoint_and_preserves_source(self):
+    async def test_old_jikan_detail_resolves_mapping_without_changing_identity(self):
         item=catalog.media('jikan','anime','91','Anime')
-        payload={'data':{'mal_id':91,'title':'Anime','synopsis':'Resumo','images':{},'episodes':12}}
-        with patch.object(catalog,'fetch',new=AsyncMock(return_value=payload)) as fetch:
+        mapping={'data':[{'attributes':{'externalSite':'myanimelist/anime','externalId':'91'},
+            'relationships':{'item':{'data':{'type':'anime','id':'456'}}}}]}
+        payload={'data':{'id':'456','type':'anime','attributes':{'canonicalTitle':'Anime','synopsis':'Resumo'}}}
+        with patch.object(catalog,'fetch',new=AsyncMock(side_effect=[mapping,payload])) as fetch:
             result=await catalog.detail(item)
-        fetch.assert_awaited_once_with('https://api.jikan.moe/v4/anime/91/full')
+        self.assertEqual(fetch.await_args_list[1].args[0],catalog.KITSU_URL+'/anime/456')
         self.assertEqual(result['external_source'],'jikan')
         self.assertEqual(result['external_id'],'91')
+        self.assertEqual(result['details']['Kitsu ID'],'456')
         self.assertEqual(result['description'],'Resumo')
 
     async def test_tmdb_detail_enriches_director_and_cast(self):
@@ -102,9 +108,11 @@ class CatalogTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_recommendations_use_provider_data_without_extra_credentials(self):
         tmdb=catalog.media('tmdb','series','42','Série')
-        anime=catalog.media('jikan','anime','7','Anime')
+        anime=catalog.media('kitsu','anime','7','Anime')
         with patch.dict(os.environ,{'TMDB_READ_TOKEN':'test-only'}), patch.object(catalog,'fetch',new=AsyncMock(side_effect=[
-            {'results':[{'id':43,'name':'Outra série'}]}, {'data':[{'entry':{'mal_id':8,'title':'Outro anime','images':{}}}]}
+            {'results':[{'id':43,'name':'Outra série'}]},
+            {'data':[{'relationships':{'destination':{'data':{'type':'anime','id':'8'}}}}],
+             'included':[{'id':'8','type':'anime','attributes':{'canonicalTitle':'Outro anime'}}]}
         ])) as fetch:
             tv=await catalog.recommendations(tmdb)
             anime_results=await catalog.recommendations(anime)
