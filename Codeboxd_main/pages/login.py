@@ -248,6 +248,10 @@ def login_page() -> rx.Component:
                         rx.el.a("Criar conta", href="/cadastro", class_name="text-[#F5B300] hover:underline font-medium"),
                         class_name="flex items-center justify-between text-xs sm:text-[13px] pt-1",
                     ),
+                    rx.el.a("Esqueci minha senha", href="/redefinir-senha",
+                            class_name="block text-xs sm:text-[13px] text-[#F5B300] hover:underline"),
+                    rx.el.a("Acesso administrativo", href="/admin/login",
+                            class_name="block text-xs sm:text-[13px] text-[#9b8b50] hover:text-[#F5B300] hover:underline"),
                     rx.cond(
                         AuthState.error_message != "",
                         rx.el.p(AuthState.error_message, class_name="text-[13px] text-red-500 pt-1"),

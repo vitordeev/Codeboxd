@@ -5,6 +5,7 @@ table post {
     timestamp created_at?=now
     int user_id { table = "user" }
     int media_id? { table = "media" }
+    image image?
     text body filters=trim|min:1|max:5000
     bool spoiler?
     timestamp updated_at?=now

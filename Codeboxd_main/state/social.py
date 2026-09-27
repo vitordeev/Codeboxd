@@ -2,12 +2,21 @@
 import asyncio
 import json
 import re
-from urllib.parse import urlencode
+import uuid
+from pathlib import Path
+from urllib.parse import urlencode, urlsplit
 from datetime import datetime, timezone
 import reflex as rx
 from .session import SessionState
 from ..services import catalog
-from ..services.api import APIError, request, rows
+from ..services.api import APIError, base_url, request, rows
+from ..services.uploads import upload_file
+
+DEFAULT_MEDIA_LISTS = (
+    ('Quero ver / ler', 'Obras para descobrir depois.'),
+    ('Já assisti / li', 'Obras que você já terminou.'),
+)
+LEGACY_DEFAULT_LISTS = {'gostei', 'não gostei'}
 
 
 def present_media(m: dict) -> dict[str,str]:
@@ -53,7 +62,7 @@ class SocialState(SessionState):
     selected_spoiler: bool = False
     library: list[dict[str,str]] = []
     people: list[dict[str,str]] = []
-    profile: dict[str,str] = {'user_id':'','username':'','display_name':'','bio':'','avatar_url':''}
+    profile: dict[str,str] = {'user_id':'','username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
     profile_stats: str = ''
     profile_activity: list[dict[str,str]] = []
     followers: list[dict[str,str]] = []
@@ -67,19 +76,37 @@ class SocialState(SessionState):
     edit_post_body: str = ''
     edit_post_media: str = '0'
     edit_post_spoiler: bool = False
+    post_media_query: str = ''
+    post_media_searching: bool = False
+    post_media_results: list[dict[str,str]] = []
+    post_media_selected: dict[str,str] = {'id':'','key':'','title':'','cover':''}
+    post_image_filename: str = ''
+    post_image_mime: str = ''
+    post_existing_image_url: str = ''
     edit_comment_id: str = ''
     edit_comment_body: str = ''
     lists: list[dict[str,str]] = []
+    quick_lists: list[dict[str,str]] = []
     list_items: list[dict[str,str]] = []
     selected_list: dict[str,str] = {'id':'','title':'','description':'','user_id':'','is_public':'True'}
     _media: dict[str,dict] = {}
     _results: dict[str,dict] = {}
     _selected_raw: dict = {}
     _profiles: dict[str,dict] = {}
+    _post_media_candidates: dict[str,dict] = {}
+    _post_media_raw: dict = {}
+    _post_image_path: str = ''
     _identity: int = 0
     visible_count: int = 20
     post_editor_open: bool = False
+    post_saving: bool = False
     list_editor_open: bool = False
+    report_dialog_open: bool = False
+    report_target_type: str = ''
+    report_target_id: str = ''
+    report_reason: str = 'spam'
+    report_description: str = ''
+    report_sending: bool = False
 
     @rx.event
     def set_post_editor_open(self, value: bool):
@@ -136,6 +163,111 @@ class SocialState(SessionState):
         self.cancel_post()
         self.post_editor_open = True
 
+    @rx.event
+    def update_post_media_query(self, value: str):
+        self.post_media_query=value[:160]
+
+    @rx.event
+    async def search_post_media(self):
+        query=self.post_media_query.strip()
+        self.post_media_results=[]
+        self._post_media_candidates={}
+        if not query:
+            self.notice='Digite o nome de uma obra para pesquisar.'
+            return
+        self.post_media_searching=True
+        yield
+        try:
+            found,errors=await catalog.search(query,'all')
+            candidates={str(item.get('identity_key') or ''):item for item in found
+                        if item.get('identity_key')}
+            for item in self._media.values():
+                if catalog.title_score(query,item)>0:
+                    candidates[str(item.get('identity_key') or '')]=item
+            candidates.pop('',None)
+            self._post_media_candidates=candidates
+            ranked=catalog.relevant_results(query,list(candidates.values()))
+            self.post_media_results=[present_media(item) for item in ranked[:12]]
+            self.notice=' '.join(errors) or ('Nenhuma obra encontrada.' if not self.post_media_results else '')
+        except APIError as exc:
+            self.notice=str(exc)
+        finally:
+            self.post_media_searching=False
+
+    @rx.event
+    def select_post_media(self, key: str):
+        item=self._post_media_candidates.get(key)
+        if not item: return
+        self._post_media_raw=item
+        selected=present_media(item)
+        self.post_media_selected={k:selected[k] for k in ('id','key','title','cover')}
+        self.edit_post_media=str(item.get('id') or '0')
+        self.post_media_results=[]
+
+    @rx.event
+    def clear_post_media(self):
+        self._post_media_raw={}
+        self.post_media_selected={'id':'','key':'','title':'','cover':''}
+        self.edit_post_media='0'
+
+    async def _persist_post_media(self) -> int:
+        if not self._post_media_raw:
+            return 0
+        try:
+            media_id=int(self._post_media_raw.get('id') or 0)
+        except (TypeError,ValueError):
+            media_id=0
+        if media_id:
+            return media_id
+        payload={key:self._post_media_raw[key] for key in
+                 ('external_source','external_id','media_type','title','description','cover_url','year','details')}
+        result=await self._call('POST','/media',payload)
+        self._post_media_raw=result
+        selected=present_media(result)
+        self.post_media_selected={k:selected[k] for k in ('id','key','title','cover')}
+        return int(result['id'])
+
+    @rx.event
+    async def stage_post_image(self, files: list[rx.UploadFile]):
+        if not await self._require_user(): return rx.redirect('/login')
+        if len(files)!=1:
+            self.notice='Selecione uma imagem.'
+            return
+        content=await files[0].read()
+        if len(content)>5*1024*1024:
+            self.notice='A imagem deve ter no m\u00e1ximo 5 MB.'
+            return
+        signatures=((b'\x89PNG\r\n\x1a\n','png','image/png'),
+            (b'\xff\xd8\xff','jpg','image/jpeg'),(b'GIF87a','gif','image/gif'),
+            (b'GIF89a','gif','image/gif'),(b'RIFF','webp','image/webp'))
+        match=next(((ext,mime) for signature,ext,mime in signatures if content.startswith(signature)),None)
+        if match and match[0]=='webp' and content[8:12]!=b'WEBP': match=None
+        if not match:
+            self.notice='Envie uma imagem PNG, JPG, WEBP ou GIF v\u00e1lida.'
+            return
+        self._discard_post_upload()
+        extension,mime=match
+        relative=f'posts/staged-{uuid.uuid4().hex}.{extension}'
+        path=rx.get_upload_dir()/relative
+        path.parent.mkdir(parents=True,exist_ok=True)
+        path.write_bytes(content)
+        self._post_image_path=str(path)
+        self.post_image_filename=relative
+        self.post_image_mime=mime
+        self.notice='Imagem carregada. Ela ser\u00e1 salva junto com a publica\u00e7\u00e3o.'
+
+    def _discard_post_upload(self):
+        if self._post_image_path:
+            Path(self._post_image_path).unlink(missing_ok=True)
+        self._post_image_path=''
+        self.post_image_filename=''
+        self.post_image_mime=''
+
+    @rx.event
+    def remove_post_image(self):
+        self._discard_post_upload()
+        self.notice='Imagem removida do rascunho.'
+
     @rx.var
     def suggested_people(self) -> list[dict[str,str]]:
         return [p for p in self.people if p['user_id'] != str(self.user_id)][:5]
@@ -175,15 +307,21 @@ class SocialState(SessionState):
             self.busy=False
 
     def _reset_personal(self):
+        self._discard_post_upload()
         self.post_editor_open=False; self.list_editor_open=False
-        self.library=[]; self.posts=[]; self.comments=[]; self.lists=[]; self.list_items=[]
+        self.report_dialog_open=False; self.report_target_type=''; self.report_target_id=''
+        self.report_reason='spam'; self.report_description=''; self.report_sending=False
+        self.library=[]; self.posts=[]; self.comments=[]; self.lists=[]; self.quick_lists=[]; self.list_items=[]
         self.following_ids=[]; self.liked_posts=[]; self.selected_post=''
         self.edit_post_id=''; self.edit_post_body=''; self.edit_post_media='0'; self.edit_post_spoiler=False
+        self.post_media_query=''; self.post_media_results=[]; self._post_media_candidates={}; self._post_media_raw={}
+        self.post_media_selected={'id':'','key':'','title':'','cover':''}
+        self.post_existing_image_url=''
         self.edit_comment_id=''; self.edit_comment_body=''
         self.selected_review=''; self.selected_rating='0'; self.selected_status='planned'; self.selected_spoiler=False
         self.trailers=[]
         self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'True'}
-        self.profile={'user_id':'','username':'','display_name':'','bio':'','avatar_url':''}
+        self.profile={'user_id':'','username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
         self.profile_activity=[]; self.profile_stats=''; self.followers=[]; self.following=[]
 
     async def _validate_session(self) -> bool:
@@ -414,14 +552,15 @@ class SocialState(SessionState):
         item=catalog.media(str(params.get('external_source','')),str(params.get('media_type','')),
                            str(params.get('external_id','')),'Sem título')
         try:
-            detail_result,_=await asyncio.gather(catalog.detail(item),self._validate_session(),return_exceptions=True)
+            detail_result,authenticated=await asyncio.gather(catalog.detail(item),self._validate_session(),return_exceptions=True)
             if isinstance(detail_result,APIError): raise detail_result
             if isinstance(detail_result,Exception):
                 raise APIError('A fonte de catálogo está indisponível no momento.') from detail_result
             self._selected_raw=detail_result
             self.selected=present_media(self._selected_raw)
             self._restore_guest_rating()
-            await asyncio.gather(self._load_trailers(),self._load_availability(),self._load_recommendations(),self._load_community_reviews())
+            await asyncio.gather(self._prepare_default_lists(authenticated is True),self._load_trailers(),
+                self._load_availability(),self._load_recommendations(),self._load_community_reviews())
         except APIError as exc: self._failure(exc)
 
     @rx.event
@@ -440,7 +579,8 @@ class SocialState(SessionState):
                 self._call('GET',f'/media/{identifier}'),self._validate_session())
             self.selected=present_media(self._selected_raw)
             await asyncio.gather(self._load_trailers(),self._load_availability(),self._load_recommendations(),
-                self._load_community_reviews(),self._load_personal_interaction(str(identifier),authenticated))
+                self._load_community_reviews(),self._load_personal_interaction(str(identifier),authenticated),
+                self._prepare_default_lists(authenticated))
         except APIError as exc:
             self.selected={'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}; self._failure(exc)
 
@@ -479,6 +619,37 @@ class SocialState(SessionState):
         self._selected_raw=result; self.selected=present_media(result)
         return int(result['id'])
 
+    async def _ensure_default_lists(self):
+        """Create the four built-in lists for legacy accounts when first viewing an item."""
+        existing=rows(await self._call('GET','/lists'))
+        by_title={str(item.get('title') or '').casefold():item for item in existing}
+        for old in existing:
+            old_title=str(old.get('title') or '').casefold()
+            if old_title in LEGACY_DEFAULT_LISTS:
+                old_items=rows(await self._call('GET',f"/lists/{int(old['id'])}/items"))
+                if not old_items:
+                    await self._call('DELETE',f"/lists/{int(old['id'])}")
+                    if by_title.get(old_title,{}).get('id')==old.get('id'):
+                        by_title.pop(old_title,None)
+        for title,description in DEFAULT_MEDIA_LISTS:
+            if title.casefold() not in by_title:
+                result=await self._call('POST','/lists',dict(
+                    title=title,description=description,is_public=True))
+                if not isinstance(result,dict) or not result.get('id'):
+                    raise APIError('Não foi possível preparar suas listas padrão.')
+                by_title[title.casefold()]=result
+        self.quick_lists=[dict(id=str(by_title[title.casefold()]['id']),title=title)
+                          for title,_ in DEFAULT_MEDIA_LISTS]
+
+    async def _prepare_default_lists(self, authenticated: bool):
+        self.quick_lists=[]
+        if not authenticated and not (self.user_id>0 and self._token()):
+            return
+        try:
+            await self._ensure_default_lists()
+        except APIError as exc:
+            self._failure(exc)
+
     @rx.event
     async def save_interaction(self, form: dict):
         if not await self._require_user(): return rx.redirect('/login')
@@ -496,18 +667,24 @@ class SocialState(SessionState):
         except APIError as exc: self._failure(exc)
 
     @rx.event
-    async def quick_add(self, status: str, rating: float = 0):
+    async def quick_add(self, status: str, rating: float = 0, list_title: str = ''):
         if not await self._require_user(): return rx.redirect('/login')
         if status not in ('planned','completed') or not 0<=rating<=5:
             self.notice='Ação inválida.'
             return
+        if list_title not in {title for title,_ in DEFAULT_MEDIA_LISTS}:
+            self.notice='Escolha uma lista válida.'
+            return
         try:
+            await self._ensure_default_lists()
             mid=await self._persist_selected()
             await self._call('PUT','/interactions',dict(media_id=mid,status=status,rating=rating,
                 review=self.selected_review,spoiler=self.selected_spoiler))
+            target=next(item for item in self.quick_lists if item['title']==list_title)
+            await self._call('POST',f"/lists/{int(target['id'])}/items",{'media_id':mid})
             self.selected_status=status
             if rating: self.selected_rating=str(rating)
-            self.notice='Obra adicionada à sua biblioteca.'
+            self.notice=f'“{self.selected["title"]}” adicionada à lista {list_title}.'
         except APIError as exc: self._failure(exc)
 
     @rx.event
@@ -539,7 +716,7 @@ class SocialState(SessionState):
         route_id=self.router.url.path.rstrip('/').rsplit('/',1)[-1]
         uid=str(route_id if route_id.isdigit() else self.user_id)
         if not uid.isdigit() or int(uid)==0: return rx.redirect('/login')
-        self.profile={'user_id':uid,'username':'','display_name':'','bio':'','avatar_url':''}
+        self.profile={'user_id':uid,'username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
         try:
             await self._load_reference(); data=await self._call('GET',f'/profiles/{uid}')
             self.profile={k:str(v or '') for k,v in data['profile'].items()}
@@ -565,9 +742,42 @@ class SocialState(SessionState):
         if avatar and not catalog.safe_url(avatar): self.notice='Use uma URL HTTPS para a foto.'; return
         try:
             result=await self._call('PUT','/profile',dict(username=username,display_name=str(form.get('display_name','')).strip(),
-                bio=str(form.get('bio','')).strip(),avatar_url=avatar))
+                bio=str(form.get('bio','')).strip(),avatar_url=avatar,banner_url=self.profile.get('banner_url','')))
             self.profile={k:str(v or '') for k,v in result.items()}; self.user_name=username; self.notice='Perfil atualizado.'
         except APIError as exc: self._failure(exc)
+
+    @rx.event
+    async def upload_profile_banner(self, files: list[rx.UploadFile]):
+        """Save a validated profile banner and persist its public upload URL."""
+        if not await self._require_user(): return rx.redirect('/login')
+        if not self.owns_profile:
+            self.notice='Somente o dono do perfil pode trocar o banner.'; return
+        if len(files) != 1:
+            self.notice='Selecione uma imagem para o banner.'; return
+        file=files[0]
+        content=await file.read()
+        if len(content)>5*1024*1024:
+            self.notice='A imagem deve ter no máximo 5 MB.'; return
+        signatures=((b'\x89PNG\r\n\x1a\n','png'),(b'\xff\xd8\xff','jpg'),
+                    (b'RIFF','webp'),(b'GIF87a','gif'),(b'GIF89a','gif'))
+        extension=next((ext for signature,ext in signatures if content.startswith(signature)),None)
+        if extension=='webp' and content[8:12]!=b'WEBP': extension=None
+        if not extension:
+            self.notice='Envie uma imagem PNG, JPG, WEBP ou GIF válida.'; return
+        relative=f'profiles/{self.user_id}/banner-{uuid.uuid4().hex}.{extension}'
+        path=rx.get_upload_dir()/relative
+        path.parent.mkdir(parents=True,exist_ok=True)
+        path.write_bytes(content)
+        banner_url=rx.get_upload_url(relative)
+        try:
+            result=await self._call('PUT','/profile',dict(username=self.profile['username'],
+                display_name=self.profile['display_name'],bio=self.profile['bio'],
+                avatar_url=self.profile['avatar_url'],banner_url=banner_url))
+            self.profile={k:str(v or '') for k,v in result.items()}
+            self.notice='Banner atualizado.'
+        except APIError as exc:
+            path.unlink(missing_ok=True)
+            self._failure(exc)
 
     @rx.event
     async def follow(self, uid: str):
@@ -593,11 +803,29 @@ class SocialState(SessionState):
             # Older workspaces have no /likes route. Resolve like state only
             # when a user opens a discussion or taps its like button.
             self.liked_posts=[]
-        for p in sorted(combined.values(),key=lambda x:x.get('created_at',0),reverse=True):
+        def post_timestamp(post):
+            value=post.get('created_at') or 0
+            try:
+                return float(value.timestamp()) if hasattr(value,'timestamp') else float(value)
+            except (TypeError,ValueError):
+                return 0.0
+        for p in sorted(combined.values(),key=post_timestamp,reverse=True):
             person=self._person(p['user_id']); m=self._media.get(str(p.get('media_id')), {})
+            timestamp=post_timestamp(p)
+            # Xano timestamps are milliseconds; accept seconds from legacy fixtures/workspaces too.
+            published=datetime.fromtimestamp(timestamp / (1000 if timestamp > 10_000_000_000 else 1),tz=timezone.utc)
+            image=p.get('image') or p.get('image_url') or p.get('image_file') or ''
+            if isinstance(image,dict):
+                image=image.get('url') or image.get('path') or image.get('file') or ''
+                if isinstance(image,dict):
+                    image=image.get('url') or image.get('path') or ''
+            if isinstance(image,str) and (image.startswith('/') or image.startswith('vault/')):
+                endpoint=urlsplit(base_url('social'))
+                image=f'{endpoint.scheme}://{endpoint.netloc}/'+image.lstrip('/')
             self.posts.append(dict(id=str(p['id']),user_id=str(p['user_id']),author=person['display_name'],
                 avatar=person['avatar_url'],media_cover=catalog.safe_url(m.get('cover_url')),
-                body=p['body'],published_at=datetime.fromtimestamp(p.get('created_at',0)/1000,tz=timezone.utc).strftime('%d/%m/%Y'),spoiler=str(bool(p.get('spoiler'))),media_id=str(p.get('media_id') or 0),media_title=m.get('title','')))
+                body=str(p.get('body') or ''),published_at=published.strftime('%d/%m/%Y'),spoiler=str(bool(p.get('spoiler'))),media_id=str(p.get('media_id') or 0),media_title=m.get('title',''),
+                image_url=catalog.safe_url(image),likes_count=str(p.get('likes_count','')),comments_count=str(p.get('comments_count',''))))
 
     @rx.event
     async def load_feed(self):
@@ -612,21 +840,49 @@ class SocialState(SessionState):
             if p['id']==pid and p['user_id']==str(self.user_id):
                 self.post_editor_open=True
                 self.edit_post_id=pid; self.edit_post_body=p['body']; self.edit_post_media=p['media_id']; self.edit_post_spoiler=p['spoiler']=='True'
+                self._post_media_raw=self._media.get(p['media_id'],{}) if p['media_id']!='0' else {}
+                if self._post_media_raw:
+                    item=present_media(self._post_media_raw)
+                    self.post_media_selected={k:item[k] for k in ('id','key','title','cover')}
+                else:
+                    self.post_media_selected={'id':'','key':'','title':'','cover':''}
+                self.post_existing_image_url=p.get('image_url','')
 
     @rx.event
     def cancel_post(self):
         self.post_editor_open=False
         self.edit_post_id=''; self.edit_post_body=''; self.edit_post_media='0'; self.edit_post_spoiler=False
+        self.post_media_query=''; self.post_media_results=[]; self.post_media_searching=False
+        self._post_media_candidates={}; self._post_media_raw={}
+        self.post_media_selected={'id':'','key':'','title':'','cover':''}
+        self.post_existing_image_url=''
+        self._discard_post_upload()
 
     @rx.event
     async def save_post(self, form: dict):
-        if not await self._require_user(): return rx.redirect('/login')
+        if self.post_saving: return
+        self.post_saving=True
+        yield
         try:
-            payload=dict(body=str(form.get('body','')).strip(),media_id=int(form.get('media_id') or 0),spoiler=form.get('spoiler')=='on')
-            await self._call('PUT' if self.edit_post_id else 'POST','/posts'+('/'+self.edit_post_id if self.edit_post_id else ''),payload)
+            if not await self._require_user():
+                yield rx.redirect('/login')
+                return
+            media_id=await self._persist_post_media()
+            method='PUT' if self.edit_post_id else 'POST'
+            path='/posts'+('/'+self.edit_post_id if self.edit_post_id else '')
+            payload=dict(body=str(form.get('body','')).strip(),media_id=media_id,spoiler=form.get('spoiler')=='on')
+            if self._post_image_path:
+                image_path=Path(self._post_image_path)
+                form_data={key:str(value).lower() if isinstance(value,bool) else str(value)
+                           for key,value in payload.items()}
+                await upload_file(path,method=method,token=self._token(),data=form_data,field='image',
+                    filename=image_path.name,content=image_path.read_bytes(),mime=self.post_image_mime)
+            else:
+                await self._call(method,path,payload)
             self.cancel_post(); await self._refresh_posts(); self.notice='Publicação salva.'
         except (ValueError,TypeError): self.notice='Selecione uma obra válida.'
         except APIError as exc: self._failure(exc)
+        finally: self.post_saving=False
 
     @rx.event
     async def remove_post(self, pid: str):
@@ -637,6 +893,66 @@ class SocialState(SessionState):
         except APIError as exc: self._failure(exc)
 
     @rx.event
+    def open_report(self, target_type: str, target_id: str):
+        if not self.is_authenticated:
+            return rx.redirect('/login')
+        if target_type not in ('post', 'comment', 'profile', 'media') or not str(target_id).strip():
+            self.notice = 'Este conteúdo não pode ser denunciado.'
+            return
+        self.report_target_type = target_type
+        self.report_target_id = str(target_id)
+        self.report_reason = 'spam'
+        self.report_description = ''
+        self.report_dialog_open = True
+
+    @rx.event
+    def close_report(self):
+        if not self.report_sending:
+            self.report_dialog_open = False
+            self.report_target_type = ''
+            self.report_target_id = ''
+            self.report_description = ''
+
+    @rx.event
+    def set_report_reason(self, value: str):
+        if value in ('spam', 'harassment', 'inappropriate', 'other'):
+            self.report_reason = value
+
+    @rx.event
+    def set_report_description(self, value: str):
+        self.report_description = value[:2000]
+
+    @rx.event
+    async def submit_report(self, form: dict):
+        if self.report_sending or not self.report_target_type or not self.report_target_id:
+            return
+        reason = str(form.get('reason', self.report_reason))
+        description = str(form.get('description', self.report_description)).strip()[:2000]
+        if reason not in ('spam', 'harassment', 'inappropriate', 'other'):
+            self.notice = 'Selecione um motivo válido.'
+            return
+        self.report_sending = True
+        self.notice = ''
+        yield
+        try:
+            if not await self._require_user():
+                yield rx.redirect('/login')
+                return
+            await self._call('POST', '/reports', data={
+                'target_type': self.report_target_type,
+                'target_id': self.report_target_id,
+                'reason': reason,
+                'description': description or None,
+            }, paginate=False)
+            self.report_sending = False
+            self.close_report()
+            self.notice = 'Report enviado para análise. O conteúdo não foi alterado.'
+        except APIError as exc:
+            self._failure(exc)
+        finally:
+            self.report_sending = False
+
+    @rx.event
     async def discussion(self, pid: str):
         if self.selected_post!=pid:
             self.edit_comment_id=''; self.edit_comment_body=''
@@ -644,11 +960,23 @@ class SocialState(SessionState):
         try:
             data=await self._call('GET',f'/posts/{int(pid)}/discussion'); self.selected_post=pid
             self.comments=[dict(id=str(c['id']),user_id=str(c['user_id']),body=c['body'],author=self._person(c['user_id'])['display_name']) for c in data['comments']]
+            self._set_post_counts(pid, len(data['likes']), len(data['comments']))
             if any(l['user_id']==self.user_id for l in data['likes']):
                 if pid not in self.liked_posts: self.liked_posts.append(pid)
             elif pid in self.liked_posts: self.liked_posts.remove(pid)
             self.notice=f"{len(data['likes'])} curtidas · {len(data['comments'])} comentários"
         except APIError as exc: self._failure(exc)
+
+    def _set_post_counts(self, pid: str, likes: int, comments: int):
+        self.posts=[dict(post, likes_count=str(likes), comments_count=str(comments))
+                    if post['id']==pid else post for post in self.posts]
+
+    @rx.event
+    def close_discussion(self):
+        self.selected_post=''
+        self.comments=[]
+        self.edit_comment_id=''
+        self.edit_comment_body=''
 
     @rx.event
     async def like(self, pid: str):
@@ -662,6 +990,7 @@ class SocialState(SessionState):
             elif pid not in self.liked_posts:
                 self.liked_posts.append(pid)
             count=len(data['likes'])-int(already_liked)+int(not already_liked)
+            self._set_post_counts(pid, count, len(data['comments']))
             self.notice=f'{count} curtidas Â· {len(data["comments"])} comentÃ¡rios'
         except APIError as exc: self._failure(exc)
 
@@ -673,9 +1002,13 @@ class SocialState(SessionState):
     @rx.event
     async def save_comment(self, form: dict):
         if not await self._require_user(): return rx.redirect('/login')
+        body=str(form.get('body','')).strip()
+        if not body:
+            self.notice='Escreva um comentÃ¡rio antes de salvar.'
+            return
         try:
             await self._call('PUT' if self.edit_comment_id else 'POST','/comments'+('/'+self.edit_comment_id if self.edit_comment_id else ''),
-                dict(post_id=int(self.selected_post),body=str(form.get('body','')).strip()))
+                dict(post_id=int(self.selected_post),body=body))
             self.edit_comment_id=''; self.edit_comment_body=''; await self.discussion(self.selected_post)
         except (ValueError,TypeError): self.notice='Escolha uma publicação.'
         except APIError as exc: self._failure(exc)
@@ -693,6 +1026,7 @@ class SocialState(SessionState):
         await self._validate_session()
         try:
             await self._load_reference()
+            if self.user_id: await self._ensure_default_lists()
             public=rows(await self._call('GET','/lists/public'))
             own=rows(await self._call('GET','/lists')) if self.user_id else []
             combined={str(i['id']):i for i in public+own}
