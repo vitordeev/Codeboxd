@@ -1,0 +1,15 @@
+﻿from playwright.sync_api import sync_playwright
+with sync_playwright() as p:
+ b=p.chromium.launch(channel='msedge',headless=True); page=b.new_page(); page.set_default_timeout(20000)
+ page.goto('http://localhost:3001/')
+ page.get_by_text('Preparando seu conteudo...',exact=True).wait_for(state='hidden')
+ page.locator('input[name=query]').fill('Interestelar')
+ page.locator('input[name=kind][value=movie]').check()
+ page.get_by_role('button',name='Buscar',exact=True).click()
+ page.get_by_role('heading',name='Resultados da busca').wait_for()
+ card=page.locator('button.media-card').first; title=card.locator('h3').inner_text(); print('search',title,flush=True)
+ card.click(); page.wait_for_url('**/obra?*'); print('url',page.url,flush=True)
+ page.wait_for_timeout(4000)
+ print('detail',page.locator('.media-hero h2').inner_text() if page.locator('.media-hero h2').count() else 'none',flush=True)
+ print('notice',page.locator('[role=status]').all_inner_texts(),flush=True)
+ page.screenshot(path='.local/search-detail-debug.png',full_page=True); b.close()

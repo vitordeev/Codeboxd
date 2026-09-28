@@ -1,0 +1,12 @@
+[
+  "Published social API responds",
+  "Two real accounts: signup, login and verified identity",
+  "Duplicate account rejected",
+  "Public profile, privacy and backend username validation",
+  "Media persistence and deduplication",
+  "Independent interactions, invalid rating and anonymous write rejection",
+  "Follow, feed and post ownership",
+  "Like deduplication, unlike and comment ownership",
+  "List privacy, ownership, visibility and deduplication",
+  "Post/list deletion and unfollow"
+]
