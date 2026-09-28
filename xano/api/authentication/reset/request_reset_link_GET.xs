@@ -16,21 +16,12 @@ query "reset/request-reset-link" verb=GET {
     precondition ($token_and_email != null) {
       error = "Magic link could not be created. Try again."
     }
-  
-    // Create a variable with the API base URL
-    var $api_base_url {
-      value = $env.$api_baseurl
+
+    var $reset_code {
+      value = $token_and_email.token
     }
   
-    // Create magic link
-    var $magic_link {
-      value = $api_base_url
-        |concat:"1_start_here_demo_page#/update-password":"/"
-        |concat:$token_and_email.token:"?magic_token="
-        |concat:$token_and_email.email:""
-    }
-  
-    // Create HTML message to include magic reset password link
+    // Send the one-time credential as a code for the CodeBoxd reset form.
     util.template_engine {
       value = """
         <!DOCTYPE html>
@@ -38,36 +29,35 @@ query "reset/request-reset-link" verb=GET {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>Password Reset</title>
+          <title>Redefinir senha do CodeBoxd</title>
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px;">
-            <h2>Password Reset Request</h2>
-            <p>Hello,</p>
-            <p>We received a request to reset your password. To proceed, please click the link below:</p>
-            <p style="text-align: center; margin: 30px 0;">
-              <a href="{{ $var.magic_link }}" style="display: inline-block; padding: 12px 25px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: 16px;">
-                Reset Your Password
-              </a>
+            <h2>Redefinição de senha</h2>
+            <p>Recebemos um pedido para redefinir a senha da sua conta CodeBoxd.</p>
+            <p>Na página de redefinição, informe este código:</p>
+            <p style="text-align: center; margin: 30px 0; padding: 18px; background: #080808; color: #f5b300; font-size: 24px; font-weight: bold; letter-spacing: 2px;">
+              {{ $var.reset_code }}
             </p>
-            <p>If you did not request a password reset, please ignore this email.</p>
-            <p>Thank you.</p>
+            <p>O código expira em 60 minutos e só pode ser usado uma vez. Se você não pediu a redefinição, ignore esta mensagem.</p>
+            <p>CodeBoxd</p>
           </div>
         </body>
         </html>
         """
     } as $message
   
-    // Send email with password reset link
+    // Send the password reset code
     util.send_email {
       service_provider = "xano"
-      subject = "Your password reset request"
+      to = $token_and_email.email
+      subject = "Código para redefinir sua senha do CodeBoxd"
       message = $message
     } as $send_email
   }
 
   response = {
-    message: {}|set:"success":true|set:"message":"magic link sent"
+    message: {}|set:"success":true|set:"message":"reset code sent"
   }
 
   tags = ["xano:quick-start"]

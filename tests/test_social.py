@@ -89,9 +89,33 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         with patch('Codeboxd_main.state.social.request',new=AsyncMock()) as request:
             self.assertTrue(s.new_post())
             await s.follow('2')
-            await s.save_post({'body':'Not public','media_id':'0'})
+            async for _ in s.save_post({'body':'Not public','media_id':'0'}):
+                pass
         request.assert_not_awaited()
         self.assertFalse(s.post_editor_open)
+
+    async def test_guest_cannot_open_report_form(self):
+        result = self.state.open_report('post', '15')
+        self.assertFalse(self.state.report_dialog_open)
+        payload = {str(key): str(value) for key, value in result.args}
+        self.assertEqual(payload['path'], '"/login"')
+
+    async def test_report_submission_uses_authenticated_target_without_client_snapshot(self):
+        s = self.state
+        s.session_token = 'member-token'; s.user_id = 4; s._identity = 4
+        s.open_report('post', '15')
+        with patch('Codeboxd_main.state.session.request',
+                   new=AsyncMock(return_value={'id': 4, 'role': 'member'})), \
+             patch('Codeboxd_main.state.social.request', new=AsyncMock(return_value={'id': 8, 'status': 'pending'})) as request:
+            async for _ in s.submit_report({'reason': 'harassment', 'description': 'Repeated unwanted contact'}):
+                pass
+
+        request.assert_awaited_once_with('POST', '/reports', token='member-token', params=None, data={
+            'target_type': 'post', 'target_id': '15', 'reason': 'harassment',
+            'description': 'Repeated unwanted contact',
+        })
+        self.assertFalse(s.report_dialog_open)
+        self.assertEqual(s.notice, 'Report enviado para análise. O conteúdo não foi alterado.')
 
     async def test_in_progress_and_dropped_statuses_and_review_updates_replace_saved_values(self):
         s=self.state

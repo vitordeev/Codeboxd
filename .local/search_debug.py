@@ -1,0 +1,15 @@
+﻿from playwright.sync_api import sync_playwright
+with sync_playwright() as p:
+ b=p.chromium.launch(channel='msedge',headless=True)
+ page=b.new_page()
+ page.goto('http://localhost:3001/')
+ page.get_by_text('Preparando seu conteudo...',exact=True).wait_for(state='hidden')
+ page.locator('input[name=query]').fill('Interestelar')
+ print('pre-submit',page.locator('input[name=query]').input_value(),flush=True)
+ page.get_by_role('button',name='Buscar',exact=True).click()
+ page.wait_for_timeout(8000)
+ print('post-submit input',page.locator('input[name=query]').input_value(),flush=True)
+ print('featured',page.locator('.featured-grid').count(),flush=True)
+ for i in range(page.locator('.catalog-grid').count()): print('grid',i,page.locator('.catalog-grid').nth(i).inner_text()[:150],flush=True)
+ page.screenshot(path='.local/search-debug.png',full_page=True)
+ b.close()
