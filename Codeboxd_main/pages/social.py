@@ -8,6 +8,7 @@ class CoverImage(Img):
     on_error: rx.EventHandler[lambda: []]
 
 from ..state.social import SocialState as S
+from ..services.catalog import HOME_COLLECTIONS
 from .login import _logo_icon
 
 INPUT = 'w-full rounded-xl border border-white/15 bg-[#151719] px-4 py-3 text-white'
@@ -34,8 +35,8 @@ def check(label, name, checked=False):
                        class_name='flex gap-2 items-center text-sm')
 
 
-def submit(label):
-    return rx.el.button(label, type='submit', class_name=BUTTON)
+def submit(label, **props):
+    return rx.el.button(label, type='submit', class_name=BUTTON, **props)
 
 
 def confirm(label, action):
@@ -44,9 +45,10 @@ def confirm(label, action):
         rx.alert_dialog.content(
             rx.alert_dialog.title(label+'?'),
             rx.alert_dialog.description('Esta ação remove o conteúdo. Deseja continuar?'),
-            rx.flex(rx.alert_dialog.cancel(rx.button('Cancelar', variant='soft')),
+            rx.flex(rx.alert_dialog.cancel(rx.button('Cancelar', variant='soft', class_name='confirm-cancel-button')),
                     rx.alert_dialog.action(rx.button('Confirmar exclusão', on_click=action, color_scheme='red')),
-                    gap='3', justify='end', margin_top='20px'), class_name='codeboxd-dialog'))
+                    gap='3', justify='end', margin_top='20px', class_name='confirm-dialog-actions'),
+            class_name='codeboxd-dialog confirm-dialog'))
 
 
 def avatar(url, name):
@@ -89,8 +91,11 @@ def shell(title, subtitle, *children):
 
 def cover_image(m):
     return rx.el.div(
-        rx.el.div(rx.icon('clapperboard', size=36), rx.el.span('Capa indisponível'),
-                  class_name='cover-placeholder'),
+        rx.el.div(
+            rx.el.span('CODEBOXD', class_name='cover-placeholder-brand'),
+            rx.el.div(rx.el.span('Capa indisponível', class_name='cover-placeholder-label'),
+                      class_name='cover-placeholder-copy'),
+            class_name='cover-placeholder', aria_hidden=True),
         rx.cond((m['cover'] != '') & ~S.failed_covers.contains(m['cover']),
             CoverImage.create(src=m['cover'], alt=m['title'], loading='lazy', decoding='async',
                       width='100%', height='100%', on_error=S.cover_failed(m['cover']), class_name='media-cover')),
@@ -113,18 +118,65 @@ def grid(items, render, empty):
         rx.el.p(empty,class_name='p-8 border border-dashed border-white/15 rounded-2xl text-gray-400'))
 
 
+def shelf_arrow(shelf_id, title, direction):
+    # IDs and directions are constants defined here, never user input.
+    script = """(() => { const row = document.getElementById('%s');
+        if (row) row.scrollBy({left: row.clientWidth * .85 * %d,
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); })()""" % (shelf_id, direction)
+    return rx.el.button(rx.icon('chevron-left' if direction < 0 else 'chevron-right', size=19),
+        type='button', on_click=rx.call_script(script), class_name='shelf-arrow',
+        aria_label=('Anteriores: ' if direction < 0 else 'Próximos: ') + title,
+        aria_controls=shelf_id)
+
+
+def catalog_shelf(title, subtitle, items, kind, shelf_id, footer=None):
+    def card(m, index):
+        return rx.el.button(
+            rx.el.div(cover_image(m),
+                class_name='shelf-poster'),
+            rx.el.div(rx.el.h3(m['title'], class_name='shelf-card-title'),
+                rx.el.p(m['kind'] + ' · ' + m['year'], class_name='shelf-card-meta'), class_name='shelf-card-copy'),
+            type='button', on_click=S.open_featured(m['source'],m['external_id'],kind),
+            class_name='shelf-card', key=m['key'])
+    return rx.el.section(
+        rx.el.div(rx.el.div(rx.el.h3(title,id=shelf_id+'-heading',class_name='shelf-title'),
+            rx.el.p(subtitle,class_name='shelf-subtitle')),
+            rx.el.div(shelf_arrow(shelf_id,title,-1),shelf_arrow(shelf_id,title,1),class_name='shelf-controls'),
+            class_name='catalog-shelf-heading'),
+        rx.el.div(rx.foreach(items,card),id=shelf_id,class_name='catalog-rail',
+            role='region',aria_label=title,tab_index=0),
+        footer if footer is not None else rx.fragment(),
+        class_name='catalog-shelf',aria_labelledby=shelf_id+'-heading')
+
+
 def popular_section(title, items, kind):
-    return rx.cond(items.length()>0,rx.el.section(
-        rx.el.h2(title,class_name='section-title'),
-        rx.el.div(rx.foreach(items,lambda m:rx.el.button(
-            cover_image(m),
-            rx.el.div(rx.el.h3(m['title'],class_name='font-semibold line-clamp-2'),rx.el.p(m['year'],class_name='text-sm text-gray-400'),class_name='p-4'),
-            on_click=S.open_featured(m['source'],m['external_id'],kind),class_name='media-card text-left',type='button')),
-            class_name='catalog-grid popular-grid'),
-        rx.cond(~S.popular_exhausted.contains(kind),
-            button('Carregar mais filmes' if kind == 'movie' else 'Carregar mais s\u00e9ries',
-                   S.more_popular(kind),disabled=S.busy)),
-        class_name='space-y-6'))
+    return rx.cond(items.length()>0,catalog_shelf(title,
+        'Os títulos em alta no TMDB. Encontre o seu próximo favorito.',items,kind,'popular-'+kind,
+        footer=rx.cond(~S.popular_exhausted.contains(kind),
+            rx.el.button('Carregar mais filmes' if kind=='movie' else 'Carregar mais séries',
+                on_click=S.more_popular(kind),type='button',disabled=S.busy,class_name='shelf-more'))))
+
+
+def collection_section(key):
+    kind,title,subtitle,_ = HOME_COLLECTIONS[key]
+    return rx.cond(S.home_collections[key].length()>0,
+        catalog_shelf(title,subtitle,S.home_collections[key],kind,key),
+        rx.el.section(rx.el.h3(title,class_name='shelf-title'),
+            rx.cond(~S.home_loaded,
+                rx.el.div(*[rx.el.div(class_name='shelf-skeleton') for _ in range(6)],
+                    class_name='catalog-rail',aria_hidden=True),
+                rx.el.div(rx.el.p(rx.cond(S.home_collection_errors.contains(key),
+                    'Esta seleção está indisponível no momento.', 'Ainda não há títulos nesta seleção.')),
+                    rx.el.button('Tentar novamente',on_click=S.retry_home_collections,
+                        type='button',disabled=S.busy,class_name='quiet-button'),class_name='shelf-empty')),
+            class_name='catalog-shelf'))
+
+
+def catalog_group(anchor, label, description, icon, *shelves):
+    return rx.el.section(
+        rx.el.div(rx.el.div(rx.icon(icon,size=22),rx.el.span(label),class_name='catalog-group-label'),
+            rx.el.h2(description,class_name='catalog-group-title'),class_name='catalog-group-heading'),
+        *shelves,id=anchor,class_name='catalog-group')
 
 
 def discovery_page():
@@ -139,13 +191,23 @@ def discovery_page():
             class_name='browse-category') for value,label in
             [('all','Todos'),('movie','Filmes'),('anime','Animes'),('series','Séries'),('book','Livros')]],
             class_name='category-filters',aria_label='Explorar categorias'),
+        rx.cond(S.search_active,rx.el.button(rx.icon('arrow-left',size=16),'Voltar aos destaques',
+            type='button',on_click=S.show_home_catalog,class_name='quiet-button')),
         rx.cond(~S.search_active & (S.featured_items.length()>0),
-            rx.el.div(rx.foreach(S.featured_items,lambda m:rx.el.article(
-                rx.el.img(src=rx.cond(m['backdrop'] != '',m['backdrop'],m['cover']),alt='',class_name='featured-image'),
-                rx.el.div(rx.el.p('EM DESTAQUE',class_name='eyebrow'),rx.el.h2(m['title'],class_name='text-2xl font-bold'),
-                    rx.el.p(m['description'],class_name='line-clamp-2 text-sm text-gray-300'),
-                    button('Ver detalhes',S.open_featured(m['source'],m['external_id'],'movie')),class_name='featured-content'),
-                class_name='featured-card')),class_name='featured-grid')),
+            rx.el.div(rx.foreach(S.featured_items[:1],lambda m:rx.el.article(
+                rx.cond(((m['backdrop'] != '') & ~S.failed_covers.contains(m['backdrop'])) |
+                        ((m['cover'] != '') & ~S.failed_covers.contains(m['cover'])),
+                    CoverImage.create(src=rx.cond((m['backdrop'] != '') & ~S.failed_covers.contains(m['backdrop']),m['backdrop'],m['cover']),
+                        alt='',class_name='spotlight-image',
+                        on_error=S.cover_failed(rx.cond((m['backdrop'] != '') & ~S.failed_covers.contains(m['backdrop']),m['backdrop'],m['cover'])))),
+                rx.el.div(rx.el.p('HOJE NO SEU RADAR',class_name='eyebrow'),
+                    rx.el.p('Uma pausa. Uma grande história.',class_name='spotlight-kicker'),
+                    rx.el.h2(m['title'],class_name='spotlight-title'),
+                    rx.el.p(m['kind']+' · '+m['year'],class_name='spotlight-meta'),
+                    rx.el.p(m['description'],class_name='spotlight-description'),
+                    rx.el.div(button('Conhecer este filme',S.open_featured(m['source'],m['external_id'],'movie')),
+                        rx.el.a('Explorar catálogo',href='#home-filmes',class_name='spotlight-secondary'),class_name='spotlight-actions'),
+                    class_name='spotlight-copy'),class_name='home-spotlight')),class_name='spotlight-wrapper')),
         rx.cond(S.search_active,
             rx.el.section(rx.el.h2(rx.cond(S.submitted_query != '', 'Resultados da busca', 'Explorar catálogo'),class_name='section-title'),
                 rx.el.div(rx.foreach(S.search_results,lambda m:media_card(m,True)),class_name='catalog-grid')),
@@ -158,10 +220,27 @@ def discovery_page():
                 rx.el.img(src='/mascot.png',alt='Mascote Codeboxd com uma lupa e um rolo de filme',class_name='hero-mascot'),
                 class_name='discovery-hero'))),
         rx.cond(~S.search_active,rx.fragment(
-            popular_section('Filmes populares',S.popular_movies,'movie'),
-            popular_section('Séries populares',S.popular_series,'series'))),
+            rx.el.nav(rx.el.span('ESCOLHA SEU UNIVERSO',class_name='catalog-jump-label'),
+                *[rx.el.a(rx.icon(icon,size=18),label,href='#'+anchor,class_name='catalog-jump-link')
+                    for anchor,label,icon in [('home-filmes','Filmes','clapperboard'),('home-series','Séries','tv'),
+                        ('home-livros','Livros','book-open'),('home-animes','Animes','sparkles')]],
+                class_name='catalog-jump',aria_label='Ir para uma seção do catálogo'),
+            catalog_group('home-filmes','FILMES','Qual vai ser a sessão de hoje?','clapperboard',
+                popular_section('Filmes populares',S.popular_movies,'movie'),
+                collection_section('movies_now'),collection_section('movies_rated'),collection_section('movies_upcoming')),
+            catalog_group('home-series','SÉRIES','Histórias para ficar mais um episódio.','tv',
+                popular_section('Séries populares',S.popular_series,'series'),collection_section('series_rated')),
+            rx.el.aside(rx.el.div(rx.el.p('SEU REPERTÓRIO, DO SEU JEITO',class_name='eyebrow'),
+                rx.el.h2('Viu. Leu. Gostou? Guarde por aqui.'),
+                rx.el.p('Monte sua lista, dê sua nota e encontre sua próxima obsessão.')),
+                rx.el.a('Organizar minha biblioteca',href='/biblioteca',class_name='quiet-button'),class_name='home-library-banner'),
+            catalog_group('home-livros','LIVROS','Vire a página. Descubra outro mundo.','book-open',
+                collection_section('books_popular'),collection_section('books_fiction'),collection_section('books_fantasy'),
+                collection_section('books_mystery'),collection_section('books_game_theory')),
+            catalog_group('home-animes','ANIMES','Universos que vão além da imaginação.','sparkles',
+                collection_section('anime_rated'),collection_section('anime_popular'),collection_section('anime_current')))),
         rx.cond(S.search_active & S.has_more_results,button('Carregar mais resultados',S.more_results,disabled=S.busy)),
-        rx.cond(~S.search_active,rx.fragment(
+        rx.cond(False,rx.fragment(
         rx.el.div(rx.el.h2('Na comunidade',class_name='section-title'),
                   rx.el.a('Conhecer pessoas →',href='/comunidade',class_name='text-sm brand-yellow'),class_name='flex items-center justify-between gap-4'),
         rx.cond(S.catalog_items.length()>0,
@@ -171,20 +250,30 @@ def discovery_page():
 
 
 def media_page():
-    return shell('Detalhes da obra','Conheça a história e registre sua experiência.',
+    return rx.fragment(shell('Detalhes da obra','Conheça a história e registre sua experiência.',
         rx.el.a('← Voltar à descoberta',href='/',class_name='text-sm text-gray-400'),
         rx.cond(S.selected['title']!='',rx.el.div(
             rx.el.section(
+                rx.cond(S.selected['cover']!='',rx.el.img(src=S.selected['cover'],alt='Capa de '+S.selected['title'],class_name='media-detail-poster'),
+                    rx.el.div(rx.icon('clapperboard',size=48),class_name='media-detail-poster cover-empty')),
+                rx.cond(S.selected['backdrop']!='',rx.el.img(src=S.selected['backdrop'],alt='',aria_hidden=True,class_name='media-detail-backdrop'),rx.fragment()),
                 rx.el.div(rx.el.p(S.selected['kind']+'  ·  '+S.selected['year'],class_name='eyebrow'),
                     rx.el.h2(S.selected['title'],class_name='media-detail-title'),
                     rx.el.p(rx.cond(S.selected['description']!='',S.selected['description'],'Descrição ainda não disponível.'),class_name='media-detail-description'),
-                    rx.cond(S.selected['backdrop']!='',rx.el.img(src=S.selected['backdrop'],alt='Imagem de '+S.selected['title'],class_name='media-detail-poster'),
-                        rx.cond(S.selected['cover']!='',rx.el.img(src=S.selected['cover'],alt='Capa de '+S.selected['title'],class_name='media-detail-poster'),
-                        rx.el.div(rx.icon('clapperboard',size=48),class_name='media-detail-poster cover-empty'))),
                     class_name='media-detail-copy'),class_name='media-detail-hero'),
+            rx.cond(S.is_authenticated,button('Denunciar obra',S.open_report('media',S.selected['id']))),
             rx.el.section(rx.el.h2('Ficha da obra',class_name='section-title'),
                 rx.el.p(rx.cond(S.selected['details']!='',S.selected['details']+'  ·  '+S.selected['kind']+'  ·  '+S.selected['year'],
                     S.selected['kind']+'  ·  '+S.selected['year']),class_name='media-facts'),class_name='space-y-3'),
+            rx.cond(S.selected['source']=='tmdb',
+                rx.el.section(rx.el.h2('Onde assistir',class_name='section-title'),
+                    rx.cond(S.availability.length()>0,
+                        rx.el.div(rx.foreach(S.availability,lambda provider:rx.el.a(
+                            rx.el.span(provider['name']), href=provider['url'], target='_blank',
+                            rel='noopener noreferrer', class_name='availability-chip')),
+                            class_name='availability-list'),
+                        rx.el.p('Nenhum servico de distribuicao foi informado para o Brasil.',class_name='text-sm text-gray-400')),
+                rx.fragment())),
             rx.cond(S.trailers.length()>0,rx.el.section(rx.el.h2('Trailers',class_name='section-title'),
                 rx.el.div(rx.foreach(S.trailers,lambda trailer:rx.el.article(
                     rx.el.h3(trailer['title'],class_name='font-semibold mb-3'),
@@ -212,11 +301,9 @@ def media_page():
                         rx.el.a('Criar conta',href='/cadastro',class_name=BUTTON+' inline-block'),class_name=CARD))),
                 rx.el.aside(rx.el.h2('Adicione às suas listas',class_name='section-title'),
                     rx.el.div(
-                        rx.el.button('Quero ver / ler',on_click=S.quick_add('planned',0),class_name='media-list-link'),
-                        rx.el.button('Já assisti / li',on_click=S.quick_add('completed',0),class_name='media-list-link'),
-                        rx.el.button('Gostei',on_click=S.quick_add('completed',5),class_name='media-list-link'),
-                        rx.el.button('Não gostei',on_click=S.quick_add('completed',1),class_name='media-list-link'),
-                        class_name='media-list-panel'),
+                        rx.el.button('Quero ver / ler',on_click=S.quick_add('planned',0,'Quero ver / ler'),class_name='media-list-link'),
+                        rx.el.button('Já assisti / li',on_click=S.quick_add('completed',0,'Já assisti / li'),class_name='media-list-link'),
+                        class_name='media-list-grid'),
                     rx.el.a('Abrir minhas listas →',href='/listas',class_name='block brand-yellow mt-4')),
                 class_name='review-layout'),
             rx.el.section(rx.el.h2('Outros comentários',class_name='section-title'),
@@ -237,7 +324,7 @@ def media_page():
                         on_click=S.open_recommendation(m['source'],m['external_id']),type='button',class_name='media-card text-left')),
                         class_name='media-shelf'),rx.el.p('Ainda não há recomendações desta fonte.',class_name='text-sm text-gray-400')),
                 class_name='space-y-4'),class_name='space-y-8'),
-            rx.el.p('Escolha uma obra pela página Descobrir.')))
+            rx.el.p('Escolha uma obra pela página Descobrir.'))),report_dialog())
 def spoiler(body, flag):
     return rx.cond(flag=='True',rx.el.details(rx.el.summary('Mostrar conteúdo com spoilers',class_name='cursor-pointer text-amber-300'),
         rx.el.p(body,class_name='whitespace-pre-wrap mt-3')),rx.el.p(body,class_name='whitespace-pre-wrap'))
@@ -273,35 +360,92 @@ def community_page():
 
 
 def profile_page():
+    banner_uploader=rx.cond(S.owns_profile,rx.el.div(
+        rx.upload(rx.el.div(rx.icon('image-up',size=18),rx.el.span('Escolher ou arrastar uma imagem para o banner'),
+            class_name='profile-upload-prompt'),id='profile_banner_upload',accept={'image/png':['.png'],'image/jpeg':['.jpg','.jpeg'],
+                'image/webp':['.webp'],'image/gif':['.gif']},max_files=1,max_size=5*1024*1024,
+            class_name='profile-upload-dropzone'),
+        rx.cond(rx.selected_files('profile_banner_upload').length()>0,
+            rx.el.p(rx.selected_files('profile_banner_upload')[0],class_name='text-sm text-gray-400')),
+        button('Enviar banner',S.upload_profile_banner(rx.upload_files(upload_id='profile_banner_upload'))),
+        class_name='profile-banner-editor'),rx.fragment())
     profile_form=rx.el.form(field('Nome de usuário','username',S.profile['username'],required=True,pattern='[a-z0-9_]{3,30}',max_length=30),
         field('Nome de exibição','display_name',S.profile['display_name'],required=True,max_length=80),
         textarea('Bio','bio',S.profile['bio'],max_length=1000),field('Foto (URL HTTPS)','avatar_url',S.profile['avatar_url'],type='url'),
         submit('Salvar perfil'),on_submit=S.save_profile,key=S.profile['username'],class_name='editor-form')
-    return shell('Perfil','Histórias, conexões e experiências.',
-        rx.el.section(rx.el.div(class_name='profile-banner'),
+    return rx.fragment(shell('Perfil','Histórias, conexões e experiências.',
+        rx.el.section(rx.el.div(rx.cond(S.profile['banner_url']!='',rx.el.img(src=S.profile['banner_url'],
+                alt='Banner de '+S.profile['display_name'],class_name='profile-banner-image')),
+                class_name='profile-banner'),
             rx.el.div(avatar(S.profile['avatar_url'],S.profile['display_name']),
                 rx.el.div(rx.el.h2(S.profile['display_name'],class_name='text-2xl font-bold'),
                     rx.el.p('@'+S.profile['username'],class_name='brand-yellow'),rx.el.p(S.profile['bio'],class_name='profile-bio'),class_name='profile-identity'),
                 rx.cond(S.owns_profile,rx.dialog.root(
                     rx.dialog.trigger(rx.el.button('Editar perfil',class_name='quiet-button')),
                     rx.dialog.content(rx.dialog.title('Editar perfil'),rx.dialog.description('Conte um pouco sobre você.'),
-                        rx.el.p(S.notice,role='status'),profile_form,
+                        rx.el.p(S.notice,role='status'),banner_uploader,profile_form,
                         rx.dialog.close(rx.el.button('Fechar',class_name='quiet-button')),class_name='codeboxd-dialog')),
                     rx.cond(S.is_authenticated,button(rx.cond(S.following_ids.contains(S.profile['user_id']),'Deixar de seguir','Seguir'),S.follow(S.profile['user_id'])))),
                 class_name='profile-summary'),class_name='profile-panel'),
+        rx.cond(S.profile['user_id']!=S.user_id.to_string(),button('Denunciar perfil',S.open_report('profile',S.profile['user_id']))),
         rx.el.div(*[rx.el.a(rx.el.strong(count),rx.el.span(label),href=href,class_name='profile-stat') for count,label,href in
             [(S.followers.length(),'Seguidores','#seguidores'),(S.following.length(),'Seguindo','#seguindo'),
              (S.profile_activity.length(),'Obras registradas','#atividades')]],class_name='profile-statistics'),
         rx.el.section(rx.el.h2('Avaliações e atividades',class_name='section-title'),
             rx.cond(S.profile_activity.length()>0,rx.foreach(S.profile_activity,interaction),rx.el.p('Nenhuma experiência registrada.',class_name='empty-state')),id='atividades',class_name='space-y-4'),
         rx.el.section(rx.el.h2('Seguidores',class_name='section-title'),grid(S.followers,person,'Ainda não há seguidores.'),id='seguidores'),
-        rx.el.section(rx.el.h2('Seguindo',class_name='section-title'),grid(S.following,person,'Ainda não segue ninguém.'),id='seguindo'))
+        rx.el.section(rx.el.h2('Seguindo',class_name='section-title'),grid(S.following,person,'Ainda não segue ninguém.'),id='seguindo')),report_dialog())
 
 
 def media_select(value='0'):
     return rx.el.label('Obra',rx.el.select(rx.el.option('Sem obra associada',value='0'),
         rx.foreach(S.catalog_items,lambda m:rx.el.option(m['title'],value=m['id'])),
         name='media_id',default_value=value,class_name=INPUT))
+
+
+def post_media_picker():
+    return rx.el.section(
+        rx.el.p('Obra associada',class_name='block text-sm text-gray-300'),
+        rx.el.div(rx.el.input(type='search',value=S.post_media_query,on_change=S.update_post_media_query,
+            placeholder='Pesquisar filme, serie, anime ou livro',class_name=INPUT),
+            button(rx.cond(S.post_media_searching,'Pesquisando...','Pesquisar obra'),S.search_post_media),
+            class_name='post-media-search'),
+        rx.cond(S.post_media_selected['id']!='',rx.el.div(
+            rx.cond(S.post_media_selected['cover']!='',rx.el.img(src=S.post_media_selected['cover'],
+                alt=S.post_media_selected['title'],class_name='post-media-selected-cover')),
+            rx.el.strong(S.post_media_selected['title']),
+            button('Remover obra',S.clear_post_media),class_name='post-media-selected'),rx.fragment()),
+        rx.cond(S.post_media_results.length()>0,rx.el.div(rx.foreach(S.post_media_results,
+            lambda item:rx.el.button(
+                rx.cond(item['cover']!='',rx.el.img(src=item['cover'],alt='',class_name='post-media-result-cover'),
+                    rx.icon('clapperboard',size=22)),
+                rx.el.span(item['title'],class_name='font-semibold'),
+                rx.el.span(item['kind']+' · '+item['year'],class_name='text-xs text-gray-400'),
+                on_click=S.select_post_media(item['key']),type='button',class_name='post-media-result')),
+            class_name='post-media-results'),rx.fragment()),
+        rx.cond(S.post_media_searching,rx.el.p('Buscando no catalogo...',class_name='text-sm text-gray-400'),rx.fragment()),
+        class_name='post-media-picker')
+
+
+def post_image_picker():
+    return rx.el.section(
+        rx.el.p('Imagem da publicacao (opcional)',class_name='block text-sm text-gray-300'),
+        rx.upload(rx.el.div(rx.icon('image-up',size=22),
+            rx.el.span('Escolha ou arraste uma imagem (ate 5 MB)',class_name='text-sm'),
+            class_name='post-image-upload-prompt'),id='post_image_upload',
+            accept={'image/png':['.png'],'image/jpeg':['.jpg','.jpeg'],'image/webp':['.webp'],
+                'image/gif':['.gif']},max_files=1,max_size=5*1024*1024,
+            class_name='post-image-dropzone'),
+        rx.cond(rx.selected_files('post_image_upload').length()>0,
+            rx.el.div(rx.el.span(rx.selected_files('post_image_upload')[0],class_name='post-image-filename'),
+                button('Carregar imagem',S.stage_post_image(rx.upload_files(upload_id='post_image_upload'))),
+                class_name='post-image-upload-actions'),rx.fragment()),
+        rx.cond(S.post_image_filename!='',rx.el.div(
+            rx.el.img(src=rx.get_upload_url(S.post_image_filename),alt='Previa da imagem enviada',
+                class_name='post-image-preview'),button('Remover imagem',S.remove_post_image),class_name='space-y-2'),
+            rx.cond(S.post_existing_image_url!='',rx.el.img(src=S.post_existing_image_url,
+                alt='Imagem atual da publicacao',class_name='post-image-preview'),rx.fragment())),
+        class_name='post-image-picker')
 
 
 def post(p):
@@ -311,9 +455,13 @@ def post(p):
                 rx.el.p(p['published_at'],class_name='text-xs text-gray-500')),class_name='post-author'),
         rx.cond(p['media_cover']!='',rx.el.a(rx.el.img(src=p['media_cover'],alt=p['media_title'],loading='lazy',class_name='post-cover'),href='/obra/'+p['media_id'])),
         rx.cond(p['media_id']!='0',rx.el.a(p['media_title'],href='/obra/'+p['media_id'],class_name='block brand-yellow')),
+        rx.cond(p['image_url']!='',rx.el.img(src=p['image_url'],alt='Imagem anexada a publicacao',
+            loading='lazy',class_name='w-full max-h-[600px] rounded-2xl object-contain bg-[#171714]')),
         spoiler(p['body'],p['spoiler']),
         rx.el.div(rx.el.button(rx.icon('heart',size=18),rx.cond(S.liked_posts.contains(p['id']),'Descurtir','Curtir'),on_click=S.like(p['id']),class_name='quiet-button'),
-            rx.el.button(rx.icon('message-circle',size=18),'Comentários',on_click=S.discussion(p['id']),class_name='quiet-button'),
+            rx.el.button(rx.icon('message-circle',size=18),rx.cond(p['comments_count']!='',p['comments_count']+' coment\u00e1rios','Coment\u00e1rios'),on_click=S.discussion(p['id']),class_name='quiet-button'),
+            rx.cond(p['likes_count']!='',rx.el.span(p['likes_count']+' curtidas',class_name='text-sm text-gray-400'),rx.fragment()),
+            rx.cond(p['user_id']!=S.user_id.to_string(),rx.el.button('Denunciar',on_click=S.open_report('post',p['id']),class_name='quiet-button')),
             rx.cond(p['user_id']==S.user_id.to_string(),rx.fragment(rx.el.button('Editar',on_click=S.edit_post(p['id']),class_name='quiet-button'),confirm('Excluir publicação',S.remove_post(p['id'])))),
             class_name='post-actions'),class_name='post-card')
 
@@ -321,27 +469,55 @@ def post(p):
 def comment(c):
     return rx.el.article(rx.el.a(c['author'],href='/perfil/'+c['user_id'],class_name='font-semibold'),rx.el.p(c['body'],class_name='whitespace-pre-wrap'),
         rx.cond(c['user_id']==S.user_id.to_string(),rx.el.div(button('Editar',S.edit_comment(c['id'])),
-            confirm('Excluir comentário',S.remove_comment(c['id'])),class_name='flex gap-3')),class_name=CARD)
+            confirm('Excluir comentário',S.remove_comment(c['id'])),class_name='flex gap-3'),
+            rx.el.button('Denunciar',on_click=S.open_report('comment',c['id']),class_name='quiet-button')),class_name=CARD)
+
+
+def report_dialog():
+    return rx.cond(S.report_dialog_open,rx.el.div(
+        rx.el.section(
+            rx.el.h2('Denunciar conteúdo',class_name='text-xl font-bold'),
+            rx.el.p('A equipe analisará este conteúdo. O envio do report não o altera nem o remove.',class_name='text-sm text-gray-400'),
+            rx.el.form(
+                rx.el.label('Motivo',html_for='report-reason',class_name='block text-sm text-gray-300'),
+                rx.el.select(rx.el.option('Spam',value='spam'),rx.el.option('Assédio',value='harassment'),
+                    rx.el.option('Conteúdo impróprio',value='inappropriate'),rx.el.option('Outro',value='other'),
+                    id='report-reason',name='reason',default_value=S.report_reason,class_name=INPUT),
+                rx.el.label('Detalhes (opcional)',html_for='report-description',class_name='block text-sm text-gray-300'),
+                rx.el.textarea(id='report-description',name='description',max_length=2000,
+                    placeholder='Inclua somente o contexto necessário para a análise.',class_name=INPUT),
+                rx.el.div(
+                    rx.el.button('Cancelar',type='button',on_click=S.close_report,disabled=S.report_sending,class_name='quiet-button'),
+                    rx.el.button(rx.cond(S.report_sending,'Enviando…','Enviar report'),type='submit',disabled=S.report_sending,class_name=BUTTON),
+                    class_name='flex justify-end gap-3'),
+                on_submit=S.submit_report,class_name='space-y-3'),
+            class_name='report-dialog-card',role='dialog',aria_modal='true',aria_label='Denunciar conteúdo'),
+        class_name='report-dialog-overlay'),rx.fragment())
 
 
 def feed_page():
-    return shell('Entre histórias','Compartilhe descobertas e acompanhe quem você segue.',
+    return rx.fragment(shell('Entre histórias','Compartilhe descobertas e acompanhe quem você segue.',
         editor(rx.cond(S.edit_post_id!='','Editar publicação','Criar publicação'),'Compartilhe uma história com sua comunidade.',
-            rx.el.form(textarea('Sua publicação','body',S.edit_post_body,required=True,max_length=5000),media_select(S.edit_post_media),
-                check('Contém spoilers','spoiler',S.edit_post_spoiler),submit(rx.cond(S.edit_post_id!='','Salvar edição','Publicar')),
-                on_submit=S.save_post,key=S.edit_post_id,class_name='editor-form'),open=S.post_editor_open,on_open_change=S.set_post_editor_open),
+            rx.fragment(post_media_picker(),post_image_picker(),
+                rx.el.form(textarea('Sua publicação','body',S.edit_post_body,required=True,max_length=5000),
+                    check('Contém spoilers','spoiler',S.edit_post_spoiler),submit(rx.cond(S.edit_post_id!='','Salvar edição','Publicar')),
+                    on_submit=S.save_post,key=S.edit_post_id,class_name='editor-form')),
+            open=S.post_editor_open,on_open_change=S.set_post_editor_open),
         rx.el.div(rx.el.section(
             rx.cond(S.posts.length()>0,rx.foreach(S.visible_posts,post),rx.el.div(rx.icon('messages-square',size=36),
                 rx.el.p('Seu feed começa com uma boa história.'),rx.el.a('Encontrar pessoas',href='/comunidade',class_name='brand-yellow'),class_name='empty-state')),
             rx.cond(S.posts.length()>S.visible_count,button('Mostrar mais',S.show_more)),
-            rx.cond(S.selected_post!='',rx.el.section(rx.el.h2('Comentários',class_name='section-title'),rx.foreach(S.comments,comment),
-                rx.el.form(textarea('Comentário','body',S.edit_comment_body,required=True,max_length=2000),submit('Salvar comentário'),
+            rx.cond(S.selected_post!='',rx.el.section(
+                rx.el.div(rx.el.h2('Coment\u00e1rios',class_name='section-title'),button('Fechar',S.close_discussion),class_name='flex items-center justify-between'),
+                rx.cond(S.comments.length()>0,rx.foreach(S.comments,comment),rx.el.p('Seja a primeira pessoa a comentar.',class_name='text-sm text-gray-400')),
+                rx.el.form(textarea('Comentário','body',S.edit_comment_body,required=True,max_length=2000),submit(rx.cond(S.edit_comment_id!='','Salvar edi\u00e7\u00e3o','Comentar')),
                     on_submit=S.save_comment,key=S.selected_post+S.edit_comment_id,class_name=CARD),class_name='space-y-4')),
             class_name='feed-stream'),
             rx.el.aside(button('+ Criar publicação',S.new_post),rx.el.h2('Pessoas da comunidade',class_name='section-title'),
                 rx.foreach(S.suggested_people,lambda p:rx.el.a(avatar(p['avatar_url'],p['display_name']),
                     rx.el.div(rx.el.strong(p['display_name']),rx.el.p('@'+p['username'])),href='/perfil/'+p['user_id'],class_name='sidebar-person')),
-                rx.el.a('Explorar comunidade →',href='/comunidade',class_name='brand-yellow'),class_name='feed-sidebar'),class_name='feed-layout'))
+                rx.el.a('Explorar comunidade →',href='/comunidade',class_name='brand-yellow'),class_name='feed-sidebar'),class_name='feed-layout')),
+        report_dialog())
 
 
 def list_card(item):

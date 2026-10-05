@@ -6,6 +6,7 @@ text username filters=trim|lower|min:3|max:30
 text display_name filters=trim|min:1|max:80
 text bio? filters=trim|max:1000
 text avatar_url? filters=trim|max:500
+text banner_url? filters=trim|max:500
  }
  stack {
 api.lambda {
@@ -45,7 +46,7 @@ db.transaction {
 db.add_or_edit profile {
  field_name = "user_id"
  field_value = $auth.id
- data = {user_id: $auth.id, username: $input.username, display_name: $input.display_name, bio: $input.bio, avatar_url: $input.avatar_url}
+ data = {user_id: $auth.id, username: $input.username, display_name: $input.display_name, bio: $input.bio, avatar_url: $input.avatar_url, banner_url: $input.banner_url}
 } as $result
 db.edit user {
  field_name = "id"

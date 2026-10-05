@@ -61,6 +61,15 @@ query "auth/signup" verb=POST {
             avatar_url  : ""
           }
         } as $profile
+
+        db.add user_list {
+          data = {user_id: $user.id, title: "Quero ver / ler", description: "Obras para descobrir depois.", is_public: true, updated_at: now}
+        } as $watchlist
+
+        db.add user_list {
+          data = {user_id: $user.id, title: "Já assisti / li", description: "Obras que você já terminou.", is_public: true, updated_at: now}
+        } as $completed_list
+
       }
     }
   

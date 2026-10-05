@@ -3,8 +3,11 @@
 import reflex as rx
 
 from .pages.login import HEAD_COMPONENTS, login_page
-from .pages.account import account_page, signup_page
+from .pages.admin import admin_login_page, admin_dashboard_page, admin_users_page, admin_catalog_page, admin_reports_page
+from .pages.admin_demo import admin_demo_page
+from .pages.account import account_page, signup_page, password_reset_page
 from .state.auth_state import AuthState
+from .state.admin import AdminState
 from .state.social import SocialState
 from .pages.social import discovery_page, media_page, library_page, community_page, profile_page, feed_page, lists_page
 
@@ -20,38 +23,17 @@ def index() -> rx.Component:
     )
 
 
-def admin_placeholder() -> rx.Component:
-    # Página temporária só pra confirmar que o login -> redirect está funcionando.
-    # O agente de IA vai substituir isso pelas telas reais do admin (tasks.md).
-    return rx.center(
-        rx.vstack(
-            rx.heading("Administração do CodeBoxd", color="#F5C518"),
-            rx.text("Sessão administrativa verificada. O painel está em desenvolvimento."),
-            rx.link("Minha conta", href="/conta"),
-            rx.button(
-                "Sair",
-                on_click=AuthState.logout,
-                bg="#3A2F16",
-                color="#F3F2ED",
-                margin_top="1em",
-            ),
-            spacing="4",
-        ),
-        height="100vh",
-        width="100%",
-        bg="#0D0D0D",
-        color="#F3F2ED",
-    )
-
-
 def protected_admin() -> rx.Component:
-    return rx.cond(AuthState.is_admin, admin_placeholder(), rx.center("Verificando acesso…", min_height="100vh"))
+    return rx.cond(AdminState.is_admin, admin_dashboard_page(), rx.center("Verificando acesso…", min_height="100vh"))
 
 
 app = rx.App(head_components=HEAD_COMPONENTS, html_lang="pt-BR")
 app.add_page(discovery_page, route="/", on_load=SocialState.visit('home'))
 app.add_page(login_page, route="/login")
+app.add_page(admin_login_page, route="/admin/login", title="Acesso administrativo | Codeboxd",
+             on_load=AuthState.guard_admin_login)
 app.add_page(signup_page, route="/cadastro")
+app.add_page(password_reset_page, route="/redefinir-senha")
 app.add_page(profile_page, route="/perfil/[profile_id]", on_load=SocialState.visit('profile'))
 app.add_page(profile_page, route="/conta", on_load=SocialState.visit('profile'))
 app.add_page(media_page, route="/obra/[media_id]", on_load=SocialState.visit('media'))
@@ -60,4 +42,17 @@ app.add_page(library_page, route="/biblioteca", on_load=SocialState.visit('libra
 app.add_page(community_page, route="/comunidade", on_load=SocialState.visit('community'))
 app.add_page(feed_page, route="/feed", on_load=SocialState.visit('feed'))
 app.add_page(lists_page, route="/listas", on_load=SocialState.visit('lists'))
-app.add_page(protected_admin, route="/admin", on_load=AuthState.guard_admin)
+app.add_page(protected_admin, route="/admin", on_load=AdminState.load_dashboard)
+app.add_page(admin_users_page, route="/admin/users", on_load=AdminState.guard_users_page,
+             title="Usuários | Administração | Codeboxd")
+app.add_page(lambda: admin_catalog_page("movie"), route="/admin/catalog/movies",
+             on_load=AdminState.load_catalog_movies, title="Filmes | Administração | Codeboxd")
+app.add_page(lambda: admin_catalog_page("series"), route="/admin/catalog/series",
+             on_load=AdminState.load_catalog_series, title="Séries | Administração | Codeboxd")
+app.add_page(lambda: admin_catalog_page("book"), route="/admin/catalog/books",
+             on_load=AdminState.load_catalog_books, title="Livros | Administração | Codeboxd")
+app.add_page(lambda: admin_catalog_page("anime"), route="/admin/catalog/anime",
+             on_load=AdminState.load_catalog_anime, title="Animes | Administração | Codeboxd")
+app.add_page(admin_demo_page, route="/admin/demo", title="Amostra fictícia | Administração | Codeboxd")
+app.add_page(admin_reports_page, route="/admin/reports", on_load=AdminState.load_reports,
+             title="Reports | Administração | Codeboxd")

@@ -24,6 +24,27 @@ class RelevanceTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(catalog.relevant_results('homem aranha',[related,book]),[book,related])
         self.assertEqual(catalog.relevant_results('',[related,book]),[related,book])
 
+    def test_similar_words_and_prefixes_do_not_match_unrelated_titles(self):
+        for query,title in [('homen aranha','Homem Arranha o Ceu'),
+                            ('homen aranha','Homem e Aranhas'),
+                            ('rei','Reino da Biblia'),
+                            ('duna','Dunas Sagradas')]:
+            with self.subTest(query=query,title=title):
+                self.assertEqual(catalog.title_score(query,{'title':title}),0)
+
+    def test_query_words_must_match_the_same_title(self):
+        item={'title':'O Homem da Biblia','search_titles':['A Aranha']}
+        self.assertEqual(catalog.title_score('homen aranha',item),0)
+
+    async def test_later_pages_also_filter_provider_noise(self):
+        matching=catalog.media('openlibrary','book','OL1W','Homem-Aranha: De Volta ao Lar')
+        noise=catalog.media('openlibrary','book','OL2W','Homem Arranha o Ceu')
+        with patch.object(catalog,'search_one',new=AsyncMock(return_value=[noise,matching])) as provider:
+            items,errors=await catalog.search('homen aranha','book',page=2)
+        provider.assert_awaited_once_with('homem aranha','book',2)
+        self.assertEqual(items,[matching])
+        self.assertFalse(errors)
+
     async def test_query_typo_corrected_for_every_provider_and_noise_removed(self):
         async def provider(query,kind,page):
             self.assertEqual(query,'homem aranha')

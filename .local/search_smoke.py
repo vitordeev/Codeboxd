@@ -1,0 +1,17 @@
+from playwright.sync_api import sync_playwright
+with sync_playwright() as p:
+ b=p.chromium.launch(channel='msedge',headless=True); page=b.new_page(); page.set_default_timeout(45000)
+ page.goto('http://localhost:3011/')
+ page.locator('input[name=query]').fill('Interestelar')
+ page.locator('input[name=kind][value=movie]').check()
+ page.get_by_role('button',name='Buscar',exact=True).click()
+ page.get_by_role('heading',name='Resultados da busca').wait_for()
+ card=page.locator('button.media-card').first; title=card.locator('h3').inner_text()
+ card.click()
+ page.wait_for_function("location.pathname.startsWith('/obra/') || location.pathname === '/obra'")
+ page.get_by_role('heading',name=title,exact=True).wait_for()
+ print('PASS search, movie filter and matching TMDB detail:',title,flush=True)
+ page.set_viewport_size({'width':390,'height':844})
+ assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+ print('PASS responsive media detail',flush=True)
+ b.close()

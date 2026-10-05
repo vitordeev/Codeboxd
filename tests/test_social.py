@@ -89,9 +89,33 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         with patch('Codeboxd_main.state.social.request',new=AsyncMock()) as request:
             self.assertTrue(s.new_post())
             await s.follow('2')
-            await s.save_post({'body':'Not public','media_id':'0'})
+            async for _ in s.save_post({'body':'Not public','media_id':'0'}):
+                pass
         request.assert_not_awaited()
         self.assertFalse(s.post_editor_open)
+
+    async def test_guest_cannot_open_report_form(self):
+        result = self.state.open_report('post', '15')
+        self.assertFalse(self.state.report_dialog_open)
+        payload = {str(key): str(value) for key, value in result.args}
+        self.assertEqual(payload['path'], '"/login"')
+
+    async def test_report_submission_uses_authenticated_target_without_client_snapshot(self):
+        s = self.state
+        s.session_token = 'member-token'; s.user_id = 4; s._identity = 4
+        s.open_report('post', '15')
+        with patch('Codeboxd_main.state.session.request',
+                   new=AsyncMock(return_value={'id': 4, 'role': 'member'})), \
+             patch('Codeboxd_main.state.social.request', new=AsyncMock(return_value={'id': 8, 'status': 'pending'})) as request:
+            async for _ in s.submit_report({'reason': 'harassment', 'description': 'Repeated unwanted contact'}):
+                pass
+
+        request.assert_awaited_once_with('POST', '/reports', token='member-token', params=None, data={
+            'target_type': 'post', 'target_id': '15', 'reason': 'harassment',
+            'description': 'Repeated unwanted contact',
+        })
+        self.assertFalse(s.report_dialog_open)
+        self.assertEqual(s.notice, 'Report enviado para análise. O conteúdo não foi alterado.')
 
     async def test_in_progress_and_dropped_statuses_and_review_updates_replace_saved_values(self):
         s=self.state
@@ -150,6 +174,23 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
             result=await self.state._call('GET','/media',params={'per_page':50},paginate=False)
         self.assertEqual(len(result),100)
         request.assert_awaited_once()
+
+    async def test_repairs_mojibake_default_list_for_existing_user(self):
+        s=self.state
+        broken={'id':22,'title':'JÃ¡ assisti / li','description':'Obras que vocÃª jÃ¡ terminou.',
+                'is_public':True}
+        repaired={'id':22,'title':'Já assisti / li','description':'Obras que você já terminou.',
+                  'is_public':True}
+        created={'id':23,'title':'Quero ver / ler','description':'Obras para descobrir depois.',
+                 'is_public':True}
+        with patch('Codeboxd_main.state.social.request',new=AsyncMock(
+                side_effect=[[broken],repaired,created])) as request:
+            await s._ensure_default_lists()
+
+        self.assertEqual(request.await_args_list[1].args[:2],('PUT','/lists/22'))
+        self.assertEqual(request.await_args_list[1].kwargs['data'],{
+            'title':'Já assisti / li','description':'Obras que você já terminou.','is_public':True})
+        self.assertEqual({item['title'] for item in s.quick_lists},{'Quero ver / ler','Já assisti / li'})
 
     async def test_feed_legacy_like_fallback_skips_per_post_requests(self):
         s=self.state; s.user_id=1

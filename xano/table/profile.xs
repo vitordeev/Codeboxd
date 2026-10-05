@@ -8,6 +8,7 @@ table profile {
     text display_name filters=trim|min:1|max:80
     text bio? filters=trim|max:1000
     text avatar_url? filters=trim|max:500
+    text banner_url? filters=trim|max:500
   }
   index = [
     {type: "primary", field: [{name: "id"}]}

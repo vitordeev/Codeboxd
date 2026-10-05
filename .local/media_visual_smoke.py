@@ -1,0 +1,23 @@
+from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(channel='msedge', headless=True)
+    page = browser.new_page(viewport={'width':1440,'height':1000})
+    page.set_default_timeout(90000)
+    page.goto('http://localhost:3001/')
+    page.locator('a.media-card').first.wait_for()
+    page.screenshot(path='.local/discovery-desktop.png',full_page=True)
+    page.set_viewport_size({'width':390,'height':844})
+    page.screenshot(path='.local/discovery-mobile.png',full_page=True)
+    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+    print('PASS loaded home mobile layout',flush=True)
+    page.set_viewport_size({'width':1440,'height':1000})
+    page.locator('a.media-card').first.click()
+    page.locator('.media-hero').wait_for()
+    page.get_by_role('heading',name='O que você achou?',exact=True).wait_for()
+    page.screenshot(path='.local/media-desktop.png',full_page=True)
+    page.set_viewport_size({'width':390,'height':844})
+    page.screenshot(path='.local/media-mobile.png',full_page=True)
+    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+    print('PASS media details navigation and mobile layout',flush=True)
+    browser.close()
