@@ -1,5 +1,7 @@
 import asyncio
+import tempfile
 import unittest
+from pathlib import Path
 import reflex as rx
 from unittest.mock import AsyncMock, patch
 from Codeboxd_main.state.social import SocialState
@@ -20,6 +22,25 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         s.selected_rating='0'
         s._restore_guest_rating()
         self.assertEqual(s.selected_rating,'5')
+
+    def test_closing_post_editor_discards_only_its_staged_image(self):
+        s = self.state
+        s.user_id = 1
+        s.post_editor_open = True
+        s.edit_post_body = 'Canceled draft'
+        with tempfile.TemporaryDirectory() as directory:
+            image = Path(directory) / 'staged.png'
+            image.write_bytes(b'staged fixture')
+            original = Path(directory) / 'existing.png'
+            original.write_bytes(b'existing image')
+            s._post_image_path = str(image)
+            s.post_image_filename = 'staged.png'
+            s.set_post_editor_open(False)
+            self.assertFalse(image.exists())
+            self.assertEqual(original.read_bytes(), b'existing image')
+        self.assertFalse(s.post_editor_open)
+        self.assertEqual(s.edit_post_body, '')
+        self.assertEqual(s._post_image_path, '')
 
     async def test_identity_switch_clears_private_data(self):
         s=self.state
@@ -59,6 +80,31 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
             self.assertTrue(await s._require_user())
         self.assertEqual(s.user_id,1)
         self.assertEqual(s._token(),'temporarily-unavailable')
+
+    async def test_rate_limited_session_validation_preserves_current_post_draft(self):
+        s = self.state
+        s.session_token = 'current-session'; s.user_id = 1; s._identity = 1
+        s.post_editor_open = True
+        s.edit_post_body = 'An unsaved draft'
+        s.posts = [{'body': 'Previously loaded post'}]
+        with patch('Codeboxd_main.state.session.request',
+                   new=AsyncMock(side_effect=APIError('Rate limited', 429))):
+            self.assertTrue(await s._require_user())
+        self.assertTrue(s.post_editor_open)
+        self.assertEqual(s.edit_post_body, 'An unsaved draft')
+        self.assertEqual(s.posts, [{'body': 'Previously loaded post'}])
+
+    async def test_rejected_session_validation_still_clears_post_draft(self):
+        s = self.state
+        s.session_token = 'revoked'; s.user_id = 1; s._identity = 1
+        s.post_editor_open = True
+        s.edit_post_body = 'Private draft'
+        with patch('Codeboxd_main.state.session.request',
+                   new=AsyncMock(side_effect=APIError('Revoked', 401))):
+            self.assertFalse(await s._require_user())
+        self.assertFalse(s.post_editor_open)
+        self.assertEqual(s.edit_post_body, '')
+        self.assertEqual(s._token(), '')
 
     async def test_logout_clears_private_data_and_redirects_in_same_tab(self):
         s = self.state

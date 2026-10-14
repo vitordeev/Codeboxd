@@ -1,49 +1,63 @@
-// This function generates a magic token with a 60 minute expiration date.
+// Generate a hashed six-digit reset code, at most once per minute per account.
 function "Quick Start/generate_magic_link" {
   input {
-    email email?
+    email email filters=trim|lower
   }
 
   stack {
-    // Checks that the email input is not empty
-    precondition ($input.email != null) {
-      error = "email is required but was not suppiled. "
-    }
-  
-    // Gets the user record by email
-    db.query user {
-      where = $db.user.email == $input.email
-      return = {type: "single"}
+    var $result { value = null }
+    db.get user {
+      field_name = "email"
+      field_value = $input.email
+      output = ["id", "account_status"]
     } as $user
-  
-    // Verifies that the user record exists
-    precondition ($user != null) {
-      error_type = "notfound"
-      error = "No user found for that email."
+
+    conditional {
+      if ($user != null && $user.account_status == "active") {
+        db.transaction {
+          stack {
+            // Hold the account row lock until this transaction ends.
+            db.edit user {
+              field_name = "id"
+              field_value = $user.id
+              data = {updated_at: now}
+            }
+            db.get user {
+              field_name = "id"
+              field_value = $user.id
+            } as $locked_user
+
+            conditional {
+              if ($locked_user.account_status == "active" && ($locked_user.password_reset_requested_at == null || $locked_user.password_reset_requested_at <= (now|add_secs_to_timestamp:-60))) {
+                security.random_number {
+                  min = 100000
+                  max = 999999
+                } as $number
+                var $code { value = $number|to_text }
+
+                db.edit user {
+                  field_name = "id"
+                  field_value = $user.id
+                  data = {
+                    password_reset: {token: $code, expiration: (now|add_secs_to_timestamp:900), used: false}
+                    password_reset_attempts: 0
+                    password_reset_requested_at: now
+                    password_reset_format: "six_digits"
+                  }
+                }
+                var.update $result {
+                  value = {token: $code, email: $locked_user.email}
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  
-    // Creates a unique UUID as token
-    security.create_uuid as $token
-  
-    // Builds the password reset object
-    var $password_reset {
-      value = {}
-        |set:"token":$token
-        |set:"expiration":(now
-          |add_secs_to_timestamp:(3600|to_int)
-        )
-        |set:"used":false
-    }
-  
-    // Updates the user record with the password reset object
-    db.edit user {
-      field_name = "id"
-      field_value = $user|get:"id":0
-      data = {password_reset: $password_reset}
-    } as $updated_password_reset
   }
 
-  response = {token: $token, email: $updated_password_reset.email}
+  // Private function result for the mailer, never a public API response.
+  response = $result
   tags = ["xano:quick-start"]
   guid = "Moy1di4xbII1-v2ENoG7OW1EYwc"
 }

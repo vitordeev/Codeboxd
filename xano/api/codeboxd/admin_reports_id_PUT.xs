@@ -15,7 +15,7 @@ query "admin/reports/{id}" verb=PUT {
       output = ["id", "account_status", "role"]
     } as $actor
 
-    precondition ($actor != null && $actor.account_status != "disabled" && $actor.role == "admin") {
+    precondition ($actor != null && $actor.account_status == "active" && $actor.role == "admin") {
       error_type = "accessdenied"
       error = "Acesso administrativo não permitido."
     }
@@ -70,4 +70,5 @@ query "admin/reports/{id}" verb=PUT {
     reviewer_user_id: $auth.id
     decision: $input.decision
   }
+  guid = "fu5_YlaQjEFxaFcIiUj5NcwHJS0"
 }

@@ -23,6 +23,9 @@ table user {
     }
 
     text username? filters=trim
+    int password_reset_attempts?=0 filters=min:0|max:5
+    timestamp password_reset_requested_at?
+    text password_reset_format? filters=trim|max:20
     image? avatar?
     text location? filters=trim
     enum account_status? {

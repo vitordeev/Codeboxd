@@ -26,7 +26,7 @@ query "admin/catalog/{id}" verb=PUT {
       output = ["id", "account_status", "role"]
     } as $actor
 
-    precondition ($actor != null && $actor.account_status != "disabled" && $actor.role == "admin") {
+    precondition ($actor != null && $actor.account_status == "active" && $actor.role == "admin") {
       error_type = "accessdenied"
       error = "Acesso administrativo não permitido."
     }
@@ -62,4 +62,5 @@ query "admin/catalog/{id}" verb=PUT {
     year: $updated.year
     media_type: $existing.media_type
   }
+  guid = "Vx8MnAruE2ue8Zg1DqhEVCLw2mY"
 }

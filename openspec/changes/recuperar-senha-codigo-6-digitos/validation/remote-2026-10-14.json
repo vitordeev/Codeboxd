@@ -1,0 +1,70 @@
+{
+  "layer": "xano_controlled_account",
+  "email_sent": false,
+  "checks": [
+    {
+      "scenario": "generated_exactly_six_ascii_digits",
+      "passed": true
+    },
+    {
+      "scenario": "code_is_not_stored_as_plaintext",
+      "passed": true
+    },
+    {
+      "scenario": "expiry_is_fifteen_minutes",
+      "passed": true
+    },
+    {
+      "scenario": "immediate_resend_is_suppressed",
+      "passed": true
+    },
+    {
+      "scenario": "wrong_code_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "wrong_attempt_survives_error_response",
+      "passed": true
+    },
+    {
+      "scenario": "five_attempts_are_persisted",
+      "passed": true
+    },
+    {
+      "scenario": "correct_code_denied_after_five_failures",
+      "passed": true
+    },
+    {
+      "scenario": "old_code_denied_after_resend",
+      "passed": true
+    },
+    {
+      "scenario": "concurrent_validations_consume_code_once",
+      "passed": true
+    },
+    {
+      "scenario": "consumed_code_is_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "consumption_is_persisted",
+      "passed": true
+    },
+    {
+      "scenario": "temporary_reset_token_changes_password",
+      "passed": true
+    },
+    {
+      "scenario": "replacement_password_logs_in",
+      "passed": true
+    },
+    {
+      "scenario": "original_password_is_rejected_after_reset",
+      "passed": true
+    },
+    {
+      "scenario": "original_password_and_reset_fixture_restored",
+      "passed": true
+    }
+  ]
+}

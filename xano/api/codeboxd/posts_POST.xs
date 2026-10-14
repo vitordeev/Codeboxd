@@ -6,6 +6,7 @@ text body filters=trim|min:1|max:5000
 int media_id?=0
 bool spoiler?=false
 image image?
+file image_upload?
  }
  stack {
 db.get user {
@@ -28,8 +29,20 @@ precondition ($media != null) {
   error = "Registro não encontrado."
 }
 }}
+conditional {
+ if ($input.image_upload != null) {
+storage.create_image {
+ access = "public"
+ value = $input.image_upload
+ filename = ""
+} as $post_image
+ }
+ else {
+var $post_image { value = $input.image }
+ }
+}
 db.add post {
- data = {user_id: $auth.id, media_id: $input.media_id, image: $input.image, body: $input.body, spoiler: $input.spoiler, updated_at: now}
+ data = {user_id: $auth.id, media_id: $input.media_id, image: $post_image, body: $input.body, spoiler: $input.spoiler, updated_at: now}
 } as $result
  }
  response = $result

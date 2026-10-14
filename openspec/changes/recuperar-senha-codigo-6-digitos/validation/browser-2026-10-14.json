@@ -1,0 +1,35 @@
+{
+  "layer": "browser",
+  "email_requested": false,
+  "password_changed": false,
+  "checks": [
+    {
+      "scenario": "numeric_keyboard",
+      "passed": true
+    },
+    {
+      "scenario": "six_digit_length",
+      "passed": true
+    },
+    {
+      "scenario": "letters_rejected_by_browser",
+      "passed": true
+    },
+    {
+      "scenario": "no_horizontal_overflow_1440",
+      "passed": true
+    },
+    {
+      "scenario": "no_horizontal_overflow_390",
+      "passed": true
+    },
+    {
+      "scenario": "invalid_code_feedback",
+      "passed": true
+    },
+    {
+      "scenario": "no_javascript_errors",
+      "passed": true
+    }
+  ]
+}

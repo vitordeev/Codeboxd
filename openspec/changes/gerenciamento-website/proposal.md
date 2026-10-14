@@ -1,6 +1,6 @@
 ## Why
 
-O Codeboxd precisa de uma área administrativa para acompanhar a atividade do site e permitir que pessoas autorizadas gerenciem usuários, catálogo e denúncias em um só lugar. Hoje não há um fluxo administrativo especificado que conecte esses dados e ações com permissões verificadas no servidor.
+O Codeboxd precisa de uma área administrativa para acompanhar a atividade do site e permitir que pessoas autorizadas gerenciem usuários, catálogo e denúncias em um só lugar. Esta proposta nasceu antes da implementação do fluxo. Na revisão de 13/10/2026, telas, estados e contratos locais já existem; o trabalho restante é concluir autorização e persistência remotas, testes integrados e validação visual. Ver `tasks.md` e `validation/revisao-2026-10-13.md`.
 
 ## What Changes
 
@@ -28,7 +28,7 @@ Nenhuma. As capacidades administrativas ainda não estão descritas nas especifi
 ## Impact
 
 - Interface Reflex: navegação protegida e novas páginas, estados e componentes administrativos.
-- Xano: verificação de papel e autorização no servidor; possíveis endpoints e estruturas para relatórios, estados de moderação e auditoria.
+- Xano: contratos locais de autorização, indicadores, usuários, catálogo e reports/auditoria; implantação remota e verificações reais ainda precisam de evidência.
 - Catálogo existente: integração com os registros e fontes já usados para filmes, séries, livros e animes, sem criar duplicatas.
 - Autenticação: reutilizar a identidade e os papéis existentes, confirmando autorização em cada operação administrativa.
 - O projeto não criará um sistema de mensagens privadas nesta mudança. Os reports poderão apontar para mensagens se esse conteúdo já existir ou vier a ser integrado; os tipos de alvo efetivamente disponíveis devem ser confirmados no levantamento.

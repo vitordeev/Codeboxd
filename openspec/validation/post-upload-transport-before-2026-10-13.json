@@ -1,0 +1,6 @@
+{
+  "status": 400,
+  "error_code": "ERROR_CODE_INPUT_ERROR",
+  "error_message": "Missing param: path",
+  "error_parameter": "image.path"
+}

@@ -137,4 +137,5 @@ query "reports" verb=POST {
   }
 
   response = {id: $created.id, status: $created.status}
+  guid = "3iZ1eGhUhEAS3aPjJNCKzfX95F0"
 }

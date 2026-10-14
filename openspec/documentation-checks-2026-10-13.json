@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-13",
+  "tasks": {
+    "gerenciamento-website": {
+      "completed": 17,
+      "total": 34,
+      "original_ids_preserved": true
+    },
+    "archive/2026-10-13-criar-modelo-dados-xano": {
+      "completed": 37,
+      "total": 37,
+      "original_ids_preserved": true
+    },
+    "archive/2026-10-13-definir-fundacao-codeboxd": {
+      "completed": 87,
+      "total": 87,
+      "original_ids_preserved": true
+    }
+  },
+  "markdown_files_checked": 56,
+  "local_links_checked": 40,
+  "broken_links": [],
+  "synced_capabilities": 16,
+  "historical_non_markdown_files_preserved": 11,
+  "validation_scope": "documentation only; no remote calls or browser execution"
+}

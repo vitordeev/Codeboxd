@@ -2,6 +2,11 @@ query "admin/dashboard" verb=GET {
   api_group = "Codeboxd"
   auth = "user"
 
+  input {
+    int page?=1 filters=min:1
+    int per_page?=6 filters=min:1|max:100
+  }
+
   stack {
     db.get user {
       field_name = "id"
@@ -9,7 +14,7 @@ query "admin/dashboard" verb=GET {
       output = ["id", "account_status", "role"]
     } as $actor
 
-    precondition ($actor != null && $actor.account_status != "disabled" && $actor.role == "admin") {
+    precondition ($actor != null && $actor.account_status == "active" && $actor.role == "admin") {
       error_type = "accessdenied"
       error = "Acesso administrativo não permitido."
     }
@@ -41,7 +46,7 @@ query "admin/dashboard" verb=GET {
     db.query post {
       sort = {post.id: "desc"}
       output = ["id", "user_id", "created_at"]
-      return = {type: "list", paging: {page: 1, per_page: 6, metadata: false}}
+      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, metadata: false}}
     } as $recent_posts
   }
 
@@ -53,4 +58,5 @@ query "admin/dashboard" verb=GET {
     pending_reports: $pending_reports
     recent_posts: $recent_posts
   }
+  guid = "ZHfvqwCtLhUcUhqp84Wr9P7dF_o"
 }

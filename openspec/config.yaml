@@ -2,33 +2,31 @@ schema: spec-driven
 githubCopilot:
   cloudAgent: true
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Codeboxd é uma plataforma social para filmes, séries, animes e livros.
+  Aplicação Python com Reflex 0.9.11.post1; Xano guarda autenticação e dados.
+  Provedores atuais: TMDB para filmes/séries, Kitsu para animes, Open Library para livros.
+  Jikan é somente identidade legada, resolvida por mapeamento MyAnimeList/Kitsu.
+  Ler README.md, CONTEXTO.md, HISTORICO.md e PENDENCIAS.md dentro de openspec/ antes de retomar.
+  specs/ contém contratos consolidados; changes/ contém trabalho ativo; changes/archive/ preserva entregas.
+  O ambiente canônico é .venv, instalado e validado; venv permanece como compatibilidade local.
+  Por decisão do usuário, execução local sem Docker; não adicionar ou usar Docker nesta etapa.
+  Separar implementação local, testes simulados, validação remota e validação de navegador.
+  Não inferir publicação Xano a partir de arquivo local ou dry-run.
+  Hospedagem e domínio permanecem fora da etapa atual; preparação Docker não comprova publicação.
+  Nunca copiar credenciais, tokens ou dados privados para os artefatos.
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
-
-# Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+rules:
+  proposal:
+    - Documentar em português motivação, escopo, capacidades e exclusões.
+    - Distinguir estado atual de comportamento planejado.
+  design:
+    - Registrar provedores atuais, compatibilidade legada, riscos e rollback quando aplicável.
+    - Separar evidências históricas de verificações executadas na sessão atual.
+  specs:
+    - Preservar os nomes existentes de capacidades e requisitos para manter rastreabilidade.
+    - Usar Purpose e cenários WHEN/THEN com SHALL ou MUST; contratos não são relatórios de execução.
+  tasks:
+    - Usar somente marcadores válidos - [ ] e - [x], com IDs estáveis e critério de verificação.
+    - Não contar trabalho histórico de outra mudança como tarefa da mudança atual.
+    - Manter aberta a tarefa cuja validação exigida ainda não tenha evidência.

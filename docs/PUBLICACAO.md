@@ -1,5 +1,7 @@
 # Publicação com domínio
 
+> Plano histórico de preparação, fora do escopo atual. O usuário definiu execução local sem Docker. Consultar [ambiente atual](../openspec/AMBIENTE.md) antes de seguir qualquer comando deste documento.
+
 A aplicação está preparada para um servidor Linux com Docker Compose. Reflex roda em modo de produção em uma única porta interna; o Caddy recebe o tráfego público e fornece HTTPS, incluindo a conexão WebSocket. Xano continua armazenando os dados. Não é uma aplicação exclusivamente estática.
 
 ## Preparar o servidor

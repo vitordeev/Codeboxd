@@ -1,0 +1,66 @@
+{
+  "layer": "browser",
+  "checks": [
+    {
+      "scenario": "guest_admin_redirect",
+      "passed": true
+    },
+    {
+      "scenario": "admin_login_no_overflow_1440",
+      "passed": true
+    },
+    {
+      "scenario": "admin_login_no_overflow_390",
+      "passed": true
+    },
+    {
+      "scenario": "member_browser_login",
+      "passed": true
+    },
+    {
+      "scenario": "member_admin_route_denied",
+      "passed": true
+    },
+    {
+      "scenario": "invalid_image_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "post_image_staging_and_preview",
+      "passed": true
+    },
+    {
+      "scenario": "post_image_removed_from_draft",
+      "passed": true
+    },
+    {
+      "scenario": "post_with_image_created",
+      "passed": true
+    },
+    {
+      "scenario": "post_image_persists_after_reload",
+      "passed": true
+    },
+    {
+      "scenario": "post_edit_preserves_image",
+      "passed": true
+    },
+    {
+      "scenario": "controlled_post_deleted_in_browser",
+      "passed": true
+    },
+    {
+      "scenario": "post_cancel_discards_staged_image",
+      "passed": true
+    },
+    {
+      "scenario": "no_javascript_errors",
+      "passed": true
+    },
+    {
+      "scenario": "temporary_posts_cleanup_confirmed",
+      "passed": true
+    }
+  ],
+  "javascript_error_count": 0
+}

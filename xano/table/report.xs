@@ -21,4 +21,5 @@ table report {
     {type: "btree", field: [{name: "reporter_user_id", op: "asc"}]}
     {type: "btree", field: [{name: "target_type", op: "asc"}, {name: "target_id", op: "asc"}]}
   ]
+  guid = "XExger_iGlDrf5eTNAZ0GoKogk8"
 }

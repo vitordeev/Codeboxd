@@ -7,6 +7,7 @@ from pathlib import Path
 from urllib.parse import urlencode, urlsplit
 from datetime import datetime, timezone
 import reflex as rx
+from reflex.constants import Endpoint
 from .session import SessionState
 from ..services import catalog
 from ..services.api import APIError, base_url, request, rows
@@ -110,8 +111,10 @@ class SocialState(SessionState):
 
     @rx.event
     def set_post_editor_open(self, value: bool):
-        if not value or self.is_authenticated:
-            self.post_editor_open = value
+        if not value:
+            self.cancel_post()
+        elif self.is_authenticated:
+            self.post_editor_open = True
         else:
             return rx.redirect('/login')
 
@@ -326,7 +329,9 @@ class SocialState(SessionState):
 
     async def _validate_session(self) -> bool:
         valid = await super()._validate_session()
-        if self._identity != self.user_id or not valid:
+        # A transient provider error leaves the cached identity intact. Preserve
+        # its draft; an identity change or rejected session must still clear it.
+        if self._identity != self.user_id or (not valid and not self.is_authenticated):
             self._reset_personal()
         self._identity = self.user_id
         return valid
@@ -768,7 +773,7 @@ class SocialState(SessionState):
         path=rx.get_upload_dir()/relative
         path.parent.mkdir(parents=True,exist_ok=True)
         path.write_bytes(content)
-        banner_url=rx.get_upload_url(relative)
+        banner_url=Endpoint.UPLOAD.get_url().rstrip('/')+'/'+relative
         try:
             result=await self._call('PUT','/profile',dict(username=self.profile['username'],
                 display_name=self.profile['display_name'],bio=self.profile['bio'],
@@ -875,7 +880,7 @@ class SocialState(SessionState):
                 image_path=Path(self._post_image_path)
                 form_data={key:str(value).lower() if isinstance(value,bool) else str(value)
                            for key,value in payload.items()}
-                await upload_file(path,method=method,token=self._token(),data=form_data,field='image',
+                await upload_file(path,method=method,token=self._token(),data=form_data,field='image_upload',
                     filename=image_path.name,content=image_path.read_bytes(),mime=self.post_image_mime)
             else:
                 await self._call(method,path,payload)

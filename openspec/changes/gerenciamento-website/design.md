@@ -1,12 +1,12 @@
 ## Context
 
-Ver `proposal.md` para a motivação e `specs/` para os contratos observáveis. O projeto usa Reflex no frontend e Xano para autenticação e dados. A rota `/admin` já tem um placeholder protegido por `AuthState.guard_admin`, e a sessão reconhece o papel `admin`; isso protege a navegação, mas operações de gerenciamento ainda precisam ser verificadas nos endpoints do Xano. O catálogo social separa registros persistidos de dados fornecidos por provedores externos.
+Ver `proposal.md` para a motivação e `specs/` para os contratos observáveis. Revisão em 13/10/2026: a rota `/admin` já apresenta dashboard, e existem páginas/estado para usuários, catálogo e reports, além de `/admin/login`. A sessão confirma o papel por `/auth/me`. Contratos locais Xano existem e foram reconhecidos em dry-run histórico, mas publicação e autorização direta precisam de evidência remota. O catálogo social separa registros persistidos de dados externos. Estado por tarefa: `validation/revisao-2026-10-13.md`.
 
 ## Goals / Non-Goals
 
 **Goals:**
 
-- Evoluir o placeholder administrativo em uma área com navegação consistente e módulos desacoplados por domínio.
+- Concluir a validação da área administrativa já implementada localmente, com navegação consistente e módulos por domínio.
 - Manter autorização no backend para toda consulta ou mutação, usando a identidade autenticada e o papel confirmado.
 - Reutilizar tabelas, identificadores, serviços e estados já existentes quando apropriado.
 - Registrar ações de moderação e gerenciamento que alterem o estado de contas ou reports.
@@ -47,4 +47,16 @@ Ver `proposal.md` para a motivação e `specs/` para os contratos observáveis. 
 3. Criar endpoints administrativos com checagem de papel e paginação; revisar as operações em ambiente de desenvolvimento.
 4. Construir as telas por domínio e conectar estados vazios, carregamento e falhas parciais.
 5. Validar acesso com admin, membro e visitante, além de revisão de autorização diretamente nos endpoints.
-6. Publicar primeiro as estruturas e endpoints compatíveis, depois a interface. Para rollback, desabilitar a rota administrativa e restaurar endpoints anteriores sem apagar reports ou registros de auditoria.
+6. Quando a publicação estiver autorizada e o delta revisado, publicar primeiro estruturas/endpoints compatíveis, depois a interface. Para rollback, desabilitar a rota administrativa e restaurar endpoints anteriores sem apagar reports ou auditoria. Esta revisão documental não publica alterações.
+
+## Estado de implementação e validação
+
+Publicação posterior em 13/10/2026 autorizada pelo usuário: tabela report e nove endpoints foram aplicados no Xano, com dry-run posterior sem delta. GETs administrativos rejeitaram visitante/membro. O dashboard passou a aceitar `page`/`per_page` para atividade recente. Admin/desativado, mutações e persistência ainda precisam de evidência; ver `validation/publicacao-admin-2026-10-13.md`. A contagem permanece 17/34.
+
+17/34 tarefas próprias concluídas. Grupos 2–5 têm contratos locais; integração real continua pendente. Grupos 6–8 têm UI/handlers e testes simulados, com revisão visual e estados ainda abertos. Grupo 9 distingue compilação/dry-run de teste remoto. A demonstração `/admin/demo` não acessa Xano nem substitui a validação integrada.
+
+As referências de `docs/ADMIN_OPERATIONS.md` documentam matriz de operações, concessão manual de admin e rollback. A fonte de anime atual é Kitsu; registros Jikan são legados. A tabela `report` pertence a esta change e não deve ser atribuída à migração social arquivada.
+
+O endpoint de decisão aceita os três estados de destino, mas o contrato local não impõe um grafo de transições terminais. Verificar política e comportamento em 5.3/9.1 antes de afirmar cobertura de transições inválidas. Revisar um report não executa exclusão do conteúdo alvo.
+
+Recuperação de senha, seletor de mídia e upload do feed (H.1–H.7) são histórico anterior em `openspec/HISTORICO.md`. Entrega de e-mail e upload real no browser seguem como pendências transversais, não tarefas administrativas concluídas.

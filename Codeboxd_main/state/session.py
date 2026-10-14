@@ -97,6 +97,7 @@ class SessionState(rx.State):
 
     @rx.event
     async def request_password_reset(self, form: dict):
+        if self.is_loading: return
         email=str(form.get('email','')).strip().lower()
         if not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', email):
             self.reset_message='Informe um e-mail válido.'
@@ -107,12 +108,12 @@ class SessionState(rx.State):
         try:
             # Xano's built-in reset flow sends a one-time code by email.
             await request('GET','/reset/request-reset-link',group='auth',params={'email':email})
-            self.reset_message='Se o e-mail estiver cadastrado, você receberá um código de redefinição.'
+            self.reset_message='Se o e-mail estiver cadastrado, você receberá um código de 6 dígitos. Ele expira em 15 minutos.'
             self.reset_success=True
         except APIError as exc:
             # Keep the response generic so the page does not reveal registered accounts.
             if exc.status in (400,404):
-                self.reset_message='Se o e-mail estiver cadastrado, você receberá um código de redefinição.'
+                self.reset_message='Se o e-mail estiver cadastrado, você receberá um código de 6 dígitos. Ele expira em 15 minutos.'
                 self.reset_success=True
             else:
                 self.reset_message=str(exc)
@@ -122,6 +123,7 @@ class SessionState(rx.State):
 
     @rx.event
     async def reset_password(self, form: dict):
+        if self.is_loading: return
         email=str(form.get('email','')).strip().lower()
         code=str(form.get('code','')).strip()
         password=str(form.get('password',''))
@@ -131,8 +133,8 @@ class SessionState(rx.State):
         if not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+',email):
             self.reset_message='Informe o mesmo e-mail usado para solicitar o código.'
             return
-        if not code:
-            self.reset_message='Informe o código recebido por e-mail.'
+        if not re.fullmatch(r'[0-9]{6}',code):
+            self.reset_message='Informe o código de 6 dígitos recebido por e-mail.'
             return
         if len(password)<8 or not re.search(r'[A-Za-z]',password) or not re.search(r'\d',password):
             self.reset_message='A senha precisa de 8 caracteres, incluindo letra e número.'

@@ -1,0 +1,5 @@
+{
+  "status": 500,
+  "error_code": "ERROR_FATAL",
+  "error_message": "This resource is not a valid image."
+}

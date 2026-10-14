@@ -62,7 +62,7 @@ def password_reset_page() -> rx.Component:
                 class_name='reset-intro'),
             rx.el.section(
                 rx.el.h2(rx.el.span('1',class_name='reset-step-number'),'Receber código',class_name='reset-step-title'),
-                rx.el.p('Enviaremos um código de uso único para o e-mail da sua conta.',class_name='reset-step-copy'),
+                rx.el.p('Enviaremos um código de 6 dígitos para o e-mail da sua conta. Ele vale por 15 minutos e só pode ser usado uma vez.',class_name='reset-step-copy'),
                 rx.el.form(
                     field('E-mail da conta', 'email', 'email', auto_complete='email', placeholder='voce@exemplo.com'),
                     rx.el.button(rx.cond(SessionState.is_loading,'Enviando…','Enviar código por e-mail'),
@@ -71,11 +71,11 @@ def password_reset_page() -> rx.Component:
                 class_name='reset-step'),
             rx.el.section(
                 rx.el.h2(rx.el.span('2',class_name='reset-step-number'),'Criar senha nova',class_name='reset-step-title'),
-                rx.el.p('Digite o código recebido e escolha uma senha segura.',class_name='reset-step-copy'),
+                rx.el.p('Digite os 6 dígitos recebidos e escolha uma senha segura.',class_name='reset-step-copy'),
                 rx.el.form(
                     field('E-mail da conta', 'email', 'email', auto_complete='email', placeholder='voce@exemplo.com'),
                     field('Código recebido por e-mail', 'code', 'text', auto_complete='one-time-code',
-                          max_length=64, placeholder='Cole o código do e-mail'),
+                          min_length=6, max_length=6, pattern='[0-9]{6}', input_mode='numeric', placeholder='123456'),
                     field('Nova senha', 'password', 'password', auto_complete='new-password', min_length=8),
                     rx.el.p('Mínimo de 8 caracteres, com pelo menos uma letra e um número.',class_name='reset-hint'),
                     field('Confirme a nova senha', 'confirm_password', 'password',

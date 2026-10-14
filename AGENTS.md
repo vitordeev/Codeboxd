@@ -54,3 +54,18 @@ Then proceed with the user's request.
 
 When you need to compile, run, reload, or debug a Reflex application, follow the **reflex-process-management** skill for the correct sequence and error investigation steps.
 <!-- reflex managed end -->
+
+## Registro obrigatório no OpenSpec
+
+Por orientação do usuário, toda modificação no projeto deve estar relacionada ao OpenSpec. A pasta `openspec/` centraliza planejamento, tarefas, decisões, contexto, evidências e pendências.
+
+- Antes de alterar arquivos, ler `openspec/README.md` e os documentos centrais pertinentes; identificar a change ou pendência relacionada ao trabalho.
+- Alterações de código, configuração, infraestrutura e documentação devem ter contexto e resultado registrados em `openspec/`, na change correspondente ou nos documentos centrais, conforme o escopo.
+- Atualizar tarefas e evidências na mesma rodada, distinguindo implementação local, testes simulados, validação remota e navegador. Não marcar como concluído o que depende de verificação.
+- Centralizar a documentação de acompanhamento em `openspec/`; referenciar e reconciliar documentos técnicos existentes fora dela quando afetados.
+- Preservar histórico e IDs. Evoluções posteriores de changes arquivadas devem ser acompanhadas por trabalho ativo, sem sobrescrever silenciosamente a entrega histórica.
+- Esta regra exige vínculo documental com OpenSpec; arquivos de implementação continuam nos diretórios próprios do projeto.
+
+## Execução local sem Docker
+
+Por decisão explícita do usuário, manter execução local com `.venv`, sem introduzir, iniciar ou utilizar Docker nesta etapa. Não tratar testes Docker como pendência obrigatória. Registrar qualquer mudança dessa decisão em `openspec/`.
