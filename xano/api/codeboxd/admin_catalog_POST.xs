@@ -60,4 +60,5 @@ query "admin/catalog" verb=POST {
   }
  }
  response = $result
+ guid = "d70jOc3ICgBnQ-ub2n-PP8eSEuI"
 }

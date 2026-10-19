@@ -1,99 +1,96 @@
-// Exchanges magic token for auth token. Logs in user with the one-time link.
+// Consume a six-digit code and issue a short-lived reset credential.
 query "reset/magic-link-login" verb=POST {
   api_group = "Authentication"
-
   input {
-    text magic_token filters=trim|min:1
+    text magic_token filters=trim|min:6|max:6
     email email filters=trim|lower
   }
 
   stack {
-    // Check to make sure the magic token exists
-    precondition ($input.magic_token != null) {
-      error = "magic_token is required but was not provided."
+    api.lambda {
+      code = "return /^[0-9]{6}$/.test($input.magic_token);"
+    } as $valid_format
+    precondition ($valid_format) {
+      error_type = "unauthorized"
+      error = "Código inválido ou expirado. Solicite um novo código."
     }
-  
-    // Check to make sure the email exists
-    precondition ($input.email != null) {
-      error = "email is required but not provided"
-    }
-  
-    // Get the user record with the email from the URL
+
+    var $accepted { value = false }
+    var $reset_user_id { value = 0 }
     db.get user {
       field_name = "email"
       field_value = $input.email
-      output = [
-        "id"
-        "created_at"
-        "name"
-        "email"
-        "role"
-        "account_status"
-        "password_reset.token"
-        "password_reset.expiration"
-        "password_reset.used"
-      ]
+      output = ["id", "account_status"]
     } as $user
 
-    precondition ($user != null && $user.account_status != "disabled") {
+    conditional {
+      if ($user != null && $user.account_status == "active") {
+        db.transaction {
+          stack {
+            // Serialize attempts and one-time consumption on the account row.
+            db.edit user {
+              field_name = "id"
+              field_value = $user.id
+              data = {updated_at: now}
+            }
+            db.get user {
+              field_name = "id"
+              field_value = $user.id
+            } as $locked_user
+
+            conditional {
+              if ($locked_user.account_status == "active" && $locked_user.password_reset_format == "six_digits" && $locked_user.password_reset.token != null && $locked_user.password_reset.used == false && $locked_user.password_reset.expiration > now && $locked_user.password_reset_attempts < 5) {
+                security.check_password {
+                  text_password = $input.magic_token
+                  hash_password = $locked_user.password_reset.token
+                } as $matches
+
+                db.edit user {
+                  field_name = "id"
+                  field_value = $user.id
+                  data = {password_reset_attempts: ($locked_user.password_reset_attempts + 1)}
+                }
+                conditional {
+                  if ($matches) {
+                    db.edit user {
+                      field_name = "id"
+                      field_value = $user.id
+                      data = {
+                        password_reset: {
+                          token: $locked_user.password_reset.token
+                          expiration: $locked_user.password_reset.expiration
+                          used: true
+                        }
+                      }
+                    }
+                    var.update $accepted { value = true }
+                    var.update $reset_user_id { value = $user.id }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Outside db.transaction so rejected attempts remain persisted.
+    precondition ($accepted) {
       error_type = "unauthorized"
-      error = "Invalid reset link."
+      error = "Código inválido ou expirado. Solicite um novo código."
     }
-  
-    // Validate the UUID matches the hashed value
-    security.check_password {
-      text_password = $input.magic_token
-      hash_password = $user.password_reset.token
-    } as $verify_token
-  
-    // Verify the UUID validation is true
-    precondition ($verify_token) {
-      error_type = "unauthorized"
-      error = "The token did not match"
-    }
-  
-    // Check that the password reset token has not expired
-    precondition ($user.password_reset.expiration > now) {
-      error = "Magic token has expired. Please request another one."
-    }
-  
-    // Check to make sure the password reset has not been used
-    precondition ($user.password_reset.used == false) {
-      error = "This magic link has already been used. Please request another one."
-    }
-  
-    // Create an authentication token
     security.create_auth_token {
       table = "user"
-      extras = ""
-      expiration = 86400
-      id = $user.id
+      extras = {purpose: "password_reset"}
+      expiration = 300
+      id = $reset_user_id
     } as $auth_token
-  
-    // Update the user record that the password reset token has been used
-    db.edit user {
-      field_name = "id"
-      field_value = $user.id
-      data = {
-        password_reset: {
-        token     : $user.password_reset.token
-        expiration: $user.password_reset.expiration
-        used      : true
-      }
-      }
-    } as $user1
-  
-    // Create an event log for password reset login
     function.run "Quick Start/log_event" {
-      input = {
-        user_id : $user.id
-        action  : "login_for_password_reset"
-        metadata: {}
-      }
-    } as $event_log
+      input = {user_id: $reset_user_id, action: "login_for_password_reset", metadata: {}}
+    }
   }
 
-  response = {authToken: $auth_token, user_id: $user1.id}
+  response = {authToken: $auth_token, user_id: $reset_user_id}
   tags = ["xano:quick-start"]
   guid = "dt11WPhZBTfemUoGnpTO8EPVmuY"
 }

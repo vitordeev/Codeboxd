@@ -21,7 +21,7 @@ papel `admin`.
 
 | Operação | Endpoint planejado | Entrada | Resposta mínima |
 | --- | --- | --- | --- |
-| Indicadores e atividade | `GET /admin/dashboard` | `page`/limite fixos no servidor | `users_total`, `posts_total`, `media_total`, `reports_pending`, `recent_posts[]` |
+| Indicadores e atividade | `GET /admin/dashboard` | `page`, `per_page` (padrão 6, máximo 100) para atividade; pendências limitadas a 5 | `users_total`, `posts_total`, `media_total`, `reports_pending`, `recent_posts[]` |
 | Pesquisa de contas | `GET /admin/users` | `search`, `user_id?`, `account_status?`, `role?`, `page`, `per_page` | `{items: [{id, username, name, role, account_status, created_at}], total, page, next_page, per_page}` |
 | Suspender/reativar | `PUT /admin/users/{id}/status` | `account_status`, `reason?` | `{success, user_id, previous_status, account_status}`; o ator vem da sessão, não do payload |
 | Catálogo | `GET /admin/catalog` | tipo, consulta, filtros, `page`, `per_page` | `{items, total, page, next_page, per_page}` com campos permitidos da tabela `media` |
@@ -46,6 +46,7 @@ no servidor e não são calculadas a partir de páginas da UI.
 
 ## Estado da integração
 
+<<<<<<< HEAD
 Os contratos e arquivos Xano locais ficam em `xano/`. Em 19/10/2026, uma exportação
 de esquema confirmou que a tabela `report` e os oito endpoints administrativos já
 existem no workspace `147717` (Pedro's Workspace). O perfil do projeto se chama
@@ -63,6 +64,18 @@ operações destrutivas. Ela prepara paginação independente de atividade/repor
 dashboard e parâmetros opcionais explícitos na pesquisa de usuários. Não foi
 publicada. A prévia do diretório inteiro inclui outras alterações e remoção de
 campos da tabela `user`; não use esse delta amplo para publicar a administração.
+=======
+Em 13/10/2026, após autorização do usuário, tabela `report` e nove endpoints de
+administração/denúncias foram publicados no workspace `147717`. O dry-run limitado
+posterior ficou sem delta; quatro GETs rejeitaram visitante/membro. Validação
+completa de admin/desativado, mutações e auditoria continua pendente. Registro
+canônico: [publicação administrativa](../openspec/changes/gerenciamento-website/validation/publicacao-admin-2026-10-13.md).
+
+Os contratos e arquivos Xano locais ficam em `xano/`. Em 26/09/2026, o dry-run do
+workspace `147717` reconheceu a tabela `report` e os endpoints do dashboard, usuários,
+catálogo e moderação. O dry-run não publica alterações: as rotas administrativas só
+ficam funcionais quando esses arquivos forem publicados no workspace conectado.
+>>>>>>> develop
 
 ## Publicação, concessão de acesso e rollback
 

@@ -249,9 +249,39 @@ def discovery_page():
                 rx.el.p('Pesquise uma obra e salve sua primeira experiência.',class_name='text-sm text-gray-400'),class_name='empty-state')))))
 
 
+def rating_picker():
+    return rx.el.div(
+        rx.el.div(*[
+            rx.el.div(
+                rx.el.span('★',class_name='rating-star-base',aria_hidden=True),
+                rx.el.span(rx.el.span('★',class_name='rating-star-glyph'),
+                    style={'width':rx.cond(S.selected_rating_value >= value,'100%',
+                        rx.cond(S.selected_rating_value >= value - 0.5,'50%','0%'))},
+                    class_name='rating-star-fill',aria_hidden=True),
+                *[rx.el.button(type='button',
+                    aria_label='Nota '+str(score).removesuffix('.0').replace('.',',')+' de 5',
+                    title=str(score).removesuffix('.0').replace('.',',')+' estrelas',
+                    aria_pressed=S.selected_rating_value == score,
+                    on_click=S.set_selected_rating(str(score)),
+                    class_name='rating-star-option '+position)
+                    for score,position in ((value-0.5,'half'),(value,'whole'))],
+                class_name='rating-star-control') for value in range(1,6)],
+            role='group',aria_label='Sua avaliação em meias estrelas',class_name='rating-stars'),
+        rx.el.label(rx.el.span('Sua nota',class_name='text-sm text-gray-400'),
+            rx.el.select(rx.el.option('Sem nota',value='0'),
+                *[rx.el.option(str(value/2).removesuffix('.0').replace('.',',')+' / 5',
+                    value=str(value/2).removesuffix('.0')) for value in range(1,11)],
+                name='rating',value=S.selected_rating,on_change=S.set_selected_rating,
+                class_name=INPUT),class_name='rating-value-select'),
+        rx.el.p('Selecione meia estrela ou uma estrela inteira.',class_name='text-xs text-gray-400'),
+        class_name='space-y-2')
+
+
 def media_page():
     return rx.fragment(shell('Detalhes da obra','Conheça a história e registre sua experiência.',
-        rx.el.a('← Voltar à descoberta',href='/',class_name='text-sm text-gray-400'),
+        rx.el.a(
+            rx.el.span(rx.icon('arrow-left',size=17,aria_hidden=True),class_name='media-back-icon'),
+            rx.el.span('Voltar à descoberta'),href='/',class_name='media-back-link'),
         rx.cond(S.selected['title']!='',rx.el.div(
             rx.el.section(
                 rx.cond(S.selected['cover']!='',rx.el.img(src=S.selected['cover'],alt='Capa de '+S.selected['title'],class_name='media-detail-poster'),
@@ -286,16 +316,13 @@ def media_page():
                     rx.el.div(rx.foreach([('planned','Quero ver / ler'),('in_progress','Em andamento'),('completed','Concluído'),('dropped','Abandonado')],
                         lambda pair:rx.el.button(pair[1],type='button',on_click=S.set_selected_status(pair[0]),
                             class_name=rx.cond(S.selected_status==pair[0],'status-chip selected','status-chip'))),class_name='media-statuses'),
-                    rx.el.div(*[rx.el.button('★',type='button',aria_label='Nota '+str(value)+' de 5',
-                        on_click=S.set_selected_rating(str(value)),class_name='rating-star') for value in range(1,6)],class_name='rating-stars'),
-                    field('Nota (0 = sem nota)','rating',S.selected_rating,type='number',min=0,max=5,step=0.5,placeholder='0 a 5'),
+                    rating_picker(),
                     textarea('Sua crítica detalhada','review',S.selected_review,max_length=10000,rows=5,placeholder='Conte o que achou desta obra...'),
                     check('Contém spoilers','spoiler',S.selected_spoiler),submit('Salvar avaliação'),
-                    on_submit=S.save_interaction,key=S.selected['id']+S.selected_review+S.selected_rating,class_name='media-review-form'),
+                    on_submit=S.save_interaction,key=S.selected['id']+S.selected_review,class_name='media-review-form'),
                     rx.el.div(rx.el.h3('Avalie esta obra',class_name='font-semibold'),
                         rx.el.p('Sua nota fica salva apenas neste navegador e não aparece no perfil nem na comunidade.',class_name='text-sm text-gray-400'),
-                        rx.el.div(*[rx.el.button('★',type='button',aria_label='Nota '+str(value)+' de 5',
-                            on_click=S.set_selected_rating(str(value)),class_name='rating-star') for value in range(1,6)],class_name='rating-stars'),
+                        rating_picker(),
                         rx.cond(S.notice!='',rx.el.p(S.notice,class_name='text-sm text-amber-300')),
                         rx.el.p('Crie uma conta para publicar uma crítica, salvar na biblioteca, criar posts ou seguir pessoas.',class_name='text-sm text-gray-400'),
                         rx.el.a('Criar conta',href='/cadastro',class_name=BUTTON+' inline-block'),class_name=CARD))),
@@ -479,12 +506,14 @@ def report_dialog():
             rx.el.h2('Denunciar conteúdo',class_name='text-xl font-bold'),
             rx.el.p('A equipe analisará este conteúdo. O envio do report não o altera nem o remove.',class_name='text-sm text-gray-400'),
             rx.el.form(
+                rx.cond(S.report_error != '', rx.el.p(S.report_error, role='alert', class_name='text-sm text-red-400')),
                 rx.el.label('Motivo',html_for='report-reason',class_name='block text-sm text-gray-300'),
                 rx.el.select(rx.el.option('Spam',value='spam'),rx.el.option('Assédio',value='harassment'),
                     rx.el.option('Conteúdo impróprio',value='inappropriate'),rx.el.option('Outro',value='other'),
-                    id='report-reason',name='reason',default_value=S.report_reason,class_name=INPUT),
+                    id='report-reason',name='reason',value=S.report_reason,on_change=S.set_report_reason,class_name=INPUT),
                 rx.el.label('Detalhes (opcional)',html_for='report-description',class_name='block text-sm text-gray-300'),
                 rx.el.textarea(id='report-description',name='description',max_length=2000,
+                    value=S.report_description,on_change=S.set_report_description,
                     placeholder='Inclua somente o contexto necessário para a análise.',class_name=INPUT),
                 rx.el.div(
                     rx.el.button('Cancelar',type='button',on_click=S.close_report,disabled=S.report_sending,class_name='quiet-button'),

@@ -61,4 +61,5 @@ query "admin/users/{id}/status" verb=PUT {
     previous_status: $target.account_status
     account_status: $input.account_status
   }
+  guid = "PlSEprlaEyTxRpf6RF3YAOHMIL8"
 }

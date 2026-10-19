@@ -22,10 +22,10 @@ query "admin/catalog" verb=GET {
     }
 
     db.query media {
-      where = $db.media.media_type == $input.media_type && ($input.search == "" || (($db.media.title|to_lower) ~ ($input.search|to_lower)))
+      where = $db.media.media_type == $input.media_type && ($input.search == "" || $db.media.title ~ $input.search)
       sort = {media.title: "asc"}
-      output = ["id", "identity_key", "external_source", "external_id", "media_type", "title", "description", "cover_url", "year"]
-      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true}}
+      output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.identity_key", "items.external_source", "items.external_id", "items.media_type", "items.title", "items.description", "items.cover_url", "items.year"]
+      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
     } as $catalog
   }
 
@@ -34,6 +34,7 @@ query "admin/catalog" verb=GET {
     total: $catalog.itemsTotal
     page: $catalog.curPage
     next_page: $catalog.nextPage
-    per_page: $catalog.perPage
+    per_page: $input.per_page
   }
+  guid = "yI9z9PqXqahTF-oiKEYk0vb1WxQ"
 }

@@ -1,6 +1,9 @@
 """Async Xano transport. No network calls or mandatory secrets at import time."""
 import os
 import asyncio
+import math
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from typing import Any
 
 import httpx
@@ -10,9 +13,24 @@ load_dotenv()
 
 
 class APIError(Exception):
-    def __init__(self, message: str, status: int = 0):
+    def __init__(self, message: str, status: int = 0, retry_after: int = 0):
         super().__init__(message)
         self.status = status
+        self.retry_after = retry_after
+
+
+def retry_after_seconds(value: str) -> int:
+    try:
+        seconds = float(value)
+        return max(1, math.ceil(seconds)) if math.isfinite(seconds) else 30
+    except (ValueError, TypeError):
+        try:
+            deadline = parsedate_to_datetime(value)
+            if deadline.tzinfo is None:
+                deadline = deadline.replace(tzinfo=timezone.utc)
+            return max(1, math.ceil((deadline - datetime.now(timezone.utc)).total_seconds()))
+        except (ValueError, TypeError, OverflowError):
+            return 30
 
 
 def base_url(group: str) -> str:
@@ -37,16 +55,19 @@ async def request(method: str, path: str, *, group: str = 'social', token: str =
             for attempt in range(3):
                 response = await client.request(method, base_url(group) + path,
                                                 headers=headers, json=data, params=params)
-                if response.status_code != 429 or attempt == 2:
+                # Only safe reads may retry; never repeat report creation or other writes.
+                if response.status_code != 429 or method.upper() not in ('GET', 'HEAD') or attempt == 2:
                     break
-                try:
-                    delay = min(3, max(1, int(response.headers.get('Retry-After', '2'))))
-                except ValueError:
-                    delay = 2
+                delay = retry_after_seconds(response.headers.get('Retry-After', ''))
+                if delay > 3:
+                    break
                 await asyncio.sleep(delay)
     except httpx.RequestError as exc:
         raise APIError('Não foi possível conectar. Tente novamente em instantes.') from exc
     if response.is_error:
+        if response.status_code == 429:
+            wait = retry_after_seconds(response.headers.get('Retry-After', ''))
+            raise APIError(f'Muitas solicitações. Tente novamente em {wait} segundos.', 429, wait)
         messages = {
             400: 'Confira os dados informados.', 401: 'Sua sessão expirou. Entre novamente.',
             403: 'Você não tem permissão para esta ação.', 404: 'Conteúdo não encontrado.',

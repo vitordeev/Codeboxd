@@ -1,6 +1,34 @@
-.states
-assets/external/
-.web
-*.py[cod]
+﻿# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.env
+!*.env.example
+.aws/
+
+# Python environments and caches
+.venv/
+venv/
 __pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Databases
 *.db
+
+# Reflex generated files and local state
+.web/
+.states/
+.local/
+uploaded_files/
+assets/external/
+node_modules/
+*.log
+
+# Editor and OS temporary files
+.DS_Store
+Thumbs.db
+*.tmp

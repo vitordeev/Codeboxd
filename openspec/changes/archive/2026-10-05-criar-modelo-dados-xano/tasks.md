@@ -1,3 +1,7 @@
+# Tarefas do modelo de dados Xano
+
+Revisão em 13/10/2026: 37/37 tarefas concluídas conforme evidências de setembro; nenhum teste remoto novo foi executado nesta revisão. A fundação também teve suas pendências reconciliadas. Contratos consolidados e histórico central preservam o contexto após arquivamento.
+
 ## 1. Preparação do modelo de dados
 
 - [x] 1.1 Revisar as specs de persistência e verificar que todas as capabilities possuem requisitos definidos
@@ -64,6 +68,6 @@
 
 ## Evidência e retomada
 
-Estado em 18/09/2026. A migração inicial do workspace Xano 147717 foi publicada: tabelas sociais, grupo Codeboxd, endpoints e atualizações aos endpoints existentes. Testes reais com duas contas confirmaram cadastro/login, perfil e privacidade, mídia e deduplicação, interações independentes, seguidores, feed, autoria de posts, curtidas, comentários, listas públicas/privadas, ownership e exclusões. Evidência reproduzível está em `.local/remote-results.json`; segredos e contas permanecem em `.local/`, ignorado pelo Git.
+Evidência histórica de 18/09/2026: a migração inicial do workspace Xano 147717 foi publicada, com tabelas sociais, grupo Codeboxd, endpoints e atualizações existentes. Testes com duas contas confirmaram cadastro/login, perfil/privacidade, mídia/deduplicação, interações independentes, seguidores, feed, autoria, curtidas, comentários, listas públicas/privadas e exclusões. `.local/remote-results.json` contém um resumo auxiliar local. A revisão atual encontrou `.gitignore` vazio; a antiga afirmação de que segredos/contas estariam protegidos pelo Git não deve ser assumida.
 
-Validação remota adicional em 18/09/2026 confirmou posts com e sem mídia opcional e a mesma mídia em duas listas distintas. Os objetos temporários foram excluídos após o teste; nenhuma mídia ou interação persistente foi criada. Com isso, todas as 37 tarefas desta change foram verificadas. A rota remota `/likes` ainda responde 404, embora exista XanoScript local; o estado atual do feed contorna isso pela rota de discussão. Não arquivar enquanto a validação da change de fundação permanecer aberta.
+Validação remota adicional em 18/09/2026 confirmou posts com/sem mídia e a mesma mídia em duas listas; objetos temporários foram excluídos conforme o registro da rodada. As 37 tarefas foram verificadas. O último registro remoto de `/likes` é 404, com fallback de discussão; isso não impede a persistência de curtidas comprovada nas rotas de mutação. Em 13/10, a pendência da fundação foi reconciliada com evidência Kitsu; o bloqueio documental antigo de arquivamento foi resolvido. A administração continua uma change separada.

@@ -14,6 +14,7 @@ from typing import Any
 import httpx
 
 from .api import APIError
+from .translation import translate_description
 
 logger = logging.getLogger(__name__)
 KITSU_URL = 'https://kitsu.app/api/edge'
@@ -451,12 +452,14 @@ async def detail(item: dict) -> dict:
             # Preserve saved library links while refreshing metadata through Kitsu.
             result.update(external_source=source, external_id=identifier,
                           identity_key=f'jikan:anime:{identifier}', id=item.get('id', 0))
+        result['description'] = await translate_description(result['description'])
         return result
     if source == 'openlibrary':
         if not re.fullmatch(r'OL\d+W',identifier): raise APIError('Identificador inválido.')
         payload=await fetch(f'https://openlibrary.org/works/{identifier}.json',params={'lang':'pt'})
         description=payload.get('description','')
         if isinstance(description,dict): description=description.get('value','')
+        description = await translate_description(str(description or ''))
         details=dict(item.get('details') or {})
         author_keys=[a.get('author',{}).get('key','') for a in payload.get('authors',[])[:5]]
         author_keys=[key for key in author_keys if re.fullmatch(r'/authors/OL\d+A',key)]

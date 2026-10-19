@@ -7,6 +7,7 @@ text body filters=trim|min:1|max:5000
 int media_id?=0
 bool spoiler?=false
 image image?
+file image_upload?
  }
  stack {
 db.get user {
@@ -42,16 +43,28 @@ precondition ($media != null) {
 }
 }}
 conditional {
- if ($input.image != null) {
+ if ($input.image_upload != null) {
+storage.create_image {
+ access = "public"
+ value = $input.image_upload
+ filename = ""
+} as $post_image
+ }
+ else {
+var $post_image { value = $input.image }
+ }
+}
+conditional {
+ if ($post_image != null) {
 db.edit post {
  field_name = "id"
  field_value = $input.id
- data = {body: $input.body, media_id: $input.media_id, image: $input.image, spoiler: $input.spoiler, updated_at: now}
+ data = {body: $input.body, media_id: $input.media_id, image: $post_image, spoiler: $input.spoiler, updated_at: now}
 } as $result
  }
 }
 conditional {
- if ($input.image == null) {
+ if ($post_image == null) {
 db.edit post {
  field_name = "id"
  field_value = $input.id

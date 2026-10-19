@@ -76,12 +76,12 @@ The system SHALL inform the user when requested results cannot be retrieved due 
 - **THEN** the system SHALL inform the user that the results could not be retrieved
 ### Requirement: Browse beyond the initial catalog
 
-The system SHALL display popular movies and series in responsive grids that grow vertically, with no horizontal scrolling inside the home catalogs. Users SHALL be able to append additional pages to each section without entering a search term.
+The system SHALL display discovery collections grouped by media type in vertically stacked sections with independently scrollable horizontal shelves. Text search and category catalogs SHALL remain independently paginated. Users SHALL be able to append additional popular movie and series pages without entering a search term.
 
 #### Scenario: More titles
 
 - **WHEN** a user chooses to see more popular movies or series
-- **THEN** the system SHALL append additional results below the existing cards in that home section without duplicating identities or replacing the other section
+- **THEN** the system SHALL append additional results to that home shelf without duplicating identities or replacing the other section
 
 ### Requirement: Stable media covers
 

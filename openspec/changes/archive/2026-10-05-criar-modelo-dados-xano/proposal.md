@@ -1,5 +1,7 @@
 ## Why
 
+Estado reconciliado em 13/10/2026: proposta do modelo inicial concluído e validado historicamente em setembro. Administração, reports e complementos posteriores são acompanhados separadamente.
+
 O Codeboxd necessita de uma estrutura persistente de dados para armazenar as informações próprias da plataforma, incluindo usuários, perfis, interações com mídias, listas e recursos sociais. Definir esse modelo antes da implementação evita inconsistências nas relações entre os dados e facilita a integração entre o frontend Reflex, o backend Xano e as APIs externas.
 
 ## What Changes

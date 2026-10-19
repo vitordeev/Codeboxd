@@ -1,0 +1,37 @@
+{
+  "layer": "browser_and_real_xano_controlled_account",
+  "checks": [
+    {
+      "scenario": "guest_half_star_selected",
+      "passed": true
+    },
+    {
+      "scenario": "one_full_and_one_half_star_rendered",
+      "passed": true
+    },
+    {
+      "scenario": "guest_decimal_restored_after_reload",
+      "passed": true
+    },
+    {
+      "scenario": "mobile_stars_fit_viewport",
+      "passed": true
+    },
+    {
+      "scenario": "guest_clear_restored",
+      "passed": true
+    },
+    {
+      "scenario": "changing_star_or_select_keeps_review_draft",
+      "passed": true
+    },
+    {
+      "scenario": "probe_error_HTTPStatusError",
+      "passed": false
+    },
+    {
+      "scenario": "controlled_test_interaction_removed",
+      "passed": true
+    }
+  ]
+}

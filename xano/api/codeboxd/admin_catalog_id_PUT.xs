@@ -62,4 +62,5 @@ query "admin/catalog/{id}" verb=PUT {
     year: $updated.year
     media_type: $existing.media_type
   }
+  guid = "Vx8MnAruE2ue8Zg1DqhEVCLw2mY"
 }

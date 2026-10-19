@@ -1,0 +1,43 @@
+{
+  "layer": "remote_read_only",
+  "mutations": false,
+  "scope": "GET only; does not verify mutations, counts or audit persistence",
+  "results": [
+    {
+      "role": "guest",
+      "endpoint": "/admin/dashboard",
+      "status": 404,
+      "result": "unavailable"
+    },
+    {
+      "role": "guest",
+      "endpoint": "/admin/users",
+      "status": 404,
+      "result": "unavailable"
+    },
+    {
+      "role": "guest",
+      "endpoint": "/admin/catalog",
+      "status": 404,
+      "result": "unavailable"
+    },
+    {
+      "role": "guest",
+      "endpoint": "/admin/reports",
+      "status": 404,
+      "result": "unavailable"
+    },
+    {
+      "role": "member",
+      "result": "skipped_missing_token"
+    },
+    {
+      "role": "disabled",
+      "result": "skipped_missing_token"
+    },
+    {
+      "role": "admin",
+      "result": "skipped_missing_token"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "layer": "xano_controlled_account",
+  "email_sent": false,
+  "checks": [
+    {
+      "scenario": "cooldown_request_returns_generic_response_without_code",
+      "passed": true
+    },
+    {
+      "scenario": "missing_account_request_is_same_generic_response",
+      "passed": true
+    },
+    {
+      "scenario": "expiry_fixture_preserves_code_hash",
+      "passed": true
+    },
+    {
+      "scenario": "expired_correct_code_is_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "expired_code_does_not_consume_attempt",
+      "passed": true
+    },
+    {
+      "scenario": "original_password_and_reset_fixture_restored",
+      "passed": true
+    }
+  ]
+}

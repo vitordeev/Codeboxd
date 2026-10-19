@@ -5,8 +5,11 @@ query "admin/dashboard" verb=GET {
   input {
     int page?=1 filters=min:1
     int per_page?=6 filters=min:1|max:100
+<<<<<<< HEAD
     int reports_page?=1 filters=min:1
     int reports_per_page?=5 filters=min:1|max:100
+=======
+>>>>>>> develop
   }
 
   stack {
@@ -48,7 +51,11 @@ query "admin/dashboard" verb=GET {
     db.query post {
       sort = {post.id: "desc"}
       output = ["id", "user_id", "created_at"]
+<<<<<<< HEAD
       return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true}}
+=======
+      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, metadata: false}}
+>>>>>>> develop
     } as $recent_posts
   }
 
@@ -72,4 +79,5 @@ query "admin/dashboard" verb=GET {
       per_page: $pending_reports.perPage
     }
   }
+  guid = "ZHfvqwCtLhUcUhqp84Wr9P7dF_o"
 }

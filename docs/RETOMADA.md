@@ -2,6 +2,12 @@
 
 # Ponto de retomada — CodeBoxd
 
+## Retomada atual — 13/10/2026
+
+O acompanhamento foi centralizado em [openspec/README.md](../openspec/README.md). Consultar [relatório](../openspec/RELATORIO_STATUS.md), [pendências](../openspec/PENDENCIAS.md) e [ambiente](../openspec/AMBIENTE.md) antes de executar comandos. Fundação e modelo Xano foram arquivados; administração segue ativa. Correções locais passaram em 113 testes e compilação no `.venv`; o usuário definiu execução sem Docker; tratamento de credenciais antigas permanece pendente.
+
+O restante deste documento é histórico de setembro. Portas, contagens, referências Jikan, comandos com `venv` e afirmações de arquivos ignorados devem ser interpretados como registros daquela época, não configuração atual. A proteção Git foi corrigida em 13/10; versões anteriores de arquivos privados permanecem no histórico até tratamento próprio.
+
 ## Status atual — 19/09/2026
 
 - Fundação OpenSpec: 79/81 concluídas; permanecem 2 tarefas: busca Jikan ao vivo e validação final da change.

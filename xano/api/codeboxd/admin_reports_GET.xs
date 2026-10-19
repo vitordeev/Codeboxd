@@ -40,8 +40,8 @@ query "admin/reports" verb=GET {
     db.query report {
       where = ($input.status == "" || $db.report.status == $input.status) && ($input.target_type == "" || $db.report.target_type == $input.target_type) && ($input.reason == "" || $db.report.reason == $input.reason)
       sort = {report.created_at: "desc"}
-      output = ["id", "created_at", "reporter_user_id", "target_type", "target_id", "reason", "description", "target_snapshot", "status", "reviewer_user_id", "decision", "reviewed_at"]
-      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true}}
+      output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.created_at", "items.reporter_user_id", "items.target_type", "items.target_id", "items.reason", "items.description", "items.target_snapshot", "items.status", "items.reviewer_user_id", "items.decision", "items.reviewed_at"]
+      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
     } as $reports
   }
 
@@ -50,6 +50,7 @@ query "admin/reports" verb=GET {
     total: $reports.itemsTotal
     page: $reports.curPage
     next_page: $reports.nextPage
-    per_page: $reports.perPage
+    per_page: $input.per_page
   }
+  guid = "e5OZqm4A_ebZHyUe8errrdMf5-M"
 }

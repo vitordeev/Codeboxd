@@ -1,5 +1,7 @@
 ## Why
 
+Nota de revisão em 13/10/2026: este documento preserva a intenção da fundação já implementada. O design descreve as decisões atuais; o encerramento usa evidências históricas e validação documental. Administração e complementos posteriores são acompanhados separadamente.
+
 O Codeboxd será uma plataforma social para descoberta, organização e compartilhamento de experiências relacionadas a filmes, séries, animes e livros. A mudança é necessária para estabelecer as capacidades fundamentais do produto antes do início do desenvolvimento, garantindo que as funcionalidades tenham comportamentos bem definidos e possam evoluir de forma organizada.
 
 ## What Changes

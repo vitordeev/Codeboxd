@@ -70,4 +70,5 @@ query "admin/reports/{id}" verb=PUT {
     reviewer_user_id: $auth.id
     decision: $input.decision
   }
+  guid = "fu5_YlaQjEFxaFcIiUj5NcwHJS0"
 }

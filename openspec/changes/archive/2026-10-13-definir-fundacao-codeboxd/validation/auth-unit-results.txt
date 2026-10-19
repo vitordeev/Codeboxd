@@ -1,0 +1,35 @@
+﻿venv\Scripts\python.exe : test_bad_login_has_specific_message 
+(test_authentication.SessionTests.test_bad_login_has_specific_message) ... ok
+No linha:2 caractere:1
++ venv\Scripts\python.exe -m unittest discover -s tests -p test_authent ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_bad_login_...message) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+test_cookie_presence_does_not_grant_access 
+(test_authentication.SessionTests.test_cookie_presence_does_not_grant_access) ... ok
+test_disabled_account_is_denied (test_authentication.SessionTests.test_disabled_account_is_denied) ... ok
+test_expired_session_clears_identity_and_both_tokens 
+(test_authentication.SessionTests.test_expired_session_clears_identity_and_both_tokens) ... ok
+test_invalid_login_does_not_create_a_session 
+(test_authentication.SessionTests.test_invalid_login_does_not_create_a_session) ... ok
+test_login_respects_remember_choice (test_authentication.SessionTests.test_login_respects_remember_choice) ... ok
+test_member_is_authenticated_but_is_not_admin 
+(test_authentication.SessionTests.test_member_is_authenticated_but_is_not_admin) ... ok
+test_service_failure_keeps_identity_but_denies_admin_validation 
+(test_authentication.SessionTests.test_service_failure_keeps_identity_but_denies_admin_validation) ... ok
+test_signup_cannot_use_old_backend_before_migration 
+(test_authentication.SessionTests.test_signup_cannot_use_old_backend_before_migration) ... ok
+test_malformed_response_is_reported (test_authentication.TransportTests.test_malformed_response_is_reported) ... ok
+test_rate_limit_retries_without_losing_request 
+(test_authentication.TransportTests.test_rate_limit_retries_without_losing_request) ... ok
+test_rejects_absolute_request_path (test_authentication.TransportTests.test_rejects_absolute_request_path) ... ok
+test_server_errors_do_not_leak_response_body 
+(test_authentication.TransportTests.test_server_errors_do_not_leak_response_body) ... ok
+test_transport_preserves_auth_and_normalizes_base_url 
+(test_authentication.TransportTests.test_transport_preserves_auth_and_normalizes_base_url) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.215s
+
+OK

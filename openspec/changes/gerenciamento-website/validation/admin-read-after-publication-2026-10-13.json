@@ -1,0 +1,63 @@
+{
+  "layer": "remote_read_only",
+  "mutations": false,
+  "scope": "GET only; does not verify mutations, counts or audit persistence",
+  "results": [
+    {
+      "role": "guest",
+      "endpoint": "/admin/dashboard",
+      "status": 401,
+      "result": "passed"
+    },
+    {
+      "role": "guest",
+      "endpoint": "/admin/users",
+      "status": 401,
+      "result": "passed"
+    },
+    {
+      "role": "guest",
+      "endpoint": "/admin/catalog",
+      "status": 401,
+      "result": "passed"
+    },
+    {
+      "role": "guest",
+      "endpoint": "/admin/reports",
+      "status": 401,
+      "result": "passed"
+    },
+    {
+      "role": "member",
+      "endpoint": "/admin/dashboard",
+      "status": 403,
+      "result": "passed"
+    },
+    {
+      "role": "member",
+      "endpoint": "/admin/users",
+      "status": 403,
+      "result": "passed"
+    },
+    {
+      "role": "member",
+      "endpoint": "/admin/catalog",
+      "status": 403,
+      "result": "passed"
+    },
+    {
+      "role": "member",
+      "endpoint": "/admin/reports",
+      "status": 403,
+      "result": "passed"
+    },
+    {
+      "role": "disabled",
+      "result": "skipped_missing_token"
+    },
+    {
+      "role": "admin",
+      "result": "skipped_missing_token"
+    }
+  ]
+}

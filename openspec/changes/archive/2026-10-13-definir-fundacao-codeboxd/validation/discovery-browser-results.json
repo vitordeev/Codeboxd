@@ -1,0 +1,9 @@
+[
+  "Home shows 20 movies and 20 series",
+  "Cover loads and image error reveals fallback without layout shift",
+  "Movie category opens full catalog page",
+  "Movie catalog loads additional page",
+  "Search after Movies selection returns multiple media types without unrelated community cards",
+  "Desktop and mobile have no horizontal page overflow",
+  "No browser JavaScript errors"
+]

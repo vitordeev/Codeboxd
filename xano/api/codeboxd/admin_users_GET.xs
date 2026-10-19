@@ -34,10 +34,14 @@ query "admin/users" verb=GET {
     }
 
     db.query user {
+<<<<<<< HEAD
       where = (($input.user_id > 0 && $db.user.id == $input.user_id) || ($input.user_id == 0 && ($input.search == "" || (($db.user.username|to_lower) ~ ($input.search|to_lower)) || (($db.user.name|to_lower) ~ ($input.search|to_lower))))) && ($input.account_status == "" || $db.user.account_status == $input.account_status) && ($input.role == "" || $db.user.role == $input.role)
+=======
+      where = (($input.user_id > 0 && $db.user.id == $input.user_id) || ($input.user_id == 0 && ($input.search == "" || $db.user.username ~ $input.search || $db.user.name ~ $input.search))) && ($input.account_status == "" || $db.user.account_status == $input.account_status) && ($input.role == "" || $db.user.role == $input.role)
+>>>>>>> develop
       sort = {user.id: "asc"}
-      output = ["id", "username", "name", "role", "account_status", "created_at"]
-      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true}}
+      output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.username", "items.name", "items.role", "items.account_status", "items.created_at"]
+      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
     } as $users
   }
 
@@ -46,6 +50,7 @@ query "admin/users" verb=GET {
     total: $users.itemsTotal
     page: $users.curPage
     next_page: $users.nextPage
-    per_page: $users.perPage
+    per_page: $input.per_page
   }
+  guid = "09BI7xyc2hNxuSEMu2PQqgRvtY4"
 }

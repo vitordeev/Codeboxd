@@ -1,5 +1,7 @@
 # Validação de cadastro e login — 22/09/2026
 
+> Registro histórico preservado. Revisão de 13/10/2026: provedores e home evoluíram depois desta rodada; veja [encerramento](encerramento-2026-10-13.md). Os comandos abaixo são os da época e precisam de adaptação em uma cópia antes de reutilizar os scripts após o arquivamento. A proteção Git mencionada originalmente não está comprovada: a revisão encontrou .gitignore vazio. Esta nota não altera os resultados registrados.
+
 ## Resultado
 
 14 testes automatizados locais passaram, 6 verificações de integração com o Xano publicado passaram e a compilação Reflex passou. Nenhuma alteração no código da aplicação foi necessária nesta rodada. Isso não confirma o funcionamento completo dos formulários no navegador: não houve execução de navegador nesta rodada.

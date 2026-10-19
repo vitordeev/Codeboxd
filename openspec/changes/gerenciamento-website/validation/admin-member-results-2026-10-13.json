@@ -1,0 +1,69 @@
+{
+  "layer": "remote_read_only_existing_accounts",
+  "results": [
+    {
+      "test_account": 1,
+      "login_status": 200,
+      "identity_status": 200,
+      "role": "member",
+      "account_status": "active",
+      "endpoints": [
+        {
+          "path": "/admin/dashboard",
+          "status": 403,
+          "access_denied": true
+        },
+        {
+          "path": "/admin/users",
+          "status": 403,
+          "access_denied": true
+        },
+        {
+          "path": "/admin/catalog",
+          "status": 403,
+          "access_denied": true
+        },
+        {
+          "path": "/admin/reports",
+          "status": 403,
+          "access_denied": true
+        }
+      ]
+    },
+    {
+      "test_account": 2,
+      "login_status": 200,
+      "identity_status": 200,
+      "role": "member",
+      "account_status": "active",
+      "endpoints": [
+        {
+          "path": "/admin/dashboard",
+          "status": 403,
+          "access_denied": true
+        },
+        {
+          "path": "/admin/users",
+          "status": 403,
+          "access_denied": true
+        },
+        {
+          "path": "/admin/catalog",
+          "status": 429,
+          "access_denied": false
+        },
+        {
+          "path": "/admin/reports",
+          "status": 429,
+          "access_denied": false
+        }
+      ]
+    }
+  ],
+  "credential_audit": {
+    "key": "TMDB_READ_TOKEN",
+    "present_in_history": true,
+    "current_matches_history": true
+  },
+  "accounts_modified": false
+}

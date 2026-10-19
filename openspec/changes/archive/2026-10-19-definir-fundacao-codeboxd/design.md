@@ -1,12 +1,16 @@
 ## Context
 
-O projeto já tem as páginas Reflex e os estados sociais ligados ao grupo Xano Codeboxd. As imagens atualizadas em `Imagens/` orientam descoberta, feed, perfil e listas; o pop-up de login das referências foi desconsiderado. O ambiente local tem as URLs Xano e o token TMDB no `.env` ignorado; segredos nunca devem chegar ao navegador.
+O projeto tem páginas Reflex e estados sociais ligados ao grupo Xano Codeboxd. As imagens em `Imagens/` orientam descoberta, feed, perfil e listas; o pop-up de login foi desconsiderado. Revisão documental em 13/10/2026: provedores e layout refletem o código atual; evidências remotas são de setembro. Configuração é carregada do `.env`, mas a revisão encontrou o arquivo rastreado e `.gitignore` vazio. Segredos não devem chegar ao navegador nem aos artefatos.
 
 ## Goals / Non-Goals
 
 ### MoviePage visual reference
 
+<<<<<<<< HEAD:openspec/changes/archive/2026-10-19-definir-fundacao-codeboxd/design.md
 The reference `Imagens/Captura de tela 2026-09-18 154800.png` defines the media detail layout: hero, synopsis, provider metadata, library status, rating/review, list shortcuts, public reviews, and recommendations. Use the same responsive structure for movies, series, anime, and books, showing only fields provided by each source. Recommendations use TMDB, Kitsu, or Open Library subject search when available. Public reviews come from TMDB for movies/series and Kitsu for anime when available; books show an empty state because Open Library does not provide textual user reviews. Optional review/recommendation failures must not prevent the main media details from loading.
+========
+A referência `Imagens/Captura de tela 2026-09-18 154800.png` orienta hero, sinopse, metadados, status, nota/review, listas, críticas e relacionados. A estrutura responsiva é compartilhada pelos quatro tipos, mostrando somente campos disponíveis. TMDB, Kitsu e Open Library fornecem metadados e relacionados conforme suporte. Críticas podem estar vazias, especialmente em livros/animes; falhas opcionais não impedem a ficha principal. Streaming TMDB considera o Brasil quando disponível.
+>>>>>>>> develop:openspec/changes/archive/2026-10-13-definir-fundacao-codeboxd/design.md
 
 **Goals:** implementar os fluxos especificados, preservar dados existentes e aplicar autorização no backend.
 
@@ -18,8 +22,14 @@ The reference `Imagens/Captura de tela 2026-09-18 154800.png` defines the media 
 
 - Reflex implementa páginas, estado e serviços Python. O navegador nunca recebe credenciais dos provedores. Xano é responsável por autenticação, persistência e autorização.
 - Páginas: descoberta, detalhes, cadastro/login, biblioteca, feed, comunidade, perfil e listas. Admin exige papel verificado por /auth/me; token presente não equivale a sessão válida.
+<<<<<<<< HEAD:openspec/changes/archive/2026-10-19-definir-fundacao-codeboxd/design.md
 - Adaptadores no servidor Python consultam TMDB (filmes/séries), Kitsu (animes) e Open Library (livros). A camada isola normalização e falhas. Somente mídias utilizadas são persistidas no Xano. Esta decisão substitui o esboço que colocava todos os adaptadores no Xano.
 - TMDB usa o token de leitura no servidor. Kitsu e Open Library são serviços públicos e não requerem chave. Kitsu substituiu Jikan em 23/09/2026; registros antigos Jikan são resolvidos por mapeamento MyAnimeList/Kitsu, preservando sua identidade e vínculos. As buscas reais dos quatro tipos foram revalidadas em 19/10/2026; evidências em `validation/external-search-2026-10-19.md` e histórico da migração em `docs/KITSU.md`.
+========
+- Adaptadores no servidor Python consultam TMDB (filmes/séries), Kitsu (animes) e Open Library (livros). A camada isola normalização e falhas; somente mídias utilizadas são persistidas no Xano. Essa decisão substitui o esboço de adaptadores no Xano.
+- TMDB usa token de leitura no servidor; Kitsu e Open Library são públicas. Kitsu substituiu consultas Jikan em 23/09/2026, com evidência de busca, ficha e navegador em `docs/KITSU.md`. IDs Jikan/MyAnimeList são resolvidos por mapeamento Kitsu, mantendo registros usados por listas/avaliações; nunca assumir igualdade numérica entre fontes.
+- A home atual empilha coleções por tipo, com fileiras horizontais e controles próprios. A grade vertical de populares registrada em 22/09 foi substituída. Busca e navegação por categoria seguem independentes e paginadas, preservando consulta, identidades e falhas parciais.
+>>>>>>>> develop:openspec/changes/archive/2026-10-13-definir-fundacao-codeboxd/design.md
 - O grupo Codeboxd oferece endpoints tipados. Mutações exigem autenticação e autoria derivada de $auth.id. Perfis públicos nunca retornam e-mail ou senha.
 - Sessões lembradas duram até 24 horas, igual ao token; sessões não lembradas usam SessionStorage. Revalidar perfil antes de ações protegidas; 401 encerra sessão, indisponibilidade recebe mensagem própria.
 - Notas em passos de 0,5 entre 0,5 e 5; zero significa sem nota. Reviews e posts com spoilers são recolhidos por padrão.
@@ -34,6 +44,7 @@ The reference `Imagens/Captura de tela 2026-09-18 154800.png` defines the media 
 - Token no navegador → evitar HTML não confiável, limitar validade e validar no Xano.
 - Alterações remotas da equipe → comparar exportação antes de publicar, sem apagar dados existentes.
 - Testes locais não comprovam publicação → registrar separadamente a validação remota.
+- Credenciais e arquivos gerados rastreados → corrigir Git em trabalho próprio; não afirmar proteção existente apenas porque a documentação antiga a menciona.
 - O endpoint remoto `/likes` retorna 404 neste workspace. A carga do feed não faz uma consulta de discussão por publicação; a compatibilidade usa `/posts/{id}/discussion` sob demanda para abrir ou alternar uma curtida. A publicação remota do endpoint local de likes segue pendente.
 
 ## Migration Plan
@@ -41,3 +52,7 @@ The reference `Imagens/Captura de tela 2026-09-18 154800.png` defines the media 
 Exportar esquema remoto sem registros/segredos; adicionar tabelas e endpoints; corrigir logs e autorização; testar contratos e compilar Reflex; revisar dry-run antes de publicar; configurar XANO_SOCIAL_URL e TMDB_READ_TOKEN. Rollback restaura endpoints sem excluir dados criados.
 
 - Regra de acesso: descoberta, busca, detalhes e trailers do catálogo são públicos. Visitantes guardam nota pessoal em LocalStorage, sem perfil nem envio ao Xano; publicar críticas/posts, seguir e salvar biblioteca/listas exige conta.
+
+## Estado de encerramento
+
+Escopo original concluído: 87 tarefas, contratos sincronizados antes de arquivar. Recuperação de senha, imagem de post, validação administrativa, persistência de uploads e hospedagem têm contexto/pendências próprios em `openspec/HISTORICO.md` e `openspec/PENDENCIAS.md`. A conclusão não equivale a nova execução de todos os fluxos remotos ou visuais.
