@@ -46,14 +46,27 @@ no servidor e não são calculadas a partir de páginas da UI.
 
 ## Estado da integração
 
-Os contratos e arquivos Xano locais ficam em `xano/`. Em 26/09/2026, o dry-run do
-workspace `147717` reconheceu a tabela `report` e os endpoints do dashboard, usuários,
-catálogo e moderação. O dry-run não publica alterações: as rotas administrativas só
-ficam funcionais quando esses arquivos forem publicados no workspace conectado.
+Os contratos e arquivos Xano locais ficam em `xano/`. Em 19/10/2026, uma exportação
+de esquema confirmou que a tabela `report` e os oito endpoints administrativos já
+existem no workspace `147717` (Pedro's Workspace). O perfil do projeto se chama
+literalmente `default`; selecione `-p default -w 147717` explicitamente, pois o perfil
+padrão global pode apontar para outro workspace.
+
+As leituras reais rejeitaram visitante (401) e membro (403). Isso não comprova os
+fluxos autorizados: as duas contas de teste disponíveis são membros. O esquema
+remoto já exige `account_status == "active"` para administradores, regra agora
+preservada nos arquivos locais. Evidências e limites estão em
+`openspec/changes/gerenciamento-website/validation/backend-review-2026-10-19.md`.
+
+Uma prévia restrita a `GET /admin/dashboard` e `GET /admin/users` foi aprovada sem
+operações destrutivas. Ela prepara paginação independente de atividade/reports no
+dashboard e parâmetros opcionais explícitos na pesquisa de usuários. Não foi
+publicada. A prévia do diretório inteiro inclui outras alterações e remoção de
+campos da tabela `user`; não use esse delta amplo para publicar a administração.
 
 ## Publicação, concessão de acesso e rollback
 
-1. Revise o diff dos arquivos `xano/` e rode `xano workspace push -d xano -w 147717 --dry-run`.
+1. Revise o diff dos arquivos `xano/` e o esquema remoto. Para as duas correções revisadas em 19/10/2026, use `xano workspace push -p default -d xano -w 147717 --dry-run --include 'api/codeboxd/admin_dashboard_GET.xs' --include 'api/codeboxd/admin_users_GET.xs'`.
 2. Publique somente após revisão do delta no workspace Xano. Em seguida, rode a suíte
    `python -m unittest discover -s tests -q` e `reflex compile --dry`.
 3. Conceda o papel `admin` manualmente no registro `user` aprovado, atualizando `role`

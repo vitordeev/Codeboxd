@@ -40,11 +40,13 @@ Revalidação em 22/09/2026: 14 testes locais, 6 verificações com Xano real e 
 ## 5. External Media Data Integration
 
 - [x] 5.1 Select and configure supported external data sources and verify each supported media category can retrieve external information
-- [ ] 5.2 Implement external media search integration and verify matching media data can be retrieved
+- [x] 5.2 Implement external media search integration and verify matching media data can be retrieved
 - [x] 5.3 Implement external media detail retrieval and verify available information can be retrieved for a selected media item
 - [x] 5.4 Normalize externally obtained media information and verify supported media sources can produce the unified media representation
 - [x] 5.5 Prevent duplicate internally stored media references and verify the same source and external identifier are not stored twice
 - [x] 5.6 Implement external source failure handling and verify unavailable sources do not corrupt existing Codeboxd data
+
+Revalidação em 19/10/2026: buscas reais de filmes, séries, animes e livros aprovadas via TMDB, Kitsu e Open Library; 36 testes automatizados passaram. A migração para Kitsu substitui o bloqueio histórico da Jikan. Comandos, resultados e limites em [validation/external-search-2026-10-19.md](validation/external-search-2026-10-19.md).
 
 ## 6. Media Discovery
 
@@ -112,15 +114,17 @@ Revalidação em 22/09/2026: 14 testes locais, 6 verificações com Xano real e 
 - [x] 11.4 Verify social connections affect the content displayed in the social feed
 - [x] 11.5 Verify posts can reference supported media types and associated media information remains accessible
 - [x] 11.6 Verify user lists support media from all supported categories
-- [] 11.7 Validate the completed OpenSpec change and verify all proposal artifacts remain valid
+- [x] 11.7 Validate the completed OpenSpec change and verify all proposal artifacts remain valid
 
-Evidence update 19/09/2026: task 11.6 passed against the published Xano API with movie, series, anime and book records in one temporary list; the list was removed after the check. A real Jikan anime record remains in the shared catalog. The UI now searches this cached catalog when an external provider fails, with a visible provider warning. Jikan's live anime search still returns HTTP 504, so task 5.2 and final task 11.7 remain open until the external search can be verified.
+Validação final em 19/10/2026: 107 testes automatizados e compilação Reflex aprovados; artefatos aprovados em validação OpenSpec estrita. Evidências históricas revisadas e limites preservados em [validation/final-validation-2026-10-19.md](validation/final-validation-2026-10-19.md). Todas as 87 tarefas estão concluídas.
+
+Historical evidence 19/09/2026: task 11.6 passed against the published Xano API with movie, series, anime and book records in one temporary list; the list was removed after the check. A real Jikan anime record remains in the shared catalog. The UI searches this cached catalog when an external provider fails, with a visible provider warning. Jikan returned HTTP 504 in that round. This search blocker was superseded by the Kitsu migration and the successful four-category search revalidation on 19/10/2026; task 5.2 is complete and task 11.7 remains open for final validation.
 
 ## Evidência e retomada
 
-Estado em 19/09/2026. A aplicação Reflex tem páginas sociais ligadas ao Xano publicado no workspace 147717. Navegação autenticada, cadastro, sessão, logout e contas independentes foram verificadas em navegador e chamadas reais; os resultados de backend anteriores ficam em `.local/remote-results.json` e as contas de teste em `.local/` (ignorado pelo Git).
+Registro histórico em 19/09/2026. A aplicação Reflex tem páginas sociais ligadas ao Xano publicado no workspace 147717. Navegação autenticada, cadastro, sessão, logout e contas independentes foram verificadas em navegador e chamadas reais; os resultados de backend anteriores ficam em `.local/remote-results.json` e as contas de teste em `.local/` (ignorado pelo Git).
 
-TMDB está configurado no `.env` local e busca, detalhes, populares e capas foram confirmados na API e no navegador. Jikan e Open Library são provedores públicos, sem chave adicional. Open Library respondeu antes; a consulta ao Jikan nesta retomada falhou temporariamente, então a validação completa de todos os provedores ainda está aberta. O workspace Xano retorna 404 em `/likes`; a carga do feed não faz consultas por publicação e busca o estado de curtida sob demanda ao abrir uma discussão ou alternar a curtida.
+Na rodada de setembro, TMDB estava configurado no `.env` local e busca, detalhes, populares e capas foram confirmados na API e no navegador; Jikan falhou temporariamente. Desde 23/09/2026, animes usam Kitsu, sem chave adicional, assim como Open Library para livros. As buscas dos quatro tipos foram revalidadas em 19/10/2026. Na rodada histórica, o workspace Xano retornava 404 em `/likes`; a carga do feed não faz consultas por publicação e busca o estado de curtida sob demanda ao abrir uma discussão ou alternar a curtida. O comportamento remoto de curtidas não foi retestado nesta rodada.
 
 Referências visuais atualizadas orientam descoberta, feed, perfil e listas; o pop-up de login foi explicitamente desconsiderado. Continue a implementação local. Configuração de domínio e hospedagem fica fora da etapa atual. Não arquive a change enquanto houver tarefas abertas. Histórico e instruções operacionais: `docs/RETOMADA.md`.
 
@@ -133,7 +137,7 @@ Evidência 19/09/2026: visitante usa armazenamento local por identidade da obra;
 - [x] 12.4 Confirm public navigation, guest rating, trailers and authenticated-only mutations in the running browser
 - [x] 12.5 Reduzir latência da descoberta e das fichas, limitar carga inicial, paralelizar leituras independentes e manter compatibilidade de curtidas sob demanda
 Evidência 19/09/2026: 48 testes unitários passaram. Smoke no Edge da instância atualizada confirmou home responsiva, busca/detalhe públicos, login, biblioteca, feed, comunidade, listas, logout e bloqueio da biblioteca após sair, sem erros JavaScript. Quando `/likes` retorna 404, a carga do feed não consulta discussões por publicação. A sequência de sondagens consecutivas atingiu HTTP 429 no Xano; a aplicação mostrou aviso recuperável e preservou a sessão.
-Estado da change após debug: 85/87 tarefas. Permanecem busca Jikan ao vivo e validação final.
+Estado histórico após debug em setembro: 85/87 tarefas. Atualização em 19/10/2026: 86/87 tarefas; busca Kitsu validada, permanecendo somente a validação final 11.7.
 - [x] 12.6 Manter o conteúdo visível e navegável enquanto as ações assíncronas estão carregando
 
 Evidência 22/09/2026: busca textual global separada da navegação por categoria, catálogos paginados e capas com fallback. 54 testes Python, compilação, validação OpenSpec e 7 verificações de browser aprovados. Detalhes: [validation/discovery-2026-09-22.md](validation/discovery-2026-09-22.md).

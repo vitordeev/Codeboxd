@@ -6,7 +6,7 @@ O projeto já tem as páginas Reflex e os estados sociais ligados ao grupo Xano 
 
 ### MoviePage visual reference
 
-The reference `Imagens/Captura de tela 2026-09-18 154800.png` defines the media detail layout: hero, synopsis, provider metadata, library status, rating/review, list shortcuts, public reviews, and recommendations. Use the same responsive structure for movies, series, anime, and books, showing only fields provided by each source. Recommendations use TMDB, Jikan, or Open Library subject search when available. Public reviews come from TMDB for movies/series and Jikan for anime; books show an empty state because Open Library does not provide textual user reviews. Optional review/recommendation failures must not prevent the main media details from loading.
+The reference `Imagens/Captura de tela 2026-09-18 154800.png` defines the media detail layout: hero, synopsis, provider metadata, library status, rating/review, list shortcuts, public reviews, and recommendations. Use the same responsive structure for movies, series, anime, and books, showing only fields provided by each source. Recommendations use TMDB, Kitsu, or Open Library subject search when available. Public reviews come from TMDB for movies/series and Kitsu for anime when available; books show an empty state because Open Library does not provide textual user reviews. Optional review/recommendation failures must not prevent the main media details from loading.
 
 **Goals:** implementar os fluxos especificados, preservar dados existentes e aplicar autorização no backend.
 
@@ -18,8 +18,8 @@ The reference `Imagens/Captura de tela 2026-09-18 154800.png` defines the media 
 
 - Reflex implementa páginas, estado e serviços Python. O navegador nunca recebe credenciais dos provedores. Xano é responsável por autenticação, persistência e autorização.
 - Páginas: descoberta, detalhes, cadastro/login, biblioteca, feed, comunidade, perfil e listas. Admin exige papel verificado por /auth/me; token presente não equivale a sessão válida.
-- Adaptadores no servidor Python consultam TMDB (filmes/séries), Jikan (animes) e Open Library (livros). A camada isola normalização e falhas. Somente mídias utilizadas são persistidas no Xano. Esta decisão substitui o esboço que colocava todos os adaptadores no Xano.
-- TMDB usa o token de leitura no servidor. Jikan e Open Library são serviços públicos e não requerem chave. Busca e detalhe real foram confirmados para TMDB; a chamada mais recente ao Jikan falhou temporariamente, sem indicar falta de credencial.
+- Adaptadores no servidor Python consultam TMDB (filmes/séries), Kitsu (animes) e Open Library (livros). A camada isola normalização e falhas. Somente mídias utilizadas são persistidas no Xano. Esta decisão substitui o esboço que colocava todos os adaptadores no Xano.
+- TMDB usa o token de leitura no servidor. Kitsu e Open Library são serviços públicos e não requerem chave. Kitsu substituiu Jikan em 23/09/2026; registros antigos Jikan são resolvidos por mapeamento MyAnimeList/Kitsu, preservando sua identidade e vínculos. As buscas reais dos quatro tipos foram revalidadas em 19/10/2026; evidências em `validation/external-search-2026-10-19.md` e histórico da migração em `docs/KITSU.md`.
 - O grupo Codeboxd oferece endpoints tipados. Mutações exigem autenticação e autoria derivada de $auth.id. Perfis públicos nunca retornam e-mail ou senha.
 - Sessões lembradas duram até 24 horas, igual ao token; sessões não lembradas usam SessionStorage. Revalidar perfil antes de ações protegidas; 401 encerra sessão, indisponibilidade recebe mensagem própria.
 - Notas em passos de 0,5 entre 0,5 e 5; zero significa sem nota. Reviews e posts com spoilers são recolhidos por padrão.

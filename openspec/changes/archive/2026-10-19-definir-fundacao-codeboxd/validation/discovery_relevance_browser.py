@@ -4,7 +4,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
 
 expect.set_options(timeout=90000)
-output=Path('openspec/changes/definir-fundacao-codeboxd/validation/vertical-relevance-browser-results.json')
+output=Path(__file__).with_name('vertical-relevance-browser-results.json')
 results=[]
 def record(label, **data):
     results.append(dict(test=label,result='PASS',**data))

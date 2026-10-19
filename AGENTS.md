@@ -54,3 +54,16 @@ Then proceed with the user's request.
 
 When you need to compile, run, reload, or debug a Reflex application, follow the **reflex-process-management** skill for the correct sequence and error investigation steps.
 <!-- reflex managed end -->
+
+
+## OpenSpec workflow
+
+Every implementation, bug fix, or behavioral adjustment must be covered by an active OpenSpec change before editing project files. This includes documentation and configuration edits that implement the request. Questions, reviews, and read-only investigations do not require a change.
+
+1. Check `git status --short` and `openspec list --json` before implementation. Identify an active change whose proposal, design, specifications (when applicable), and tasks cover the requested work; read those artifacts before editing.
+2. If no active change covers the request, create one with `openspec new change <name>` and prepare its required planning artifacts before implementation. Follow `openspec status --change <name> --json` and the artifact instructions. Keep small changes concise; do not bypass tracking.
+3. Track implementation in the change's `tasks.md`. Record relevant validation commands, results, and limitations there, or link to evidence stored with the change. Mark a task complete only when its specified work is implemented and supported by validation evidence; keep incomplete or blocked work open.
+4. If discovered work falls outside the selected change, pause that work and create a separate change with the required planning artifacts before implementing it. Preserve unrelated work and do not broaden an existing change silently.
+5. Before declaring implementation complete, verify the task checklist, record validation evidence, and run `openspec validate <name> --type change`. Synchronize specifications and archive only when the change is ready and that operation is within the user's authorized scope.
+
+These workflow rules supplement the Reflex instructions above; all Reflex skill, environment, documentation, and process requirements continue to apply.

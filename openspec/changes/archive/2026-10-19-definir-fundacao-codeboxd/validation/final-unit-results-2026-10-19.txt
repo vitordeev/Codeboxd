@@ -1,0 +1,14 @@
+.venv/Scripts/python.exe : catalog_failure provider=Kitsu path=/anime status=format
+No linha:2 caractere:1
++ .venv/Scripts/python.exe -B -m unittest discover -s tests -q 2>&1 | T ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (catalog_failure...e status=format:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+catalog_failure provider=Kitsu path=/api/edge/anime status=429 reason=Too Many Requests
+catalog_failure provider=Kitsu path=/api/edge/anime status=network/format reason=ReadTimeout
+catalog_failure provider=Kitsu path=/api/edge/anime status=network/format reason=ConnectError
+----------------------------------------------------------------------
+Ran 107 tests in 2.212s
+
+OK

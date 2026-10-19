@@ -17,7 +17,7 @@ query "admin/reports" verb=GET {
       output = ["id", "account_status", "role"]
     } as $actor
 
-    precondition ($actor != null && $actor.account_status != "disabled" && $actor.role == "admin") {
+    precondition ($actor != null && $actor.account_status == "active" && $actor.role == "admin") {
       error_type = "accessdenied"
       error = "Acesso administrativo não permitido."
     }

@@ -17,7 +17,7 @@ query "admin/catalog" verb=POST {
    field_value = $auth.id
    output = ["id", "role", "account_status"]
   } as $actor
-  precondition ($actor != null && $actor.role == "admin" && $actor.account_status != "disabled") {
+  precondition ($actor != null && $actor.role == "admin" && $actor.account_status == "active") {
    error_type = "accessdenied"
    error = "OperaÃ§Ã£o nÃ£o permitida."
   }

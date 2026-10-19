@@ -6,6 +6,8 @@
 
 ## 2. Autorização e APIs de dashboard
 
+Revisão em 19/10/2026: endpoints e tabela de reports já existem no workspace 147717. Leituras reais rejeitam visitante e membro; 18 testes locais passaram. Correções locais e prévia restrita de dois endpoints revisadas, sem publicação. Faltam conta de teste admin e validação das operações autorizadas. Detalhes em [validation/backend-review-2026-10-19.md](validation/backend-review-2026-10-19.md); os checkboxes abaixo permanecem abertos até a validação completa.
+
 - [ ] 2.1 Implementar verificações de papel admin nos endpoints de leitura e mutação administrativos no Xano, derivando o ator de `$auth.id`; verificar que visitante e membro recebem rejeição também ao chamar os endpoints diretamente.
 - [ ] 2.2 Implementar endpoints de totais e atividade recente com paginação e consultas agregadas; verificar as respostas contra contagens conhecidas do ambiente de desenvolvimento.
 - [ ] 2.3 Implementar consultas de reports pendentes para alimentar o painel; verificar contagens, paginação e tratamento de lista vazia.

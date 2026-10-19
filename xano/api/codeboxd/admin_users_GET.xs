@@ -3,7 +3,7 @@ query "admin/users" verb=GET {
   auth = "user"
 
   input {
-    text search filters=trim|min:1|max:80
+    text search?="" filters=trim|max:80
     int user_id?=0 filters=min:0
     text account_status?="" filters=trim
     text role?="" filters=trim
@@ -18,7 +18,7 @@ query "admin/users" verb=GET {
       output = ["id", "account_status", "role"]
     } as $actor
 
-    precondition ($actor != null && $actor.account_status != "disabled" && $actor.role == "admin") {
+    precondition ($actor != null && $actor.account_status == "active" && $actor.role == "admin") {
       error_type = "accessdenied"
       error = "Acesso administrativo não permitido."
     }
@@ -34,7 +34,7 @@ query "admin/users" verb=GET {
     }
 
     db.query user {
-      where = (($input.user_id > 0 && $db.user.id == $input.user_id) || (($db.user.username|to_lower) ~ ($input.search|to_lower)) || (($db.user.name|to_lower) ~ ($input.search|to_lower))) && ($input.account_status == "" || $db.user.account_status == $input.account_status) && ($input.role == "" || $db.user.role == $input.role)
+      where = (($input.user_id > 0 && $db.user.id == $input.user_id) || ($input.user_id == 0 && ($input.search == "" || (($db.user.username|to_lower) ~ ($input.search|to_lower)) || (($db.user.name|to_lower) ~ ($input.search|to_lower))))) && ($input.account_status == "" || $db.user.account_status == $input.account_status) && ($input.role == "" || $db.user.role == $input.role)
       sort = {user.id: "asc"}
       output = ["id", "username", "name", "role", "account_status", "created_at"]
       return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true}}
