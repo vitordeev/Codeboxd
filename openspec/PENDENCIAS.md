@@ -4,6 +4,12 @@ Estado atualizado em 14/10/2026. A change [corrigir-erros-operacionais](changes/
 
 ## Administração — change ativa
 
+Denúncia de obras: correção local validada em 19/10 com 143 testes, compilação,
+criação Xano real e navegador. Limites 429 continuam vigentes, agora com erro no
+modal, rascunho preservado e espera respeitada. Conta e dados de teste limpos.
+Demais alvos/moderação continuam nos critérios originais abaixo.
+[Evidência](changes/gerenciamento-website/validation/denunciar-obras-2026-10-19.md).
+
 Publicação autorizada concluída nesta rodada: tabela report + nove endpoints,
 delta sincronizado e GETs com 401 para visitante/403 para membro. Falta identificar
 contas aprovadas para admin/desativado e validar mutações, contagens, auditoria e
@@ -48,9 +54,26 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 | P.9 | Conforme crescimento | Estado e páginas sociais concentram muitas responsabilidades | Separar por domínio quando houver necessidade concreta, mantendo rotas/eventos e testes relevantes |
 | P.10 | Fora da etapa atual | Publicação/domínio/HTTPS ainda não validados; Docker excluído por decisão do usuário | Definir hospedagem somente quando solicitada; operação atual local com `.venv` |
 | P.11 | Antes de reusar validações | Scripts históricos têm caminhos anteriores ao arquivo e portas fixas | Copiar/adaptar scripts para nova pasta de resultados; preservar arquivo histórico e não criar contas incidentalmente |
-| P.12 | Corrigida localmente, publicação pendente | Usuário esclareceu que o erro ocorre no admin: logs confirmaram `Invalid filter: to_lower` em usuários/catálogo e `reports.items` ausente; três GETs corrigidos e 18 testes admin passaram | Concluir backup/dry-run, publicar e validar com admin aprovado. [Checkpoint](changes/gerenciamento-website/validation/buscas-admin-2026-10-14.md); testes públicos anteriores não validam o painel |
+| P.12 | Publicada em 19/10; validação funcional parcial | Três GETs corrigidos publicados após backup de 77 documentos e delta limitado; dry-run final sem mudanças. 18 testes locais passaram; visitante 401 e membro 403 confirmados | Validar buscas, caixa, vazio, filtros e paginação com admin aprovado e interface no navegador. Sem token admin disponível nesta rodada. [Evidência](changes/gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md) |
+
+## Ajustes visuais acompanhados
+
+Avaliações — [avaliar-meias-estrelas](changes/avaliar-meias-estrelas/tasks.md):
+5/5 verificadas em 19/10. Controle e restauração decimal concluídos localmente,
+148 testes e navegador/Xano real aprovados. Sem migração/publicação de backend;
+sincronização/arquivamento documental ainda não realizados nesta rodada.
+
+P.13 — Retorno à descoberta (resolvida localmente em 19/10/2026): botão
+arredondado com ícone amarelo, hover/foco e área de toque de 46px nas fichas
+compartilhadas. Compilação e quatro checks de navegador em 1440/390px passaram,
+incluindo retorno por teclado para `/`. Disponível na instância atualizada 3033.
+[Evidência](validation/voltar-descoberta-2026-10-19.md).
 
 ## Fora do escopo atual
+
+Traduções — change [traduzir-descricoes-deepl](changes/traduzir-descricoes-deepl/tasks.md):
+integração local e smoke DeepL real aprovados em 19/10; falta reiniciar a aplicação
+e validar ficha de anime/livro no navegador (2.3). 136 testes locais passaram.
 
 Chat/mensageria privada, notificações, recomendações por aprendizado de máquina, replicação integral de provedores e infraestrutura de múltiplas réplicas não fazem parte das entregas encerradas. Reports `message` não significam que há mensageria implementada. Não transformar esses tópicos em tarefas concluídas.
 

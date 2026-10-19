@@ -10,6 +10,10 @@ from Codeboxd_main.services.api import APIError
 class CatalogTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         catalog._kitsu_cache.clear()
+        # Provider fixtures do not use the optional live translation service.
+        translation_env = patch.dict(os.environ, {'DEEPL_API_KEY': ''})
+        translation_env.start()
+        self.addCleanup(translation_env.stop)
 
     async def test_provider_fetch_retries_transient_http_status(self):
         client=AsyncMock()

@@ -79,6 +79,19 @@ Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte co
 
 ## Retomada e encerramento
 
+19/10/2026 — denúncia de obra corrigida localmente: modal com erro visível,
+rascunho preservado, cooldown/Retry-After e POST sem repetição automática; obra
+externa obtém ID antes do envio. 143 testes e compilação passaram; criação real
+e navegador com conta controlada comprovaram persistência e confirmação, com
+limpeza das denúncias de teste. Escopo parcial de 5.1/5.4/9.1–9.2; 17/34 mantido.
+[Evidência](validation/denunciar-obras-2026-10-19.md).
+
+19/10/2026: três correções de GETs publicadas após backup e dry-run limitado;
+dry-run final sem delta. 18 testes locais passaram; visitante 401 e membro 403
+verificados. Falta token/conta admin aprovada para validar as consultas e a
+interface. Tarefas 3.1, 4.1, 5.2 e 9.1–9.2 mantidas abertas; 17/34.
+[Evidência desta rodada](validation/publicacao-buscas-admin-2026-10-19.md).
+
 14/10/2026: erros de buscas administrativas confirmados nos logs Xano e corrigidos
 localmente em três GETs; 18 testes admin passaram. Publicação e validação admin
 da correção ainda pendentes. [Checkpoint para commit](validation/buscas-admin-2026-10-14.md).

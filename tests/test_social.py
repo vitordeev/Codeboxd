@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 import reflex as rx
 from unittest.mock import AsyncMock, patch
-from Codeboxd_main.state.social import SocialState
+from Codeboxd_main.state.social import SocialState, normalize_rating
 from Codeboxd_main.services.api import APIError
 
 
@@ -22,6 +22,56 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         s.selected_rating='0'
         s._restore_guest_rating()
         self.assertEqual(s.selected_rating,'5')
+
+    def test_rating_normalizes_comma_dot_and_all_half_steps(self):
+        for step in range(11):
+            number = step / 2
+            for value in (str(number), str(number).replace('.', ',')):
+                self.assertEqual(float(normalize_rating(value)), number)
+        self.assertEqual(normalize_rating('4.0'), '4')
+        self.assertEqual(normalize_rating('-0'), '0')
+        for invalid in ('nan', 'inf', '-inf', '1.2', '1,7', '-0.5', '5.5', 'abc'):
+            with self.assertRaises(ValueError): normalize_rating(invalid)
+
+    async def test_guest_half_ratings_and_clear_restore_without_network(self):
+        s = self.state
+        s.selected = {'key': 'tmdb:movie:42', 'title': 'Filme'}
+        with patch('Codeboxd_main.state.social.request', new=AsyncMock()) as request:
+            for value, canonical in (('0,5', '0.5'), ('1,5', '1.5'), ('4.5', '4.5'), ('0', '0')):
+                s.set_selected_rating(value)
+                self.assertEqual(s.selected_rating, canonical)
+                s.selected_rating = '5'
+                s._restore_guest_rating()
+                self.assertEqual(s.selected_rating, canonical)
+                self.assertEqual(s.selected_rating_value, float(canonical))
+        request.assert_not_awaited()
+
+    def test_invalid_guest_rating_does_not_overwrite_previous_value(self):
+        s = self.state
+        s.selected = {'key': 'tmdb:movie:42'}
+        s.set_selected_rating('1.5')
+        saved = s.guest_ratings
+        for invalid in ('1.2', 'nan', '6', ''):
+            s.set_selected_rating(invalid)
+            self.assertEqual(s.selected_rating, '1.5')
+            self.assertEqual(s.guest_ratings, saved)
+
+    async def test_comma_rating_is_saved_as_decimal_without_rounding(self):
+        s = self.state
+        s.user_id = 1; s._identity = 1; s.session_token = 'valid'; s._selected_raw = {'id': 7}
+        with patch('Codeboxd_main.state.session.request', new=AsyncMock(return_value={'id': 1})), \
+             patch('Codeboxd_main.state.social.request', new=AsyncMock(return_value={})) as request:
+            await s.save_interaction({'rating': '1,5', 'status': 'completed', 'review': 'Review'})
+        self.assertEqual(request.await_args.kwargs['data']['rating'], 1.5)
+        self.assertEqual(request.await_args.kwargs['data']['review'], 'Review')
+
+    async def test_saved_decimal_rating_restores_canonical_selection(self):
+        s = self.state
+        for number, canonical in ((0.5, '0.5'), (1.5, '1.5'), (4.0, '4')):
+            with patch('Codeboxd_main.state.social.request', new=AsyncMock(return_value=[{
+                'media_id': 7, 'status': 'completed', 'rating': number}])):
+                await s._load_personal_interaction('7', True)
+            self.assertEqual(s.selected_rating, canonical)
 
     def test_closing_post_editor_discards_only_its_staged_image(self):
         s = self.state
@@ -162,6 +212,67 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         })
         self.assertFalse(s.report_dialog_open)
         self.assertEqual(s.notice, 'Report enviado para análise. O conteúdo não foi alterado.')
+
+    async def test_report_rate_limit_preserves_draft_and_blocks_early_retry(self):
+        s = self.state
+        s.session_token = 'member-token'; s.user_id = 4; s._identity = 4
+        s.open_report('media', '9')
+        with patch('Codeboxd_main.state.social.request',
+                   new=AsyncMock(side_effect=APIError('Limit', 429, 90))) as request:
+            async for _ in s.submit_report({'reason': 'other', 'description': 'Wrong description'}):
+                pass
+            self.assertTrue(s.report_dialog_open)
+            self.assertFalse(s.report_sending)
+            self.assertEqual(s.report_description, 'Wrong description')
+            self.assertEqual(s.report_reason, 'other')
+            self.assertIn('90 segundos', s.report_error)
+            async for _ in s.submit_report({'reason': 'other', 'description': 'Wrong description'}):
+                pass
+            request.assert_awaited_once()
+        with patch('Codeboxd_main.state.social.time.monotonic', return_value=s._report_retry_at + 1), \
+             patch('Codeboxd_main.state.social.request', new=AsyncMock(return_value={'id': 5, 'status': 'pending'})) as request:
+            async for _ in s.submit_report({}):
+                pass
+        request.assert_awaited_once()
+        self.assertFalse(s.report_dialog_open)
+        self.assertEqual(s.report_error, '')
+
+    async def test_external_media_report_persists_once_and_uses_real_id(self):
+        s = self.state
+        s.session_token = 'member-token'; s.user_id = 4; s._identity = 4
+        s._selected_raw = {'id': 0, 'external_source': 'tmdb', 'external_id': '42',
+                           'media_type': 'movie', 'title': 'Title', 'description': '',
+                           'cover_url': '', 'year': 2020, 'details': {}}
+        s.open_report('media', '')
+        self.assertTrue(s.report_dialog_open)
+        saved = {**s._selected_raw, 'id': 17}
+        with patch('Codeboxd_main.state.session.request', new=AsyncMock()) as auth, \
+             patch('Codeboxd_main.state.social.request', new=AsyncMock(side_effect=[saved, {'id': 8, 'status': 'pending'}])) as request:
+            async for _ in s.submit_report({'reason': 'spam'}):
+                pass
+        auth.assert_not_awaited()
+        self.assertEqual(request.await_count, 2)
+        self.assertEqual(request.await_args_list[0].args[:2], ('POST', '/media'))
+        self.assertEqual(request.await_args_list[1].kwargs['data']['target_id'], '17')
+        self.assertEqual(s.selected['id'], '17')
+        self.assertFalse(s.report_dialog_open)
+
+    async def test_report_does_not_duplicate_in_flight_and_shows_other_failures(self):
+        s = self.state
+        s.session_token = 'member-token'; s.user_id = 4
+        s.open_report('post', '15')
+        with patch('Codeboxd_main.state.social.request', new=AsyncMock(side_effect=APIError('Conteúdo não encontrado.', 404))) as request:
+            sending = s.submit_report({'reason': 'spam', 'description': 'Keep draft'})
+            await anext(sending)
+            async for _ in s.submit_report({'reason': 'spam'}):
+                pass
+            request.assert_not_awaited()
+            async for _ in sending:
+                pass
+        request.assert_awaited_once()
+        self.assertEqual(s.report_error, 'Conteúdo não encontrado.')
+        self.assertEqual(s.report_description, 'Keep draft')
+        self.assertTrue(s.report_dialog_open)
 
     async def test_in_progress_and_dropped_statuses_and_review_updates_replace_saved_values(self):
         s=self.state

@@ -3,9 +3,12 @@ import asyncio
 import json
 import re
 import uuid
+import time
+import math
 from pathlib import Path
 from urllib.parse import urlencode, urlsplit
 from datetime import datetime, timezone
+from decimal import Decimal, InvalidOperation
 import reflex as rx
 from reflex.constants import Endpoint
 from .session import SessionState
@@ -21,6 +24,17 @@ BROKEN_DEFAULT_LISTS = {
     'jã¡ assisti / li': ('Já assisti / li', 'Obras que você já terminou.'),
 }
 LEGACY_DEFAULT_LISTS = {'gostei', 'não gostei'}
+
+
+def normalize_rating(value) -> str:
+    """Accept either decimal separator, keeping the existing half-star scale."""
+    try:
+        rating = Decimal(str(value if value is not None else 0).strip().replace(',', '.'))
+    except InvalidOperation as exc:
+        raise ValueError('Invalid rating') from exc
+    if not rating.is_finite() or not 0 <= rating <= 5 or (rating * 2) % 1:
+        raise ValueError('Invalid rating')
+    return '0' if rating == 0 else format(rating.normalize(), 'f')
 
 
 def present_media(m: dict) -> dict[str,str]:
@@ -111,6 +125,8 @@ class SocialState(SessionState):
     report_reason: str = 'spam'
     report_description: str = ''
     report_sending: bool = False
+    report_error: str = ''
+    _report_retry_at: float = 0.0
 
     @rx.event
     def set_post_editor_open(self, value: bool):
@@ -136,22 +152,34 @@ class SocialState(SessionState):
 
     @rx.event
     def set_selected_rating(self, value: str):
-        if value in ('1','2','3','4','5'):
-            self.selected_rating=value
-            if not self.is_authenticated and self.selected.get('key'):
-                try: ratings=json.loads(self.guest_ratings or '{}')
-                except (TypeError,ValueError): ratings={}
-                if not isinstance(ratings,dict): ratings={}
-                ratings[self.selected['key']]=value
-                self.guest_ratings=json.dumps(ratings,separators=(',',':'))
-                self.notice='Nota salva somente neste navegador. Entre para publicar uma crítica e organizar suas obras.'
+        try:
+            value = normalize_rating(value)
+        except ValueError:
+            return
+        self.selected_rating=value
+        if not self.is_authenticated and self.selected.get('key'):
+            try: ratings=json.loads(self.guest_ratings or '{}')
+            except (TypeError,ValueError): ratings={}
+            if not isinstance(ratings,dict): ratings={}
+            ratings[self.selected['key']]=value
+            self.guest_ratings=json.dumps(ratings,separators=(',',':'))
+            self.notice='Nota salva somente neste navegador. Entre para publicar uma crítica e organizar suas obras.'
+
+    @rx.var
+    def selected_rating_value(self) -> float:
+        try:
+            return float(normalize_rating(self.selected_rating))
+        except ValueError:
+            return 0.0
 
     def _restore_guest_rating(self):
         if self.is_authenticated or not self.selected.get('key'): return
         try: ratings=json.loads(self.guest_ratings or '{}')
         except (TypeError,ValueError): return
         value=ratings.get(self.selected['key']) if isinstance(ratings,dict) else None
-        if str(value) in ('1','2','3','4','5'): self.selected_rating=str(value)
+        if value is not None:
+            try: self.selected_rating=normalize_rating(value)
+            except ValueError: pass
 
     async def _load_trailers(self):
         self.trailers=[]
@@ -317,6 +345,7 @@ class SocialState(SessionState):
         self.post_editor_open=False; self.list_editor_open=False
         self.report_dialog_open=False; self.report_target_type=''; self.report_target_id=''
         self.report_reason='spam'; self.report_description=''; self.report_sending=False
+        self.report_error=''; self._report_retry_at=0.0
         self.library=[]; self.posts=[]; self.comments=[]; self.lists=[]; self.quick_lists=[]; self.list_items=[]
         self.following_ids=[]; self.liked_posts=[]; self.selected_post=''
         self.edit_post_id=''; self.edit_post_body=''; self.edit_post_media='0'; self.edit_post_spoiler=False
@@ -401,7 +430,7 @@ class SocialState(SessionState):
     def _interaction(self, i: dict) -> dict[str,str]:
         result=present_media(self._media.get(str(i['media_id']),{'id':i['media_id']}))
         result.update(status={'planned':'Quero ver / ler','in_progress':'Em andamento','completed':'Concluído','dropped':'Abandonado'}.get(i['status'],i['status']),
-            rating=str(i.get('rating') or 'Sem nota'),review=str(i.get('review') or ''),spoiler=str(bool(i.get('spoiler'))))
+            rating=str(i.get('rating') or 'Sem nota').replace('.',','),review=str(i.get('review') or ''),spoiler=str(bool(i.get('spoiler'))))
         return result
 
     @rx.event
@@ -599,7 +628,7 @@ class SocialState(SessionState):
         for interaction in rows(await self._call('GET','/interactions')):
             if interaction.get('media_id')==int(identifier):
                 self.selected_status=interaction['status']
-                self.selected_rating=str(interaction.get('rating') or 0)
+                self.selected_rating=normalize_rating(interaction.get('rating') or 0)
                 self.selected_review=str(interaction.get('review') or '')
                 self.selected_spoiler=bool(interaction.get('spoiler'))
                 break
@@ -672,8 +701,7 @@ class SocialState(SessionState):
     async def save_interaction(self, form: dict):
         if not await self._require_user(): return rx.redirect('/login')
         try:
-            rating=float(form.get('rating') or 0)
-            if not 0<=rating<=5 or rating*2!=int(rating*2): raise ValueError()
+            rating=float(normalize_rating(form.get('rating') or 0))
             if form.get('status','planned') not in ('planned','in_progress','completed','dropped'):
                 self.notice='Escolha um status válido.'; return
             mid=await self._persist_selected()
@@ -681,12 +709,16 @@ class SocialState(SessionState):
                 rating=rating,review=str(form.get('review','')).strip(),spoiler=form.get('spoiler')=='on'))
             self.notice='Sua experiência foi salva.'
             return rx.redirect('/obra/'+str(mid))
-        except ValueError: self.notice='Escolha uma nota de 0,5 a 5, em passos de 0,5.'
+        except ValueError: self.notice='Escolha uma nota de 0,5 a 5, em passos de 0,5, ou 0 para remover a nota.'
         except APIError as exc: self._failure(exc)
 
     @rx.event
     async def quick_add(self, status: str, rating: float = 0, list_title: str = ''):
         if not await self._require_user(): return rx.redirect('/login')
+        try: rating=float(normalize_rating(rating))
+        except ValueError:
+            self.notice='Escolha uma nota em passos de 0,5.'
+            return
         if status not in ('planned','completed') or not 0<=rating<=5:
             self.notice='Ação inválida.'
             return
@@ -701,7 +733,7 @@ class SocialState(SessionState):
             target=next(item for item in self.quick_lists if item['title']==list_title)
             await self._call('POST',f"/lists/{int(target['id'])}/items",{'media_id':mid})
             self.selected_status=status
-            if rating: self.selected_rating=str(rating)
+            if rating: self.selected_rating=normalize_rating(rating)
             self.notice=f'“{self.selected["title"]}” adicionada à lista {list_title}.'
         except APIError as exc: self._failure(exc)
 
@@ -914,13 +946,16 @@ class SocialState(SessionState):
     def open_report(self, target_type: str, target_id: str):
         if not self.is_authenticated:
             return rx.redirect('/login')
-        if target_type not in ('post', 'comment', 'profile', 'media') or not str(target_id).strip():
+        target_id = str(target_id).strip()
+        external_media = target_type == 'media' and bool(self._selected_raw)
+        if target_type not in ('post', 'comment', 'profile', 'media') or (not target_id and not external_media):
             self.notice = 'Este conteúdo não pode ser denunciado.'
             return
         self.report_target_type = target_type
-        self.report_target_id = str(target_id)
+        self.report_target_id = target_id or '0'
         self.report_reason = 'spam'
         self.report_description = ''
+        self.report_error = ''
         self.report_dialog_open = True
 
     @rx.event
@@ -930,6 +965,7 @@ class SocialState(SessionState):
             self.report_target_type = ''
             self.report_target_id = ''
             self.report_description = ''
+            self.report_error = ''
 
     @rx.event
     def set_report_reason(self, value: str):
@@ -944,18 +980,29 @@ class SocialState(SessionState):
     async def submit_report(self, form: dict):
         if self.report_sending or not self.report_target_type or not self.report_target_id:
             return
+        remaining = math.ceil(self._report_retry_at - time.monotonic())
+        if remaining > 0:
+            self.report_error = f'Aguarde {remaining} segundos antes de tentar enviar novamente.'
+            return
         reason = str(form.get('reason', self.report_reason))
         description = str(form.get('description', self.report_description)).strip()[:2000]
+        self.report_description = description
         if reason not in ('spam', 'harassment', 'inappropriate', 'other'):
-            self.notice = 'Selecione um motivo válido.'
+            self.report_error = 'Selecione um motivo válido.'
             return
+        self.report_reason = reason
         self.report_sending = True
+        self.report_error = ''
         self.notice = ''
         yield
         try:
-            if not await self._require_user():
+            # The protected POST validates the session in Xano. Avoid an extra
+            # auth/me request for an already identified member at every submission.
+            if not self.is_authenticated:
                 yield rx.redirect('/login')
                 return
+            if self.report_target_type == 'media' and self.report_target_id in ('0', ''):
+                self.report_target_id = str(await self._persist_selected())
             await self._call('POST', '/reports', data={
                 'target_type': self.report_target_type,
                 'target_id': self.report_target_id,
@@ -966,6 +1013,12 @@ class SocialState(SessionState):
             self.close_report()
             self.notice = 'Report enviado para análise. O conteúdo não foi alterado.'
         except APIError as exc:
+            if exc.status == 429:
+                wait = max(1, exc.retry_after or 30)
+                self._report_retry_at = time.monotonic() + wait
+                self.report_error = f'Muitas solicitações. Aguarde {wait} segundos para reenviar. Seus dados foram mantidos.'
+            else:
+                self.report_error = str(exc)
             self._failure(exc)
         finally:
             self.report_sending = False

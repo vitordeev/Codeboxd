@@ -1,0 +1,30 @@
+{
+  "layer": "browser_with_real_xano_controlled_account",
+  "checks": [
+    {
+      "scenario": "media_report_dialog_opened",
+      "passed": true
+    },
+    {
+      "scenario": "report_dialog_mobile_no_page_overflow",
+      "passed": true
+    },
+    {
+      "scenario": "report_success_visible_in_browser",
+      "passed": true
+    },
+    {
+      "scenario": "report_dialog_closed_after_success",
+      "passed": true
+    },
+    {
+      "scenario": "exactly_one_browser_report_persisted",
+      "passed": true
+    },
+    {
+      "scenario": "browser_test_report_removed",
+      "passed": true
+    }
+  ],
+  "rate_limit_browser_simulated": false
+}

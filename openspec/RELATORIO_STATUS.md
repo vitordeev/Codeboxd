@@ -1,5 +1,25 @@
 # Relatório do estado do Codeboxd
 
+Meias estrelas em 19/10: 0,5–5 com preenchimento parcial, notas em vírgula e
+restauração decimal de visitante/conta. 148 testes e compilação aprovados; nove
+checks de browser/Xano real confirmaram persistência 1,5 e preservação da crítica.
+Avaliação de teste removida. [Evidência](changes/avaliar-meias-estrelas/validation/implementacao-2026-10-19.md).
+
+Denúncia de obras em 19/10: retorno no modal e tratamento de 429 corrigidos;
+obra externa recebe ID ao enviar. 143 testes/compilação aprovados; denúncia de
+teste persistida no Xano e sucesso confirmado no browser, com limpeza. Limitação
+429 testada por simulação. [Evidência](changes/gerenciamento-website/validation/denunciar-obras-2026-10-19.md).
+
+Tradução opcional DeepL em 19/10: fichas anime/livro integradas localmente com
+cache persistente, fallback e chave privada; 136 testes locais e smoke DeepL real
+passaram. Revisão de navegador ainda aberta. [Evidência](changes/traduzir-descricoes-deepl/validation/implementacao-2026-10-19.md).
+
+Atualização de 19/10/2026: correções dos três GETs administrativos publicadas;
+backup estrutural de 77 documentos e dry-run posterior sem delta. 18 testes
+locais passaram; visitante/membro rejeitados nos endpoints reais. Faltam testes
+funcionais com admin aprovado e navegador; contagem administrativa mantida em
+17/34. [Evidência](changes/gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md).
+
 Base inicial: 13/10/2026, código/documentação e evidências históricas. Atualização de encerramento: 14/10/2026, com nova publicação Xano, testes remotos de visitante/membro e recuperação inválida, e validação de imagem no navegador. Evidências e limites estão nas rodadas abaixo.
 
 ## Avaliação geral

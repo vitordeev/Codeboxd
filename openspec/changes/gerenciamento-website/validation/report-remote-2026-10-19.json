@@ -1,0 +1,31 @@
+{
+  "layer": "xano_real_controlled_account",
+  "checks": [
+    {
+      "scenario": "controlled_account_login",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "single_media_report_created",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "report_persisted_with_server_snapshot",
+      "passed": true,
+      "http_status": null
+    },
+    {
+      "scenario": "target_media_unchanged",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "created_test_report_removed",
+      "passed": true,
+      "http_status": 200
+    }
+  ],
+  "browser_executed": false
+}

@@ -1,5 +1,29 @@
 # OpenSpec do Codeboxd
 
+Meias estrelas em 19/10: seleção de 0,5 a 5, preenchimento parcial, vírgula decimal
+e restauração para visitante/conta. 148 testes, compilação e navegador/Xano real
+aprovados, com limpeza da avaliação de teste. [Change](changes/avaliar-meias-estrelas/tasks.md),
+5/5 tarefas verificadas.
+
+Retorno à descoberta aprimorado em 19/10: botão arredondado com seta amarela,
+hover/foco e área de toque de 46px. Compilação e navegador desktop/celular
+aprovados. [P.13 / evidência](validation/voltar-descoberta-2026-10-19.md).
+
+Denúncia de obras corrigida em 19/10: erros visíveis no modal, rascunho preservado,
+espera de 429 respeitada e identidade externa resolvida ao enviar. 143 testes,
+compilação, Xano real e fluxo de sucesso no navegador aprovados, com limpeza dos
+reports de teste. [Evidência](changes/gerenciamento-website/validation/denunciar-obras-2026-10-19.md).
+
+Tradução em 19/10/2026: DeepL integrado localmente às descrições das fichas de
+animes/livros, com cache persistente e fallback. Chave configurada privadamente;
+smoke real DeepL e 136 testes locais passaram. Revisão de navegador pendente.
+[Change](changes/traduzir-descricoes-deepl/tasks.md), 5/6 tarefas verificadas.
+
+Atualização de 19/10/2026: os três GETs de buscas administrativas foram publicados
+após backup e dry-run limitado; conferência final sem delta. 18 testes locais
+passaram e o acesso de visitante/membro foi rejeitado. Validação funcional com
+admin aprovado ainda pendente por falta de token. [Evidência atual](changes/gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md).
+
 Revisão documental: 13/10/2026. Este é o ponto de entrada para retomar o projeto.
 
 Encerramento da rodada em 14/10/2026: administração publicada no Xano com

@@ -1,0 +1,38 @@
+{
+  "layer": "browser_real_local_app",
+  "remote_mutations": false,
+  "checks": [
+    {
+      "scenario": "button_visible_and_touchable_1440",
+      "passed": true,
+      "metrics": {
+        "height": 46,
+        "width": 190.109375,
+        "left": 57.59375,
+        "right": 247.703125,
+        "background": "rgb(23, 23, 21)",
+        "radius": "999px"
+      }
+    },
+    {
+      "scenario": "button_visible_and_touchable_390",
+      "passed": true,
+      "metrics": {
+        "height": 46,
+        "width": 190.109375,
+        "left": 19.5,
+        "right": 209.609375,
+        "background": "rgb(23, 23, 21)",
+        "radius": "999px"
+      }
+    },
+    {
+      "scenario": "keyboard_focus_visible",
+      "passed": true
+    },
+    {
+      "scenario": "return_destination_home",
+      "passed": true
+    }
+  ]
+}

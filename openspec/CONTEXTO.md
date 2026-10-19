@@ -4,6 +4,11 @@ Referência atual: 13/10/2026. Consulte [HISTORICO.md](HISTORICO.md) para a evol
 
 ## Produto e arquitetura
 
+Tradução opcional: `services/translation.py` usa DEEPL_API_KEY somente no servidor
+para descrições das fichas Kitsu/Jikan/Open Library, com destino PT-BR, cache
+SQLite local em `.local/description-translations.sqlite3` e original em falha.
+TMDB permanece pt-BR nativo. [Change ativa](changes/traduzir-descricoes-deepl/tasks.md).
+
 Codeboxd reúne descoberta e registro de experiências com filmes, séries, animes e livros, além de perfis e relações sociais. A aplicação usa Python/Reflex; Xano é responsável por autenticação, persistência e autorização. Os adaptadores de catálogo executam no servidor Python.
 
 | Camada | Arquivos principais | Responsabilidade |
@@ -21,6 +26,11 @@ Codeboxd reúne descoberta e registro de experiências com filmes, séries, anim
 Os caminhos da tabela são relativos à raiz do repositório, dentro de `Codeboxd_main/` quando começam por `state/`, `pages/` ou `services/`.
 
 ## Mapa de funcionalidades e contratos
+
+Complemento ativo `avaliar-meias-estrelas` (19/10): controle de nota com metades
+clicáveis, escala 0,5–5 e zero sem nota; vírgula/ponto normalizados no servidor.
+Visitantes restauram meias estrelas do LocalStorage; contas preservam decimais
+no Xano. Trocar nota mantém a crítica em edição. [Evidência](changes/avaliar-meias-estrelas/validation/implementacao-2026-10-19.md).
 
 | Tópico | Comportamento existente | Contratos/evidências |
 | --- | --- | --- |
