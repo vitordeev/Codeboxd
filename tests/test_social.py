@@ -221,6 +221,23 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(result),100)
         request.assert_awaited_once()
 
+    async def test_repairs_mojibake_default_list_for_existing_user(self):
+        s=self.state
+        broken={'id':22,'title':'JÃ¡ assisti / li','description':'Obras que vocÃª jÃ¡ terminou.',
+                'is_public':True}
+        repaired={'id':22,'title':'Já assisti / li','description':'Obras que você já terminou.',
+                  'is_public':True}
+        created={'id':23,'title':'Quero ver / ler','description':'Obras para descobrir depois.',
+                 'is_public':True}
+        with patch('Codeboxd_main.state.social.request',new=AsyncMock(
+                side_effect=[[broken],repaired,created])) as request:
+            await s._ensure_default_lists()
+
+        self.assertEqual(request.await_args_list[1].args[:2],('PUT','/lists/22'))
+        self.assertEqual(request.await_args_list[1].kwargs['data'],{
+            'title':'Já assisti / li','description':'Obras que você já terminou.','is_public':True})
+        self.assertEqual({item['title'] for item in s.quick_lists},{'Quero ver / ler','Já assisti / li'})
+
     async def test_feed_legacy_like_fallback_skips_per_post_requests(self):
         s=self.state; s.user_id=1
         posts=[{'id':i,'user_id':2,'body':'Story','created_at':i} for i in range(1,31)]

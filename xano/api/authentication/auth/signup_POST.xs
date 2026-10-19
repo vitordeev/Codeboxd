@@ -67,7 +67,7 @@ query "auth/signup" verb=POST {
         } as $watchlist
 
         db.add user_list {
-          data = {user_id: $user.id, title: "JÃ¡ assisti / li", description: "Obras que vocÃª jÃ¡ terminou.", is_public: true, updated_at: now}
+          data = {user_id: $user.id, title: "Já assisti / li", description: "Obras que você já terminou.", is_public: true, updated_at: now}
         } as $completed_list
 
       }

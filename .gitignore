@@ -1,4 +1,4 @@
-# Local configuration and credentials.
+﻿# Local configuration and credentials
 .env
 .env.*
 !.env.example
@@ -6,7 +6,7 @@
 !*.env.example
 .aws/
 
-# Python environments and generated caches.
+# Python environments and caches
 .venv/
 venv/
 __pycache__/
@@ -16,15 +16,19 @@ __pycache__/
 .ruff_cache/
 *.egg-info/
 
-# Reflex build output, server state, private probes, and user uploads.
+# Databases
+*.db
+
+# Reflex generated files and local state
 .web/
 .states/
 .local/
 uploaded_files/
+assets/external/
 node_modules/
 *.log
 
-# Editor/OS temporary files.
+# Editor and OS temporary files
 .DS_Store
 Thumbs.db
 *.tmp

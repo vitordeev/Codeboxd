@@ -17,6 +17,9 @@ DEFAULT_MEDIA_LISTS = (
     ('Quero ver / ler', 'Obras para descobrir depois.'),
     ('Já assisti / li', 'Obras que você já terminou.'),
 )
+BROKEN_DEFAULT_LISTS = {
+    'jã¡ assisti / li': ('Já assisti / li', 'Obras que você já terminou.'),
+}
 LEGACY_DEFAULT_LISTS = {'gostei', 'não gostei'}
 
 
@@ -625,11 +628,21 @@ class SocialState(SessionState):
         return int(result['id'])
 
     async def _ensure_default_lists(self):
-        """Create the four built-in lists for legacy accounts when first viewing an item."""
+        """Repair and create default lists when an account accesses its lists."""
         existing=rows(await self._call('GET','/lists'))
         by_title={str(item.get('title') or '').casefold():item for item in existing}
         for old in existing:
             old_title=str(old.get('title') or '').casefold()
+            repair=BROKEN_DEFAULT_LISTS.get(old_title)
+            if repair:
+                title,description=repair
+                result=await self._call('PUT',f"/lists/{int(old['id'])}",dict(
+                    title=title,description=description,
+                    is_public=old.get('is_public',True)))
+                if not isinstance(result,dict) or not result.get('id'):
+                    raise APIError('Não foi possível corrigir suas listas padrão.')
+                by_title.pop(old_title,None)
+                by_title[title.casefold()]=result
             if old_title in LEGACY_DEFAULT_LISTS:
                 old_items=rows(await self._call('GET',f"/lists/{int(old['id'])}/items"))
                 if not old_items:
