@@ -1,5 +1,10 @@
 # OpenSpec do Codeboxd
 
+Recuperação de senha em 20/10: corrigido conflito entre os campos de e-mail
+das duas etapas, reproduzido e validado no navegador. 170 testes e compilação
+passaram. Change em 7/8 tarefas; entrega em caixa real ainda pendente.
+[Retomada](changes/recuperar-senha-codigo-6-digitos/validation/retomada-2026-10-20.md).
+
 Identidade da avaliação em 20/10: corrigida seleção indevida do primeiro
 registro da resposta Xano; fichas e envios agora validam a obra exata.
 170 testes locais e compilação aprovados; dados antigos não foram movidos.
@@ -107,7 +112,7 @@ e [uploads/sessão](validation/uploads-and-session-2026-10-13.md).
 | `definir-fundacao-codeboxd` | Arquivada | 87 | 0 | Busca Kitsu comprovada em setembro; marcador final corrigido e validação documental atual |
 | `gerenciamento-website` | Ativa | 17 | 17 | Implementação local parcial/completa por tópico; integração remota e interface ainda não concluídas |
 | `corrigir-erros-operacionais` | Concluída, aguardando arquivamento | 7 | 0 | Correções locais verificadas; Docker retirado do escopo pelo usuário |
-| `recuperar-senha-codigo-6-digitos` | Ativa | 6 | 1 | Implementação publicada e backend/browser validados; chegada do e-mail em caixa controlada pendente |
+| `recuperar-senha-codigo-6-digitos` | Ativa | 7 | 1 | Implementação publicada, conflito de campos corrigido e browser validado; chegada do e-mail em caixa controlada pendente |
 
 A contagem administrativa anterior era 24/41 porque incluía sete itens H.1–H.7 de trabalho anterior. Eles foram preservados em [HISTORICO.md](HISTORICO.md), sem contar como implementação administrativa. Os 34 IDs administrativos originais permanecem estáveis.
 

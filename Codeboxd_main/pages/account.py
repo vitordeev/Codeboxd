@@ -5,13 +5,14 @@ from .login import _logo_icon
 from ..password_input import password_input
 
 
-def field(label: str, name: str, kind: str = 'text', **props) -> rx.Component:
+def field(label: str, name: str, kind: str = 'text', input_id: str | None = None, **props) -> rx.Component:
+    identifier = input_id or name
     return rx.el.div(
-        rx.el.label(label, html_for=name, class_name='block text-sm text-gray-300 mb-2'),
-        (password_input(id=name, name=name, required=True,
+        rx.el.label(label, html_for=identifier, class_name='block text-sm text-gray-300 mb-2'),
+        (password_input(id=identifier, name=name, required=True,
                         class_name='form-input-custom w-full h-12 px-4 rounded-xl text-white', **props)
          if kind == 'password' else
-         rx.el.input(id=name, name=name, type=kind, required=True,
+         rx.el.input(id=identifier, name=name, type=kind, required=True,
                      class_name='form-input-custom w-full h-12 px-4 rounded-xl text-white', **props)),
     )
 
@@ -68,7 +69,8 @@ def password_reset_page() -> rx.Component:
                 rx.el.h2(rx.el.span('1',class_name='reset-step-number'),'Receber código',class_name='reset-step-title'),
                 rx.el.p('Enviaremos um código de 6 dígitos para o e-mail da sua conta. Ele vale por 15 minutos e só pode ser usado uma vez.',class_name='reset-step-copy'),
                 rx.el.form(
-                    field('E-mail da conta', 'email', 'email', auto_complete='email', placeholder='voce@exemplo.com'),
+                    field('E-mail da conta', 'email', 'email', input_id='reset-request-email',
+                          auto_complete='email', placeholder='voce@exemplo.com'),
                     rx.el.button(rx.cond(SessionState.is_loading,'Enviando…','Enviar código por e-mail'),
                         type='submit',disabled=SessionState.is_loading,class_name='action-button reset-primary-button'),
                     on_submit=SessionState.request_password_reset,class_name='reset-form'),
@@ -77,7 +79,8 @@ def password_reset_page() -> rx.Component:
                 rx.el.h2(rx.el.span('2',class_name='reset-step-number'),'Criar senha nova',class_name='reset-step-title'),
                 rx.el.p('Digite os 6 dígitos recebidos e escolha uma senha segura.',class_name='reset-step-copy'),
                 rx.el.form(
-                    field('E-mail da conta', 'email', 'email', auto_complete='email', placeholder='voce@exemplo.com'),
+                    field('E-mail da conta', 'email', 'email', input_id='reset-confirm-email',
+                          auto_complete='email', placeholder='voce@exemplo.com'),
                     field('Código recebido por e-mail', 'code', 'text', auto_complete='one-time-code',
                           min_length=6, max_length=6, pattern='[0-9]{6}', input_mode='numeric', placeholder='123456'),
                     field('Nova senha', 'password', 'password', auto_complete='new-password', min_length=8),
