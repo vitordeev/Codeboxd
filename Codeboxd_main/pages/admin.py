@@ -504,7 +504,7 @@ def admin_catalog_page(media_type: str) -> rx.Component:
             rx.el.section(
                 rx.el.p("GERENCIAMENTO DO CATÁLOGO", class_name="admin-page-eyebrow"),
                 rx.el.h1(label, class_name="admin-page-title"),
-                rx.el.p("Pesquise e corrija os dados locais das obras sem alterar suas referências externas.",
+                rx.el.p("Veja as obras cadastradas nesta seção. Use a busca para encontrar um título específico.",
                     class_name="admin-page-description"),
                 rx.el.nav(
                     rx.el.a("Filmes", href="/admin/catalog/movies", class_name="admin-catalog-tab"),
@@ -548,12 +548,14 @@ def admin_catalog_page(media_type: str) -> rx.Component:
                         rx.el.input(
                             id="admin-catalog-search", name="search", type="search",
                             placeholder="Digite o título da obra", class_name="admin-search-input",
-                            default_value=AdminState.catalog_query,
+                            value=AdminState.catalog_query, on_change=AdminState.update_catalog_query,
                         ),
                         rx.el.button(
                             rx.cond(AdminState.catalog_loading, "Buscando…", "Pesquisar"),
                             type="submit", disabled=AdminState.catalog_loading, class_name="admin-search-submit",
                         ),
+                        rx.el.button("Ver todas", type="button", on_click=AdminState.show_all_catalog,
+                            disabled=AdminState.catalog_loading, class_name="quiet-button"),
                         class_name="admin-catalog-search-controls",
                     ),
                     on_submit=AdminState.search_catalog,
@@ -596,7 +598,7 @@ def admin_catalog_page(media_type: str) -> rx.Component:
                         AdminState.catalog_query != "",
                         rx.el.div(rx.icon("search-x", size=24), rx.el.p("Nenhuma obra encontrada para esta pesquisa."),
                             class_name="admin-activity-empty"),
-                        rx.el.div(rx.icon("search", size=24), rx.el.p("Pesquise um título para carregar obras desta seção."),
+                        rx.el.div(rx.icon("library", size=24), rx.el.p("Ainda não há obras cadastradas nesta seção."),
                             class_name="admin-activity-empty"),
                     ),
                 ),

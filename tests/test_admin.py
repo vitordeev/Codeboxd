@@ -172,7 +172,8 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_catalog_load_filters_by_section_and_uses_server_pagination(self):
         self.state.session_token = "admin-token"
-        self.state.catalog_query = "Arrival"
+        self.state.catalog_query = "Filtro de outra aba"
+        self.state.catalog_page = 4
         catalog_result = {
             "items": [{
                 "id": 42,
@@ -199,7 +200,7 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
 
         request.assert_awaited_once_with(
             "GET", "/admin/catalog", group="social", token="admin-token",
-            params={"media_type": "movie", "search": "Arrival", "page": 1, "per_page": 25},
+            params={"media_type": "movie", "search": "", "page": 1, "per_page": 25},
         )
         self.assertEqual(self.state.catalog_items[0]["identity_key"], "tmdb:movie:329865")
         self.assertNotIn("details", self.state.catalog_items[0])
@@ -216,6 +217,38 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
 
         request.assert_not_awaited()
         self.assertEqual(self.state.catalog_items, [])
+
+    async def test_open_each_catalog_tab_lists_first_page_without_old_filters(self):
+        self.state.session_token = 'admin-token'
+        for kind, loader in [('movie', self.state.load_catalog_movies),
+                             ('series', self.state.load_catalog_series),
+                             ('book', self.state.load_catalog_books)]:
+            with self.subTest(kind=kind):
+                self.state.catalog_query = 'Filtro anterior'
+                self.state.catalog_page = 9
+                result = {'items': [{'id': 1, 'title': 'Obra cadastrada', 'media_type': kind}],
+                          'total': 1, 'page': 1, 'next_page': 0}
+                with patch('Codeboxd_main.state.session.request', new=AsyncMock(return_value={'id': 1, 'role': 'admin'})), \
+                        patch('Codeboxd_main.state.admin.request', new=AsyncMock(return_value=result)) as request:
+                    async for _ in loader():
+                        pass
+                self.assertEqual(request.await_args.kwargs['params'],
+                                 {'media_type': kind, 'search': '', 'page': 1, 'per_page': 25})
+                self.assertEqual(self.state.catalog_items[0]['title'], 'Obra cadastrada')
+
+    async def test_show_all_catalog_clears_search_and_search_still_filters(self):
+        self.state.session_token = 'admin-token'
+        self.state.catalog_type = 'book'
+        result = {'items': [], 'total': 0, 'page': 1, 'next_page': 0}
+        with patch('Codeboxd_main.state.session.request', new=AsyncMock(return_value={'id': 1, 'role': 'admin'})), \
+                patch('Codeboxd_main.state.admin.request', new=AsyncMock(return_value=result)) as request:
+            async for _ in self.state.search_catalog({'search': 'Duna'}):
+                pass
+            self.assertEqual(request.await_args.kwargs['params']['search'], 'Duna')
+            async for _ in self.state.show_all_catalog():
+                pass
+            self.assertEqual(request.await_args.kwargs['params']['search'], '')
+            self.assertEqual(self.state.catalog_query, '')
 
     async def test_invalid_catalog_year_preserves_editor_and_does_not_write(self):
         self.state.catalog_edit_id = "42"

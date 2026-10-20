@@ -1,5 +1,45 @@
 # OpenSpec do Codeboxd
 
+Identidade da avaliação em 20/10: corrigida seleção indevida do primeiro
+registro da resposta Xano; fichas e envios agora validam a obra exata.
+170 testes locais e compilação aprovados; dados antigos não foram movidos.
+[Evidência e pendência](validation/avaliacao-identidade-2026-10-20.md).
+
+Avaliação em 20/10: envio bloqueado durante gravação, repetição idêntica
+suprimida e formulário fechado após confirmação, com edição explícita.
+165 testes locais e compilação aprovados.
+[Evidência e limites](validation/avaliacao-envio-unico-2026-10-20.md).
+
+Carregamento em 20/10: homepage exibe resultados progressivamente, usa cache
+público de cinco minutos e separa consultas por provedor. Recarga medida com
+categorias habilitadas em 1,43 s (antes 9,40 s).
+[Evidência e limites](validation/carregamento-home-2026-10-20.md).
+
+Seleção de séries em 20/10: Stranger Things, The Boys, Reacher e La Casa de
+Papel passam ao início da fileira. [Evidência](validation/series-selecao-2026-10-20.md).
+
+Séries populares em 20/10: cache de três séries locais passa a ser substituído
+pela lista TMDB quando disponível. [Evidência](validation/series-populares-cache-2026-10-20.md).
+
+Card principal em 20/10: destaque prioriza “Agora nos cinemas”, atualmente
+Street Fighter (2026). [Evidência](validation/card-principal-atual-2026-10-20.md).
+
+TMDB em 20/10: configuração anterior restaurada localmente; cinema, melhores
+avaliados e próximos filmes retornaram HTTP 200 com 20 obras por seleção.
+[Evidência](validation/restaurar-tmdb-2026-10-20.md).
+
+Página principal em 20/10: alternativa com obras salvas restaurada por pedido
+do usuário, preservando o ajuste independente no dashboard.
+[Evidência](validation/restaurar-principal-2026-10-20.md).
+
+Dashboard em 20/10: abas do catálogo abrem sem filtros anteriores e incluem
+“Ver todas”. Ajuste anterior na descoberta retirado após esclarecimento do usuário.
+[Evidência](changes/gerenciamento-website/validation/catalogo-inicial-2026-10-20.md).
+
+Login em 20/10: erro de serviço indisponível reproduzido no navegador;
+`.env` ausente restaurado com URLs públicas Xano.
+[Diagnóstico e validação](validation/login-configuracao-2026-10-20.md).
+
 Mostrar/ocultar senha em 20/10: controle adicionado ao login, cadastro e
 redefinição. [Implementação e validação](validation/mostrar-senha-2026-10-20.md).
 

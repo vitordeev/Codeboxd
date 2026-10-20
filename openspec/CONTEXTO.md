@@ -27,6 +27,25 @@ Os caminhos da tabela são relativos à raiz do repositório, dentro de `Codebox
 
 ## Mapa de funcionalidades e contratos
 
+Isolamento da avaliação em 20/10: resposta remota de `/media` não respeita
+identity_key nesta instância; cliente seleciona correspondência exata e valida
+ID antes de salvar. Formulário remonta por identidade da obra e rejeita envios
+de outra ficha. [Correção e limites](validation/avaliacao-identidade-2026-10-20.md).
+
+Avaliações em 20/10: formulário com bloqueio durante envio, confirmação local
+e resumo após salvar; edição explícita e repetição idêntica suprimida antes da
+rede. [Validação local](validation/avaliacao-envio-unico-2026-10-20.md).
+
+Desempenho em 20/10: resultados da homepage enviados progressivamente, limites
+de consulta separados por provedor e cache público de cinco minutos/128 entradas
+por processo. [Medições e validação](validation/carregamento-home-2026-10-20.md).
+
+Página principal em 20/10: obras persistidas mantêm destaques de filmes/séries
+e categorias disponíveis quando os provedores falham. Configuração TMDB anterior
+restaurada posteriormente: cinema, melhores avaliados e próximos filmes validados
+com 20 cards por fileira no navegador.
+[Validação TMDB](validation/restaurar-tmdb-2026-10-20.md).
+
 Complemento ativo `avaliar-meias-estrelas` (19/10): controle de nota com metades
 clicáveis, escala 0,5–5 e zero sem nota; vírgula/ponto normalizados no servidor.
 Visitantes restauram meias estrelas do LocalStorage; contas preservam decimais
