@@ -295,22 +295,43 @@ class AdminState(SessionState):
 
     @rx.event
     async def load_catalog_movies(self):
-        async for event in self._load_catalog('movie'):
+        async for event in self._open_catalog('movie'):
             yield event
 
     @rx.event
     async def load_catalog_series(self):
-        async for event in self._load_catalog('series'):
+        async for event in self._open_catalog('series'):
             yield event
 
     @rx.event
     async def load_catalog_anime(self):
-        async for event in self._load_catalog('anime'):
+        async for event in self._open_catalog('anime'):
             yield event
 
     @rx.event
     async def load_catalog_books(self):
-        async for event in self._load_catalog('book'):
+        async for event in self._open_catalog('book'):
+            yield event
+
+    async def _open_catalog(self, media_type: str):
+        if self.catalog_loading:
+            return
+        self.catalog_query = ''
+        self.catalog_page = 1
+        self.catalog_items = []
+        self.catalog_total = 0
+        self.catalog_next_page = 0
+        self.close_catalog_editor()
+        async for event in self._load_catalog(media_type):
+            yield event
+
+    @rx.event
+    def update_catalog_query(self, value: str):
+        self.catalog_query = value[:120]
+
+    @rx.event
+    async def show_all_catalog(self):
+        async for event in self._open_catalog(self.catalog_type):
             yield event
 
     @rx.event

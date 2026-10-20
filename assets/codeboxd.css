@@ -409,3 +409,12 @@ button:disabled { cursor: wait; }
 .admin-user-controls{display:flex;flex-direction:column;align-items:flex-end;gap:10px}.admin-user-actions{display:flex;align-items:center;gap:8px}.admin-user-details{display:grid;gap:5px;padding:12px 14px;border:1px solid #343438;border-radius:10px;color:#a8a5b0;font-size:.85rem;text-align:right}.admin-user-details-toggle{white-space:nowrap}
 .admin-catalog-create{margin:22px 0;padding:16px 18px;border:1px solid #343438;border-radius:14px;background:#141416}.admin-catalog-create-summary{cursor:pointer;color:var(--yellow);font-weight:700}.admin-catalog-create-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}.admin-catalog-create-grid textarea{grid-column:1/-1}.admin-catalog-create-grid button{justify-self:start}@media(max-width:640px){.admin-catalog-create-grid{grid-template-columns:1fr}.admin-catalog-create-grid textarea{grid-column:auto}}
 .admin-demo-main{width:min(100% - 40px,1440px);margin:0 auto;padding:34px 0 60px}.admin-demo-content{display:grid;gap:20px}.admin-demo-heading{padding:20px 22px;border:1px solid #51472b;border-radius:14px;background:radial-gradient(ellipse at 100% 0,#403718,#171612 65%)}.admin-demo-heading .admin-page-description{max-width:850px;line-height:1.6}.admin-demo-section{margin-top:0}.admin-demo-json-details{margin-top:14px;padding:10px 12px;border:1px solid #303035;border-radius:9px;background:#111113}.admin-demo-json-summary{color:var(--yellow);font-size:12px;font-weight:700;cursor:pointer}.admin-demo-json{max-height:500px}.admin-demo-page .admin-metrics-grid{margin:0}@media(max-width:640px){.admin-demo-main{width:min(100% - 28px,1440px);padding-top:20px}.admin-demo-heading{padding:17px}.admin-demo-json{font-size:10px}}
+.password-visibility-field { position: relative; width: 100%; }
+.password-visibility-toggle {
+  position: absolute; right: 2px; top: 2px; bottom: 2px;
+  width: 44px; display: flex; align-items: center; justify-content: center;
+  color: #aaa; background: transparent; border: 0; border-radius: 10px;
+  cursor: pointer;
+}
+.password-visibility-toggle:hover { color: #f5b300; }
+.password-visibility-toggle:focus-visible { outline: 2px solid #f5b300; outline-offset: -2px; }

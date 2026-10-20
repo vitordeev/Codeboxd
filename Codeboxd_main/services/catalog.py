@@ -1,6 +1,7 @@
 """Media providers called on the Python server; provider keys stay off the client."""
 import asyncio
 import copy
+import hashlib
 import json
 import logging
 import time
@@ -19,9 +20,24 @@ from .translation import translate_description
 logger = logging.getLogger(__name__)
 KITSU_URL = 'https://kitsu.app/api/edge'
 _kitsu_cache: OrderedDict = OrderedDict()
+_public_cache: OrderedDict = OrderedDict()
 
 
 TYPES = {'movie': 'Filme', 'series': 'Série', 'anime': 'Anime', 'book': 'Livro'}
+SERIES_HIGHLIGHTS = (66732, 76479, 108978, 71446)
+
+
+async def series_highlights() -> list[dict]:
+    """Series selected for the homepage, in the user's preferred order."""
+    token = os.getenv('TMDB_READ_TOKEN', '').strip()
+    if not token:
+        return []
+    results = await asyncio.gather(*(fetch(
+        f'https://api.themoviedb.org/3/tv/{identifier}', params={'language': 'pt-BR'},
+        headers={'Authorization': f'Bearer {token}'}, cache=True) for identifier in SERIES_HIGHLIGHTS),
+        return_exceptions=True)
+    return [tmdb_item(item, 'series') for item in results
+            if isinstance(item, dict) and item.get('id') and not item.get('adult')]
 
 # Each shelf has its own provider selection; do not repeat a search page under
 # different editorial headings.
@@ -105,7 +121,14 @@ def media(source: str, kind: str, identifier: str, title: str, **extra) -> dict:
                 backdrop_url=safe_url(extra.get('backdrop_url')), search_titles=extra.get('search_titles') or [])
 
 
-async def fetch(url: str, **kwargs) -> dict:
+async def fetch(url: str, *, cache: bool = False, **kwargs) -> dict:
+    cache_key = hashlib.sha256(json.dumps([url, kwargs], sort_keys=True).encode()).hexdigest() if cache else ''
+    if cache_key in _public_cache:
+        stored_at, value = _public_cache[cache_key]
+        if time.monotonic() - stored_at < 300:
+            _public_cache.move_to_end(cache_key)
+            return copy.deepcopy(value)
+        del _public_cache[cache_key]
     try:
         async with httpx.AsyncClient(timeout=httpx.Timeout(8, connect=3), headers={'User-Agent': 'Codeboxd/1.0'}) as client:
             for attempt in range(3):
@@ -114,6 +137,10 @@ async def fetch(url: str, **kwargs) -> dict:
                     response.raise_for_status()
                     value = response.json()
                     if not isinstance(value, dict): raise ValueError('Expected object')
+                    if cache:
+                        _public_cache[cache_key] = (time.monotonic(), copy.deepcopy(value))
+                        while len(_public_cache) > 128:
+                            _public_cache.popitem(last=False)
                     return value
                 except httpx.HTTPStatusError as exc:
                     if exc.response.status_code not in (429,500,502,503,504) or attempt == 2: raise
@@ -360,7 +387,7 @@ async def home_collection(key: str) -> list[dict]:
         if not token: raise APIError('O catálogo de filmes e séries está indisponível.')
         payload = await fetch('https://api.themoviedb.org/3/' + selection,
             params={'language': 'pt-BR', 'page': 1, 'region': 'BR'},
-            headers={'Authorization': f'Bearer {token}'})
+            headers={'Authorization': f'Bearer {token}'}, cache=True)
         items = [tmdb_item(item, kind) for item in payload.get('results', []) if not item.get('adult')]
     elif kind == 'anime':
         payload = await kitsu_fetch('/anime', **{'sort': selection, 'page[limit]': 20, 'include': 'mappings'})
@@ -369,7 +396,7 @@ async def home_collection(key: str) -> list[dict]:
         if selection.startswith('title:'):
             payload = await fetch('https://openlibrary.org/search.json', params={
                 'title': selection.removeprefix('title:'), 'lang': 'pt', 'limit': 20,
-                'fields': 'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'})
+                'fields': 'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'}, cache=True)
             items = [book_item(item) for item in payload.get('docs', [])]
         elif selection.startswith('titles:'):
             # Open Library is more reliable when each curated title is searched
@@ -377,13 +404,13 @@ async def home_collection(key: str) -> list[dict]:
             titles = [title.strip() for title in selection.removeprefix('titles:').split('|') if title.strip()]
             responses = await asyncio.gather(*(fetch('https://openlibrary.org/search.json', params={
                 'title': title, 'lang': 'pt', 'limit': 4,
-                'fields': 'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'})
+                'fields': 'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'}, cache=True)
                 for title in titles))
             items = [book_item(item) for payload in responses for item in payload.get('docs', [])]
         else:
             payload = await fetch('https://openlibrary.org/search.json', params={
                 'q': f'subject:{selection}', 'lang': 'pt', 'limit': 20,
-                'fields': 'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'})
+                'fields': 'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'}, cache=True)
             items = [book_item(item) for item in payload.get('docs', [])]
     return list({item['identity_key']: item for item in items}.values())
 
@@ -396,7 +423,7 @@ async def search_one(query: str, kind: str, page: int = 1) -> list[dict]:
         path = f'search/{category}' if query else f'{category}/popular'
         payload = await fetch('https://api.themoviedb.org/3/'+path,
                               params={'query':query,'page':page,'language':'pt-BR','include_adult':'false'},
-                              headers={'Authorization':f'Bearer {token}'})
+                              headers={'Authorization':f'Bearer {token}'}, cache=not query)
         return [tmdb_item(item,kind) for item in payload.get('results',[])]
     if kind == 'anime':
         payload = await kitsu_fetch('/anime', **{

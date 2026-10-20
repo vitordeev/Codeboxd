@@ -8,6 +8,7 @@ e o botão de submit são conectados ao AuthState (services/xano_client via auth
 import reflex as rx
 
 from ..state.auth_state import AuthState
+from ..password_input import password_input
 
 # ---------------------------------------------------------------------------
 # Head components: Tailwind CDN + config + fonte Inter + CSS customizado.
@@ -230,10 +231,9 @@ def login_page() -> rx.Component:
                     ),
                     rx.el.div(
                         rx.el.label("Senha", class_name="block text-[13px] text-[#7e7e7e] mb-2 font-normal", html_for="password"),
-                        rx.el.input(
+                        password_input(
                             id="password",
                             name="password",
-                            type="password",
                             required=True,
                             auto_complete="current-password",
                             class_name="form-input-custom w-full h-12 px-4 rounded-xl text-white text-sm focus:ring-0",

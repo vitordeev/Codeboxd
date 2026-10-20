@@ -311,15 +311,24 @@ def media_page():
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
                         allow_fullscreen=True,class_name='media-trailer'),class_name='media-trailer-card')),
                     class_name='media-trailer-list')),rx.fragment()),            rx.el.div(rx.el.section(rx.el.h2('O que você achou?',class_name='section-title'),
-                rx.cond(S.is_authenticated,rx.el.form(
+                rx.cond(S.is_authenticated,rx.cond(S.review_editor_open,rx.el.form(
+                    rx.el.fieldset(
+                    rx.el.input(name='media_key',type='hidden',value=S.selected['key']),
                     rx.el.input(name='status',type='hidden',value=S.selected_status),
                     rx.el.div(rx.foreach([('planned','Quero ver / ler'),('in_progress','Em andamento'),('completed','Concluído'),('dropped','Abandonado')],
                         lambda pair:rx.el.button(pair[1],type='button',on_click=S.set_selected_status(pair[0]),
                             class_name=rx.cond(S.selected_status==pair[0],'status-chip selected','status-chip'))),class_name='media-statuses'),
                     rating_picker(),
                     textarea('Sua crítica detalhada','review',S.selected_review,max_length=10000,rows=5,placeholder='Conte o que achou desta obra...'),
-                    check('Contém spoilers','spoiler',S.selected_spoiler),submit('Salvar avaliação'),
-                    on_submit=S.save_interaction,key=S.selected['id']+S.selected_review,class_name='media-review-form'),
+                    check('Contém spoilers','spoiler',S.selected_spoiler),
+                    submit(rx.cond(S.interaction_saving,'Salvando…','Salvar avaliação'),disabled=S.interaction_saving),
+                    disabled=S.interaction_saving,class_name='media-review-form',aria_busy=S.interaction_saving),
+                    on_submit=S.submit_interaction.throttle(1000),key=S.selected['key']+S.selected_review,class_name='media-review-form'),
+                    rx.el.div(
+                        rx.el.p('Avaliação salva',role='status',class_name='font-semibold brand-yellow'),
+                        rx.el.p(rx.cond(S.selected_rating=='0','Sem nota','Sua nota: '+S.selected_rating.replace('.',',')+' / 5')),
+                        rx.cond(S.selected_review!='',rx.el.p(S.selected_review,class_name='whitespace-pre-wrap')),
+                        button('Editar avaliação',S.edit_interaction),class_name=CARD)),
                     rx.el.div(rx.el.h3('Avalie esta obra',class_name='font-semibold'),
                         rx.el.p('Sua nota fica salva apenas neste navegador e não aparece no perfil nem na comunidade.',class_name='text-sm text-gray-400'),
                         rating_picker(),

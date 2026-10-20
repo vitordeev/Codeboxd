@@ -67,6 +67,10 @@ Existem componentes e CSS responsivo. 6.2–6.3 continuam abertas porque reutili
 
 ## 8. Interface do catálogo e moderação
 
+Complemento de 20/10: abertura das abas sem filtros/página herdados e botão
+“Ver todas”, com 150 testes locais e compilação aprovados. Validação autenticada
+real pendente; [evidência](validation/catalogo-inicial-2026-10-20.md).
+
 - [x] 8.1 Implementar seções de filmes, séries, livros e animes com busca, filtros e paginação conectadas às APIs; verificar que cada seção mantém seu tipo ao navegar e filtrar.
 - [x] 8.2 Implementar formulário de correção de campos administrativos existentes com validação e confirmação de resultado; verificar erro de validação sem perda dos dados exibidos.
 - [x] 8.3 Implementar fila de reports com filtros, contexto do alvo, snapshot e estados de revisão; verificar reports de mensagem sem alvo ao vivo e os demais tipos suportados.
