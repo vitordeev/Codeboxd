@@ -1,5 +1,12 @@
 # OpenSpec do Codeboxd
 
+Mostrar/ocultar senha em 20/10: controle adicionado ao login, cadastro e
+redefinição. [Implementação e validação](validation/mostrar-senha-2026-10-20.md).
+
+Limpeza local em 20/10: 28 arquivos de cache Python removidos (540.904 bytes).
+Arquivos com finalidade documentada e dados locais preservados.
+[Escopo e evidência](validation/limpeza-arquivos-2026-10-20.md).
+
 Meias estrelas em 19/10: seleção de 0,5 a 5, preenchimento parcial, vírgula decimal
 e restauração para visitante/conta. 148 testes, compilação e navegador/Xano real
 aprovados, com limpeza da avaliação de teste. [Change](changes/avaliar-meias-estrelas/tasks.md),

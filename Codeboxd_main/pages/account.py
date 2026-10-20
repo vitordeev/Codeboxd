@@ -2,13 +2,17 @@
 import reflex as rx
 from ..state.session import SessionState
 from .login import _logo_icon
+from ..password_input import password_input
 
 
 def field(label: str, name: str, kind: str = 'text', **props) -> rx.Component:
     return rx.el.div(
         rx.el.label(label, html_for=name, class_name='block text-sm text-gray-300 mb-2'),
-        rx.el.input(id=name, name=name, type=kind, required=True,
-                    class_name='form-input-custom w-full h-12 px-4 rounded-xl text-white', **props),
+        (password_input(id=name, name=name, required=True,
+                        class_name='form-input-custom w-full h-12 px-4 rounded-xl text-white', **props)
+         if kind == 'password' else
+         rx.el.input(id=name, name=name, type=kind, required=True,
+                     class_name='form-input-custom w-full h-12 px-4 rounded-xl text-white', **props)),
     )
 
 
