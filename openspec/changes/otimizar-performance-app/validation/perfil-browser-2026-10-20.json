@@ -1,0 +1,61 @@
+{
+  "layer": "browser-with-local-fixtures",
+  "remote_validated": false,
+  "expected_cases": 6,
+  "completed": [
+    {
+      "width": 1440,
+      "case": "slow-media",
+      "primary_visible_ms": 2511,
+      "overflow": false,
+      "page_errors": [],
+      "editor_open_close": true,
+      "editor_during_loading": true
+    },
+    {
+      "width": 1440,
+      "case": "slow-people",
+      "primary_visible_ms": 1471,
+      "overflow": false,
+      "page_errors": [],
+      "editor_open_close": true,
+      "editor_during_loading": true
+    },
+    {
+      "width": 1440,
+      "case": "media-429",
+      "primary_visible_ms": 1460,
+      "overflow": false,
+      "page_errors": [],
+      "editor_open_close": true,
+      "editor_during_loading": null
+    },
+    {
+      "width": 390,
+      "case": "slow-media",
+      "primary_visible_ms": 1478,
+      "overflow": false,
+      "page_errors": [],
+      "editor_open_close": true,
+      "editor_during_loading": true
+    },
+    {
+      "width": 390,
+      "case": "slow-people",
+      "primary_visible_ms": 1417,
+      "overflow": false,
+      "page_errors": [],
+      "editor_open_close": true,
+      "editor_during_loading": true
+    },
+    {
+      "width": 390,
+      "case": "media-429",
+      "primary_visible_ms": 1420,
+      "overflow": false,
+      "page_errors": [],
+      "editor_open_close": true,
+      "editor_during_loading": null
+    }
+  ]
+}

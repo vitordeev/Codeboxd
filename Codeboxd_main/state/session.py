@@ -1,6 +1,9 @@
 """Authentication and server-verified user identity."""
 import os
 import re
+import hashlib
+import math
+import time
 import reflex as rx
 from ..services.api import APIError, request
 
@@ -17,6 +20,12 @@ class SessionState(rx.State):
     reset_message: str = ''
     reset_success: bool = False
     admin_password_visible: bool = False
+    _navigation_verified_until: float = 0.0
+    _navigation_verified_token: str = ''
+    _navigation_verified_user: int = 0
+    _session_identity_token: str = ''
+    _auth_retry_at: float = 0.0
+    _auth_retry_token: str = ''
 
     @rx.var
     def is_authenticated(self) -> bool:
@@ -30,25 +39,64 @@ class SessionState(rx.State):
         return str(self.session_token or self.auth_token)
 
     def _clear_identity(self):
+        self._forget_navigation_validation()
+        self._session_identity_token=''
         self.user_id=0; self.user_name=''; self.user_role=''
 
+    def _forget_navigation_validation(self):
+        self._navigation_verified_until=0.0
+        self._navigation_verified_token=''; self._navigation_verified_user=0
+
     def _clear_session(self):
+        self._auth_retry_at=0.0; self._auth_retry_token=''
         self.auth_token=''; self.session_token=''; self._clear_identity()
 
+    async def _validate_navigation_session(self) -> bool:
+        token=self._token()
+        fingerprint=hashlib.sha256(token.encode()).hexdigest() if token else ''
+        # This is UI identity reuse only. Writes and admin guards use fresh validation.
+        if (token and fingerprint==self._navigation_verified_token
+                and self.user_id==self._navigation_verified_user and self.user_id>0
+                and self.user_role=='member' and time.monotonic()<self._navigation_verified_until):
+            return True
+        return await self._validate_session()
+
     async def _validate_session(self) -> bool:
-        if not self._token():
+        token=self._token()
+        if not token:
             self._clear_identity()
             return False
+        fingerprint=hashlib.sha256(token.encode()).hexdigest()
+        if self._session_identity_token and fingerprint!=self._session_identity_token:
+            self._clear_identity()
+        remaining=math.ceil(self._auth_retry_at-time.monotonic()) if fingerprint==self._auth_retry_token else 0
+        if remaining>0:
+            self._forget_navigation_validation()
+            self.user_role=''
+            self.error_message=f'Muitas solicitações. Tente novamente em {remaining} segundos.'
+            return False
+        self._forget_navigation_validation()
         try:
-            user=await request('GET','/auth/me',group='auth',token=self._token())
+            user=await request('GET','/auth/me',group='auth',token=token)
+            if self._token()!=token: return False
             if not isinstance(user,dict) or not isinstance(user.get('id'),int):
                 raise APIError('Resposta de autenticação inválida.')
             if user.get('account_status')=='disabled': raise APIError('Conta desativada.',403)
             self.user_id=user['id']; self.user_name=str(user.get('username') or user.get('name') or '')
             self.user_role=str(user.get('role') or 'member')
+            self._session_identity_token=fingerprint
+            self._navigation_verified_token=fingerprint
+            self._navigation_verified_user=self.user_id
+            self._navigation_verified_until=time.monotonic()+15
+            self._auth_retry_at=0.0; self._auth_retry_token=''
+            self.error_message=''
             return True
         except APIError as exc:
+            if self._token()!=token: return False
             self.error_message=str(exc)
+            if exc.status==429:
+                self._auth_retry_token=fingerprint
+                self._auth_retry_at=time.monotonic()+max(1,exc.retry_after or 30)
             if exc.status in (401,403):
                 self._clear_session()
                 return False

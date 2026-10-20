@@ -1,0 +1,31 @@
+{
+  "layer": "published-xano-through-bounded-local-proxy",
+  "workspace": 147717,
+  "endpoint_published": true,
+  "user_logged_in": true,
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/auth/login",
+      "status": 200,
+      "duration_ms": 1116.32
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "duration_ms": 822.17
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "duration_ms": 806.86
+    }
+  ],
+  "pages": [],
+  "proxy_rejections": 1,
+  "rate_limited": false,
+  "failure": "invalid-first-page-contract",
+  "normal_restored": true
+}

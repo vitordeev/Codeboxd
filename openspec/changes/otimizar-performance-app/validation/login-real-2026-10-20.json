@@ -1,0 +1,157 @@
+{
+  "layer": "browser-with-real-xano-via-local-proxy",
+  "user_logged_in": true,
+  "failure": "",
+  "samples": [
+    {
+      "width": 1440,
+      "visit": 1,
+      "phase": "manual-login",
+      "login_to_primary_ms": 5832
+    },
+    {
+      "width": 1440,
+      "visit": 2,
+      "phase": "profile-revisit",
+      "primary_ms": 647,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 652
+    },
+    {
+      "width": 1440,
+      "visit": 3,
+      "phase": "profile-revisit",
+      "primary_ms": 1173,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 1179
+    },
+    {
+      "width": 1440,
+      "visit": 4,
+      "phase": "profile-revisit",
+      "primary_ms": 1635,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 1640
+    },
+    {
+      "width": 1440,
+      "visit": 5,
+      "phase": "profile-revisit",
+      "primary_ms": 571,
+      "primary_present": false,
+      "finished": false,
+      "total_ms": 571
+    }
+  ],
+  "proxy_overhead_included": true,
+  "total_outbound_requests": 11,
+  "stop_reason": "remote-429",
+  "statuses": {
+    "200": 10,
+    "429": 1
+  },
+  "events": [
+    {
+      "method": "POST",
+      "service": "xano",
+      "endpoint": "/auth/auth/login",
+      "status": 200,
+      "offset_ms": 176777.088,
+      "duration_ms": 1237.19,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "offset_ms": 178281.717,
+      "duration_ms": 758.789,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "offset_ms": 179631.285,
+      "duration_ms": 775.674,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/profiles/{value}",
+      "status": 200,
+      "offset_ms": 180707.95,
+      "duration_ms": 814.239,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/media",
+      "status": 200,
+      "offset_ms": 182124.646,
+      "duration_ms": 1018.509,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/profiles",
+      "status": 200,
+      "offset_ms": 182124.972,
+      "duration_ms": 1277.172,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "offset_ms": 185219.348,
+      "duration_ms": 797.083,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/profiles/{value}",
+      "status": 200,
+      "offset_ms": 186388.411,
+      "duration_ms": 876.736,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "offset_ms": 187623.953,
+      "duration_ms": 896.524,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/profiles/{value}",
+      "status": 200,
+      "offset_ms": 188932.421,
+      "duration_ms": 831.025,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/auth/auth/me",
+      "status": 429,
+      "offset_ms": 190103.302,
+      "duration_ms": 803.384,
+      "retry_after_seconds": 20
+    }
+  ]
+}

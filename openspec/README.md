@@ -1,5 +1,104 @@
 # OpenSpec do Codeboxd
 
+## Atualização de performance — 20/10/2026
+
+Biblioteca paginada: endpoint publicado e validado autenticado no Xano com
+quatro itens; primeira página aprovada, sem 429. Flag habilitada no `.env`
+privado; app normal reiniciado e rotas HTTP 200 em 3030. Continuação real,
+isolamento entre contas, coleções grandes e quota habitual ainda não validados;
+6.2/6.4 e a change global continuam abertas. [Evidência](changes/otimizar-performance-app/validation/biblioteca-paginada-xano-real-2026-10-20.md).
+
+Biblioteca paginada no navegador em 20/10: 18 cenários fictícios aprovados
+em 1440/390px, incluindo 250 itens, lentidão, falha/retry e cooldown do 429.
+Sem erros JavaScript ou overflow. Publicação/validação Xano e ativação ainda
+pendentes; não encerra a change global. [Evidência](changes/otimizar-performance-app/validation/biblioteca-paginada-browser-2026-10-20.md).
+
+Biblioteca paginada preparada localmente em 20/10: contrato candidato com
+20 itens por lote e obras associadas; preservação de cards em falhas e proteção
+de conta/rota. Flag desabilitada por padrão. Publicação e validação Xano,
+ativação e navegador pendentes de aprovação. [Evidência](changes/otimizar-performance-app/validation/biblioteca-paginada-local-2026-10-20.md).
+
+Biblioteca/listas no navegador em 20/10: 22 cenários com serviços fictícios
+passaram em 1440/390px, sem consultas de pessoas, erros JavaScript ou overflow.
+Obras, seletor, listas e falhas preservados. Sem validação Xano real nesta rodada.
+[Evidência](changes/otimizar-performance-app/validation/biblioteca-listas-browser-2026-10-20.md).
+
+Biblioteca/listas em 20/10: consulta desnecessária de pessoas removida dos dois
+loaders após aprovação. 217 testes e compilação passaram. Em simulação pequena,
+biblioteca 4→3 chamadas e listas 5→4; falha de perfis não bloqueia mais as telas.
+Reinício e navegador pendentes. [Evidência](changes/otimizar-performance-app/validation/biblioteca-listas-sem-perfis-2026-10-20.md).
+
+Diagnóstico de biblioteca/listas em 20/10: 90 execuções simuladas e dez testes
+confirmam consulta de perfis desnecessária, carga integral antes de “Mostrar
+mais” e gravações de preparação de listas ao abrir. Sem alterações de produto
+ou acesso real nesta rodada. [Evidência e proposta](changes/otimizar-performance-app/validation/biblioteca-listas-diagnostico-2026-10-20.md).
+
+Resultado real após cache em 20/10: dez visitas ao perfil (1440/390px)
+concluídas, nove chamadas Xano e nenhum 429. Oito revisitas sem nova chamada,
+mediana de 454,5 ms para perfil visível; renovação após expiração também passou.
+App normal atualizado restaurado em 3030. Não equivale a validar todo o app.
+[Evidência e limites](changes/otimizar-performance-app/validation/resultado-login-real-apos-cache-2026-10-20.md).
+
+Recuperação local em 20/10: `.web` anterior preservada em `.local/` após
+aprovação; frontend recriado em Reflex 0.9.11.post1 e compilação aprovada.
+Sete testes da instrumentação passaram. Medição real retomada, aguardando
+build/login antes de resultados. [Registro](changes/otimizar-performance-app/validation/retomada-medicao-cache-2026-10-20.md).
+
+Retomada após cache em 20/10: marcos de visita corrigidos e sete testes da
+instrumentação aprovados, mas inicialização falhou ao recriar frontend gerado.
+Zero chamadas remotas; servidor normal parado. Preservação/recriação de `.web`
+solicitada ao usuário. [Diagnóstico](changes/otimizar-performance-app/validation/retomada-medicao-cache-2026-10-20.md).
+
+Sessão/perfil em 20/10: reutilização de identidade de leitura por 15 s, cache do
+detalhe e cooldown de `/auth/me` implementados após aprovação. 205 testes e
+compilação passaram; cinco visitas rápidas usam cinco chamadas em simulação.
+Reinício e nova validação remota ainda pendentes.
+[Evidência](changes/otimizar-performance-app/validation/sessao-cache-cooldown-2026-10-20.md).
+
+Medição real em 20/10: aviso reproduzido na 11ª chamada remota, GET `/auth/me`,
+com HTTP 429 e Retry-After de 20 s. Coleta interrompida no desktop; celular e
+escopo exato da quota ainda pendentes. Próxima intervenção depende de aprovação.
+[Evidência e limites](changes/otimizar-performance-app/validation/login-real-2026-10-20.md).
+
+Perfil no navegador em 20/10: Playwright instalado após aprovação, seis cenários
+desktop/celular com serviços locais fictícios passaram, inclusive 429 e editor
+durante carregamento. 188 testes e pip check aprovados. Sem validação de quota
+ou latência Xano real. [Evidência](changes/otimizar-performance-app/validation/perfil-browser-2026-10-20.md).
+
+Execução local em 20/10: app atualizado iniciado em produção na porta 3030,
+HTML de login/conta verificado com HTTP 200. Validação no navegador ainda
+pendente: Playwright ausente na `.venv`, instalação solicitada ao usuário.
+[Registro](changes/otimizar-performance-app/validation/inicializacao-browser-2026-10-20.md).
+
+Perfil progressivo em 20/10: identidade e contagens enviadas antes de catálogo e
+pessoas, com carregamento/erro por seção. 188 testes e compilação locais
+aprovados; seis chamadas preservadas, sem comprovação de redução de 429.
+Validação visual/interação e reinício pendentes de aprovação.
+[Evidência](changes/otimizar-performance-app/validation/perfil-progressivo-2026-10-20.md).
+
+Login/perfil em 20/10: 25 execuções simuladas de handlers reais confirmam seis
+chamadas no sucesso e dependência do detalhe do perfil em referências do catálogo.
+Cinco novos testes passaram; nenhum acesso remoto ou otimização do app nesta
+rodada. [Evidência](changes/otimizar-performance-app/validation/login-simulado-2026-10-20.md).
+
+Instrumentação de performance em 20/10: ferramenta local isolada criada, seis
+testes simulados aprovados e inventário inicial registrado. Não houve alteração
+de comportamento do app, acesso remoto ou reinício. Medições reais pendentes
+de cenário e aprovação. [Evidência](changes/otimizar-performance-app/validation/instrumentacao-2026-10-20.md).
+
+Planejamento de performance em 20/10: criada a change
+[`otimizar-performance-app`](changes/otimizar-performance-app/proposal.md),
+do login à administração, com diagnóstico, metas após linha de base e validação
+por jornada. Implementação não iniciada nesta change. Cada alteração futura
+requer aprovação prévia do usuário com motivo, escopo e verificação.
+[Tarefas](changes/otimizar-performance-app/tasks.md).
+
+Requisições em 20/10: leituras repetidas de catálogo, perfis, listas e avaliações
+reutilizadas por 15 segundos por sessão, com invalidação em gravações.
+174 testes e compilação locais aprovados; confirmação de redução de HTTP 429
+na navegação autenticada pendente.
+[Evidência](validation/requisicoes-navegacao-2026-10-20.md).
+
 Recuperação de senha em 20/10: corrigido conflito entre os campos de e-mail
 das duas etapas, reproduzido e validado no navegador. 170 testes e compilação
 passaram. Change em 7/8 tarefas; entrega em caixa real ainda pendente.

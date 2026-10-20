@@ -377,8 +377,13 @@ def interaction(i):
 
 def library_page():
     return shell('Minha biblioteca','Cada história tem seu momento. Organize as suas.',
-        rx.cond(S.library.length()>0,rx.foreach(S.visible_library,interaction),rx.el.p('Sua biblioteca está vazia. Descubra uma obra e salve sua experiência.')),
-        rx.cond(S.library.length()>S.visible_count,button('Mostrar mais',S.show_more)),
+        rx.cond(S.library.length()>0,rx.foreach(S.visible_library,interaction),
+            rx.cond(~S.busy & ~S.library_loading & (S.library_error=='') & (S.notice==''),
+                rx.el.p('Sua biblioteca está vazia. Descubra uma obra e salve sua experiência.'))),
+        rx.cond(S.library_error!='',rx.el.p(S.library_error,role='alert')),
+        rx.cond(rx.cond(S.library_paginated,S.library_has_more,S.library.length()>S.visible_count),
+            button(rx.cond(S.library_loading,'Carregando…',rx.cond(S.library_error!='','Tentar novamente','Mostrar mais')),
+                   S.show_more_library,disabled=S.library_loading | S.busy)),
         rx.el.a('Descobrir obras',href='/',class_name='text-[#F5B300]'))
 
 
@@ -421,16 +426,22 @@ def profile_page():
                     rx.dialog.content(rx.dialog.title('Editar perfil'),rx.dialog.description('Conte um pouco sobre você.'),
                         rx.el.p(S.notice,role='status'),banner_uploader,profile_form,
                         rx.dialog.close(rx.el.button('Fechar',class_name='quiet-button')),class_name='codeboxd-dialog')),
-                    rx.cond(S.is_authenticated,button(rx.cond(S.following_ids.contains(S.profile['user_id']),'Deixar de seguir','Seguir'),S.follow(S.profile['user_id'])))),
+                    rx.cond(S.is_authenticated,button(rx.cond(S.following_ids.contains(S.profile['user_id']),'Deixar de seguir','Seguir'),S.follow(S.profile['user_id']),disabled=S.profile_people_loading | (S.profile_people_error!='')))),
                 class_name='profile-summary'),class_name='profile-panel'),
         rx.cond(S.profile['user_id']!=S.user_id.to_string(),button('Denunciar perfil',S.open_report('profile',S.profile['user_id']))),
         rx.el.div(*[rx.el.a(rx.el.strong(count),rx.el.span(label),href=href,class_name='profile-stat') for count,label,href in
-            [(S.followers.length(),'Seguidores','#seguidores'),(S.following.length(),'Seguindo','#seguindo'),
-             (S.profile_activity.length(),'Obras registradas','#atividades')]],class_name='profile-statistics'),
+            [(S.profile_counts['followers'],'Seguidores','#seguidores'),(S.profile_counts['following'],'Seguindo','#seguindo'),
+             (S.profile_counts['activities'],'Obras registradas','#atividades')]],class_name='profile-statistics'),
         rx.el.section(rx.el.h2('Avaliações e atividades',class_name='section-title'),
-            rx.cond(S.profile_activity.length()>0,rx.foreach(S.profile_activity,interaction),rx.el.p('Nenhuma experiência registrada.',class_name='empty-state')),id='atividades',class_name='space-y-4'),
-        rx.el.section(rx.el.h2('Seguidores',class_name='section-title'),grid(S.followers,person,'Ainda não há seguidores.'),id='seguidores'),
-        rx.el.section(rx.el.h2('Seguindo',class_name='section-title'),grid(S.following,person,'Ainda não segue ninguém.'),id='seguindo')),report_dialog())
+            rx.cond(S.profile_activity_loading,rx.el.p('Carregando atividades…',role='status'),
+                rx.cond(S.profile_activity_error!='',rx.el.p(S.profile_activity_error,role='alert',class_name='text-red-400'),
+                    rx.cond(S.profile_activity.length()>0,rx.foreach(S.profile_activity,interaction),rx.el.p('Nenhuma experiência registrada.',class_name='empty-state')))),id='atividades',class_name='space-y-4'),
+        rx.el.section(rx.el.h2('Seguidores',class_name='section-title'),
+            rx.cond(S.profile_people_loading,rx.el.p('Carregando seguidores…',role='status'),
+                rx.cond(S.profile_people_error!='',rx.el.p(S.profile_people_error,role='alert',class_name='text-red-400'),grid(S.followers,person,'Ainda não há seguidores.'))),id='seguidores'),
+        rx.el.section(rx.el.h2('Seguindo',class_name='section-title'),
+            rx.cond(S.profile_people_loading,rx.el.p('Carregando conexões…',role='status'),
+                rx.cond(S.profile_people_error!='',rx.el.p(S.profile_people_error,role='alert',class_name='text-red-400'),grid(S.following,person,'Ainda não segue ninguém.'))),id='seguindo')),report_dialog())
 
 
 def media_select(value='0'):

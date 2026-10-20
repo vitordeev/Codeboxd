@@ -1,10 +1,13 @@
 """Social UI state backed by Xano endpoints."""
 import asyncio
 import json
+import os
 import re
 import uuid
 import time
 import math
+import hashlib
+from copy import deepcopy
 from pathlib import Path
 from urllib.parse import urlencode, urlsplit
 from datetime import datetime, timezone
@@ -84,9 +87,22 @@ class SocialState(SessionState):
     review_editor_open: bool = True
     _saved_interaction: dict = {}
     library: list[dict[str,str]] = []
+    library_paginated: bool = False
+    library_loading: bool = False
+    library_has_more: bool = False
+    library_error: str = ''
+    _library_cursor: int = 0
+    _library_generation: int = 0
+    _library_owner: str = ''
+    _library_retry_at: float = 0.0
     people: list[dict[str,str]] = []
     profile: dict[str,str] = {'user_id':'','username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
     profile_stats: str = ''
+    profile_activity_loading: bool = False
+    profile_people_loading: bool = False
+    profile_activity_error: str = ''
+    profile_people_error: str = ''
+    profile_counts: dict[str,int] = {'followers':0,'following':0,'activities':0}
     profile_activity: list[dict[str,str]] = []
     followers: list[dict[str,str]] = []
     following: list[dict[str,str]] = []
@@ -120,6 +136,8 @@ class SocialState(SessionState):
     _post_media_raw: dict = {}
     _post_image_path: str = ''
     _identity: int = 0
+    _navigation_reads: dict = {}
+    _navigation_generation: int = 0
     visible_count: int = 20
     post_editor_open: bool = False
     post_saving: bool = False
@@ -313,7 +331,7 @@ class SocialState(SessionState):
 
     @rx.var
     def visible_library(self) -> list[dict[str,str]]:
-        return self.library[:self.visible_count]
+        return self.library if self.library_paginated else self.library[:self.visible_count]
 
     @rx.var
     def visible_people(self) -> list[dict[str,str]]:
@@ -340,6 +358,10 @@ class SocialState(SessionState):
                 async for _ in self._home_updates():
                     yield
                 return
+            if section == 'profile':
+                async for event in self._profile_updates():
+                    yield event
+                return
             loaders={'home':self.load_home,'library':self.load_library,'community':self.load_community,
                      'profile':self.load_profile,'feed':self.load_feed,'lists':self.load_lists,
                      'media':self.load_media,'external':self.load_external_media}
@@ -350,6 +372,14 @@ class SocialState(SessionState):
             self.busy=False
 
     def _reset_personal(self):
+        self._library_generation+=1
+        self._library_cursor=0; self._library_owner=''; self._library_retry_at=0.0
+        self.library_loading=False; self.library_has_more=False; self.library_error=''
+        self._navigation_reads={}
+        self._navigation_generation+=1
+        self.profile_activity_loading=False; self.profile_people_loading=False
+        self.profile_activity_error=''; self.profile_people_error=''
+        self.profile_counts={'followers':0,'following':0,'activities':0}
         self._saved_interaction = {}
         self.interaction_saved = False
         self.review_editor_open = True
@@ -380,6 +410,13 @@ class SocialState(SessionState):
         self._identity = self.user_id
         return valid
 
+    async def _validate_navigation_session(self) -> bool:
+        valid=await super()._validate_navigation_session()
+        if self._identity!=self.user_id or (not valid and not self.is_authenticated):
+            self._reset_personal()
+        self._identity=self.user_id
+        return valid
+
     @rx.event
     def logout_social(self):
         self._reset_personal()
@@ -400,6 +437,36 @@ class SocialState(SessionState):
             self._clear_session(); self._reset_personal(); self._identity=0
 
     async def _call(self, method, path, data=None, params=None, *, paginate=True):
+        cacheable=method=='GET' and (path in ('/media','/profiles','/lists','/interactions')
+                                   or re.fullmatch(r'/profiles/[0-9]+',path) is not None)
+        key=hashlib.sha256(json.dumps([self._token(),path,params,data,paginate],sort_keys=True).encode()).hexdigest()
+        if method!='GET':
+            self._navigation_reads={}; self._navigation_generation+=1
+        generation=self._navigation_generation
+        token=self._token()
+        cached=self._navigation_reads.get(key) if cacheable else None
+        if cached and cached[0]>time.monotonic():
+            return deepcopy(cached[1])
+        try:
+            result=await self._request_pages(method,path,data,params,paginate=paginate)
+        except APIError as exc:
+            if exc.status in (401,403):
+                self._navigation_reads={}; self._navigation_generation+=1
+                self._forget_navigation_validation()
+            raise
+        finally:
+            # Also discard reads started while a write was in flight.
+            if method!='GET':
+                self._navigation_reads={}; self._navigation_generation+=1
+        if cacheable and generation==self._navigation_generation and token==self._token():
+            now=time.monotonic()
+            self._navigation_reads={k:v for k,v in self._navigation_reads.items() if v[0]>now}
+            if len(self._navigation_reads)>=32:
+                self._navigation_reads.pop(next(iter(self._navigation_reads)))
+            self._navigation_reads[key]=(now+15,deepcopy(result))
+        return result
+
+    async def _request_pages(self, method, path, data=None, params=None, *, paginate=True):
         result=await request(method,path,token=self._token(),data=data,params=params)
         if method!='GET' or not paginate: return result
         # Read bounded API pages without truncating references or profile statistics.
@@ -414,8 +481,9 @@ class SocialState(SessionState):
                 for key in keys: result[key].extend(rows(batch[key]))
         return result
 
-    async def _require_user(self) -> bool:
-        if await self._validate_session(): return True
+    async def _require_user(self, *, navigation=False) -> bool:
+        valid=await self._validate_navigation_session() if navigation else await self._validate_session()
+        if valid: return True
         # A transient auth-service failure is not a logout. Keep the current
         # navigation usable; any protected write is still authorized by Xano.
         if self.user_id > 0 and self._token(): return True
@@ -471,7 +539,7 @@ class SocialState(SessionState):
             except APIError as exc: self._failure(exc)
 
         pending = {asyncio.create_task(job) for job in (
-            self._validate_session(), community(), popular('movie'), popular('series'), self._load_home_collections())}
+            self._validate_navigation_session(), community(), popular('movie'), popular('series'), self._load_home_collections())}
         previous = None
         try:
             while pending:
@@ -642,7 +710,7 @@ class SocialState(SessionState):
         item=catalog.media(str(params.get('external_source','')),str(params.get('media_type','')),
                            str(params.get('external_id','')),'Sem título')
         try:
-            detail_result,authenticated=await asyncio.gather(catalog.detail(item),self._validate_session(),return_exceptions=True)
+            detail_result,authenticated=await asyncio.gather(catalog.detail(item),self._validate_navigation_session(),return_exceptions=True)
             if isinstance(detail_result,APIError): raise detail_result
             if isinstance(detail_result,Exception):
                 raise APIError('A fonte de catálogo está indisponível no momento.') from detail_result
@@ -669,7 +737,7 @@ class SocialState(SessionState):
         self.trailers=[]
         try:
             self._selected_raw,authenticated=await asyncio.gather(
-                self._call('GET',f'/media/{identifier}'),self._validate_session())
+                self._call('GET',f'/media/{identifier}'),self._validate_navigation_session())
             self.selected=present_media(self._selected_raw)
             await asyncio.gather(self._load_trailers(),self._load_availability(),self._load_recommendations(),
                 self._load_community_reviews(),self._load_personal_interaction(str(identifier),authenticated),
@@ -875,11 +943,88 @@ class SocialState(SessionState):
     @rx.event
     async def load_library(self):
         self.library=[]; self.notice=''
-        if not await self._require_user(): return rx.redirect('/login')
+        self._library_generation+=1
+        self._library_cursor=0; self.library_error=''; self.library_has_more=False
+        self.library_loading=False; self._library_retry_at=0.0
+        self.library_paginated=os.getenv('LIBRARY_PAGINATION_ENABLED','false').lower()=='true'
+        if not await self._require_user(navigation=True): return rx.redirect('/login')
+        self._library_owner=self._token()
+        if self.library_paginated:
+            self.library_has_more=True
+            await self._load_library_page()
+            return
         try:
-            await self._load_reference()
+            await self._load_media()
             self.library=[self._interaction(i) for i in rows(await self._call('GET','/interactions'))]
         except APIError as exc: self._failure(exc)
+
+    async def _load_library_page(self):
+        if self.library_loading or not self.library_has_more:
+            return
+        if self._token()!=self._library_owner or self.router.url.path.rstrip('/')!='/biblioteca':
+            return
+        if time.monotonic()<self._library_retry_at:
+            return
+        generation=self._library_generation
+        token=self._token(); owner=self.user_id; cursor=self._library_cursor
+        route=self.router.url.path
+        def current():
+            return (generation==self._library_generation and token==self._token()
+                    and owner==self.user_id and route==self.router.url.path)
+        self.library_loading=True; self.library_error=''
+        try:
+            data=await self._call('GET','/library',params={'after_id':cursor},paginate=False)
+            if not current(): return
+            if (not isinstance(data,dict) or not isinstance(data.get('items'),list)
+                    or type(data.get('has_more')) is not bool or len(data['items'])>20):
+                raise ValueError('Invalid library page')
+            page=data['items']; previous=cursor; additions=[]
+            seen={item['id'] for item in self.library}
+            for item in page:
+                if (not isinstance(item,dict) or type(item.get('id')) is not int
+                        or item['id']<=previous or item.get('user_id')!=owner
+                        or type(item.get('media_id')) is not int or item['media_id']<=0
+                        or item.get('status') not in ('planned','in_progress','completed','dropped')):
+                    raise ValueError('Invalid library item')
+                previous=item['id']
+                media=present_media({'id':item['media_id'],'title':item.get('media_title') or 'Obra indisponível',
+                                     'media_type':item.get('media_type'),'cover_url':item.get('media_cover_url'),
+                                     'year':item.get('media_year')})
+                media.update(status={'planned':'Quero ver / ler','in_progress':'Em andamento',
+                    'completed':'Concluído','dropped':'Abandonado'}[item['status']],
+                    rating=str(item.get('rating') or 'Sem nota').replace('.',','),
+                    review=str(item.get('review') or ''),spoiler=str(bool(item.get('spoiler'))))
+                if media['id'] not in seen:
+                    additions.append(media); seen.add(media['id'])
+            if data['has_more'] and len(page)!=20:
+                raise ValueError('Invalid library continuation')
+            self.library=self.library+additions
+            self._library_cursor=previous; self.library_has_more=data['has_more']
+        except (ValueError,TypeError):
+            if current(): self.library_error='Não foi possível carregar a biblioteca. Tente novamente.'
+        except APIError as exc:
+            if current():
+                if exc.status in (401,403):
+                    self._reset_personal()
+                    self._failure(exc)
+                else:
+                    self.library_error=str(exc)
+                    if exc.status==429:
+                        self._library_retry_at=time.monotonic()+max(1,exc.retry_after or 30)
+        finally:
+            if generation==self._library_generation: self.library_loading=False
+
+    @rx.event
+    async def show_more_library(self):
+        if not self.library_paginated:
+            self.visible_count+=20
+            return
+        if self.library_loading: return
+        # Yield feedback before doing the bounded read, keeping existing cards usable.
+        self.library_loading=True
+        yield
+        self.library_loading=False
+        await self._load_library_page()
 
     @rx.event
     async def load_community(self):
@@ -896,27 +1041,85 @@ class SocialState(SessionState):
 
     @rx.event
     async def load_profile(self):
+        async for event in self._profile_updates():
+            if event is not None: return event
+
+    async def _profile_updates(self):
         self.notice=''; self.profile_activity=[]; self.followers=[]; self.following=[]
-        await self._validate_session()
+        self.profile_stats=''; self.following_ids=[]
+        self.profile_counts={'followers':0,'following':0,'activities':0}
+        self.profile_activity_error=''; self.profile_people_error=''
+        self.profile_activity_loading=False; self.profile_people_loading=False
+        self.profile={'user_id':'','username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
+        await self._validate_navigation_session()
         route_id=self.router.url.path.rstrip('/').rsplit('/',1)[-1]
         uid=str(route_id if route_id.isdigit() else self.user_id)
-        if not uid.isdigit() or int(uid)==0: return rx.redirect('/login')
+        if not uid.isdigit() or int(uid)==0:
+            yield rx.redirect('/login')
+            return
+        route=self.router.url.path
+        token=self._token()
+        def current():
+            return self.router.url.path==route and self._token()==token
         self.profile={'user_id':uid,'username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
         try:
-            await self._load_reference(); data=await self._call('GET',f'/profiles/{uid}')
+            data=await self._call('GET',f'/profiles/{uid}')
+            if not current(): return
             self.profile={k:str(v or '') for k,v in data['profile'].items()}
-            self.profile_activity=[self._interaction(i) for i in data['interactions']]
-            self.followers=[self._person(i['follower_id']) for i in data['followers']]
-            self.following=[self._person(i['followed_id']) for i in data['following']]
-            if self.user_id:
-                own=data if int(uid)==self.user_id else await self._call('GET',f'/profiles/{self.user_id}')
-                self.following_ids=[str(f['followed_id']) for f in own['following']]
+            self.profile_counts={'followers':len(data['followers']),'following':len(data['following']),
+                                 'activities':len(data['interactions'])}
+            if int(uid)==self.user_id:
+                self.following_ids=[str(f['followed_id']) for f in data['following']]
             completed=sum(i['status']=='completed' for i in data['interactions'])
-            self.profile_stats=f'{completed} obras concluídas · {len(self.followers)} seguidores · {len(self.following)} seguindo'
+            self.profile_stats=f"{completed} obras concluídas · {len(data['followers'])} seguidores · {len(data['following'])} seguindo"
         except APIError as exc:
-            self.profile_stats=''
+            if not current(): return
             if exc.status==404 and int(uid)==self.user_id: self.notice='Complete seu perfil para participar da comunidade.'
             else: self._failure(exc)
+            return
+        self.profile_activity_loading=True; self.profile_people_loading=True
+        # Publish identity and exact counts before requesting optional references.
+        yield
+
+        async def people():
+            profiles=rows(await self._call('GET','/profiles'))
+            own=data if int(uid)==self.user_id or not self.user_id else await self._call('GET',f'/profiles/{self.user_id}')
+            return profiles,own
+
+        jobs={asyncio.create_task(self._call('GET','/media')):'activity',
+              asyncio.create_task(people()):'people'}
+        try:
+            while jobs:
+                done,_=await asyncio.wait(jobs,return_when=asyncio.FIRST_COMPLETED)
+                for job in done:
+                    section=jobs.pop(job)
+                    try:
+                        result=job.result()
+                        if not current(): continue
+                        if section=='activity':
+                            self._media={str(m['id']):m for m in rows(result)}
+                            self.profile_activity=[self._interaction(i) for i in data['interactions']]
+                        else:
+                            profiles,own=result
+                            self._profiles={str(p['user_id']):p for p in profiles}
+                            self.followers=[self._person(i['follower_id']) for i in data['followers']]
+                            self.following=[self._person(i['followed_id']) for i in data['following']]
+                            self.following_ids=[str(f['followed_id']) for f in own['following']] if self.user_id else []
+                    except APIError as exc:
+                        if current():
+                            if section=='activity': self.profile_activity_error=str(exc)
+                            else: self.profile_people_error=str(exc)
+                            if exc.status in (401,403): self._failure(exc)
+                    finally:
+                        if current():
+                            if section=='activity': self.profile_activity_loading=False
+                            else: self.profile_people_loading=False
+                if current(): yield
+        finally:
+            for job in jobs: job.cancel()
+            if jobs: await asyncio.gather(*jobs,return_exceptions=True)
+            if current():
+                self.profile_activity_loading=False; self.profile_people_loading=False
 
     @rx.event
     async def save_profile(self, form: dict):
@@ -1015,7 +1218,7 @@ class SocialState(SessionState):
     @rx.event
     async def load_feed(self):
         self.posts=[]; self.comments=[]; self.notice=''
-        if not await self._require_user(): return rx.redirect('/login')
+        if not await self._require_user(navigation=True): return rx.redirect('/login')
         try: await self._load_reference(); await self._refresh_posts()
         except APIError as exc: self._failure(exc)
 
@@ -1229,9 +1432,9 @@ class SocialState(SessionState):
     async def load_lists(self):
         self.notice=''; self.lists=[]; self.list_items=[]
         self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'True'}
-        await self._validate_session()
+        await self._validate_navigation_session()
         try:
-            await self._load_reference()
+            await self._load_media()
             if self.user_id: await self._ensure_default_lists()
             public=rows(await self._call('GET','/lists/public'))
             own=rows(await self._call('GET','/lists')) if self.user_id else []

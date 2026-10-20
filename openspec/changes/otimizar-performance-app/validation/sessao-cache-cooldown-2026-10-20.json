@@ -1,0 +1,1862 @@
+{
+  "validation_layer": "simulated-handlers",
+  "browser_measured": false,
+  "remote_measured": false,
+  "cases": [
+    {
+      "case": "success",
+      "median_ms": 13.499,
+      "worst_ms": 16.055,
+      "samples": [
+        {
+          "case": "success",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 3.986,
+            "profile_primary_ms": 9.437,
+            "login_to_profile_handler_ms": 12.293
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 12.74,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.989,
+              "duration_ms": 0.473
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.802,
+              "duration_ms": 0.238
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 8.819,
+              "duration_ms": 0.201
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 10.251,
+              "duration_ms": 0.19
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 10.927,
+              "duration_ms": 0.191
+            }
+          ]
+        },
+        {
+          "case": "success",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 4.485,
+            "profile_primary_ms": 11.099,
+            "login_to_profile_handler_ms": 13.499
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 13.862,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.823,
+              "duration_ms": 0.401
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.951,
+              "duration_ms": 0.293
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 10.481,
+              "duration_ms": 0.186
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 11.777,
+              "duration_ms": 0.143
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 12.419,
+              "duration_ms": 0.16
+            }
+          ]
+        },
+        {
+          "case": "success",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 3.456,
+            "profile_primary_ms": 8.957,
+            "login_to_profile_handler_ms": 11.245
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 11.633,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.713,
+              "duration_ms": 0.198
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.176,
+              "duration_ms": 0.224
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 8.355,
+              "duration_ms": 0.205
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 9.646,
+              "duration_ms": 0.166
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 10.249,
+              "duration_ms": 0.129
+            }
+          ]
+        },
+        {
+          "case": "success",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 3.997,
+            "profile_primary_ms": 11.577,
+            "login_to_profile_handler_ms": 14.238
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 14.932,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 1.058,
+              "duration_ms": 0.187
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.474,
+              "duration_ms": 0.158
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 11.067,
+              "duration_ms": 0.226
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 12.607,
+              "duration_ms": 0.158
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 13.427,
+              "duration_ms": 0.219
+            }
+          ]
+        },
+        {
+          "case": "success",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 4.421,
+            "profile_primary_ms": 11.06,
+            "login_to_profile_handler_ms": 16.055
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 16.465,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.795,
+              "duration_ms": 0.194
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.286,
+              "duration_ms": 0.202
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 9.681,
+              "duration_ms": 0.283
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 12.305,
+              "duration_ms": 0.379
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 13.914,
+              "duration_ms": 0.396
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "slow-references",
+      "median_ms": 82.463,
+      "worst_ms": 87.778,
+      "samples": [
+        {
+          "case": "slow-references",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 50,
+          "milestones": {
+            "login_handler_ms": 3.249,
+            "profile_primary_ms": 8.527,
+            "login_to_profile_handler_ms": 65.207
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 65.601,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.693,
+              "duration_ms": 0.177
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.19,
+              "duration_ms": 0.199
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 7.885,
+              "duration_ms": 0.172
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 9.522,
+              "duration_ms": 54.051
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 10.022,
+              "duration_ms": 54.039
+            }
+          ]
+        },
+        {
+          "case": "slow-references",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 50,
+          "milestones": {
+            "login_handler_ms": 3.836,
+            "profile_primary_ms": 11.129,
+            "login_to_profile_handler_ms": 82.463
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 82.852,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.689,
+              "duration_ms": 0.217
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.373,
+              "duration_ms": 0.209
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 9.29,
+              "duration_ms": 0.363
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 12.283,
+              "duration_ms": 62.109
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 13.568,
+              "duration_ms": 62.428
+            }
+          ]
+        },
+        {
+          "case": "slow-references",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 50,
+          "milestones": {
+            "login_handler_ms": 6.734,
+            "profile_primary_ms": 15.5,
+            "login_to_profile_handler_ms": 87.778
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 88.612,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 1.563,
+              "duration_ms": 1.172
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 5.0,
+              "duration_ms": 0.296
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 14.889,
+              "duration_ms": 0.254
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 16.675,
+              "duration_ms": 66.097
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 17.014,
+              "duration_ms": 67.58
+            }
+          ]
+        },
+        {
+          "case": "slow-references",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 50,
+          "milestones": {
+            "login_handler_ms": 9.386,
+            "profile_primary_ms": 17.083,
+            "login_to_profile_handler_ms": 72.629
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 73.345,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 1.18,
+              "duration_ms": 0.296
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 5.766,
+              "duration_ms": 0.463
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 16.377,
+              "duration_ms": 0.236
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 18.161,
+              "duration_ms": 52.655
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 18.757,
+              "duration_ms": 52.853
+            }
+          ]
+        },
+        {
+          "case": "slow-references",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 50,
+          "milestones": {
+            "login_handler_ms": 4.205,
+            "profile_primary_ms": 9.423,
+            "login_to_profile_handler_ms": 84.646
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": false,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 85.198,
+          "total_requests": 5,
+          "rate_limited": 0,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 5
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 1.198,
+              "duration_ms": 0.249
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 3.074,
+              "duration_ms": 0.194
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 8.973,
+              "duration_ms": 0.175
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 10.142,
+              "duration_ms": 65.071
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 10.397,
+              "duration_ms": 67.608
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "login-429",
+      "median_ms": 2.5,
+      "worst_ms": 3.271,
+      "samples": [
+        {
+          "case": "login-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 3.262,
+            "login_to_profile_handler_ms": 3.271
+          },
+          "redirected": false,
+          "profile_loaded": false,
+          "identity_retained": false,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 4.53,
+          "total_requests": 1,
+          "rate_limited": 1,
+          "services": {
+            "xano": 1
+          },
+          "statuses": {
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 2.944,
+              "duration_ms": 1.156
+            }
+          ]
+        },
+        {
+          "case": "login-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 2.686,
+            "login_to_profile_handler_ms": 2.698
+          },
+          "redirected": false,
+          "profile_loaded": false,
+          "identity_retained": false,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 4.102,
+          "total_requests": 1,
+          "rate_limited": 1,
+          "services": {
+            "xano": 1
+          },
+          "statuses": {
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 2.807,
+              "duration_ms": 0.851
+            }
+          ]
+        },
+        {
+          "case": "login-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 2.491,
+            "login_to_profile_handler_ms": 2.5
+          },
+          "redirected": false,
+          "profile_loaded": false,
+          "identity_retained": false,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 6.294,
+          "total_requests": 1,
+          "rate_limited": 1,
+          "services": {
+            "xano": 1
+          },
+          "statuses": {
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 5.205,
+              "duration_ms": 0.71
+            }
+          ]
+        },
+        {
+          "case": "login-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 1.739,
+            "login_to_profile_handler_ms": 1.746
+          },
+          "redirected": false,
+          "profile_loaded": false,
+          "identity_retained": false,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 2.593,
+          "total_requests": 1,
+          "rate_limited": 1,
+          "services": {
+            "xano": 1
+          },
+          "statuses": {
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 1.7,
+              "duration_ms": 0.612
+            }
+          ]
+        },
+        {
+          "case": "login-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 1.434,
+            "login_to_profile_handler_ms": 1.44
+          },
+          "redirected": false,
+          "profile_loaded": false,
+          "identity_retained": false,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 2.207,
+          "total_requests": 1,
+          "rate_limited": 1,
+          "services": {
+            "xano": 1
+          },
+          "statuses": {
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 1.545,
+              "duration_ms": 0.427
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "profile-session-429",
+      "median_ms": 24.735,
+      "worst_ms": 35.156,
+      "samples": [
+        {
+          "case": "profile-session-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 10.209,
+            "profile_primary_ms": 29.811,
+            "login_to_profile_handler_ms": 35.156
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 35.891,
+          "total_requests": 6,
+          "rate_limited": 1,
+          "services": {
+            "xano": 6
+          },
+          "statuses": {
+            "200": 5,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 1.977,
+              "duration_ms": 0.586
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 6.425,
+              "duration_ms": 0.459
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 15.662,
+              "duration_ms": 0.464
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 28.368,
+              "duration_ms": 0.363
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 31.4,
+              "duration_ms": 0.391
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 33.213,
+              "duration_ms": 0.407
+            }
+          ]
+        },
+        {
+          "case": "profile-session-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 5.245,
+            "profile_primary_ms": 19.15,
+            "login_to_profile_handler_ms": 24.899
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 25.379,
+          "total_requests": 6,
+          "rate_limited": 1,
+          "services": {
+            "xano": 6
+          },
+          "statuses": {
+            "200": 5,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.952,
+              "duration_ms": 0.265
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 3.2,
+              "duration_ms": 0.254
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 8.599,
+              "duration_ms": 0.715
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 18.16,
+              "duration_ms": 0.246
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 20.498,
+              "duration_ms": 0.295
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 21.814,
+              "duration_ms": 0.35
+            }
+          ]
+        },
+        {
+          "case": "profile-session-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 12.267,
+            "profile_primary_ms": 21.615,
+            "login_to_profile_handler_ms": 23.985
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 25.4,
+          "total_requests": 6,
+          "rate_limited": 1,
+          "services": {
+            "xano": 6
+          },
+          "statuses": {
+            "200": 5,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.039,
+              "duration_ms": 1.102
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 9.519,
+              "duration_ms": 0.698
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 16.583,
+              "duration_ms": 0.196
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 22.001,
+              "duration_ms": 0.203
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 23.32,
+              "duration_ms": 0.15
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 23.949,
+              "duration_ms": 0.141
+            }
+          ]
+        },
+        {
+          "case": "profile-session-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 7.479,
+            "profile_primary_ms": 21.977,
+            "login_to_profile_handler_ms": 24.735
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 25.12,
+          "total_requests": 6,
+          "rate_limited": 1,
+          "services": {
+            "xano": 6
+          },
+          "statuses": {
+            "200": 5,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 1.2,
+              "duration_ms": 0.381
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 4.71,
+              "duration_ms": 0.314
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 10.597,
+              "duration_ms": 0.254
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 20.547,
+              "duration_ms": 0.482
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 22.647,
+              "duration_ms": 0.199
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 23.448,
+              "duration_ms": 0.237
+            }
+          ]
+        },
+        {
+          "case": "profile-session-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 3.197,
+            "profile_primary_ms": 12.849,
+            "login_to_profile_handler_ms": 15.437
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 15.773,
+          "total_requests": 6,
+          "rate_limited": 1,
+          "services": {
+            "xano": 6
+          },
+          "statuses": {
+            "200": 5,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.624,
+              "duration_ms": 0.167
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.009,
+              "duration_ms": 0.166
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 5.167,
+              "duration_ms": 0.173
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 11.802,
+              "duration_ms": 0.272
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 13.523,
+              "duration_ms": 0.165
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 14.19,
+              "duration_ms": 0.289
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "references-429",
+      "median_ms": 16.269,
+      "worst_ms": 31.775,
+      "samples": [
+        {
+          "case": "references-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 3.014,
+            "profile_primary_ms": 8.593,
+            "login_to_profile_handler_ms": 13.999
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 14.286,
+          "total_requests": 5,
+          "rate_limited": 1,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 4,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.567,
+              "duration_ms": 0.164
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 1.856,
+              "duration_ms": 0.155
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 7.607,
+              "duration_ms": 0.168
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 9.638,
+              "duration_ms": 0.55
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 11.835,
+              "duration_ms": 0.207
+            }
+          ]
+        },
+        {
+          "case": "references-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 3.94,
+            "profile_primary_ms": 13.24,
+            "login_to_profile_handler_ms": 16.269
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 16.749,
+          "total_requests": 5,
+          "rate_limited": 1,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 4,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 1.014,
+              "duration_ms": 0.328
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.747,
+              "duration_ms": 0.201
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 10.923,
+              "duration_ms": 0.806
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 14.325,
+              "duration_ms": 0.183
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 14.888,
+              "duration_ms": 0.183
+            }
+          ]
+        },
+        {
+          "case": "references-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 3.27,
+            "profile_primary_ms": 19.727,
+            "login_to_profile_handler_ms": 28.786
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 29.147,
+          "total_requests": 5,
+          "rate_limited": 1,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 4,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.671,
+              "duration_ms": 0.181
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.051,
+              "duration_ms": 0.152
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 18.129,
+              "duration_ms": 0.337
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 20.857,
+              "duration_ms": 0.421
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 23.036,
+              "duration_ms": 0.644
+            }
+          ]
+        },
+        {
+          "case": "references-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 5.887,
+            "profile_primary_ms": 26.054,
+            "login_to_profile_handler_ms": 31.775
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 32.332,
+          "total_requests": 5,
+          "rate_limited": 1,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 4,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 0.967,
+              "duration_ms": 0.228
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 3.067,
+              "duration_ms": 0.388
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 25.281,
+              "duration_ms": 0.333
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 26.987,
+              "duration_ms": 0.197
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 27.491,
+              "duration_ms": 0.163
+            }
+          ]
+        },
+        {
+          "case": "references-429",
+          "validation_layer": "simulated-handlers",
+          "cache": "cold",
+          "injected_reference_delay_ms": 0,
+          "milestones": {
+            "login_handler_ms": 4.536,
+            "profile_primary_ms": 11.981,
+            "login_to_profile_handler_ms": 15.763
+          },
+          "redirected": true,
+          "profile_loaded": true,
+          "identity_retained": true,
+          "error_visible": true,
+          "busy_after": false,
+          "schema_version": 1,
+          "scope": "isolated-process-httpx",
+          "elapsed_ms": 16.368,
+          "total_requests": 5,
+          "rate_limited": 1,
+          "services": {
+            "xano": 5
+          },
+          "statuses": {
+            "200": 4,
+            "429": 1
+          },
+          "dropped_events": 0,
+          "events": [
+            {
+              "service": "xano",
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 1.038,
+              "duration_ms": 0.262
+            },
+            {
+              "service": "xano",
+              "endpoint": "/auth/me",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 2.913,
+              "duration_ms": 0.376
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles/{value}",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 10.222,
+              "duration_ms": 0.714
+            },
+            {
+              "service": "xano",
+              "endpoint": "/media",
+              "method": "GET",
+              "status": 429,
+              "outcome": "response",
+              "offset_ms": 13.502,
+              "duration_ms": 0.644
+            },
+            {
+              "service": "xano",
+              "endpoint": "/profiles",
+              "method": "GET",
+              "status": 200,
+              "outcome": "response",
+              "offset_ms": 14.668,
+              "duration_ms": 0.217
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "five_quick_profile_visits": {
+    "case": "success",
+    "validation_layer": "simulated-handlers",
+    "cache": "cold",
+    "injected_reference_delay_ms": 0,
+    "milestones": {
+      "login_handler_ms": 4.32,
+      "profile_primary_ms": 13.505,
+      "login_to_profile_handler_ms": 32.624
+    },
+    "redirected": true,
+    "profile_loaded": true,
+    "identity_retained": true,
+    "error_visible": false,
+    "busy_after": false,
+    "schema_version": 1,
+    "scope": "isolated-process-httpx",
+    "elapsed_ms": 33.043,
+    "total_requests": 5,
+    "rate_limited": 0,
+    "services": {
+      "xano": 5
+    },
+    "statuses": {
+      "200": 5
+    },
+    "dropped_events": 0,
+    "events": [
+      {
+        "service": "xano",
+        "endpoint": "/auth/login",
+        "method": "POST",
+        "status": 200,
+        "outcome": "response",
+        "offset_ms": 0.812,
+        "duration_ms": 0.355
+      },
+      {
+        "service": "xano",
+        "endpoint": "/auth/me",
+        "method": "GET",
+        "status": 200,
+        "outcome": "response",
+        "offset_ms": 2.873,
+        "duration_ms": 0.237
+      },
+      {
+        "service": "xano",
+        "endpoint": "/profiles/{value}",
+        "method": "GET",
+        "status": 200,
+        "outcome": "response",
+        "offset_ms": 12.619,
+        "duration_ms": 0.258
+      },
+      {
+        "service": "xano",
+        "endpoint": "/media",
+        "method": "GET",
+        "status": 200,
+        "outcome": "response",
+        "offset_ms": 14.561,
+        "duration_ms": 0.292
+      },
+      {
+        "service": "xano",
+        "endpoint": "/profiles",
+        "method": "GET",
+        "status": 200,
+        "outcome": "response",
+        "offset_ms": 15.898,
+        "duration_ms": 0.211
+      }
+    ]
+  }
+}
