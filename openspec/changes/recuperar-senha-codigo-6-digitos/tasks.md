@@ -9,6 +9,10 @@
 - [x] 2.2 Verificar formulário em desktop/celular e código inválido no navegador, preservando a senha; registrar screenshots privados e resumo sem segredos.
 - [x] 2.3 Executar suíte, compilação e validação estrita OpenSpec, atualizar P.6/contexto/evidências e registrar os limites das verificações.
 
+Complemento da retomada em 20/10, necessário para executar o fluxo real:
+
+- [x] 2.4 Separar IDs dos e-mails nas duas etapas do formulário e conferir envio do campo correto no navegador, sem alterar os nomes da API. [Diagnóstico e validação](validation/retomada-2026-10-20.md).
+
 ## 3. Publicação e entrega real
 
 - [x] 3.1 Exportar estrutura, revisar delta limitado e publicar contratos de reset; verificar dry-run posterior sem mudanças, sem importar registros/segredos.
