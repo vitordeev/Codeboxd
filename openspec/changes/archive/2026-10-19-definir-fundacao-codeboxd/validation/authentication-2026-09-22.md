@@ -1,6 +1,6 @@
 # Validação de cadastro e login — 22/09/2026
 
-> Registro histórico preservado. Revisão de 13/10/2026: provedores e home evoluíram depois desta rodada; veja [encerramento](encerramento-2026-10-13.md). Os comandos abaixo são os da época e precisam de adaptação em uma cópia antes de reutilizar os scripts após o arquivamento. A proteção Git mencionada originalmente não está comprovada: a revisão encontrou .gitignore vazio. Esta nota não altera os resultados registrados.
+> Registro histórico preservado. Revisão de 13/10/2026: provedores e home evoluíram depois desta rodada; veja [encerramento](../../2026-10-13-definir-fundacao-codeboxd/validation/encerramento-2026-10-13.md). Os comandos abaixo são os da época e precisam de adaptação em uma cópia antes de reutilizar os scripts após o arquivamento. A proteção Git mencionada originalmente não está comprovada: a revisão encontrou .gitignore vazio. Esta nota não altera os resultados registrados.
 
 ## Resultado
 

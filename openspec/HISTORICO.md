@@ -1,5 +1,11 @@
 # Histórico e decisões preservadas
 
+21/10, revisao documental concluida: cinco links historicos corrigidos; estado
+atual separado dos relatos antigos em README/PENDENCIAS. Conflitos (2/2) e revisao
+documental (3/3) arquivados. Quatro changes funcionais permanecem ativas.
+[Auditoria](changes/archive/2026-10-21-revisar-consistencia-documental-openspec/validation.md).
+
+
 21/10, conclusao posterior: traducao DeepL concluida em 6/6 e arquivada.
 Quatro cenarios reais de navegador (anime/livro, desktop/celular) e oito testes
 aprovados; chave privada restaurada. Registros anteriores de ausencia da chave

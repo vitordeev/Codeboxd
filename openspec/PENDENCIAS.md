@@ -1,5 +1,30 @@
 # Pendências e sequência de retomada
 
+## Estado atual ? revis?o documental de 21/10/2026
+
+A tradu??o DeepL est? conclu?da (6/6), validada em quatro cen?rios reais de
+navegador e arquivada. A resolu??o dos conflitos tamb?m est? conclu?da (2/2).
+
+| Change funcional ativa | Conclu?das | Restantes | Falta verificar/concluir |
+| --- | ---: | ---: | --- |
+| `otimizar-performance-app` | 11 | 26 | Implementa??o restante, medi??es e integra??o completa |
+| `gerenciamento-website` | 17 | 17 | Opera??es administrativas e valida??es autorizadas |
+| `exigir-texto-denuncias-avaliacoes` | 4 | 1 | Rejei??o autenticada na API real |
+| `recuperar-senha-codigo-6-digitos` | 7 | 1 | E-mail real e ciclo completo em conta controlada |
+
+Sobreposi??o da capa de livro com a sinopse em 390px: ajuste visual pendente,
+sem nova funcionalidade nesta rodada. Estas contagens n?o medem o percentual
+global do projeto: tarefas t?m escopos e esfor?os diferentes.
+
+[Tradu??o conclu?da](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/conclusao-navegador-2026-10-21.md).
+
+## Registros anteriores ? estado nas respectivas datas
+
+Os relatos abaixo preservam a sequ?ncia de trabalho. Aus?ncia de chave DeepL,
+tradu??o pendente e contagens antigas de changes descrevem momentos anteriores;
+o quadro acima ? a refer?ncia atual.
+
+
 21/10, conclusao posterior: traducao DeepL concluida em 6/6 e arquivada.
 Quatro cenarios reais de navegador (anime/livro, desktop/celular) e oito testes
 aprovados; chave privada restaurada. Registros anteriores de ausencia da chave
