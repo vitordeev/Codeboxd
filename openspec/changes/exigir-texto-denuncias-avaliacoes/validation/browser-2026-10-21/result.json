@@ -1,0 +1,8 @@
+{
+  "layer": "browser-local-fixtures",
+  "expected": 12,
+  "completed": [],
+  "failure": "RuntimeError: Test server exited",
+  "normal_base": "http://127.0.0.1:3000",
+  "normal_restored": true
+}

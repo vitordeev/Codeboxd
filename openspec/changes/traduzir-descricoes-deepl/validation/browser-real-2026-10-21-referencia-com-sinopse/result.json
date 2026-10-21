@@ -1,0 +1,9 @@
+{
+  "layer": "browser-real-public-catalog",
+  "base": "http://127.0.0.1:3000",
+  "expected": 4,
+  "completed": [],
+  "failure": "AssertionError",
+  "cache_reuse_mechanism_previously_tested": true,
+  "provider_request_count_in_running_server_measured": false
+}

@@ -3,7 +3,7 @@
 Meias estrelas em 19/10: 0,5–5 com preenchimento parcial, notas em vírgula e
 restauração decimal de visitante/conta. 148 testes e compilação aprovados; nove
 checks de browser/Xano real confirmaram persistência 1,5 e preservação da crítica.
-Avaliação de teste removida. [Evidência](changes/avaliar-meias-estrelas/validation/implementacao-2026-10-19.md).
+Avaliação de teste removida. [Evidência](changes/archive/2026-10-21-avaliar-meias-estrelas/validation/implementacao-2026-10-19.md).
 
 Denúncia de obras em 19/10: retorno no modal e tratamento de 429 corrigidos;
 obra externa recebe ID ao enviar. 143 testes/compilação aprovados; denúncia de
@@ -109,6 +109,6 @@ Separação dos estados/páginas sociais é uma melhoria conforme crescimento, s
 
 Tratar credenciais presentes no histórico e validar autorização administrativa diretamente no Xano, dashboard, usuários, catálogo e reports. Concluir revisão de interface, imagem de post e redefinição de senha. A execução permanece local com `.venv`. Hospedagem e eventual migração de arquivos exigem uma etapa futura solicitada pelo usuário.
 
-Correções executadas: [relatório operacional](changes/corrigir-erros-operacionais/validation/correcoes-2026-10-13.md). Comandos de setup: [AMBIENTE.md](AMBIENTE.md).
+Correções executadas: [relatório operacional](changes/archive/2026-10-21-corrigir-erros-operacionais/validation/correcoes-2026-10-13.md). Comandos de setup: [AMBIENTE.md](AMBIENTE.md).
 
 Detalhamento por tarefa: [administração](changes/gerenciamento-website/tasks.md) e [matriz de evidências](changes/gerenciamento-website/validation/revisao-2026-10-13.md). Pendências transversais: [PENDENCIAS.md](PENDENCIAS.md). Datas e limites das verificações: [VALIDACAO.md](VALIDACAO.md) e [HISTORICO.md](HISTORICO.md).

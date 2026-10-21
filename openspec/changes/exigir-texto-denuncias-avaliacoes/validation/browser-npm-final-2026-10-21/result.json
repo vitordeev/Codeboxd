@@ -1,0 +1,77 @@
+{
+  "layer": "browser-local-fixtures",
+  "expected": 12,
+  "completed": [
+    {
+      "case": "required-content",
+      "width": 1440,
+      "identifier": 1,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 1440,
+      "identifier": 2,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 1440,
+      "identifier": 3,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 1440,
+      "identifier": 4,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "signup-429",
+      "width": 1440,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "reset-429",
+      "width": 1440,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 390,
+      "identifier": 1,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 390,
+      "identifier": 2,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    }
+  ],
+  "failure": "AssertionError: Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" get_by_role(\"button\", name=\"Salvar avalia\u00e7\u00e3o\", exact=True) with timeout 30000ms\n  - waiting for get_by_role(\"button\", name=\"Salvar avalia\u00e7\u00e3o\", exact=True)\n\nAria snapshot:\n- region \"Notifications alt+T\"\n- banner:\n  - link \"Codeboxd \u2014 in\u00edcio\":\n    - /url: /\n    - img\n    - text: codeboxd\n  - navigation \"Navega\u00e7\u00e3o principal\":\n    - link \"In\u00edcio\":\n      - /url: /\n    - link \"Feed\":\n      - /url: /feed\n    - link \"Listas\":\n      - /url: /listas\n    - link \"Perfil\":\n      - /url: /conta\n  - link \"Meu perfil\":\n    - /url: /conta\n  - button \"Sair\"\n- main:\n  - heading \"Detalhes da obra\" [level=1]\n  - paragraph: Conhe\u00e7a a hist\u00f3ria e registre sua experi\u00eancia.\n  - link \"Voltar \u00e0 descoberta\":\n    - /url: /\n  - paragraph: Anime \u00b7 2020\n  - heading \"Obra fict\u00edcia anime\" [level=2]\n  - paragraph: Descri\u00e7\u00e3o fict\u00edcia\n  - button \"Denunciar obra\"\n  - heading \"Ficha da obra\" [level=2]\n  - paragraph: Anime \u00b7 2020\n  - heading \"O que voc\u00ea achou?\" [level=2]\n  - status: Carregando sua avalia\u00e7\u00e3o\u2026\n  - complementary:\n    - heading \"Adicione \u00e0s suas listas\" [level=2]\n    - button \"Quero ver / ler +\"\n    - button \"J\u00e1 assisti / li +\"\n    - link \"Abrir minhas listas \u2192\":\n      - /url: /listas\n  - heading \"Outros coment\u00e1rios\" [level=2]\n  - paragraph: Ainda n\u00e3o h\u00e1 cr\u00edticas p\u00fablicas desta fonte.\n  - heading \"Outras recomenda\u00e7\u00f5es\" [level=2]\n  - paragraph: Ainda n\u00e3o h\u00e1 recomenda\u00e7\u00f5es desta fonte.\n- contentinfo:\n  - paragraph: Codeboxd \u00b7 Suas hist\u00f3rias, sua comunidade.\n  - link \"Biblioteca\":\n    - /url: /biblioteca\n  - link \"Comunidade\":\n    - /url: /comunidade\n- link:\n  - /url: https://reflex.dev\n  - img",
+  "normal_base": "http://127.0.0.1:3000",
+  "normal_restored": true
+}

@@ -1,0 +1,32 @@
+{
+  "checks": {
+    "managed_reflex_block_unchanged": true,
+    "active_change_before_edit": true,
+    "create_missing_change": true,
+    "readonly_exception": true,
+    "tasks_and_evidence": true,
+    "local_no_docker_preserved": true,
+    "head_unchanged": true,
+    "index_unchanged": true,
+    "application_files_unchanged": true,
+    "no_unmerged_index_entries": true,
+    "merge_is_ancestor": true,
+    "no_merge_or_rebase_in_progress": true,
+    "no_conflict_markers_in_scanned_files": true,
+    "historical_commit_has_two_parents": true
+  },
+  "application_files_preserved": 140,
+  "scanned_files": 384,
+  "conflict_files": [],
+  "head": "c2665f32a8680a58b3a854f7a4340eeba054eaf2",
+  "branch": "develop",
+  "merge_commit": "bc263051a94f237ab9780ad3493d81d01f8eb7bd",
+  "merge_parents": [
+    "669b95c410a64373a3a3e18b1fce2812d58f7d23",
+    "1a789f5e11fd1009269a8ff450a1da944e2483a0"
+  ],
+  "managed_block_sha256": "11de2e94b28e010ca160916a5c384551b98807282edab6838b6db95e4330724c",
+  "new_commits_created": false,
+  "staging_performed": false,
+  "remote_access_performed": false
+}

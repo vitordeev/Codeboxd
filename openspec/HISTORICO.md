@@ -1,5 +1,35 @@
 # Histórico e decisões preservadas
 
+21/10, validação posterior: 18 testes pertinentes e 12 casos de navegador com
+fixtures aprovados para conteúdo obrigatório, em produção isolada via npm.
+Servidor do usuário em 3000 preservado; contrato remoto não reenviado. Conteúdo
+em 4/5 por falta de sessão autenticada real. DeepL em 5/6: ausência atual da
+chave configurada impede validar tradução; fallback original confirmado no
+navegador. Evidências e tentativas preservadas nas duas changes ativas.
+
+21/10/2026, rodada posterior: concluídas e arquivadas as duas changes de processo
+(4/4 cada). AGENTS.md exige change ativa e criação quando ausente, distingue
+investigação de leitura e registra evidências por critério. Bloco Reflex idêntico
+por bytes; 140 arquivos de implementação, HEAD e índice preservados. Merge
+bc26305 confirmado ancestral de develop; sem conflitos no índice ou marcadores
+nos 384 arquivos examinados. Nenhum commit/push/reset criado nesta rodada.
+[Registro](validation/encerramento-processo-git-2026-10-21.md).
+
+21/10/2026: arquivadas `avaliar-meias-estrelas` (5/5),
+`corrigir-erros-operacionais` (7/7) e `padronizar-listas-iniciais` (7/7).
+Contratos consolidados em media-interactions, operational-reliability e
+data-user-lists, com cenários anteriores preservados. Sete changes continuam
+abertas, incluindo scaffold incompleto de regularização Git. Sem nova execução
+de produto ou dados remotos. [Registro](validation/arquivamento-changes-2026-10-21.md).
+
+21/10/2026: usuário confirmou reset sem preservar listas e com personalização
+posterior. Backup privado antes de remover 15 listas/três itens (quatro listas
+órfãs); sete contas receberam 14 listas base vazias. Um 429 interrompeu criações;
+recuperação explícita criou somente faltantes, sem novas exclusões. Signup com
+acentuação corrigido e publicado, somente um contrato alterado. Catálogo e
+avaliações iguais por hash; personalizada/navegação cobertas por testes locais.
+[Evidência](changes/archive/2026-10-21-padronizar-listas-iniciais/validation/execucao-2026-10-21.md).
+
 Continuação da otimização em 20/10: removida carga da home ao abrir comunidade,
 preservando perfis/conexões e descartando aviso tardio de outra rota. 274 testes
 e compile aprovados. Utilitários de frontend isolados; tentativas de produção
@@ -66,6 +96,13 @@ complementa o histórico arquivado sem substituir suas evidências.
 | 13/10/2026, após reanálise | Correções operacionais | Ignore/índice corrigidos preservando 434 arquivos existentes; `.venv` instalada; Unicode/URL de banner corrigidos; volume configurado; 113 testes e compilação passaram; teste Docker e tratamento de credenciais antigos pendentes |
 
 ## Mudanças arquivadas
+
+- [Regra obrigatória OpenSpec](changes/archive/2026-10-21-exigir-openspec-para-implementacoes/tasks.md): 4/4; documentação de processo concluída em 21/10, sem delta funcional.
+- [Revisão de merge e commits](changes/archive/2026-10-21-regularizar-merge-e-commits/tasks.md): 4/4; acompanhamento Git concluído em 21/10, sem alterar histórico.
+
+- [Meias estrelas](changes/archive/2026-10-21-avaliar-meias-estrelas/tasks.md): 5/5; arquivada em 21/10, contrato media-interactions consolidado.
+- [Correções operacionais](changes/archive/2026-10-21-corrigir-erros-operacionais/tasks.md): 7/7; arquivada em 21/10, contrato operational-reliability consolidado; Docker fora do escopo.
+- [Listas iniciais](changes/archive/2026-10-21-padronizar-listas-iniciais/tasks.md): 7/7; arquivada em 21/10, contrato data-user-lists consolidado, preservando limites de validação da entrega.
 
 - [Modelo Xano](changes/archive/2026-10-13-criar-modelo-dados-xano/tasks.md): 37 tarefas; sete capacidades de dados consolidadas em `specs/`.
 - [Fundação](changes/archive/2026-10-13-definir-fundacao-codeboxd/tasks.md): 87 tarefas; nove capacidades funcionais consolidadas em `specs/`.

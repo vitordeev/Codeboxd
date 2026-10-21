@@ -12,3 +12,8 @@
 
 Evidências desta rodada: [implementacao-2026-10-19.md](validation/implementacao-2026-10-19.md).
 5/6 tarefas verificadas; revisão no navegador permanece aberta.
+
+21/10: browser público confirmou ficha disponível com sinopse original, mas
+DEEPL_API_KEY não está configurada no `.env` atual. Solicitado preenchimento
+privado/arquivo local; não concluir 2.3 por fallback. 18 testes pertinentes
+passaram. [Retomada e evidências](validation/retomada-2026-10-21.md).

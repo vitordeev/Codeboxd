@@ -1,0 +1,25 @@
+{
+  "layer": "real-xano-metadata",
+  "workspace": 147717,
+  "data_source": "live",
+  "users": 7,
+  "previous_lists": 15,
+  "previous_items": 3,
+  "orphan_lists_removed": 4,
+  "final_lists": 14,
+  "final_items": 0,
+  "verified": true,
+  "protected_unchanged": true,
+  "backup_sha256": "f538a31ac05907812f760d7e62e0f31570a422b20f02bd0e2e7e6efed6625349",
+  "backup_private_directory": ".local/list-reset-20261021/data",
+  "metadata_documents_before": 77,
+  "metadata_documents_after": 77,
+  "changed_contract_guids": [
+    "urY15kLDHVGb4vbbHON3_u2xqTk"
+  ],
+  "signup_published": true,
+  "browser_tested": false,
+  "new_account_created_for_test": false,
+  "rate_limit_encountered": true,
+  "recovered_without_new_deletes": true
+}

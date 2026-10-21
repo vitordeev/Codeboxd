@@ -1,5 +1,26 @@
 # Pendências e sequência de retomada
 
+Retomada de conteúdo/tradução em 21/10: formulário passou em 12 cenários de
+navegador (produção isolada, backend fictício), quatro tipos em desktop/celular.
+Conteúdo obrigatório agora 4/5; falta login de teste para rejeição na API real.
+DeepL permanece 5/6: chave ausente no `.env` atual; configurar de forma privada
+antes de confirmar a tradução visual. Servidor 3000 preservado; build isolado
+via npm passou, sem comprovar resolução da falha do caminho padrão.
+[Conteúdo](changes/exigir-texto-denuncias-avaliacoes/validation/retomada-2026-10-21.md)
+e [tradução](changes/traduzir-descricoes-deepl/validation/retomada-2026-10-21.md).
+
+Regras OpenSpec e revisão Git concluídas/arquivadas em 21/10 (4/4 cada).
+Restam cinco changes ativas: performance, administração, conteúdo obrigatório,
+recuperação de senha e tradução DeepL. Alterações locais das entregas recentes
+continuam sem novo commit; revisar por grupo antes de uma rodada de commits.
+[Encerramento](validation/encerramento-processo-git-2026-10-21.md).
+
+Listas padronizadas em 21/10: migração real concluída com backup, sete contas/
+14 listas base vazias, zero itens; catálogo/avaliações preservados. Cadastro
+publicado com nomes corretos. 285 testes e compilação aprovados; carregar código
+atualizado no processo Reflex para remover limpeza legada de personalizadas.
+Sem navegador ou novo cadastro real nesta rodada. [Entrega](changes/archive/2026-10-21-padronizar-listas-iniciais/validation/execucao-2026-10-21.md).
+
 Incremento local posterior: comunidade deixou de aguardar todas as categorias
 da home; 274 testes e compile passaram. Utilitários agora isolam arquivos e
 dependências de frontend. Export padrão ainda falhou, embora um build direto
@@ -40,7 +61,7 @@ em biblioteca/listas, social e administração; não reduzir todos os critérios
 restantes a uma simples reexecução de testes. Preservar baseline e cinco amostras
 por cenário antes de concluir comparações.
 
-Estado atualizado em 14/10/2026. A change [corrigir-erros-operacionais](changes/corrigir-erros-operacionais/tasks.md) acompanha as correções locais anteriores. Na rodada 13–14/10, contratos administrativos e dois endpoints de posts foram publicados com autorização do usuário; evidências abaixo distinguem publicação e validação completa.
+Estado atualizado em 14/10/2026. A change [corrigir-erros-operacionais](changes/archive/2026-10-21-corrigir-erros-operacionais/tasks.md) acompanha as correções locais anteriores. Na rodada 13–14/10, contratos administrativos e dois endpoints de posts foram publicados com autorização do usuário; evidências abaixo distinguem publicação e validação completa.
 
 ## Administração — change ativa
 
@@ -98,7 +119,7 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 
 ## Ajustes visuais acompanhados
 
-Avaliações — [avaliar-meias-estrelas](changes/avaliar-meias-estrelas/tasks.md):
+Avaliações — [avaliar-meias-estrelas](changes/archive/2026-10-21-avaliar-meias-estrelas/tasks.md):
 5/5 verificadas em 19/10. Controle e restauração decimal concluídos localmente,
 148 testes e navegador/Xano real aprovados. Sem migração/publicação de backend;
 sincronização/arquivamento documental ainda não realizados nesta rodada.
@@ -119,6 +140,6 @@ Chat/mensageria privada, notificações, recomendações por aprendizado de máq
 
 ## Como encerrar a próxima change
 
-Evidência das correções locais: [correcoes-2026-10-13.md](changes/corrigir-erros-operacionais/validation/correcoes-2026-10-13.md). A change concluiu 7/7 tarefas do escopo local e aguarda arquivamento; 3.1/3.2 foram retiradas do escopo por decisão do usuário, sem serem contabilizadas como entregas.
+Evidência das correções locais: [correcoes-2026-10-13.md](changes/archive/2026-10-21-corrigir-erros-operacionais/validation/correcoes-2026-10-13.md). A change concluiu 7/7 tarefas do escopo local e foi arquivada em 21/10; 3.1/3.2 foram retiradas do escopo por decisão do usuário, sem serem contabilizadas como entregas.
 
 Registrar evidência por ID (data, comando/cenário, camada, resultado, limitações e limpeza de dados de teste). Marcar somente o critério verificado. Validar artefatos, sincronizar os deltas concluídos em `specs/`, conferir correspondência e arquivar a change sem tarefas abertas. Atualizar README, contexto, histórico e pendências na mesma rodada.

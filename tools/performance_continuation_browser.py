@@ -133,13 +133,18 @@ async def auth_case(browser,width,case):
     finally: await context.close()
 
 
-async def main():
+async def main(normal_base='http://127.0.0.1:3030',frontend_workdir=None):
     if not await normal_network_available():
         raise RuntimeError('Network is blocked: run from an approved network-enabled process before changing the frontend.')
     OUTPUT.mkdir(parents=True,exist_ok=True)
     if (OUTPUT/'result.json').exists(): raise RuntimeError('Preserve existing report; choose a new output directory')
     roots=normal_app_roots()
-    web_dir=prepare_frontend('browser-'+uuid.uuid4().hex)
+    if frontend_workdir is None:
+        web_dir=prepare_frontend('browser-'+uuid.uuid4().hex)
+    else:
+        web_dir=Path(frontend_workdir).resolve()
+        if not web_dir.is_relative_to((ROOT/'.local/frontends').resolve()) or not web_dir.is_dir():
+            raise ValueError('Only an existing isolated frontend may be reused')
     server=ThreadingHTTPServer(('127.0.0.1',3040),Fixture)
     threading.Thread(target=server.serve_forever,daemon=True).start()
     env=dict(os.environ,XANO_AUTH_URL='http://127.0.0.1:3040',XANO_SOCIAL_URL='http://127.0.0.1:3040',
@@ -171,18 +176,22 @@ async def main():
                 finally: await browser.close()
         except Exception as exc:
             failure=type(exc).__name__+': '+str(exc)
-            print('VALIDATION_FAILURE: '+failure,flush=True)
+            print(json.dumps({'validation_failure':failure}),flush=True)
         finally:
             stop_process_tree(process); server.shutdown()
             try:
-                with urllib.request.urlopen('http://127.0.0.1:3030/login',timeout=3):
+                with urllib.request.urlopen(normal_base.rstrip('/')+'/login',timeout=3):
                     restored=True
                 print('NORMAL_APP_PRESERVED',flush=True)
             except OSError:
-                print('RESTORING_NORMAL_APP',flush=True)
-                restored=await restore_normal_app(roots,'normal-restored-after-continuation.log')
+                if normal_base.rstrip('/')=='http://127.0.0.1:3030':
+                    print('RESTORING_NORMAL_APP',flush=True)
+                    restored=await restore_normal_app(roots,'normal-restored-after-continuation.log')
+                else:
+                    print('NORMAL_APP_UNAVAILABLE: caller-owned server was not restarted',flush=True)
             (OUTPUT/'result.json').write_text(json.dumps(dict(layer='browser-local-fixtures',
-                expected=12,completed=results,failure=failure,normal_restored=restored),indent=2),encoding='utf-8')
+                expected=12,completed=results,failure=failure,normal_base=normal_base,
+                normal_restored=restored,fixture_calls=dict(CALLS)),indent=2),encoding='utf-8')
     if failure or not restored: raise SystemExit(1)
 
 

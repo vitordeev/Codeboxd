@@ -1,6 +1,6 @@
 # Validação da revisão documental — 13/10/2026
 
-Este documento preserva a rodada documental inicial. Depois dela houve implementação de correções: 113 testes e compilação no `.venv` passaram. Estado atual e limitações estão no [relatório operacional](changes/corrigir-erros-operacionais/validation/correcoes-2026-10-13.md); as contagens abaixo descrevem a rodada anterior.
+Este documento preserva a rodada documental inicial. Depois dela houve implementação de correções: 113 testes e compilação no `.venv` passaram. Estado atual e limitações estão no [relatório operacional](changes/archive/2026-10-21-corrigir-erros-operacionais/validation/correcoes-2026-10-13.md); as contagens abaixo descrevem a rodada anterior.
 
 ## Base de evidência
 
