@@ -1,5 +1,45 @@
 # Pendências e sequência de retomada
 
+Incremento local posterior: comunidade deixou de aguardar todas as categorias
+da home; 274 testes e compile passaram. Utilitários agora isolam arquivos e
+dependências de frontend. Export padrão ainda falhou, embora um build direto
+por Node tenha concluído; causa não confirmada, produção 3030 sem recuperação
+comprovada. Não encerrar 7.1/7.2 nem validações reais por testes simulados.
+[Comunidade](changes/otimizar-performance-app/validation/comunidade-sem-home-2026-10-20.md)
+e [build](changes/otimizar-performance-app/validation/isolamento-build-2026-10-20.md).
+
+Execução normal em 3030 indisponível no último smoke: build falhou no prerender,
+inclusive na tentativa temporária sem SSR. Servidor de desenvolvimento separado
+preservado; nenhuma mudança permanente de configuração. Recuperar a execução
+normal antes de novas medições/browser.
+
+Prioridade da retomada de performance: estabilizar exportação/restauração
+(timeout no prerender de /), fixar ambiente e medir baseline antes de novas
+intervenções. 11/37 tarefas permanecem concluídas, sem recontar implementação
+paralela como ganho de performance. [Revisão atual](changes/otimizar-performance-app/validation/revisao-retomada-2026-10-20.md).
+
+Change separada exigir-texto-denuncias-avaliacoes em 3/5: validações implementadas
+e publicadas; faltam rejeição autenticada real e browser. O build/prerender falhou
+antes de iniciar casos; tratar disponibilidade operacional ao retomar performance.
+[Evidência](changes/exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
+
+Performance em 20/10: a change
+`otimizar-performance-app` tem 11/37 tarefas concluídas. Permanecem 26 abertas,
+incluindo medições, metas e validação real da continuação/isolamento da biblioteca.
+[Inventário atual](changes/otimizar-performance-app/validation/inventario-rotas-eventos-2026-10-20.md).
+[Incremento local atual](changes/otimizar-performance-app/validation/cache-concorrencia-cooldown-2026-10-20.md):
+244 testes/compilação, sem browser/remoto/reinício. Respostas atrasadas nos demais
+loaders foram cobertas em 3.4 pela rodada posterior; integração habitual continua
+em 3.5. Validar instância atualizada em rodada
+de execução/navegador e manter separada a pendência real de e-mail (P.6).
+
+Rodada atual: [fichas/busca e respostas tardias](changes/otimizar-performance-app/validation/continuacao-fichas-busca-2026-10-20.md),
+259 testes/compilação e browser com fixtures. Acesso de membro/admin aprovados e
+metas foram solicitados ao usuário e aguardam resposta. Há implementação adicional
+em biblioteca/listas, social e administração; não reduzir todos os critérios
+restantes a uma simples reexecução de testes. Preservar baseline e cinco amostras
+por cenário antes de concluir comparações.
+
 Estado atualizado em 14/10/2026. A change [corrigir-erros-operacionais](changes/corrigir-erros-operacionais/tasks.md) acompanha as correções locais anteriores. Na rodada 13–14/10, contratos administrativos e dois endpoints de posts foram publicados com autorização do usuário; evidências abaixo distinguem publicação e validação completa.
 
 ## Administração — change ativa

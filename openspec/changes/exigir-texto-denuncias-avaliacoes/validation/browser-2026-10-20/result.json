@@ -1,0 +1,7 @@
+{
+  "layer": "browser-local-fixtures",
+  "expected": 12,
+  "completed": [],
+  "failure": "RuntimeError: Test server exited",
+  "normal_restored": false
+}

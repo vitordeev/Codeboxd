@@ -1,5 +1,31 @@
 # Contexto técnico e funcional
 
+Denúncias exigem descrição escrita; formulário de avaliação exige crítica.
+Xano também exige description em reports e review para nota positiva em
+interactions. Atalhos organizacionais com nota zero permanecem válidos.
+[Contrato e limites de validação](changes/exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
+
+Fichas agora publicam conteúdo principal antes de complementos; avaliação pessoal
+aguarda restauração antes de abrir o formulário. Resultados têm guardas de
+visita/rota/token/obra, com proteção adicional para geração de gravação da nota.
+Busca TMDB/Open Library reutiliza cache público de 300 s (Kitsu já usava cache),
+mantendo páginas e termos separados. Feed, referências e seleção de listas
+descartam respostas de contexto anterior.
+[Evidência local e pendências reais](changes/otimizar-performance-app/validation/continuacao-fichas-busca-2026-10-20.md).
+
+Leituras sociais equivalentes em andamento compartilham tarefa transitória no
+processo por nonce de sessão, geração e digest da consulta; tasks não entram no
+estado persistido. TTL de cache social continua 15 s. Paginação fixa o token
+inicial e rejeita troca de credencial. GET de recuperação de senha não repete
+automaticamente após 429; pedido tem cooldown local por hash do e-mail.
+Catálogo respeita Retry-After em formato data HTTP.
+[Entrega local e limites](changes/otimizar-performance-app/validation/cache-concorrencia-cooldown-2026-10-20.md).
+
+Inventário estático reproduzível de rotas/eventos disponível em
+`tools/performance_inventory.py`, sem importar o app. A tarefa 1.1 da change
+de performance registra componentes, handlers e chamadas por função em
+[matriz e JSON](changes/otimizar-performance-app/validation/inventario-rotas-eventos-2026-10-20.md).
+
 Referência atual: 13/10/2026. Consulte [HISTORICO.md](HISTORICO.md) para a evolução e [PENDENCIAS.md](PENDENCIAS.md) para o trabalho restante.
 
 ## Produto e arquitetura

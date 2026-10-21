@@ -1,0 +1,13 @@
+{
+  "layer": "browser-with-real-xano-via-local-proxy",
+  "user_logged_in": false,
+  "failure": "RuntimeError",
+  "samples": [],
+  "normal_restored": false,
+  "cycle_tracking": true,
+  "proxy_overhead_included": true,
+  "total_outbound_requests": 0,
+  "stop_reason": "",
+  "statuses": {},
+  "events": []
+}

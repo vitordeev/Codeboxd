@@ -2,12 +2,42 @@ import os
 import unittest
 from unittest.mock import AsyncMock, patch
 import httpx
+from datetime import datetime, timedelta, timezone
+from email.utils import format_datetime
 
 from Codeboxd_main.services import catalog
 from Codeboxd_main.services.api import APIError
 
 
 class CatalogTests(unittest.IsolatedAsyncioTestCase):
+    async def test_rate_limit_dates_and_invalid_headers_do_not_retry_early(self):
+        future = format_datetime(datetime.now(timezone.utc) + timedelta(seconds=120), usegmt=True)
+        for header in (future, '120', '', 'invalid', 'NaN', 'inf'):
+            with self.subTest(header=header):
+                client = AsyncMock()
+                request = httpx.Request('GET', 'https://provider.example/test')
+                client.get.return_value = httpx.Response(429, headers={'Retry-After':header}, request=request)
+                context = AsyncMock()
+                context.__aenter__.return_value = client
+                with patch.object(catalog.httpx, 'AsyncClient', return_value=context), \
+                     patch.object(catalog.asyncio, 'sleep', new=AsyncMock()) as sleep:
+                    with self.assertRaises(APIError): await catalog.fetch('https://provider.example/test')
+                client.get.assert_awaited_once()
+                sleep.assert_not_awaited()
+
+    async def test_short_rate_limit_deadline_retries_and_recovers(self):
+        client = AsyncMock()
+        request = httpx.Request('GET', 'https://provider.example/test')
+        client.get.side_effect = [httpx.Response(429, headers={'Retry-After':'2'}, request=request),
+                                 httpx.Response(200, json={'ok':True}, request=request)]
+        context = AsyncMock()
+        context.__aenter__.return_value = client
+        with patch.object(catalog.httpx, 'AsyncClient', return_value=context), \
+             patch.object(catalog.asyncio, 'sleep', new=AsyncMock()) as sleep:
+            self.assertEqual(await catalog.fetch('https://provider.example/test'), {'ok':True})
+        sleep.assert_awaited_once_with(2)
+        self.assertEqual(client.get.await_count, 2)
+
     def setUp(self):
         catalog._kitsu_cache.clear()
         # Provider fixtures do not use the optional live translation service.

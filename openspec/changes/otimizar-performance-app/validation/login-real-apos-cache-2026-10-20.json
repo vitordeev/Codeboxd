@@ -1,0 +1,255 @@
+{
+  "layer": "browser-with-real-xano-via-local-proxy",
+  "user_logged_in": true,
+  "failure": "",
+  "samples": [
+    {
+      "width": 1440,
+      "visit": 1,
+      "phase": "manual-login",
+      "login_to_primary_ms": 4203,
+      "finished": true,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 31389,
+        "cycle_total_ms": 32682
+      }
+    },
+    {
+      "width": 1440,
+      "visit": 2,
+      "phase": "profile-revisit",
+      "primary_ms": 612,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 617,
+      "outbound_requests": 0,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 395,
+        "cycle_total_ms": 397
+      }
+    },
+    {
+      "width": 1440,
+      "visit": 3,
+      "phase": "profile-revisit",
+      "primary_ms": 450,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 454,
+      "outbound_requests": 0,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 237,
+        "cycle_total_ms": 240
+      }
+    },
+    {
+      "width": 1440,
+      "visit": 4,
+      "phase": "profile-revisit",
+      "primary_ms": 461,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 466,
+      "outbound_requests": 0,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 237,
+        "cycle_total_ms": 239
+      }
+    },
+    {
+      "width": 1440,
+      "visit": 5,
+      "phase": "profile-revisit",
+      "primary_ms": 459,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 464,
+      "outbound_requests": 0,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 227,
+        "cycle_total_ms": 233
+      }
+    },
+    {
+      "width": 390,
+      "visit": 1,
+      "phase": "profile-revisit",
+      "primary_ms": 406,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 412,
+      "outbound_requests": 0,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 210,
+        "cycle_total_ms": 213
+      }
+    },
+    {
+      "width": 390,
+      "visit": 2,
+      "phase": "profile-revisit",
+      "primary_ms": 399,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 403,
+      "outbound_requests": 0,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 204,
+        "cycle_total_ms": 209
+      }
+    },
+    {
+      "width": 390,
+      "visit": 3,
+      "phase": "profile-revisit",
+      "primary_ms": 398,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 401,
+      "outbound_requests": 0,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 207,
+        "cycle_total_ms": 208
+      }
+    },
+    {
+      "width": 390,
+      "visit": 4,
+      "phase": "profile-revisit",
+      "primary_ms": 490,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 493,
+      "outbound_requests": 0,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 286,
+        "cycle_total_ms": 287
+      }
+    },
+    {
+      "width": 390,
+      "visit": 5,
+      "phase": "profile-revisit",
+      "primary_ms": 2872,
+      "primary_present": true,
+      "finished": true,
+      "total_ms": 4111,
+      "outbound_requests": 4,
+      "cycle_observed": {
+        "cycle_started": true,
+        "cycle_finished": true,
+        "primary_update_ms": 2714,
+        "cycle_total_ms": 4000
+      }
+    }
+  ],
+  "normal_restored": true,
+  "cycle_tracking": true,
+  "proxy_overhead_included": true,
+  "total_outbound_requests": 9,
+  "stop_reason": "",
+  "statuses": {
+    "200": 9
+  },
+  "events": [
+    {
+      "method": "POST",
+      "service": "xano",
+      "endpoint": "/auth/auth/login",
+      "status": 200,
+      "offset_ms": 107412.411,
+      "duration_ms": 909.631,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "offset_ms": 108542.893,
+      "duration_ms": 755.278,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/profiles/{value}",
+      "status": 200,
+      "offset_ms": 109739.006,
+      "duration_ms": 1052.721,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/media",
+      "status": 200,
+      "offset_ms": 111303.391,
+      "duration_ms": 830.048,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/profiles",
+      "status": 200,
+      "offset_ms": 111303.718,
+      "duration_ms": 857.356,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "offset_ms": 125631.858,
+      "duration_ms": 870.571,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/profiles/{value}",
+      "status": 200,
+      "offset_ms": 126704.665,
+      "duration_ms": 1191.075,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/media",
+      "status": 200,
+      "offset_ms": 128375.476,
+      "duration_ms": 794.461,
+      "retry_after_seconds": 0
+    },
+    {
+      "method": "GET",
+      "service": "xano",
+      "endpoint": "/{value}/profiles",
+      "status": 200,
+      "offset_ms": 128375.85,
+      "duration_ms": 808.408,
+      "retry_after_seconds": 0
+    }
+  ]
+}

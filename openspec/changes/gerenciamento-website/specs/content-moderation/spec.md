@@ -5,7 +5,11 @@ Permite revisar reports de mensagens e outros conteúdos do Codeboxd em uma fila
 ## ADDED Requirements
 
 ### Requirement: Registrar reports de conteúdo
-O sistema MUST permitir registrar um report com o tipo e identificador do conteúdo alvo, a categoria do motivo, a descrição opcional, a pessoa denunciante e uma cópia contextual suficiente para análise. O fluxo MUST aceitar mensagens como tipo de conteúdo reportável sem exigir que esta mudança crie um sistema de mensagens.
+O sistema MUST permitir registrar um report com o tipo e identificador do conteúdo alvo, a categoria do motivo, a descrição escrita obrigatória, a pessoa denunciante e uma cópia contextual suficiente para análise. O fluxo MUST aceitar mensagens como tipo de conteúdo reportável sem exigir que esta mudança crie um sistema de mensagens.
+
+Atualização solicitada em 20/10/2026 pela change exigir-texto-denuncias-avaliacoes:
+texto vazio ou composto apenas por espaços é inválido. Evidências anteriores
+que tratavam descrição como opcional são históricas.
 
 #### Scenario: Report válido recebido
 - **WHEN** um report válido é enviado sobre uma mensagem, publicação, comentário, perfil ou outro tipo de conteúdo suportado
@@ -14,6 +18,10 @@ O sistema MUST permitir registrar um report com o tipo e identificador do conte�
 #### Scenario: Report sem alvo ou motivo válido
 - **WHEN** um report não contém um alvo identificável ou um motivo aceito
 - **THEN** o sistema rejeita o registro e informa o que precisa ser corrigido
+
+#### Scenario: Report sem descrição escrita
+- **WHEN** a descrição está ausente, vazia ou contém apenas espaços
+- **THEN** o sistema rejeita o envio sem criar um report e pede detalhes escritos
 
 ### Requirement: Fila de moderação protegida
 O sistema MUST permitir que somente administradores consultem reports e o conteúdo contextual associado. A fila MUST oferecer filtro por status, tipo e motivo.

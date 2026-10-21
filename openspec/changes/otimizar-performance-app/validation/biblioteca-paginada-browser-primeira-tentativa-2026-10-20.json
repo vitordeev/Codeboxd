@@ -1,0 +1,51 @@
+{
+  "layer": "browser-with-local-fixtures",
+  "remote_validated": false,
+  "expected_cases": 18,
+  "completed": [
+    {
+      "width": 1440,
+      "case": "empty",
+      "initial_data_reads": 1,
+      "library_reads": 1,
+      "auth_reads": 1,
+      "cursors": [
+        0
+      ],
+      "final_cards": 0,
+      "page_errors": [],
+      "overflow": false,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "case": "small",
+      "initial_data_reads": 1,
+      "library_reads": 1,
+      "auth_reads": 1,
+      "cursors": [
+        0
+      ],
+      "final_cards": 5,
+      "page_errors": [],
+      "overflow": false,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "case": "exact",
+      "initial_data_reads": 1,
+      "library_reads": 1,
+      "auth_reads": 1,
+      "cursors": [
+        0
+      ],
+      "final_cards": 20,
+      "page_errors": [],
+      "overflow": false,
+      "passed": true
+    }
+  ],
+  "failure": "AssertionError: Duplicate/missing cards",
+  "normal_restored": true
+}

@@ -12,6 +12,43 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         self.state=rx.State(_reflex_internal_init=True).get_substate(SocialState.get_full_name().split('.'))
 
+    async def test_navigation_reads_reuse_copies_and_expire(self):
+        with patch('Codeboxd_main.state.social.request',new=AsyncMock(return_value=[{'id':1}])) as request, \
+             patch('Codeboxd_main.state.social.time.monotonic',return_value=100) as clock:
+            first=await self.state._call('GET','/lists')
+            first[0]['id']=999
+            self.assertEqual(await self.state._call('GET','/lists'),[{'id':1}])
+            request.assert_awaited_once()
+            clock.return_value=116
+            await self.state._call('GET','/lists')
+            self.assertEqual(request.await_count,2)
+
+    async def test_navigation_reads_separate_tokens_params_and_sessions(self):
+        other=rx.State(_reflex_internal_init=True).get_substate(SocialState.get_full_name().split('.'))
+        with patch('Codeboxd_main.state.social.request',new=AsyncMock(return_value=[])) as request:
+            await self.state._call('GET','/media',params={'identity_key':'a'})
+            await self.state._call('GET','/media',params={'identity_key':'b'})
+            self.state.session_token='another-token'
+            await self.state._call('GET','/media',params={'identity_key':'b'})
+            await other._call('GET','/media',params={'identity_key':'b'})
+            self.assertEqual(request.await_count,4)
+
+    async def test_navigation_write_and_identity_reset_invalidate_reads(self):
+        with patch('Codeboxd_main.state.social.request',new=AsyncMock(return_value=[])) as request:
+            await self.state._call('GET','/lists')
+            await self.state._call('POST','/lists',data={'title':'new'})
+            await self.state._call('GET','/lists')
+            self.state._reset_personal()
+            await self.state._call('GET','/lists')
+            self.assertEqual(request.await_count,4)
+
+    async def test_navigation_errors_are_not_cached(self):
+        with patch('Codeboxd_main.state.social.request',new=AsyncMock(side_effect=[APIError('Limit',429),[]])) as request:
+            with self.assertRaises(APIError):
+                await self.state._call('GET','/interactions')
+            self.assertEqual(await self.state._call('GET','/interactions'),[])
+            self.assertEqual(request.await_count,2)
+
     async def test_guest_rating_is_browser_local_and_restores_per_media(self):
         s=self.state
         s.selected={'key':'tmdb:movie:42','title':'Filme'}
@@ -68,6 +105,8 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
     async def test_saved_decimal_rating_restores_canonical_selection(self):
         s = self.state
         for number, canonical in ((0.5, '0.5'), (1.5, '1.5'), (4.0, '4')):
+            # Each rating represents an independent server/session scenario.
+            s._navigation_reads={}
             with patch('Codeboxd_main.state.social.request', new=AsyncMock(return_value=[{
                 'media_id': 7, 'status': 'completed', 'rating': number}])):
                 await s._load_personal_interaction('7', True)
@@ -248,7 +287,7 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         saved = {**s._selected_raw, 'id': 17}
         with patch('Codeboxd_main.state.session.request', new=AsyncMock()) as auth, \
              patch('Codeboxd_main.state.social.request', new=AsyncMock(side_effect=[saved, {'id': 8, 'status': 'pending'}])) as request:
-            async for _ in s.submit_report({'reason': 'spam'}):
+            async for _ in s.submit_report({'reason': 'spam', 'description': 'Conteúdo repetido e indesejado'}):
                 pass
         auth.assert_not_awaited()
         self.assertEqual(request.await_count, 2)

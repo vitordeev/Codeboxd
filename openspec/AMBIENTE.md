@@ -27,6 +27,15 @@ Configuração privada fica em `.env`, a partir de `.env.example`. Não copiar v
 
 ## Execução
 
+Incidente de rede em 20/10: iniciar o servidor pelo ambiente restrito do agente
+pode produzir HTML local válido e falhas WinError 10013/ConnectError em todos os
+provedores. Usar terminal normal ou execução de processo explicitamente aprovada
+com acesso à rede. Depois de restaurar o app, conferir uma seleção real e a UI;
+HTTP 200 estático sozinho não comprova integração. restore_normal_app agora
+recusa substituir processos se o HEAD público de conectividade falhar, e o
+executor performance_continuation_browser verifica isso antes de mudar frontend.
+[Evidência](changes/otimizar-performance-app/validation/tmdb-rede-restaurada-2026-10-20.md).
+
 Seguir a skill `reflex-process-management`; o modo padrão do projeto é produção, com log:
 
 ```powershell

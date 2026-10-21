@@ -283,6 +283,8 @@ def media_page():
             rx.el.span(rx.icon('arrow-left',size=17,aria_hidden=True),class_name='media-back-icon'),
             rx.el.span('Voltar à descoberta'),href='/',class_name='media-back-link'),
         rx.cond(S.selected['title']!='',rx.el.div(
+            rx.cond(S.media_details_loading,rx.el.p('Carregando informações complementares…',role='status')),
+            rx.cond(S.media_details_error!='',rx.el.p(S.media_details_error,role='alert')),
             rx.el.section(
                 rx.cond(S.selected['cover']!='',rx.el.img(src=S.selected['cover'],alt='Capa de '+S.selected['title'],class_name='media-detail-poster'),
                     rx.el.div(rx.icon('clapperboard',size=48),class_name='media-detail-poster cover-empty')),
@@ -311,7 +313,8 @@ def media_page():
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
                         allow_fullscreen=True,class_name='media-trailer'),class_name='media-trailer-card')),
                     class_name='media-trailer-list')),rx.fragment()),            rx.el.div(rx.el.section(rx.el.h2('O que você achou?',class_name='section-title'),
-                rx.cond(S.is_authenticated,rx.cond(S.review_editor_open,rx.el.form(
+                rx.cond(S.is_authenticated,rx.cond(S.media_interaction_loading,
+                    rx.el.p('Carregando sua avaliação…',role='status'),rx.cond(S.review_editor_open,rx.el.form(
                     rx.el.fieldset(
                     rx.el.input(name='media_key',type='hidden',value=S.selected['key']),
                     rx.el.input(name='status',type='hidden',value=S.selected_status),
@@ -319,7 +322,7 @@ def media_page():
                         lambda pair:rx.el.button(pair[1],type='button',on_click=S.set_selected_status(pair[0]),
                             class_name=rx.cond(S.selected_status==pair[0],'status-chip selected','status-chip'))),class_name='media-statuses'),
                     rating_picker(),
-                    textarea('Sua crítica detalhada','review',S.selected_review,max_length=10000,rows=5,placeholder='Conte o que achou desta obra...'),
+                    textarea('Sua crítica detalhada (obrigatória)','review',S.selected_review,required=True,min_length=1,max_length=10000,rows=5,placeholder='Conte o que achou desta obra...'),
                     check('Contém spoilers','spoiler',S.selected_spoiler),
                     submit(rx.cond(S.interaction_saving,'Salvando…','Salvar avaliação'),disabled=S.interaction_saving),
                     disabled=S.interaction_saving,class_name='media-review-form',aria_busy=S.interaction_saving),
@@ -328,7 +331,7 @@ def media_page():
                         rx.el.p('Avaliação salva',role='status',class_name='font-semibold brand-yellow'),
                         rx.el.p(rx.cond(S.selected_rating=='0','Sem nota','Sua nota: '+S.selected_rating.replace('.',',')+' / 5')),
                         rx.cond(S.selected_review!='',rx.el.p(S.selected_review,class_name='whitespace-pre-wrap')),
-                        button('Editar avaliação',S.edit_interaction),class_name=CARD)),
+                        button('Editar avaliação',S.edit_interaction),class_name=CARD))),
                     rx.el.div(rx.el.h3('Avalie esta obra',class_name='font-semibold'),
                         rx.el.p('Sua nota fica salva apenas neste navegador e não aparece no perfil nem na comunidade.',class_name='text-sm text-gray-400'),
                         rating_picker(),
@@ -377,8 +380,13 @@ def interaction(i):
 
 def library_page():
     return shell('Minha biblioteca','Cada história tem seu momento. Organize as suas.',
-        rx.cond(S.library.length()>0,rx.foreach(S.visible_library,interaction),rx.el.p('Sua biblioteca está vazia. Descubra uma obra e salve sua experiência.')),
-        rx.cond(S.library.length()>S.visible_count,button('Mostrar mais',S.show_more)),
+        rx.cond(S.library.length()>0,rx.foreach(S.visible_library,interaction),
+            rx.cond(~S.busy & ~S.library_loading & (S.library_error=='') & (S.notice==''),
+                rx.el.p('Sua biblioteca está vazia. Descubra uma obra e salve sua experiência.'))),
+        rx.cond(S.library_error!='',rx.el.p(S.library_error,role='alert')),
+        rx.cond(rx.cond(S.library_paginated,S.library_has_more,S.library.length()>S.visible_count),
+            button(rx.cond(S.library_loading,'Carregando…',rx.cond(S.library_error!='','Tentar novamente','Mostrar mais')),
+                   S.show_more_library,disabled=S.library_loading | S.busy)),
         rx.el.a('Descobrir obras',href='/',class_name='text-[#F5B300]'))
 
 
@@ -421,16 +429,22 @@ def profile_page():
                     rx.dialog.content(rx.dialog.title('Editar perfil'),rx.dialog.description('Conte um pouco sobre você.'),
                         rx.el.p(S.notice,role='status'),banner_uploader,profile_form,
                         rx.dialog.close(rx.el.button('Fechar',class_name='quiet-button')),class_name='codeboxd-dialog')),
-                    rx.cond(S.is_authenticated,button(rx.cond(S.following_ids.contains(S.profile['user_id']),'Deixar de seguir','Seguir'),S.follow(S.profile['user_id'])))),
+                    rx.cond(S.is_authenticated,button(rx.cond(S.following_ids.contains(S.profile['user_id']),'Deixar de seguir','Seguir'),S.follow(S.profile['user_id']),disabled=S.profile_people_loading | (S.profile_people_error!='')))),
                 class_name='profile-summary'),class_name='profile-panel'),
         rx.cond(S.profile['user_id']!=S.user_id.to_string(),button('Denunciar perfil',S.open_report('profile',S.profile['user_id']))),
         rx.el.div(*[rx.el.a(rx.el.strong(count),rx.el.span(label),href=href,class_name='profile-stat') for count,label,href in
-            [(S.followers.length(),'Seguidores','#seguidores'),(S.following.length(),'Seguindo','#seguindo'),
-             (S.profile_activity.length(),'Obras registradas','#atividades')]],class_name='profile-statistics'),
+            [(S.profile_counts['followers'],'Seguidores','#seguidores'),(S.profile_counts['following'],'Seguindo','#seguindo'),
+             (S.profile_counts['activities'],'Obras registradas','#atividades')]],class_name='profile-statistics'),
         rx.el.section(rx.el.h2('Avaliações e atividades',class_name='section-title'),
-            rx.cond(S.profile_activity.length()>0,rx.foreach(S.profile_activity,interaction),rx.el.p('Nenhuma experiência registrada.',class_name='empty-state')),id='atividades',class_name='space-y-4'),
-        rx.el.section(rx.el.h2('Seguidores',class_name='section-title'),grid(S.followers,person,'Ainda não há seguidores.'),id='seguidores'),
-        rx.el.section(rx.el.h2('Seguindo',class_name='section-title'),grid(S.following,person,'Ainda não segue ninguém.'),id='seguindo')),report_dialog())
+            rx.cond(S.profile_activity_loading,rx.el.p('Carregando atividades…',role='status'),
+                rx.cond(S.profile_activity_error!='',rx.el.p(S.profile_activity_error,role='alert',class_name='text-red-400'),
+                    rx.cond(S.profile_activity.length()>0,rx.foreach(S.profile_activity,interaction),rx.el.p('Nenhuma experiência registrada.',class_name='empty-state')))),id='atividades',class_name='space-y-4'),
+        rx.el.section(rx.el.h2('Seguidores',class_name='section-title'),
+            rx.cond(S.profile_people_loading,rx.el.p('Carregando seguidores…',role='status'),
+                rx.cond(S.profile_people_error!='',rx.el.p(S.profile_people_error,role='alert',class_name='text-red-400'),grid(S.followers,person,'Ainda não há seguidores.'))),id='seguidores'),
+        rx.el.section(rx.el.h2('Seguindo',class_name='section-title'),
+            rx.cond(S.profile_people_loading,rx.el.p('Carregando conexões…',role='status'),
+                rx.cond(S.profile_people_error!='',rx.el.p(S.profile_people_error,role='alert',class_name='text-red-400'),grid(S.following,person,'Ainda não segue ninguém.'))),id='seguindo')),report_dialog())
 
 
 def media_select(value='0'):
@@ -520,8 +534,8 @@ def report_dialog():
                 rx.el.select(rx.el.option('Spam',value='spam'),rx.el.option('Assédio',value='harassment'),
                     rx.el.option('Conteúdo impróprio',value='inappropriate'),rx.el.option('Outro',value='other'),
                     id='report-reason',name='reason',value=S.report_reason,on_change=S.set_report_reason,class_name=INPUT),
-                rx.el.label('Detalhes (opcional)',html_for='report-description',class_name='block text-sm text-gray-300'),
-                rx.el.textarea(id='report-description',name='description',max_length=2000,
+                rx.el.label('Detalhes (obrigatórios)',html_for='report-description',class_name='block text-sm text-gray-300'),
+                rx.el.textarea(id='report-description',name='description',required=True,min_length=1,max_length=2000,
                     value=S.report_description,on_change=S.set_report_description,
                     placeholder='Inclua somente o contexto necessário para a análise.',class_name=INPUT),
                 rx.el.div(

@@ -1,0 +1,117 @@
+{
+  "layer": "browser-with-local-fixtures",
+  "remote_validated": false,
+  "expected_cases": 22,
+  "completed": [
+    {
+      "width": 1440,
+      "section": "library",
+      "case": "ready",
+      "load_cycle_ms": 2641,
+      "people_requests": 0,
+      "total_fixture_requests": 3,
+      "fixture_writes": 0,
+      "overflow": false,
+      "page_errors": [],
+      "cycle_confirmed": true
+    },
+    {
+      "width": 1440,
+      "section": "library",
+      "case": "people-429",
+      "load_cycle_ms": 1256,
+      "people_requests": 0,
+      "total_fixture_requests": 3,
+      "fixture_writes": 0,
+      "overflow": false,
+      "page_errors": [],
+      "cycle_confirmed": true
+    },
+    {
+      "width": 1440,
+      "section": "library",
+      "case": "slow-media",
+      "load_cycle_ms": 3455,
+      "people_requests": 0,
+      "total_fixture_requests": 3,
+      "fixture_writes": 0,
+      "overflow": false,
+      "page_errors": [],
+      "cycle_confirmed": true
+    },
+    {
+      "width": 1440,
+      "section": "library",
+      "case": "media-429",
+      "load_cycle_ms": 942,
+      "people_requests": 0,
+      "total_fixture_requests": 2,
+      "fixture_writes": 0,
+      "overflow": false,
+      "page_errors": [],
+      "cycle_confirmed": true
+    },
+    {
+      "width": 1440,
+      "section": "library",
+      "case": "large",
+      "load_cycle_ms": 2493,
+      "people_requests": 0,
+      "total_fixture_requests": 7,
+      "fixture_writes": 0,
+      "overflow": false,
+      "page_errors": [],
+      "cycle_confirmed": true
+    },
+    {
+      "width": 1440,
+      "section": "lists",
+      "case": "ready",
+      "load_cycle_ms": 1631,
+      "people_requests": 0,
+      "total_fixture_requests": 5,
+      "fixture_writes": 0,
+      "overflow": false,
+      "page_errors": [],
+      "cycle_confirmed": true
+    },
+    {
+      "width": 1440,
+      "section": "lists",
+      "case": "people-429",
+      "load_cycle_ms": 1584,
+      "people_requests": 0,
+      "total_fixture_requests": 5,
+      "fixture_writes": 0,
+      "overflow": false,
+      "page_errors": [],
+      "cycle_confirmed": true
+    },
+    {
+      "width": 1440,
+      "section": "lists",
+      "case": "slow-media",
+      "load_cycle_ms": 3629,
+      "people_requests": 0,
+      "total_fixture_requests": 5,
+      "fixture_writes": 0,
+      "overflow": false,
+      "page_errors": [],
+      "cycle_confirmed": true
+    },
+    {
+      "width": 1440,
+      "section": "lists",
+      "case": "media-429",
+      "load_cycle_ms": 1096,
+      "people_requests": 0,
+      "total_fixture_requests": 2,
+      "fixture_writes": 0,
+      "overflow": false,
+      "page_errors": [],
+      "cycle_confirmed": true
+    }
+  ],
+  "failure": "TimeoutError",
+  "normal_restored": true
+}
