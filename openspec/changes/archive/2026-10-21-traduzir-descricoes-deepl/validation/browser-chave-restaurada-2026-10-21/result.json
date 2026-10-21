@@ -1,0 +1,66 @@
+{
+  "layer": "browser-real-public-catalog",
+  "base": "http://127.0.0.1:3000",
+  "expected": 4,
+  "completed": [
+    {
+      "source": "kitsu",
+      "kind": "anime",
+      "external_id": "1",
+      "width": 1440,
+      "translated_cache_matches_dom": true,
+      "different_from_original": true,
+      "reload_preserves_translation": true,
+      "identity_present": true,
+      "original_sha256": "a90fbc21a59ac0f312f6ac04136acd8f745f91cd96848429923718f2139c58d6",
+      "translated_sha256": "1a4a50e61b01a9736d835619452d7ed80af2d09f386e22e873a97e3a9816868b",
+      "javascript_errors": [],
+      "passed": true
+    },
+    {
+      "source": "openlibrary",
+      "kind": "book",
+      "external_id": "OL82563W",
+      "width": 1440,
+      "translated_cache_matches_dom": true,
+      "different_from_original": true,
+      "reload_preserves_translation": true,
+      "identity_present": true,
+      "original_sha256": "d274e1c34f129315fb1c2b34c5bfc8043ab889d8b28595f39938bbf98485851b",
+      "translated_sha256": "02e901388ac4032cfa7c964b82e579d334b7b19830fcf367bbf4ce2bd692335f",
+      "javascript_errors": [],
+      "passed": true
+    },
+    {
+      "source": "kitsu",
+      "kind": "anime",
+      "external_id": "1",
+      "width": 390,
+      "translated_cache_matches_dom": true,
+      "different_from_original": true,
+      "reload_preserves_translation": true,
+      "identity_present": true,
+      "original_sha256": "a90fbc21a59ac0f312f6ac04136acd8f745f91cd96848429923718f2139c58d6",
+      "translated_sha256": "1a4a50e61b01a9736d835619452d7ed80af2d09f386e22e873a97e3a9816868b",
+      "javascript_errors": [],
+      "passed": true
+    },
+    {
+      "source": "openlibrary",
+      "kind": "book",
+      "external_id": "OL82563W",
+      "width": 390,
+      "translated_cache_matches_dom": true,
+      "different_from_original": true,
+      "reload_preserves_translation": true,
+      "identity_present": true,
+      "original_sha256": "d274e1c34f129315fb1c2b34c5bfc8043ab889d8b28595f39938bbf98485851b",
+      "translated_sha256": "02e901388ac4032cfa7c964b82e579d334b7b19830fcf367bbf4ce2bd692335f",
+      "javascript_errors": [],
+      "passed": true
+    }
+  ],
+  "failure": "",
+  "cache_reuse_mechanism_previously_tested": true,
+  "provider_request_count_in_running_server_measured": false
+}

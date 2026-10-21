@@ -1,3 +1,5 @@
+> Atualiza??o de 19/10/2026: consulte [o resumo de retomada](RETOMADA_2026-10-19.md) antes de continuar. Funda??o encerrada; fluxo OpenSpec documentado; backend administrativo em valida??o, sem publica??o autorizada. O conte?do abaixo ? hist?rico.
+
 # Checkpoint atual do Codeboxd
 
 ## Atualização — 13/10/2026

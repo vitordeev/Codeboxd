@@ -5,7 +5,7 @@ import secrets
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[4]
+ROOT = next(parent for parent in Path(__file__).resolve().parents if (parent / 'rxconfig.py').is_file())
 sys.path.insert(0, str(ROOT))
 
 from Codeboxd_main.services.api import APIError, request

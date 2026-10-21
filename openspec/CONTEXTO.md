@@ -38,7 +38,7 @@ Referência atual: 13/10/2026. Consulte [HISTORICO.md](HISTORICO.md) para a evol
 Tradução opcional: `services/translation.py` usa DEEPL_API_KEY somente no servidor
 para descrições das fichas Kitsu/Jikan/Open Library, com destino PT-BR, cache
 SQLite local em `.local/description-translations.sqlite3` e original em falha.
-TMDB permanece pt-BR nativo. [Change ativa](changes/traduzir-descricoes-deepl/tasks.md).
+TMDB permanece pt-BR nativo. [Change conclu?da e arquivada](changes/archive/2026-10-21-traduzir-descricoes-deepl/tasks.md).
 
 Codeboxd reúne descoberta e registro de experiências com filmes, séries, animes e livros, além de perfis e relações sociais. A aplicação usa Python/Reflex; Xano é responsável por autenticação, persistência e autorização. Os adaptadores de catálogo executam no servidor Python.
 

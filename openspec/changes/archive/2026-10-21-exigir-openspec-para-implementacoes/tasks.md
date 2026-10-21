@@ -9,3 +9,12 @@
 - [x] 2.2 Validate the OpenSpec change and verify the workflow instructions do not alter application behavior or existing Reflex requirements.
 
 4/4 verificadas em 21/10. [Evidências](validation/conclusao-2026-10-21.md).
+## Validation evidence — 2026-10-19
+
+- Added `OpenSpec workflow` after the Reflex-managed end marker in `AGENTS.md`.
+- Reviewed coverage: active change before implementation, documentation/configuration included, read-only investigation exempt, CLI scaffolding and planning required when no covering change exists, task tracking with validation evidence, and separate changes for work outside the selected scope.
+- Compared the Reflex-managed content against `git show HEAD:AGENTS.md`, normalizing only line endings: unchanged. Confirmed the new section appears after the managed block and explicitly preserves all Reflex requirements.
+- `openspec validate exigir-openspec-para-implementacoes --type change --strict`: passed. `skip_specs: true` is intentional because this changes contributor guidance only.
+- `git diff --check -- AGENTS.md openspec/changes/exigir-openspec-para-implementacoes`: passed.
+- Only repository guidance and this task/evidence document were edited in this step. No application, API, dependency, or runtime configuration changes were made; application tests and compilation were not repeated for this documentation-only change.
+- The change remains available for review; synchronization is unnecessary because it has no delta specs. Archiving was not performed in this step.

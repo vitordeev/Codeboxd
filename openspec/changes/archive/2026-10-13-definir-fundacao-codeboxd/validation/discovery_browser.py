@@ -5,7 +5,7 @@ from playwright.sync_api import sync_playwright, expect
 
 expect.set_options(timeout=60000)
 results=[]
-output=Path('openspec/changes/definir-fundacao-codeboxd/validation')
+output=Path(__file__).resolve().parent
 def record(label):
     results.append(label)
     (output/'discovery-browser-results.json').write_text(json.dumps(results,indent=2)+'\n',encoding='utf8')

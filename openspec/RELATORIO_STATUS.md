@@ -12,7 +12,7 @@ teste persistida no Xano e sucesso confirmado no browser, com limpeza. Limitaç�
 
 Tradução opcional DeepL em 19/10: fichas anime/livro integradas localmente com
 cache persistente, fallback e chave privada; 136 testes locais e smoke DeepL real
-passaram. Revisão de navegador ainda aberta. [Evidência](changes/traduzir-descricoes-deepl/validation/implementacao-2026-10-19.md).
+passaram. Revisão de navegador ainda aberta. [Evidência](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/implementacao-2026-10-19.md).
 
 Atualização de 19/10/2026: correções dos três GETs administrativos publicadas;
 backup estrutural de 77 documentos e dry-run posterior sem delta. 18 testes

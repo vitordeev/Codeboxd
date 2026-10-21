@@ -1,0 +1,9 @@
+------------------------- Initializing Codeboxd_main --------------------------
+Info: Initializing the web directory.
+Warning: Your version (0.9.11.post1) of reflex is out of date. Upgrade to 
+0.10.0 with 'pip install reflex --upgrade'
+Success: Initialized Codeboxd_main. Install dependencies from 
+`requirements.txt` with `uv pip install -r requirements.txt` (or your preferred
+installer) before running `uv run reflex run`.
+Compiling: ---------------------------------------- 100% 58/57 0:00:02
+Success: App compiled successfully in 3.158 seconds.

@@ -1,11 +1,18 @@
 # OpenSpec do Codeboxd
 
+21/10, conclusao posterior: traducao DeepL concluida em 6/6 e arquivada.
+Quatro cenarios reais de navegador (anime/livro, desktop/celular) e oito testes
+aprovados; chave privada restaurada. Registros anteriores de ausencia da chave
+e validacao pendente sao historicos.
+[Evidencias finais](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/conclusao-navegador-2026-10-21.md).
+
+
 21/10, validação de conteúdo: 12/12 casos de navegador em produção isolada e
 18 testes pertinentes aprovados; change em 4/5, faltando rejeição na API real
 com login de teste. Tradução em 5/6: chave DeepL ausente na configuração atual,
 fallback com sinopse original confirmado; tradução visual aguarda configuração.
 [Conteúdo](changes/exigir-texto-denuncias-avaliacoes/validation/retomada-2026-10-21.md)
-e [tradução](changes/traduzir-descricoes-deepl/validation/retomada-2026-10-21.md).
+e [tradução](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/retomada-2026-10-21.md).
 
 21/10, encerramento posterior: `exigir-openspec-para-implementacoes` e
 `regularizar-merge-e-commits` concluídas em 4/4 e arquivadas. Regra de change ativa,
@@ -236,7 +243,7 @@ reports de teste. [Evidência](changes/gerenciamento-website/validation/denuncia
 Tradução em 19/10/2026: DeepL integrado localmente às descrições das fichas de
 animes/livros, com cache persistente e fallback. Chave configurada privadamente;
 smoke real DeepL e 136 testes locais passaram. Revisão de navegador pendente.
-[Change](changes/traduzir-descricoes-deepl/tasks.md), 5/6 tarefas verificadas.
+[Change](changes/archive/2026-10-21-traduzir-descricoes-deepl/tasks.md), 5/6 tarefas verificadas.
 
 Atualização de 19/10/2026: os três GETs de buscas administrativas foram publicados
 após backup e dry-run limitado; conferência final sem delta. 18 testes locais

@@ -1,5 +1,12 @@
 # Pendências e sequência de retomada
 
+21/10, conclusao posterior: traducao DeepL concluida em 6/6 e arquivada.
+Quatro cenarios reais de navegador (anime/livro, desktop/celular) e oito testes
+aprovados; chave privada restaurada. Registros anteriores de ausencia da chave
+e validacao pendente sao historicos.
+[Evidencias finais](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/conclusao-navegador-2026-10-21.md).
+
+
 Retomada de conteúdo/tradução em 21/10: formulário passou em 12 cenários de
 navegador (produção isolada, backend fictício), quatro tipos em desktop/celular.
 Conteúdo obrigatório agora 4/5; falta login de teste para rejeição na API real.
@@ -7,7 +14,7 @@ DeepL permanece 5/6: chave ausente no `.env` atual; configurar de forma privada
 antes de confirmar a tradução visual. Servidor 3000 preservado; build isolado
 via npm passou, sem comprovar resolução da falha do caminho padrão.
 [Conteúdo](changes/exigir-texto-denuncias-avaliacoes/validation/retomada-2026-10-21.md)
-e [tradução](changes/traduzir-descricoes-deepl/validation/retomada-2026-10-21.md).
+e [tradução](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/retomada-2026-10-21.md).
 
 Regras OpenSpec e revisão Git concluídas/arquivadas em 21/10 (4/4 cada).
 Restam cinco changes ativas: performance, administração, conteúdo obrigatório,
@@ -132,7 +139,7 @@ incluindo retorno por teclado para `/`. Disponível na instância atualizada 303
 
 ## Fora do escopo atual
 
-Traduções — change [traduzir-descricoes-deepl](changes/traduzir-descricoes-deepl/tasks.md):
+Traduções — change [traduzir-descricoes-deepl](changes/archive/2026-10-21-traduzir-descricoes-deepl/tasks.md):
 integração local e smoke DeepL real aprovados em 19/10; falta reiniciar a aplicação
 e validar ficha de anime/livro no navegador (2.3). 136 testes locais passaram.
 
@@ -143,3 +150,7 @@ Chat/mensageria privada, notificações, recomendações por aprendizado de máq
 Evidência das correções locais: [correcoes-2026-10-13.md](changes/archive/2026-10-21-corrigir-erros-operacionais/validation/correcoes-2026-10-13.md). A change concluiu 7/7 tarefas do escopo local e foi arquivada em 21/10; 3.1/3.2 foram retiradas do escopo por decisão do usuário, sem serem contabilizadas como entregas.
 
 Registrar evidência por ID (data, comando/cenário, camada, resultado, limitações e limpeza de dados de teste). Marcar somente o critério verificado. Validar artefatos, sincronizar os deltas concluídos em `specs/`, conferir correspondência e arquivar a change sem tarefas abertas. Atualizar README, contexto, histórico e pendências na mesma rodada.
+
+Observacao visual de 21/10: capa de livro sobrepoe parte da sinopse em 390px;
+ajuste de layout pendente de acompanhamento proprio, observado durante o smoke
+de traducao concluido. Nao houve falha na traducao nem overflow horizontal.

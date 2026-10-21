@@ -1,5 +1,12 @@
 # Histórico e decisões preservadas
 
+21/10, conclusao posterior: traducao DeepL concluida em 6/6 e arquivada.
+Quatro cenarios reais de navegador (anime/livro, desktop/celular) e oito testes
+aprovados; chave privada restaurada. Registros anteriores de ausencia da chave
+e validacao pendente sao historicos.
+[Evidencias finais](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/conclusao-navegador-2026-10-21.md).
+
+
 21/10, validação posterior: 18 testes pertinentes e 12 casos de navegador com
 fixtures aprovados para conteúdo obrigatório, em produção isolada via npm.
 Servidor do usuário em 3000 preservado; contrato remoto não reenviado. Conteúdo

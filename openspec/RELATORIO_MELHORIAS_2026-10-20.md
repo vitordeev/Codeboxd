@@ -22,7 +22,7 @@ para produzi-lo. Resultados abaixo pertencem às respectivas rodadas registradas
 
 Referências: commits `bc26305`, `9468d3b`, `d91a2bb`;
 [meias estrelas](changes/archive/2026-10-21-avaliar-meias-estrelas/validation/implementacao-2026-10-19.md),
-[DeepL](changes/traduzir-descricoes-deepl/validation/implementacao-2026-10-19.md),
+[DeepL](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/implementacao-2026-10-19.md),
 [denúncias](changes/gerenciamento-website/validation/denunciar-obras-2026-10-19.md)
 e [buscas administrativas](changes/gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md).
 

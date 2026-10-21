@@ -44,11 +44,17 @@ Revalidação em 22/09/2026: 14 testes locais, 6 verificações com Xano real e 
 ## 5. External Media Data Integration
 
 - [x] 5.1 Select and configure supported external data sources and verify each supported media category can retrieve external information
+<<<<<<<< HEAD:openspec/changes/archive/2026-10-19-definir-fundacao-codeboxd/tasks.md
+- [x] 5.2 Implement external media search integration and verify matching media data can be retrieved
+========
 - [x] 5.2 Implement external media search integration and verify matching media data can be retrieved — encerrada pela evidência Kitsu de 23/09/2026: quatro resultados relevantes de Cowboy Bebop e ficha aberta no navegador; TMDB/Open Library também responderam. Ver `validation/encerramento-2026-10-13.md`.
+>>>>>>>> develop:openspec/changes/archive/2026-10-13-definir-fundacao-codeboxd/tasks.md
 - [x] 5.3 Implement external media detail retrieval and verify available information can be retrieved for a selected media item
 - [x] 5.4 Normalize externally obtained media information and verify supported media sources can produce the unified media representation
 - [x] 5.5 Prevent duplicate internally stored media references and verify the same source and external identifier are not stored twice
 - [x] 5.6 Implement external source failure handling and verify unavailable sources do not corrupt existing Codeboxd data
+
+Revalidação em 19/10/2026: buscas reais de filmes, séries, animes e livros aprovadas via TMDB, Kitsu e Open Library; 36 testes automatizados passaram. A migração para Kitsu substitui o bloqueio histórico da Jikan. Comandos, resultados e limites em [validation/external-search-2026-10-19.md](validation/external-search-2026-10-19.md).
 
 ## 6. Media Discovery
 
@@ -116,6 +122,19 @@ Revalidação em 22/09/2026: 14 testes locais, 6 verificações com Xano real e 
 - [x] 11.4 Verify social connections affect the content displayed in the social feed
 - [x] 11.5 Verify posts can reference supported media types and associated media information remains accessible
 - [x] 11.6 Verify user lists support media from all supported categories
+<<<<<<<< HEAD:openspec/changes/archive/2026-10-19-definir-fundacao-codeboxd/tasks.md
+- [x] 11.7 Validate the completed OpenSpec change and verify all proposal artifacts remain valid
+
+Validação final em 19/10/2026: 107 testes automatizados e compilação Reflex aprovados; artefatos aprovados em validação OpenSpec estrita. Evidências históricas revisadas e limites preservados em [validation/final-validation-2026-10-19.md](validation/final-validation-2026-10-19.md). Todas as 87 tarefas estão concluídas.
+
+Historical evidence 19/09/2026: task 11.6 passed against the published Xano API with movie, series, anime and book records in one temporary list; the list was removed after the check. A real Jikan anime record remains in the shared catalog. The UI searches this cached catalog when an external provider fails, with a visible provider warning. Jikan returned HTTP 504 in that round. This search blocker was superseded by the Kitsu migration and the successful four-category search revalidation on 19/10/2026; task 5.2 is complete and task 11.7 remains open for final validation.
+
+## Evidência e retomada
+
+Registro histórico em 19/09/2026. A aplicação Reflex tem páginas sociais ligadas ao Xano publicado no workspace 147717. Navegação autenticada, cadastro, sessão, logout e contas independentes foram verificadas em navegador e chamadas reais; os resultados de backend anteriores ficam em `.local/remote-results.json` e as contas de teste em `.local/` (ignorado pelo Git).
+
+Na rodada de setembro, TMDB estava configurado no `.env` local e busca, detalhes, populares e capas foram confirmados na API e no navegador; Jikan falhou temporariamente. Desde 23/09/2026, animes usam Kitsu, sem chave adicional, assim como Open Library para livros. As buscas dos quatro tipos foram revalidadas em 19/10/2026. Na rodada histórica, o workspace Xano retornava 404 em `/likes`; a carga do feed não faz consultas por publicação e busca o estado de curtida sob demanda ao abrir uma discussão ou alternar a curtida. O comportamento remoto de curtidas não foi retestado nesta rodada.
+========
 - [x] 11.7 Validate the completed OpenSpec change and verify all proposal artifacts remain valid — marcador malformado corrigido; validação documental de encerramento em 13/10/2026.
 
 Evidência histórica de 19/09/2026: a tarefa 11.6 passou no Xano com filme, série, anime e livro em uma lista temporária, removida após o teste. Jikan retornava 504; essa pendência foi superada pela troca para Kitsu em 23/09, sem apagar a identidade legada.
@@ -125,6 +144,7 @@ Evidência histórica de 19/09/2026: a tarefa 11.6 passou no Xano com filme, sé
 As verificações históricas de setembro confirmaram páginas Reflex ligadas ao Xano do workspace 147717, cadastro, sessão, logout e contas independentes. `.local/remote-results.json` é evidência auxiliar local. Atenção: a revisão de 13/10 encontrou `.gitignore` vazio; a antiga afirmação de proteção Git não é válida. Não copiar contas ou segredos para documentos.
 
 Fontes atuais: TMDB, Kitsu e Open Library. As consultas reais de 23/09 documentadas em `docs/KITSU.md` encerraram a pendência de anime; Jikan permanece somente como identidade legada. O último registro de `/likes` remoto é 404, com compatibilidade pela discussão sob demanda.
+>>>>>>>> develop:openspec/changes/archive/2026-10-13-definir-fundacao-codeboxd/tasks.md
 
 Referências visuais orientam descoberta, feed, perfil e listas; o pop-up de login foi desconsiderado. Domínio e hospedagem continuam fora desta etapa. A fundação pode ser arquivada após consolidar contratos e validar o checklist; complementos posteriores estão no histórico e nas pendências centrais.
 
@@ -137,7 +157,11 @@ Evidência 19/09/2026: visitante usa armazenamento local por identidade da obra;
 - [x] 12.4 Confirm public navigation, guest rating, trailers and authenticated-only mutations in the running browser
 - [x] 12.5 Reduzir latência da descoberta e das fichas, limitar carga inicial, paralelizar leituras independentes e manter compatibilidade de curtidas sob demanda
 Evidência 19/09/2026: 48 testes unitários passaram. Smoke no Edge da instância atualizada confirmou home responsiva, busca/detalhe públicos, login, biblioteca, feed, comunidade, listas, logout e bloqueio da biblioteca após sair, sem erros JavaScript. Quando `/likes` retorna 404, a carga do feed não consulta discussões por publicação. A sequência de sondagens consecutivas atingiu HTTP 429 no Xano; a aplicação mostrou aviso recuperável e preservou a sessão.
+<<<<<<<< HEAD:openspec/changes/archive/2026-10-19-definir-fundacao-codeboxd/tasks.md
+Estado histórico após debug em setembro: 85/87 tarefas. Atualização em 19/10/2026: 86/87 tarefas; busca Kitsu validada, permanecendo somente a validação final 11.7.
+========
 Contagem histórica após debug: 85/87. Estado reconciliado em 13/10: 87/87, com busca Kitsu e validação documental final.
+>>>>>>>> develop:openspec/changes/archive/2026-10-13-definir-fundacao-codeboxd/tasks.md
 - [x] 12.6 Manter o conteúdo visível e navegável enquanto as ações assíncronas estão carregando
 
 Evidência 22/09/2026: busca textual global separada da navegação por categoria, catálogos paginados e capas com fallback. 54 testes Python, compilação, validação OpenSpec e 7 verificações de browser aprovados. Detalhes: [validation/discovery-2026-09-22.md](validation/discovery-2026-09-22.md).

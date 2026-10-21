@@ -7,7 +7,7 @@
 
 - [x] 2.1 Integrar fichas Kitsu/Jikan/Open Library sem mudar identidade e sem traduzir TMDB; verificar testes de integração simulados.
 - [x] 2.2 Executar suíte local e smoke remoto limitado com DeepL, incluindo reutilização de cache; registrar resultados e limites sem segredos.
-- [ ] 2.3 Validar ficha traduzida no navegador; registrar resultado e eventual limitação de execução.
+- [x] 2.3 Validar ficha traduzida no navegador; registrar resultado e eventual limitação de execução.
 - [x] 2.4 Atualizar documentos centrais e validar change com openspec validate --strict.
 
 Evidências desta rodada: [implementacao-2026-10-19.md](validation/implementacao-2026-10-19.md).
@@ -17,3 +17,8 @@ Evidências desta rodada: [implementacao-2026-10-19.md](validation/implementacao
 DEEPL_API_KEY não está configurada no `.env` atual. Solicitado preenchimento
 privado/arquivo local; não concluir 2.3 por fallback. 18 testes pertinentes
 passaram. [Retomada e evidências](validation/retomada-2026-10-21.md).
+
+
+Conclusao posterior em 21/10: 6/6 tarefas verificadas. Chave restaurada, quatro
+cenarios reais de navegador e oito testes de traducao aprovados.
+[Evidencias finais](validation/conclusao-navegador-2026-10-21.md).

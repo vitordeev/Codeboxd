@@ -1,0 +1,62 @@
+[
+  {
+    "actor": "guest",
+    "path": "/admin/dashboard",
+    "status": 401
+  },
+  {
+    "actor": "guest",
+    "path": "/admin/users",
+    "status": 401
+  },
+  {
+    "actor": "guest",
+    "path": "/admin/catalog",
+    "status": 401
+  },
+  {
+    "actor": "guest",
+    "path": "/admin/reports",
+    "status": 401
+  },
+  {
+    "actor": "member",
+    "path": "/admin/dashboard",
+    "status": 403
+  },
+  {
+    "actor": "member",
+    "path": "/admin/users",
+    "status": 403
+  },
+  {
+    "actor": "member",
+    "path": "/admin/catalog",
+    "status": 403
+  },
+  {
+    "actor": "member",
+    "path": "/admin/reports",
+    "status": 403
+  },
+  {
+    "actor": "member",
+    "path": "/admin/dashboard",
+    "status": 403
+  },
+  {
+    "actor": "member",
+    "path": "/admin/users",
+    "status": 403
+  },
+  {
+    "actor": "member",
+    "path": "/admin/catalog",
+    "status": 429
+  },
+  {
+    "actor": "member",
+    "path": "/admin/reports",
+    "status": 429
+  }
+]
