@@ -1,0 +1,11 @@
+{
+  "layer": "xano-published-contracts",
+  "backup_documents": 78,
+  "after_documents": 78,
+  "changed_files": [
+    "api/codeboxd/interactions_PUT.xs",
+    "api/codeboxd/reports_POST.xs"
+  ],
+  "only_expected_changed": true,
+  "authenticated_rejection_tested": false
+}

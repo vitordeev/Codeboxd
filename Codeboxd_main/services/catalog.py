@@ -14,7 +14,7 @@ from typing import Any
 
 import httpx
 
-from .api import APIError
+from .api import APIError, retry_after_seconds
 from .translation import translate_description
 
 logger = logging.getLogger(__name__)
@@ -145,8 +145,12 @@ async def fetch(url: str, *, cache: bool = False, **kwargs) -> dict:
                 except httpx.HTTPStatusError as exc:
                     if exc.response.status_code not in (429,500,502,503,504) or attempt == 2: raise
                     retry_after=exc.response.headers.get('Retry-After','')
-                    try: delay=max(0.5,float(retry_after))
-                    except ValueError: delay=0.5*(2**attempt)
+                    # A date or malformed rate-limit header must not become a
+                    # half-second retry. Use the same conservative parser as Xano.
+                    if exc.response.status_code == 429 or retry_after:
+                        delay=retry_after_seconds(retry_after)
+                    else:
+                        delay=0.5*(2**attempt)
                     if delay > 5: raise  # Do not retry before the provider permits it.
                     await asyncio.sleep(delay)
     except (httpx.HTTPError, ValueError) as exc:
@@ -423,7 +427,7 @@ async def search_one(query: str, kind: str, page: int = 1) -> list[dict]:
         path = f'search/{category}' if query else f'{category}/popular'
         payload = await fetch('https://api.themoviedb.org/3/'+path,
                               params={'query':query,'page':page,'language':'pt-BR','include_adult':'false'},
-                              headers={'Authorization':f'Bearer {token}'}, cache=not query)
+                              headers={'Authorization':f'Bearer {token}'}, cache=True)
         return [tmdb_item(item,kind) for item in payload.get('results',[])]
     if kind == 'anime':
         payload = await kitsu_fetch('/anime', **{
@@ -432,7 +436,7 @@ async def search_one(query: str, kind: str, page: int = 1) -> list[dict]:
         return kitsu_items(payload)
     payload = await fetch('https://openlibrary.org/search.json',params={
         **({'title':query} if query else {'q':'fiction'}), 'lang':'pt',
-        'page':page,'limit':12,'fields':'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'})
+        'page':page,'limit':12,'fields':'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'},cache=True)
     return [book_item(item) for item in payload.get('docs',[])]
 
 

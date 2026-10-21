@@ -287,7 +287,7 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         saved = {**s._selected_raw, 'id': 17}
         with patch('Codeboxd_main.state.session.request', new=AsyncMock()) as auth, \
              patch('Codeboxd_main.state.social.request', new=AsyncMock(side_effect=[saved, {'id': 8, 'status': 'pending'}])) as request:
-            async for _ in s.submit_report({'reason': 'spam'}):
+            async for _ in s.submit_report({'reason': 'spam', 'description': 'Conteúdo repetido e indesejado'}):
                 pass
         auth.assert_not_awaited()
         self.assertEqual(request.await_count, 2)

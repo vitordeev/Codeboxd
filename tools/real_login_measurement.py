@@ -14,6 +14,7 @@ import subprocess
 import sys
 import threading
 import time
+import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qsl, urlsplit
 
@@ -23,6 +24,7 @@ from dotenv import load_dotenv
 from playwright.async_api import async_playwright
 
 from tools.performance_probe import safe_endpoint
+from tools.isolated_frontend import prepare_frontend
 from Codeboxd_main.services.api import retry_after_seconds
 
 
@@ -205,7 +207,23 @@ def normal_app_roots():
     return [(entry['pid'],entry['create_time']) for entry in matches if entry['ppid'] not in ids]
 
 
+async def normal_network_available():
+    """Do not replace a working app with a child inheriting blocked networking."""
+    try:
+        async with httpx.AsyncClient(timeout=5) as client:
+            # A public HEAD verifies transport only, without keys or user data.
+            await client.head('https://api.themoviedb.org')
+        return True
+    except httpx.RequestError:
+        return False
+
+
 async def restore_normal_app(roots, log_name='normal-restored-after-cache.log'):
+    if not await normal_network_available():
+        print('NORMAL_RESTORE_BLOCKED: network unavailable; restart from an approved network-enabled process.',flush=True)
+        return False
+    # Prepare before stopping a healthy process; each production build owns its files.
+    web_dir=prepare_frontend('normal-'+uuid.uuid4().hex)
     for pid,created in roots:
         try:
             parent=psutil.Process(pid)
@@ -218,6 +236,7 @@ async def restore_normal_app(roots, log_name='normal-restored-after-cache.log'):
             psutil.wait_procs([parent],timeout=5)
         except psutil.NoSuchProcess: pass
     env=dict(os.environ)
+    env['REFLEX_WEB_WORKDIR']=str(web_dir)
     # Restore the caller's normal environment; diagnostic overrides were child-only.
     with (ROOT/log_name).open('w',encoding='utf-8') as log:
         restored=subprocess.Popen([sys.executable,'-m','reflex','run','--env','prod',

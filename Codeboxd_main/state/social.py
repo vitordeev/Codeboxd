@@ -28,6 +28,27 @@ BROKEN_DEFAULT_LISTS = {
 }
 LEGACY_DEFAULT_LISTS = {'gostei', 'não gostei'}
 
+# Tasks stay outside Reflex state: they cannot be pickled. Keys contain only
+# a session-local nonce, cache generation and a digest of the request.
+_NAVIGATION_IN_FLIGHT: dict[tuple, asyncio.Task] = {}
+
+
+async def shared_navigation_read(key, read):
+    task = _NAVIGATION_IN_FLIGHT.get(key)
+    if task is None:
+        task = asyncio.create_task(read())
+        _NAVIGATION_IN_FLIGHT[key] = task
+
+        def finished(done):
+            if _NAVIGATION_IN_FLIGHT.get(key) is done:
+                del _NAVIGATION_IN_FLIGHT[key]
+            # A cancelled waiter must not leave an unobserved task exception.
+            if not done.cancelled(): done.exception()
+
+        task.add_done_callback(finished)
+    # Cancelling one consumer must not cancel another consumer's request.
+    return deepcopy(await asyncio.shield(task))
+
 
 def normalize_rating(value) -> str:
     """Accept either decimal separator, keeping the existing half-star scale."""
@@ -54,6 +75,13 @@ def present_media(m: dict) -> dict[str,str]:
 class SocialState(SessionState):
     notice: str = ''
     busy: bool = False
+    media_details_loading: bool = False
+    media_interaction_loading: bool = False
+    media_details_error: str = ''
+    _media_generation: int = 0
+    _profile_generation: int = 0
+    _visit_generation: int = 0
+    _interaction_generation: int = 0
     search_term: str = ''
     search_type: str = 'all'
     submitted_query: str = ''
@@ -138,6 +166,7 @@ class SocialState(SessionState):
     _identity: int = 0
     _navigation_reads: dict = {}
     _navigation_generation: int = 0
+    _navigation_scope: str = ''
     visible_count: int = 20
     post_editor_open: bool = False
     post_saving: bool = False
@@ -205,14 +234,33 @@ class SocialState(SessionState):
             except ValueError: pass
 
     async def _load_trailers(self):
+        stamp=self._media_stamp(); item=deepcopy(self._selected_raw)
         self.trailers=[]
-        try: self.trailers=await catalog.trailers(self._selected_raw)
-        except APIError: pass
+        try:
+            result=await catalog.trailers(item)
+            if stamp==self._media_stamp(): self.trailers=result
+        except APIError as exc:
+            if stamp==self._media_stamp(): self.media_details_error=str(exc)
 
     async def _load_availability(self):
+        stamp=self._media_stamp(); item=deepcopy(self._selected_raw)
         self.availability=[]
-        try: self.availability=await catalog.availability(self._selected_raw)
-        except APIError: pass
+        try:
+            result=await catalog.availability(item)
+            if stamp==self._media_stamp(): self.availability=result
+        except APIError as exc:
+            if stamp==self._media_stamp(): self.media_details_error=str(exc)
+
+    def _route_stamp(self):
+        return (self._visit_generation,self.router.url.path,
+                tuple(sorted(self.router.url.query_parameters.items())),self._token())
+
+    def _media_stamp(self):
+        return (self._media_generation,self._route_stamp(),
+                self._selected_raw.get('identity_key') or self._selected_raw.get('id'))
+
+    def _search_stamp(self):
+        return (self._route_stamp(),self.submitted_query,self.search_type,self.search_active)
 
     @rx.event
     def new_post(self):
@@ -351,6 +399,8 @@ class SocialState(SessionState):
 
     @rx.event
     async def visit(self, section: str):
+        self._visit_generation+=1
+        generation=self._visit_generation
         self.visible_count=20; self.busy=True; self.notice=''
         yield
         try:
@@ -362,6 +412,10 @@ class SocialState(SessionState):
                 async for event in self._profile_updates():
                     yield event
                 return
+            if section in ('media','external'):
+                async for event in self._media_updates(section=='external'):
+                    yield event
+                return
             loaders={'home':self.load_home,'library':self.load_library,'community':self.load_community,
                      'profile':self.load_profile,'feed':self.load_feed,'lists':self.load_lists,
                      'media':self.load_media,'external':self.load_external_media}
@@ -369,7 +423,7 @@ class SocialState(SessionState):
                 result=await loaders[section]()
                 if result: yield result
         finally:
-            self.busy=False
+            if generation==self._visit_generation: self.busy=False
 
     def _reset_personal(self):
         self._library_generation+=1
@@ -448,8 +502,16 @@ class SocialState(SessionState):
         if cached and cached[0]>time.monotonic():
             return deepcopy(cached[1])
         try:
-            result=await self._request_pages(method,path,data,params,paginate=paginate)
+            if cacheable:
+                if not self._navigation_scope: self._navigation_scope=uuid.uuid4().hex
+                inflight_key=(self._navigation_scope,generation,key)
+                result=await shared_navigation_read(inflight_key,
+                    lambda: self._request_pages(method,path,data,params,paginate=paginate,expected_token=token))
+            else:
+                result=await self._request_pages(method,path,data,params,paginate=paginate)
         except APIError as exc:
+            if token!=self._token():
+                raise APIError('Sessão alterada. Atualize a página.',409) from exc
             if exc.status in (401,403):
                 self._navigation_reads={}; self._navigation_generation+=1
                 self._forget_navigation_validation()
@@ -466,8 +528,11 @@ class SocialState(SessionState):
             self._navigation_reads[key]=(now+15,deepcopy(result))
         return result
 
-    async def _request_pages(self, method, path, data=None, params=None, *, paginate=True):
-        result=await request(method,path,token=self._token(),data=data,params=params)
+    async def _request_pages(self, method, path, data=None, params=None, *, paginate=True, expected_token=None):
+        token=self._token() if expected_token is None else expected_token
+        if self._token()!=token: raise APIError('Sessão alterada. Atualize a página.',409)
+        result=await request(method,path,token=token,data=data,params=params)
+        if self._token()!=token: raise APIError('Sessão alterada. Atualize a página.',409)
         if method!='GET' or not paginate: return result
         # Read bounded API pages without truncating references or profile statistics.
         keys=[key for key,value in result.items() if isinstance(value,list)] if isinstance(result,dict) else []
@@ -475,7 +540,8 @@ class SocialState(SessionState):
         while (isinstance(result,list) and len(result)==page*100) or any(len(result[key])==page*100 for key in keys):
             page+=1
             if page>100: raise APIError('Há muitos registros para esta consulta. Tente novamente mais tarde.')
-            batch=await request(method,path,token=self._token(),params={**(params or {}),'page':page,'per_page':100})
+            batch=await request(method,path,token=token,params={**(params or {}),'page':page,'per_page':100})
+            if self._token()!=token: raise APIError('Sessão alterada. Atualize a página.',409)
             if isinstance(result,list): result.extend(rows(batch))
             else:
                 for key in keys: result[key].extend(rows(batch[key]))
@@ -491,12 +557,18 @@ class SocialState(SessionState):
         return False
 
     async def _load_media(self, per_page: int | None = None):
+        stamp=self._route_stamp()
         params={'per_page':per_page} if per_page else None
-        self._media={str(m['id']):m for m in rows(await self._call('GET','/media',params=params))}
+        result=await self._call('GET','/media',params=params)
+        if stamp!=self._route_stamp(): return
+        self._media={str(m['id']):m for m in rows(result)}
         self.catalog_items=[present_media(m) for m in self._media.values()]
 
     async def _load_people(self):
-        self._profiles={str(p['user_id']):p for p in rows(await self._call('GET','/profiles'))}
+        stamp=self._route_stamp()
+        result=await self._call('GET','/profiles')
+        if stamp!=self._route_stamp(): return
+        self._profiles={str(p['user_id']):p for p in rows(result)}
         self.people=[self._person(uid) for uid in self._profiles]
 
     async def _load_reference(self):
@@ -519,6 +591,7 @@ class SocialState(SessionState):
             pass
 
     async def _home_updates(self):
+        stamp=self._route_stamp()
         self.notice=''
         async def popular(kind):
             attribute = 'popular_movies' if kind == 'movie' else 'popular_series'
@@ -527,6 +600,7 @@ class SocialState(SessionState):
             if kind == 'series':
                 highlights = await catalog.series_highlights()
                 items = list({item['identity_key']: item for item in [*highlights, *items]}.values())
+            if stamp!=self._route_stamp(): return
             if items:
                 setattr(self, attribute, [present_media(m) for m in items])
                 self._popular_loaded = [*self._popular_loaded, kind] if kind not in self._popular_loaded else self._popular_loaded
@@ -546,6 +620,7 @@ class SocialState(SessionState):
                 done, pending = await asyncio.wait(pending, timeout=0.15, return_when=asyncio.FIRST_COMPLETED)
                 for job in done:
                     job.result()
+                if stamp!=self._route_stamp(): return
                 snapshot = (len(self.popular_movies), len(self.popular_series),
                             tuple(len(items) for items in self.home_collections.values()),
                             tuple(self.home_collection_errors))
@@ -567,6 +642,7 @@ class SocialState(SessionState):
         yield
 
     async def _load_home_collections(self):
+        stamp=self._route_stamp()
         # Bound requests so one slow or unavailable provider cannot erase other shelves.
         slots={provider: asyncio.Semaphore(limit) for provider, limit in
                [('tmdb', 2), ('book', 2), ('anime', 1)]}
@@ -576,9 +652,11 @@ class SocialState(SessionState):
             async with slots['tmdb' if kind in ('movie', 'series') else kind]:
                 try:
                     items=await catalog.home_collection(key)
+                    if stamp!=self._route_stamp(): return
                     self.home_collections[key]=[present_media(m) for m in items]
                     self.home_collection_errors=[value for value in self.home_collection_errors if value != key]
                 except (APIError, KeyError, TypeError, ValueError):
+                    if stamp!=self._route_stamp(): return
                     if key not in self.home_collection_errors:
                         self.home_collection_errors=[*self.home_collection_errors,key]
         await asyncio.gather(*(load(key) for key in catalog.HOME_COLLECTIONS))
@@ -650,12 +728,15 @@ class SocialState(SessionState):
         if self.search_type not in ('all', *catalog.TYPES): self.search_type='all'
         self.search_active=True; self.has_more_results=True
         self._results={}; self.search_results=[]
+        stamp=self._search_stamp()
         yield
         try:
             found,errors=await catalog.search(self.search_term,self.search_type)
+            if stamp!=self._search_stamp(): return
             if errors:
                 try:
                     cached=await self._call('GET','/media',params={'per_page':50},paginate=False)
+                    if stamp!=self._search_stamp(): return
                     query=self.submitted_query
                     found.extend(item for item in rows(cached)
                         if (not query or catalog.title_score(query,item) > 0)
@@ -669,20 +750,24 @@ class SocialState(SessionState):
             self.search_results=[present_media(m) for m in catalog.relevant_results(self.submitted_query,list(self._results.values()))]
             self.has_more_results=bool(found) or bool(errors)
             self.notice=' '.join(errors) or ('Nenhum resultado encontrado.' if not self.search_results else '')
-        finally: self.busy=False
+        finally:
+            if stamp==self._search_stamp(): self.busy=False
 
     @rx.event
     async def more_results(self):
         if self.busy: return
+        stamp=self._search_stamp()
         self.busy=True; yield
         try:
             found,errors=await catalog.search(self.submitted_query,self.search_type,self.search_page+1)
+            if stamp!=self._search_stamp(): return
             self._results.update({m['identity_key']:m for m in found})
             self.search_results=[present_media(m) for m in catalog.relevant_results(self.submitted_query,list(self._results.values()))]
             if found or not errors: self.search_page+=1
             self.has_more_results=bool(found) or bool(errors)
             self.notice=' '.join(errors) or ('Não há mais resultados.' if not found else '')
-        finally: self.busy=False
+        finally:
+            if stamp==self._search_stamp(): self.busy=False
 
     @rx.event
     async def open_result(self, key: str):
@@ -697,8 +782,20 @@ class SocialState(SessionState):
 
     @rx.event
     async def load_external_media(self):
+        async for _ in self._media_updates(True): pass
+
+    @rx.event
+    async def load_media(self):
+        async for _ in self._media_updates(False): pass
+
+    async def _media_updates(self, external: bool):
+        self._media_generation+=1
+        generation=self._media_generation; route=self._route_stamp()
+        def current():
+            return generation==self._media_generation and route==self._route_stamp()
         self._saved_interaction={}
         self.interaction_saved=False; self.review_editor_open=True
+        self.media_details_loading=False; self.media_interaction_loading=False; self.media_details_error=''
         self.notice=''; self._selected_raw={}
         self.recommendations=[]
         self.availability=[]
@@ -706,46 +803,56 @@ class SocialState(SessionState):
         self.selected={'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}
         self.selected_status='planned'; self.selected_rating='0'; self.selected_review=''; self.selected_spoiler=False
         self.trailers=[]
-        params=self.router.url.query_parameters
-        item=catalog.media(str(params.get('external_source','')),str(params.get('media_type','')),
-                           str(params.get('external_id','')),'Sem título')
+        if external:
+            params=self.router.url.query_parameters
+            item=catalog.media(str(params.get('external_source','')),str(params.get('media_type','')),
+                               str(params.get('external_id','')),'Sem título')
+            detail=catalog.detail(item)
+        else:
+            identifier=self.router.url.path.rstrip('/').rsplit('/',1)[-1]
+            if not identifier.isdigit(): return
+            detail=self._call('GET',f'/media/{identifier}')
         try:
-            detail_result,authenticated=await asyncio.gather(catalog.detail(item),self._validate_navigation_session(),return_exceptions=True)
+            detail_result,authenticated=await asyncio.gather(detail,self._validate_navigation_session(),return_exceptions=True)
+            if not current(): return
             if isinstance(detail_result,APIError): raise detail_result
             if isinstance(detail_result,Exception):
                 raise APIError('A fonte de catálogo está indisponível no momento.') from detail_result
             self._selected_raw=detail_result
             self.selected=present_media(self._selected_raw)
             self._restore_guest_rating()
-            await asyncio.gather(self._load_external_interaction(authenticated is True),
+            self.media_details_loading=True
+            self.media_interaction_loading=authenticated is True
+            yield
+            async def personal():
+                try:
+                    if external: await self._load_external_interaction(authenticated is True)
+                    else: await self._load_personal_interaction(str(identifier),authenticated is True)
+                finally:
+                    if current(): self.media_interaction_loading=False
+            jobs={asyncio.create_task(job) for job in (
+                personal(),
                 self._prepare_default_lists(authenticated is True),self._load_trailers(),
-                self._load_availability(),self._load_recommendations(),self._load_community_reviews())
-        except APIError as exc: self._failure(exc)
-
-    @rx.event
-    async def load_media(self):
-        self._saved_interaction={}
-        self.interaction_saved=False; self.review_editor_open=True
-        identifier=self.router.url.path.rstrip('/').rsplit('/',1)[-1]
-        self._selected_raw={}
-        self.recommendations=[]
-        self.availability=[]
-        self.community_reviews=[]
-        self.selected={'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}
-        if not str(identifier).isdigit(): return
-        self.notice=''; self.selected_status='planned'; self.selected_rating='0'; self.selected_review=''; self.selected_spoiler=False
-        self.trailers=[]
-        try:
-            self._selected_raw,authenticated=await asyncio.gather(
-                self._call('GET',f'/media/{identifier}'),self._validate_navigation_session())
-            self.selected=present_media(self._selected_raw)
-            await asyncio.gather(self._load_trailers(),self._load_availability(),self._load_recommendations(),
-                self._load_community_reviews(),self._load_personal_interaction(str(identifier),authenticated),
-                self._prepare_default_lists(authenticated))
+                self._load_availability(),self._load_recommendations(),self._load_community_reviews())}
+            try:
+                while jobs:
+                    done,jobs=await asyncio.wait(jobs,return_when=asyncio.FIRST_COMPLETED)
+                    for job in done:
+                        try: job.result()
+                        except APIError as exc:
+                            if current(): self.media_details_error=str(exc)
+                    if not current(): return
+                    yield
+            finally:
+                for job in jobs: job.cancel()
+                if jobs: await asyncio.gather(*jobs,return_exceptions=True)
+                if current(): self.media_details_loading=False
         except APIError as exc:
-            self.selected={'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}; self._failure(exc)
+            if current(): self._failure(exc)
 
     async def _load_personal_interaction(self, identifier: str, authenticated: bool):
+        stamp=self._media_stamp(); owner=self.user_id
+        generation=self._interaction_generation
         self.selected_status='planned'; self.selected_rating='0'
         self.selected_review=''; self.selected_spoiler=False
         self.interaction_saved=False; self.review_editor_open=True
@@ -753,7 +860,10 @@ class SocialState(SessionState):
         if not authenticated:
             self._restore_guest_rating()
             return
-        for interaction in rows(await self._call('GET','/interactions')):
+        result=await self._call('GET','/interactions')
+        if (stamp!=self._media_stamp() or owner!=self.user_id
+                or generation!=self._interaction_generation): return
+        for interaction in rows(result):
             if interaction.get('media_id')==int(identifier):
                 self.selected_status=interaction['status']
                 self.selected_rating=normalize_rating(interaction.get('rating') or 0)
@@ -773,9 +883,9 @@ class SocialState(SessionState):
         self.selected_review=''; self.selected_spoiler=False
         self.interaction_saved=False; self.review_editor_open=True
         self._saved_interaction={}
-        identity=self._selected_raw['identity_key']
+        stamp=self._media_stamp(); identity=self._selected_raw['identity_key']
         found=rows(await self._call('GET','/media',params={'identity_key':identity}))
-        if self._selected_raw.get('identity_key')!=identity:
+        if stamp!=self._media_stamp():
             return
         matching=next((item for item in found if item.get('identity_key')==identity),None)
         if matching:
@@ -785,64 +895,82 @@ class SocialState(SessionState):
             await self._load_personal_interaction(str(mid),True)
 
     async def _load_recommendations(self):
+        stamp=self._media_stamp(); item=deepcopy(self._selected_raw)
         if not self._selected_raw.get('external_source'):
             self.recommendations=[]
             return
         try:
-            self.recommendations=[present_media(item) for item in await catalog.recommendations(self._selected_raw)]
-        except APIError:
-            self.recommendations=[]
+            result=[present_media(row) for row in await catalog.recommendations(item)]
+            if stamp==self._media_stamp(): self.recommendations=result
+        except APIError as exc:
+            if stamp==self._media_stamp():
+                self.recommendations=[]; self.media_details_error=str(exc)
 
     async def _load_community_reviews(self):
+        stamp=self._media_stamp(); item=deepcopy(self._selected_raw)
         try:
-            self.community_reviews=await catalog.reviews(self._selected_raw)
-        except APIError:
-            self.community_reviews=[]
+            result=await catalog.reviews(item)
+            if stamp==self._media_stamp(): self.community_reviews=result
+        except APIError as exc:
+            if stamp==self._media_stamp():
+                self.community_reviews=[]; self.media_details_error=str(exc)
 
     async def _persist_selected(self) -> int:
         if not self._selected_raw: raise APIError('Escolha uma obra no catálogo.')
+        stamp=self._media_stamp(); item=deepcopy(self._selected_raw)
         if self._selected_raw.get('id'):
             mid=int(self._selected_raw['id'])
             identity=self._selected_raw.get('identity_key')
             if not identity:
                 return mid
             record=await self._call('GET',f'/media/{mid}')
+            if stamp!=self._media_stamp(): raise APIError('A obra mudou. Confira a ficha novamente.',409)
             if not isinstance(record,dict): raise APIError('Não foi possível confirmar a identidade da obra.')
             if record.get('identity_key')==identity:
                 return mid
             self._selected_raw['id']=0
             self.selected['id']=''
-        payload={k:self._selected_raw[k] for k in ('external_source','external_id','media_type','title','description','cover_url','year','details')}
+        payload={k:item[k] for k in ('external_source','external_id','media_type','title','description','cover_url','year','details')}
         result=await self._call('POST','/media',payload)
+        if stamp!=self._media_stamp(): raise APIError('A obra mudou. Confira a ficha novamente.',409)
         self._selected_raw=result; self.selected=present_media(result)
         return int(result['id'])
 
     async def _ensure_default_lists(self):
         """Repair and create default lists when an account accesses its lists."""
+        stamp=self._route_stamp()
+        def check():
+            if stamp!=self._route_stamp(): raise APIError('A página mudou. Atualize suas listas.',409)
         existing=rows(await self._call('GET','/lists'))
+        check()
         by_title={str(item.get('title') or '').casefold():item for item in existing}
         for old in existing:
             old_title=str(old.get('title') or '').casefold()
             repair=BROKEN_DEFAULT_LISTS.get(old_title)
             if repair:
+                check()
                 title,description=repair
                 result=await self._call('PUT',f"/lists/{int(old['id'])}",dict(
                     title=title,description=description,
                     is_public=old.get('is_public',True)))
+                check()
                 if not isinstance(result,dict) or not result.get('id'):
                     raise APIError('Não foi possível corrigir suas listas padrão.')
                 by_title.pop(old_title,None)
                 by_title[title.casefold()]=result
             if old_title in LEGACY_DEFAULT_LISTS:
                 old_items=rows(await self._call('GET',f"/lists/{int(old['id'])}/items"))
+                check()
                 if not old_items:
                     await self._call('DELETE',f"/lists/{int(old['id'])}")
                     if by_title.get(old_title,{}).get('id')==old.get('id'):
                         by_title.pop(old_title,None)
         for title,description in DEFAULT_MEDIA_LISTS:
+            check()
             if title.casefold() not in by_title:
                 result=await self._call('POST','/lists',dict(
                     title=title,description=description,is_public=True))
+                check()
                 if not isinstance(result,dict) or not result.get('id'):
                     raise APIError('Não foi possível preparar suas listas padrão.')
                 by_title[title.casefold()]=result
@@ -850,13 +978,14 @@ class SocialState(SessionState):
                           for title,_ in DEFAULT_MEDIA_LISTS]
 
     async def _prepare_default_lists(self, authenticated: bool):
+        stamp=self._route_stamp()
         self.quick_lists=[]
         if not authenticated and not (self.user_id>0 and self._token()):
             return
         try:
             await self._ensure_default_lists()
         except APIError as exc:
-            self._failure(exc)
+            if stamp==self._route_stamp(): self._failure(exc)
 
     @rx.event
     async def save_interaction(self, form: dict):
@@ -885,6 +1014,7 @@ class SocialState(SessionState):
             self.notice=''
 
     async def _save_interaction(self, form: dict):
+        stamp=self._media_stamp()
         try:
             if form.get('media_key') is not None and form['media_key']!=self._selected_raw.get('identity_key'):
                 self.notice='A obra mudou. Confira a ficha antes de enviar a avaliação.'
@@ -894,8 +1024,11 @@ class SocialState(SessionState):
             if status not in ('planned','in_progress','completed','dropped'):
                 self.notice='Escolha um status válido.'; return
             payload=dict(media_id=int(self._selected_raw.get('id') or 0), status=status,
-                rating=rating,review=str(form.get('review','')).strip(),
+                rating=rating,review=str(form.get('review') or '').strip(),
                 spoiler=form.get('spoiler') in ('on','true',True))
+            if not payload['review']:
+                self.notice='Escreva sua avaliação antes de enviar.'
+                return
             if dict(user_id=self.user_id,**payload)==self._saved_interaction:
                 self.selected_status=status; self.selected_rating=normalize_rating(rating)
                 self.selected_review=payload['review']; self.selected_spoiler=payload['spoiler']
@@ -903,20 +1036,29 @@ class SocialState(SessionState):
                 self.notice='Sua avaliação já está salva.'
                 return
             if not await self._require_user(): return rx.redirect('/login')
+            if stamp!=self._media_stamp(): return
             self.selected_status=status; self.selected_rating=normalize_rating(rating)
             self.selected_review=payload['review']; self.selected_spoiler=payload['spoiler']
+            self._interaction_generation+=1
             mid=await self._persist_selected()
+            if stamp!=self._media_stamp(): return
             payload['media_id']=mid
-            await self._call('PUT','/interactions',payload)
+            try: await self._call('PUT','/interactions',payload)
+            finally: self._interaction_generation+=1
+            if stamp!=self._media_stamp(): return
             self._saved_interaction=dict(user_id=self.user_id,**payload)
             self.interaction_saved=True; self.review_editor_open=False
             self.notice='Sua avaliação foi salva com sucesso.'
-        except ValueError: self.notice='Escolha uma nota de 0,5 a 5, em passos de 0,5, ou 0 para remover a nota.'
-        except APIError as exc: self._failure(exc)
+        except ValueError:
+            if stamp==self._media_stamp(): self.notice='Escolha uma nota de 0,5 a 5, em passos de 0,5, ou 0 para remover a nota.'
+        except APIError as exc:
+            if stamp==self._media_stamp(): self._failure(exc)
 
     @rx.event
     async def quick_add(self, status: str, rating: float = 0, list_title: str = ''):
+        stamp=self._media_stamp()
         if not await self._require_user(): return rx.redirect('/login')
+        if stamp!=self._media_stamp(): return
         try: rating=float(normalize_rating(rating))
         except ValueError:
             self.notice='Escolha uma nota em passos de 0,5.'
@@ -924,21 +1066,29 @@ class SocialState(SessionState):
         if status not in ('planned','completed') or not 0<=rating<=5:
             self.notice='Ação inválida.'
             return
+        if rating>0 and not self.selected_review.strip():
+            self.notice='Escreva sua avaliação antes de enviar uma nota.'
+            return
         if list_title not in {title for title,_ in DEFAULT_MEDIA_LISTS}:
             self.notice='Escolha uma lista válida.'
             return
         try:
             await self._ensure_default_lists()
+            if stamp!=self._media_stamp(): return
             mid=await self._persist_selected()
+            if stamp!=self._media_stamp(): return
             await self._call('PUT','/interactions',dict(media_id=mid,status=status,rating=rating,
                 review=self.selected_review,spoiler=self.selected_spoiler))
+            if stamp!=self._media_stamp(): return
             self._saved_interaction={}
             target=next(item for item in self.quick_lists if item['title']==list_title)
             await self._call('POST',f"/lists/{int(target['id'])}/items",{'media_id':mid})
+            if stamp!=self._media_stamp(): return
             self.selected_status=status
             if rating: self.selected_rating=normalize_rating(rating)
             self.notice=f'“{self.selected["title"]}” adicionada à lista {list_title}.'
-        except APIError as exc: self._failure(exc)
+        except APIError as exc:
+            if stamp==self._media_stamp(): self._failure(exc)
 
     @rx.event
     async def load_library(self):
@@ -948,6 +1098,7 @@ class SocialState(SessionState):
         self.library_loading=False; self._library_retry_at=0.0
         self.library_paginated=os.getenv('LIBRARY_PAGINATION_ENABLED','false').lower()=='true'
         if not await self._require_user(navigation=True): return rx.redirect('/login')
+        stamp=self._route_stamp()
         self._library_owner=self._token()
         if self.library_paginated:
             self.library_has_more=True
@@ -955,8 +1106,11 @@ class SocialState(SessionState):
             return
         try:
             await self._load_media()
-            self.library=[self._interaction(i) for i in rows(await self._call('GET','/interactions'))]
-        except APIError as exc: self._failure(exc)
+            if stamp!=self._route_stamp(): return
+            result=await self._call('GET','/interactions')
+            if stamp==self._route_stamp(): self.library=[self._interaction(i) for i in rows(result)]
+        except APIError as exc:
+            if stamp==self._route_stamp(): self._failure(exc)
 
     async def _load_library_page(self):
         if self.library_loading or not self.library_has_more:
@@ -1028,13 +1182,19 @@ class SocialState(SessionState):
 
     @rx.event
     async def load_community(self):
+        stamp=self._route_stamp()
         self.following_ids=[]
-        await self.load_home()
+        self.notice=''
+        await self._validate_navigation_session()
+        if stamp!=self._route_stamp(): return
         try: await self._load_people()
-        except APIError as exc: self._failure(exc)
+        except APIError as exc:
+            if stamp==self._route_stamp(): self._failure(exc)
+        if stamp!=self._route_stamp(): return
         if self.user_id:
             try:
                 data=await self._call('GET',f'/profiles/{self.user_id}')
+                if stamp!=self._route_stamp(): return
                 self.following_ids=[str(f['followed_id']) for f in data['following']]
             except APIError as exc:
                 if exc.status!=404: self._failure(exc)
@@ -1045,6 +1205,8 @@ class SocialState(SessionState):
             if event is not None: return event
 
     async def _profile_updates(self):
+        self._profile_generation+=1
+        generation=self._profile_generation
         self.notice=''; self.profile_activity=[]; self.followers=[]; self.following=[]
         self.profile_stats=''; self.following_ids=[]
         self.profile_counts={'followers':0,'following':0,'activities':0}
@@ -1052,6 +1214,7 @@ class SocialState(SessionState):
         self.profile_activity_loading=False; self.profile_people_loading=False
         self.profile={'user_id':'','username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
         await self._validate_navigation_session()
+        if generation!=self._profile_generation: return
         route_id=self.router.url.path.rstrip('/').rsplit('/',1)[-1]
         uid=str(route_id if route_id.isdigit() else self.user_id)
         if not uid.isdigit() or int(uid)==0:
@@ -1060,7 +1223,8 @@ class SocialState(SessionState):
         route=self.router.url.path
         token=self._token()
         def current():
-            return self.router.url.path==route and self._token()==token
+            return (generation==self._profile_generation
+                    and self.router.url.path==route and self._token()==token)
         self.profile={'user_id':uid,'username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
         try:
             data=await self._call('GET',f'/profiles/{uid}')
@@ -1180,17 +1344,22 @@ class SocialState(SessionState):
         except APIError as exc: self._failure(exc)
 
     async def _refresh_posts(self):
+        stamp=self._route_stamp()
         data=rows(await self._call('GET','/feed',params={'per_page':20}))
+        if stamp!=self._route_stamp(): return
         own=rows(await self._call('GET','/posts',params={'user_id':self.user_id,'per_page':20}))
-        combined={str(p['id']):p for p in data+own}; self.posts=[]
+        if stamp!=self._route_stamp(): return
+        combined={str(p['id']):p for p in data+own}
         try:
-            self.liked_posts=[str(i['post_id']) for i in rows(await self._call('GET','/likes'))]
+            liked=[str(i['post_id']) for i in rows(await self._call('GET','/likes'))]
         except APIError as exc:
             if exc.status != 404:
                 raise
             # Older workspaces have no /likes route. Resolve like state only
             # when a user opens a discussion or taps its like button.
-            self.liked_posts=[]
+            liked=[]
+        if stamp!=self._route_stamp(): return
+        self.liked_posts=liked; self.posts=[]
         def post_timestamp(post):
             value=post.get('created_at') or 0
             try:
@@ -1217,10 +1386,15 @@ class SocialState(SessionState):
 
     @rx.event
     async def load_feed(self):
+        stamp=self._route_stamp()
         self.posts=[]; self.comments=[]; self.notice=''
         if not await self._require_user(navigation=True): return rx.redirect('/login')
-        try: await self._load_reference(); await self._refresh_posts()
-        except APIError as exc: self._failure(exc)
+        if stamp!=self._route_stamp(): return
+        try:
+            await self._load_reference()
+            if stamp==self._route_stamp(): await self._refresh_posts()
+        except APIError as exc:
+            if stamp==self._route_stamp(): self._failure(exc)
 
     @rx.event
     def edit_post(self, pid: str):
@@ -1323,8 +1497,11 @@ class SocialState(SessionState):
             self.report_error = f'Aguarde {remaining} segundos antes de tentar enviar novamente.'
             return
         reason = str(form.get('reason', self.report_reason))
-        description = str(form.get('description', self.report_description)).strip()[:2000]
+        description = str(form.get('description', self.report_description) or '').strip()[:2000]
         self.report_description = description
+        if not description:
+            self.report_error = 'Escreva os detalhes da denúncia antes de enviar.'
+            return
         if reason not in ('spam', 'harassment', 'inappropriate', 'other'):
             self.report_error = 'Selecione um motivo válido.'
             return
@@ -1345,7 +1522,7 @@ class SocialState(SessionState):
                 'target_type': self.report_target_type,
                 'target_id': self.report_target_id,
                 'reason': reason,
-                'description': description or None,
+                'description': description,
             }, paginate=False)
             self.report_sending = False
             self.close_report()
@@ -1430,17 +1607,24 @@ class SocialState(SessionState):
 
     @rx.event
     async def load_lists(self):
+        stamp=self._route_stamp()
         self.notice=''; self.lists=[]; self.list_items=[]
         self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'True'}
         await self._validate_navigation_session()
+        if stamp!=self._route_stamp(): return
         try:
             await self._load_media()
+            if stamp!=self._route_stamp(): return
             if self.user_id: await self._ensure_default_lists()
+            if stamp!=self._route_stamp(): return
             public=rows(await self._call('GET','/lists/public'))
+            if stamp!=self._route_stamp(): return
             own=rows(await self._call('GET','/lists')) if self.user_id else []
+            if stamp!=self._route_stamp(): return
             combined={str(i['id']):i for i in public+own}
             self.lists=[{k:str(v if v is not None else '') for k,v in i.items()} for i in combined.values()]
-        except APIError as exc: self._failure(exc)
+        except APIError as exc:
+            if stamp==self._route_stamp(): self._failure(exc)
 
     @rx.event
     def new_list(self):
@@ -1449,14 +1633,17 @@ class SocialState(SessionState):
 
     @rx.event
     async def open_list(self, lid: str):
+        stamp=self._route_stamp()
         self.list_items=[]; item=next((i for i in self.lists if i['id']==lid),None)
         if not item: return
         self.selected_list=item
         try:
             path=f'/lists/{int(lid)}/items' if self.user_id else f'/lists/public/{int(lid)}/items'
             items=rows(await self._call('GET',path))
+            if stamp!=self._route_stamp() or self.selected_list.get('id')!=lid: return
             self.list_items=[present_media(self._media.get(str(i['media_id']),{'id':i['media_id']})) for i in items]
-        except APIError as exc: self._failure(exc)
+        except APIError as exc:
+            if stamp==self._route_stamp() and self.selected_list.get('id')==lid: self._failure(exc)
 
     @rx.event
     async def save_list(self, form: dict):

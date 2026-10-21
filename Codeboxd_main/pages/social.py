@@ -283,6 +283,8 @@ def media_page():
             rx.el.span(rx.icon('arrow-left',size=17,aria_hidden=True),class_name='media-back-icon'),
             rx.el.span('Voltar à descoberta'),href='/',class_name='media-back-link'),
         rx.cond(S.selected['title']!='',rx.el.div(
+            rx.cond(S.media_details_loading,rx.el.p('Carregando informações complementares…',role='status')),
+            rx.cond(S.media_details_error!='',rx.el.p(S.media_details_error,role='alert')),
             rx.el.section(
                 rx.cond(S.selected['cover']!='',rx.el.img(src=S.selected['cover'],alt='Capa de '+S.selected['title'],class_name='media-detail-poster'),
                     rx.el.div(rx.icon('clapperboard',size=48),class_name='media-detail-poster cover-empty')),
@@ -311,7 +313,8 @@ def media_page():
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
                         allow_fullscreen=True,class_name='media-trailer'),class_name='media-trailer-card')),
                     class_name='media-trailer-list')),rx.fragment()),            rx.el.div(rx.el.section(rx.el.h2('O que você achou?',class_name='section-title'),
-                rx.cond(S.is_authenticated,rx.cond(S.review_editor_open,rx.el.form(
+                rx.cond(S.is_authenticated,rx.cond(S.media_interaction_loading,
+                    rx.el.p('Carregando sua avaliação…',role='status'),rx.cond(S.review_editor_open,rx.el.form(
                     rx.el.fieldset(
                     rx.el.input(name='media_key',type='hidden',value=S.selected['key']),
                     rx.el.input(name='status',type='hidden',value=S.selected_status),
@@ -319,7 +322,7 @@ def media_page():
                         lambda pair:rx.el.button(pair[1],type='button',on_click=S.set_selected_status(pair[0]),
                             class_name=rx.cond(S.selected_status==pair[0],'status-chip selected','status-chip'))),class_name='media-statuses'),
                     rating_picker(),
-                    textarea('Sua crítica detalhada','review',S.selected_review,max_length=10000,rows=5,placeholder='Conte o que achou desta obra...'),
+                    textarea('Sua crítica detalhada (obrigatória)','review',S.selected_review,required=True,min_length=1,max_length=10000,rows=5,placeholder='Conte o que achou desta obra...'),
                     check('Contém spoilers','spoiler',S.selected_spoiler),
                     submit(rx.cond(S.interaction_saving,'Salvando…','Salvar avaliação'),disabled=S.interaction_saving),
                     disabled=S.interaction_saving,class_name='media-review-form',aria_busy=S.interaction_saving),
@@ -328,7 +331,7 @@ def media_page():
                         rx.el.p('Avaliação salva',role='status',class_name='font-semibold brand-yellow'),
                         rx.el.p(rx.cond(S.selected_rating=='0','Sem nota','Sua nota: '+S.selected_rating.replace('.',',')+' / 5')),
                         rx.cond(S.selected_review!='',rx.el.p(S.selected_review,class_name='whitespace-pre-wrap')),
-                        button('Editar avaliação',S.edit_interaction),class_name=CARD)),
+                        button('Editar avaliação',S.edit_interaction),class_name=CARD))),
                     rx.el.div(rx.el.h3('Avalie esta obra',class_name='font-semibold'),
                         rx.el.p('Sua nota fica salva apenas neste navegador e não aparece no perfil nem na comunidade.',class_name='text-sm text-gray-400'),
                         rating_picker(),
@@ -531,8 +534,8 @@ def report_dialog():
                 rx.el.select(rx.el.option('Spam',value='spam'),rx.el.option('Assédio',value='harassment'),
                     rx.el.option('Conteúdo impróprio',value='inappropriate'),rx.el.option('Outro',value='other'),
                     id='report-reason',name='reason',value=S.report_reason,on_change=S.set_report_reason,class_name=INPUT),
-                rx.el.label('Detalhes (opcional)',html_for='report-description',class_name='block text-sm text-gray-300'),
-                rx.el.textarea(id='report-description',name='description',max_length=2000,
+                rx.el.label('Detalhes (obrigatórios)',html_for='report-description',class_name='block text-sm text-gray-300'),
+                rx.el.textarea(id='report-description',name='description',required=True,min_length=1,max_length=2000,
                     value=S.report_description,on_change=S.set_report_description,
                     placeholder='Inclua somente o contexto necessário para a análise.',class_name=INPUT),
                 rx.el.div(

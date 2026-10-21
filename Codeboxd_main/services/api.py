@@ -55,8 +55,10 @@ async def request(method: str, path: str, *, group: str = 'social', token: str =
             for attempt in range(3):
                 response = await client.request(method, base_url(group) + path,
                                                 headers=headers, json=data, params=params)
-                # Only safe reads may retry; never repeat report creation or other writes.
-                if response.status_code != 429 or method.upper() not in ('GET', 'HEAD') or attempt == 2:
+                # This legacy GET sends email and is not a safe read.
+                safe_read = (method.upper() in ('GET', 'HEAD')
+                             and not (group == 'auth' and path == '/reset/request-reset-link'))
+                if response.status_code != 429 or not safe_read or attempt == 2:
                     break
                 delay = retry_after_seconds(response.headers.get('Retry-After', ''))
                 if delay > 3:

@@ -75,6 +75,17 @@ Admin depende de conta aprovada; ausência de acesso mantém tarefa aberta.
 
 ### 4. Gerir tráfego sem reduzir garantias
 
+Incremento local posterior, autorizado na continuação de 20/10: compartilhar
+apenas leituras sociais equivalentes em andamento por nonce de sessão, geração
+e digest da consulta, fora do estado serializado. Preservar TTL, invalidação e
+cópias; não compartilhar mutações. Fixar credencial por leitura paginada e
+rejeitar troca antes/durante a tarefa. GET legado que envia e-mail não é leitura
+segura para retry; aplicar cooldown local após 429 ao pedido normalizado.
+Catálogo passa a interpretar datas HTTP de Retry-After pelo parser comum,
+encerrando tentativa quando a espera excede o limite em vez de antecipá-la.
+Sem cooldown global ou promessa de deduplicação entre processos.
+[Decisões e evidência](validation/cache-concorrencia-cooldown-2026-10-20.md).
+
 Decisão incremental aprovada em 20/10 após reproduzir 429 em `/auth/me`:
 reutilizar identidade de membro já verificada por até 15 segundos apenas nos
 loaders de leitura, vinculada a hash do token, usuário e sessão. Guards admin
@@ -118,6 +129,14 @@ Alternativas descartadas: ocultar aviso, aumentar retries ou ampliar cache globa
 de dados privados. Alterar Xano/quota exige aprovação específica e verificação.
 
 ### 5. Priorizar conteúdo utilizável
+
+Incremento posterior em 20/10: `_media_updates` publica a ficha antes dos
+complementos; editor pessoal só aparece depois de restaurar a avaliação.
+Guardas de geração/rota/token/obra cobrem respostas tardias e a geração da nota
+impede leituras antigas de reverter uma gravação. Busca pública TMDB/Open Library
+passa a usar o cache existente de 300 s/128 entradas, com consulta e página na
+chave; Kitsu mantém cache próprio. Sem alterar identidade Jikan, tradução,
+notas antigas ou contratos remotos. [Evidência](validation/continuacao-fichas-busca-2026-10-20.md).
 
 Separar dados principais e complementares, limitar custo de imagens e estado
 sincronizado quando medido, e apresentar carregamento/erro por seção. Ao trocar

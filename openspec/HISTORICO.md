@@ -1,5 +1,42 @@
 # Histórico e decisões preservadas
 
+Continuação da otimização em 20/10: removida carga da home ao abrir comunidade,
+preservando perfis/conexões e descartando aviso tardio de outra rota. 274 testes
+e compile aprovados. Utilitários de frontend isolados; tentativas de produção
+continuaram falhando no prerender, com um build direto por Node aprovado.
+Não houve navegador ou validação autenticada nova; 11/37 mantidas.
+[Evidência](changes/otimizar-performance-app/validation/comunidade-sem-home-2026-10-20.md).
+
+Rodada de texto obrigatório em 20/10/2026: denúncias e formulário de avaliações
+passam a exigir texto escrito; contratos publicados após backup/dry-run, somente
+dois endpoints alterados. 269 testes/compile passaram. Browser não executou casos
+por falha de build/prerender; usuário pediu retorno à análise de performance.
+[Registro](changes/exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
+
+Correção operacional em 20/10/2026 após relato TMDB: app havia herdado bloqueio
+de rede do executor. Reinício aprovado com rede restaurou consultas reais
+(quatro endpoints 200/20 itens) e três fileiras de 20 cards no browser. Utilitários
+ganharam preflight e 11 testes pertinentes passaram; nenhuma chave foi alterada.
+[Registro](changes/otimizar-performance-app/validation/tmdb-rede-restaurada-2026-10-20.md).
+
+Rodada posterior em 20/10/2026: pedido de concluir o restante levou a 11/37
+tarefas da change de performance, com 259 testes e compilação aprovados.
+Concluídas 2.2/3.4/4.3/5.1/5.2 localmente; browser com fixtures validou fichas
+dos quatro tipos e falhas 429 em 1440/390px. Não há encerramento global: contas
+reais, metas e etapas de diagnóstico/implementação/integração continuam abertas.
+[Registro](changes/otimizar-performance-app/validation/continuacao-fichas-busca-2026-10-20.md).
+
+Continuação em 20/10/2026: usuário orientou concluir várias tarefas; encerradas
+2.1/3.1/3.2/3.3 de performance com diagnóstico e implementação local de leituras
+concorrentes/retry/cooldown. 244 testes e compilação aprovados; sem reinício,
+navegador ou remoto. A change passa de 2 para 6 tarefas concluídas, de 37.
+[Evidência](changes/otimizar-performance-app/validation/cache-concorrencia-cooldown-2026-10-20.md).
+
+Em 20/10/2026, após solicitação de executar uma tarefa pendente, concluída 1.1
+de `otimizar-performance-app`: inventário estático de 21 rotas e eventos/funções,
+com ferramenta reproduzível e dois testes offline aprovados. Sem mudança de
+produto, servidor ou acesso remoto. [Evidência](changes/otimizar-performance-app/validation/inventario-rotas-eventos-2026-10-20.md).
+
 Consolidação documental em 13/10/2026. Datas abaixo indicam a rodada original, não execução nova.
 
 ## Evolução

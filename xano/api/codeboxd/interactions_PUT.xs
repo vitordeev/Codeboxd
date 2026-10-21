@@ -9,6 +9,10 @@ text review? filters=trim|max:10000
 bool spoiler?=false
  }
  stack {
+precondition ($input.rating == 0 || ($input.review != null && $input.review != "")) {
+  error_type = "inputerror"
+  error = "Escreva sua avaliação antes de enviar uma nota."
+}
 db.get user {
  field_name = "id"
  field_value = $auth.id

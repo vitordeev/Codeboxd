@@ -1,5 +1,24 @@
 # Tasks
 
+Continuação posterior: comunidade não depende mais do carregamento da home;
+14 testes dirigidos e compile aprovados. Isolamento dos utilitários fortalecido.
+7.1/7.2 permanecem abertas por cobertura social e validação real ainda ausentes;
+11/37 continua sendo a contagem de tarefas integralmente concluídas.
+[Incremento](validation/comunidade-sem-home-2026-10-20.md) e
+[build ainda bloqueado](validation/isolamento-build-2026-10-20.md).
+
+Retomada solicitada pelo usuário após texto obrigatório: revisão confirma
+11/37 concluídas e 26 abertas. Sem encerrar novos IDs nesta auditoria.
+Build/prerender falhou ao iniciar o browser; estabilização operacional precede
+baseline/metas e retomada das etapas reais.
+[Matriz de implementação, pendências e sequência](validation/revisao-retomada-2026-10-20.md).
+
+Correção operacional posterior em 20/10: restauração anterior só validara HTML,
+mas processo herdara rede restrita. Reinício com rede aprovado e TMDB real/UI
+restaurados; utilitários protegidos contra repetir o problema. 11 testes pertinentes
+aprovados. Sem alterar a contagem 11/37: não é comparação global contra metas.
+[Evidência](validation/tmdb-rede-restaurada-2026-10-20.md).
+
 Planejamento criado em 20/10/2026. Nenhuma tarefa de implementação concluída.
 Antes de qualquer edição, apresentar motivo, arquivos, impacto, testes e rollback
 e aguardar aprovação específica. Incluir testes, evidências e atualizações
@@ -30,7 +49,14 @@ Escopo da quota ainda não confirmado e tempos de revisitas têm limitação de
 correlação com on_load. Manter 1.3/1.4 abertas.
 [Evidência](validation/login-real-2026-10-20.md).
 
-- [ ] 1.1 Inventariar rotas, subfluxos e chamadas disparadas por evento, do login à administração; verificar matriz de cobertura contra rotas, componentes e handlers existentes e registrar após aprovação documental.
+- [x] 1.1 Inventariar rotas, subfluxos e chamadas disparadas por evento, do login à administração; verificar matriz de cobertura contra rotas, componentes e handlers existentes e registrar após aprovação documental.
+
+  Concluída nesta rodada a pedido do usuário de selecionar e realizar uma tarefa:
+  inventário AST reproduzível de 19 arquivos, 21 rotas, 99 vínculos on_* e 279
+  funções, com matriz manual por jornada e dois testes offline aprovados.
+  Chamadas posicionais, funções auxiliares e serviços estão no JSON; dispatch
+  dinâmico exige interpretação. Não é medição de tráfego/latência nem validação
+  remota. [Evidência e limites](validation/inventario-rotas-eventos-2026-10-20.md).
 - [ ] 1.2 Propor e obter aprovação para instrumentos de medição, arquivos de evidência, servidor/reinício e dados de teste necessários; verificar registro explícito de escopo autorizado antes de criá-los ou executá-los.
 - [ ] 1.3 Medir jornadas com cache vazio/aquecido, desktop/celular e contas adequadas; verificar pelo menos cinco amostras por cenário, mediana, pior amostra e contagens por serviço, sem segredos nos registros.
 - [ ] 1.4 Identificar origem e escopo do HTTP 429, incluindo chamadas Python aos serviços; verificar endpoint sanitizado, sequência disparadora e Retry-After, distinguindo reprodução real de simulação.
@@ -53,8 +79,8 @@ durante referências lentas. 188 testes e pip check aprovados. Verificação rem
 metas reais e demais fluxos permanecem pendentes.
 [Evidência atual](validation/perfil-browser-2026-10-20.md).
 
-- [ ] 2.1 Diagnosticar chamadas, redirecionamentos e bloqueios nos fluxos de autenticação e propor a primeira intervenção; verificar arquivos, motivo, segurança, verificação e aprovação explícita registrados.
-- [ ] 2.2 Aplicar somente a intervenção aprovada e seus testes; verificar login válido/inválido, sessão persistida/expirada, logout, conta desativada e falha transitória, preservando autorização e sem repetição de efeitos colaterais.
+- [x] 2.1 Diagnosticar chamadas, redirecionamentos e bloqueios nos fluxos de autenticação e propor a primeira intervenção; verificar arquivos, motivo, segurança, verificação e aprovação explícita registrados.
+- [x] 2.2 Aplicar somente a intervenção aprovada e seus testes; verificar login válido/inválido, sessão persistida/expirada, logout, conta desativada e falha transitória, preservando autorização e sem repetição de efeitos colaterais.
 - [ ] 2.3 Validar cadastro e recuperação em lentidão/429, incluindo feedback e preservação de entrada permitida; verificar testes pertinentes e browser com operações reais previamente aprovadas, sem encerrar a pendência histórica de e-mail por simulação.
 - [ ] 2.4 Medir novamente os fluxos desta etapa e registrar resultados; verificar orçamento aprovado, desktop/celular, regressões e compilação, mantendo abertas verificações sem acesso ou evidência.
 
@@ -82,25 +108,45 @@ em 3030 e disponibilidade conferida. [Evidência](validation/resultado-login-rea
 As tarefas amplas permanecem abertas: faltam metas aprovadas, outras jornadas
 e critérios de linha de base que esse cenário isolado não cobre.
 
-- [ ] 3.1 Revisar cache social de 15 segundos, cache público e tentativas existentes e propor ajustes fundamentados; verificar isolamento, invalidação, limites e compatibilidade, sem contabilizar implementação anterior como entrega nova.
-- [ ] 3.2 Após aprovação, corrigir duplicação de leituras/eventos identificada; verificar redução de chamadas com testes de concorrência, parâmetros/páginas distintos, expiração, troca de credenciais e erro não cacheado.
-- [ ] 3.3 Após aprovação, implementar tratamento de cooldown e tentativas no escopo diagnosticado; verificar Retry-After numérico/data HTTP, ausência/invalidade do cabeçalho, ausência de repetição de mutações e recuperação sem logout.
-- [ ] 3.4 Conferir invalidação após gravações e proteção contra leitura atrasada; verificar resposta tardia, troca de conta/obra e falha de gravação, sem exposição privada ou regressão de permissões.
+- [x] 3.1 Revisar cache social de 15 segundos, cache público e tentativas existentes e propor ajustes fundamentados; verificar isolamento, invalidação, limites e compatibilidade, sem contabilizar implementação anterior como entrega nova.
+- [x] 3.2 Após aprovação, corrigir duplicação de leituras/eventos identificada; verificar redução de chamadas com testes de concorrência, parâmetros/páginas distintos, expiração, troca de credenciais e erro não cacheado.
+- [x] 3.3 Após aprovação, implementar tratamento de cooldown e tentativas no escopo diagnosticado; verificar Retry-After numérico/data HTTP, ausência/invalidade do cabeçalho, ausência de repetição de mutações e recuperação sem logout.
+- [x] 3.4 Conferir invalidação após gravações e proteção contra leitura atrasada; verificar resposta tardia, troca de conta/obra e falha de gravação, sem exposição privada ou regressão de permissões.
 - [ ] 3.5 Validar sequência de navegação que originou o relato e documentar volume/429 antes e depois; verificar integração real e navegador separadamente dos testes simulados e contra metas aprovadas.
+
+Rodada de continuação autorizada pelo usuário após 1.1: 2.1/3.1/3.2/3.3
+concluídas em seus critérios de diagnóstico e implementação/testes locais.
+Leituras equivalentes pendentes agora compartilham uma chamada por sessão,
+credencial, parâmetros e geração; duas consultas concorrentes usam uma chamada
+no teste. Paginação fixa token e rejeita troca antes/durante a leitura.
+GET de e-mail não repete automaticamente e respeita cooldown local; catálogo
+interpreta Retry-After como data HTTP e não tenta antes de prazo longo.
+244 testes e compilação passaram. Sem browser, remoto ou reinício; 3.4/3.5
+continuam abertas. [Diagnóstico, decisões, testes e limites](validation/cache-concorrencia-cooldown-2026-10-20.md).
 
 ## 4. Home, categorias e buscas
 
 - [ ] 4.1 Medir e propor melhoria do caminho crítico da home e das categorias; verificar distribuição de custo por provedor, primeiro conteúdo utilizável e aprovação da intervenção.
 - [ ] 4.2 Aplicar melhoria aprovada de carregamento/recursos visuais e validar incrementalmente; verificar conteúdo principal antes de seção lenta, falha parcial, capas, ordem das séries e destaque preservados, com evidência e compilação.
-- [ ] 4.3 Medir e otimizar busca/paginação após aprovação; verificar busca nos quatro tipos, relevância, mais resultados sem duplicatas e resposta antiga ignorada, com testes e evidência por consulta.
+- [x] 4.3 Medir e otimizar busca/paginação após aprovação; verificar busca nos quatro tipos, relevância, mais resultados sem duplicatas e resposta antiga ignorada, com testes e evidência por consulta.
 - [ ] 4.4 Comparar ida/retorno e recarga em desktop/celular com cache vazio/aquecido; verificar metas de tempo/chamadas e registrar perdas ou limitações sem ocultar provedores indisponíveis.
 
 ## 5. Fichas e avaliações
 
-- [ ] 5.1 Diagnosticar fichas internas/externas nos quatro tipos e aprovar separação de dependências principais/complementares; verificar proposta com impacto em tradução, trailers, streaming, relacionados e críticas.
-- [ ] 5.2 Aplicar intervenção aprovada com regressões e documentação; verificar ficha utilizável durante complemento lento, identidade externa/Jikan preservada e resposta atrasada de outra obra ignorada.
+- [x] 5.1 Diagnosticar fichas internas/externas nos quatro tipos e aprovar separação de dependências principais/complementares; verificar proposta com impacto em tradução, trailers, streaming, relacionados e críticas.
+- [x] 5.2 Aplicar intervenção aprovada com regressões e documentação; verificar ficha utilizável durante complemento lento, identidade externa/Jikan preservada e resposta atrasada de outra obra ignorada.
 - [ ] 5.3 Otimizar caminho de avaliação após aprovação; verificar nota decimal, editar/salvar, envio único, confirmação persistida, rascunho após falha e invalidação da leitura afetada.
 - [ ] 5.4 Comparar carregamento e salvamento em desktop/celular; verificar metas aprovadas, testes pertinentes, compilação e browser autenticado, mantendo separado eventual reparo histórico de avaliações.
+
+Continuação solicitada para concluir o restante: encerradas 2.2/3.4/4.3/5.1/5.2
+por implementação e regressões locais. Busca repetida: duas consultas equivalentes
+em uma chamada HTTP simulada; query/página distintas preservadas. Fichas têm
+publicação progressiva e guardas para resultado tardio, inclusive avaliação,
+feed, referências e listas. 259 testes e compilação passaram; browser em produção
+com fixtures cobriu os quatro tipos, 1440/390px e cadastro/recuperação com 429.
+5.3/5.4 continuam abertas por persistência/comparação real. Estado 11/37;
+não encerrar etapas remotas, metas ou quota a partir de simulação.
+[Evidência, reprodução e dependências](validation/continuacao-fichas-busca-2026-10-20.md).
 
 ## 6. Biblioteca e listas
 

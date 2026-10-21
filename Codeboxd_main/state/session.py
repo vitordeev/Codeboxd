@@ -26,6 +26,8 @@ class SessionState(rx.State):
     _session_identity_token: str = ''
     _auth_retry_at: float = 0.0
     _auth_retry_token: str = ''
+    _reset_retry_at: float = 0.0
+    _reset_retry_key: str = ''
 
     @rx.var
     def is_authenticated(self) -> bool:
@@ -151,6 +153,12 @@ class SessionState(rx.State):
             self.reset_message='Informe um e-mail válido.'
             self.reset_success=False
             return
+        key=hashlib.sha256(email.encode()).hexdigest()
+        remaining=math.ceil(self._reset_retry_at-time.monotonic()) if key==self._reset_retry_key else 0
+        if remaining>0:
+            self.reset_message=f'Muitas solicitações. Tente novamente em {remaining} segundos.'
+            self.reset_success=False
+            return
         self.is_loading=True
         self.reset_message=''
         try:
@@ -166,6 +174,9 @@ class SessionState(rx.State):
             else:
                 self.reset_message=str(exc)
                 self.reset_success=False
+                if exc.status==429:
+                    self._reset_retry_key=key
+                    self._reset_retry_at=time.monotonic()+max(1,exc.retry_after or 30)
         finally:
             self.is_loading=False
 

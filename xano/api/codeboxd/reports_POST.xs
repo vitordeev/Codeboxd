@@ -6,7 +6,7 @@ query "reports" verb=POST {
     enum target_type { values = ["message", "post", "comment", "profile", "media"] }
     text target_id filters=trim|min:1|max:120
     enum reason { values = ["spam", "harassment", "inappropriate", "other"] }
-    text description? filters=trim|max:2000
+    text description filters=trim|min:1|max:2000
     json target_snapshot?
   }
 

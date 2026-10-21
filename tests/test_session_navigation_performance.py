@@ -10,6 +10,20 @@ from Codeboxd_main.state.social import SocialState
 
 
 class SessionNavigationTests(unittest.IsolatedAsyncioTestCase):
+    async def test_reset_email_cooldown_blocks_repeat_and_resumes_without_login(self):
+        with patch('Codeboxd_main.state.session.request', new=AsyncMock(side_effect=[
+                APIError('Wait',429,20), {}])) as request, \
+             patch('Codeboxd_main.state.session.time.monotonic', return_value=100) as clock:
+            await self.session.request_password_reset({'email':'reader@example.invalid'})
+            clock.return_value=105
+            await self.session.request_password_reset({'email':'READER@example.invalid'})
+            self.assertIn('15 segundos', self.session.reset_message)
+            request.assert_awaited_once()
+            clock.return_value=120
+            await self.session.request_password_reset({'email':'reader@example.invalid'})
+            self.assertEqual(request.await_count,2)
+            self.assertTrue(self.session.reset_success)
+
     def setUp(self):
         root=rx.State(_reflex_internal_init=True)
         self.session=root.get_substate(SessionState.get_full_name().split('.'))

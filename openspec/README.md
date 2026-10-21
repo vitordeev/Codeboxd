@@ -1,5 +1,47 @@
 # OpenSpec do Codeboxd
 
+Continuação da otimização: comunidade deixou de carregar toda a home e seus
+provedores; 274 testes da suíte e compile aprovados. Frontends de validação
+agora usam arquivos e dependências próprios. O timeout do build padrão continua
+aberto, apesar de um build direto por Node ter passado; nenhum novo critério
+amplo foi encerrado. [Comunidade](changes/otimizar-performance-app/validation/comunidade-sem-home-2026-10-20.md)
+e [diagnóstico operacional](changes/otimizar-performance-app/validation/isolamento-build-2026-10-20.md).
+
+Retomada da otimização solicitada em 20/10: auditoria confirma **11/37 tarefas**
+concluídas, 26 abertas, com separação de código existente, validação local e
+integração real. Build/prerender apresentou timeout e está na prioridade
+operacional antes de novas medições. [Revisão e sequência para concluir](changes/otimizar-performance-app/validation/revisao-retomada-2026-10-20.md).
+
+Texto obrigatório em denúncias/avaliações (20/10): implementado e publicado nos
+dois contratos Xano, com backup e conferência do delta. 269 testes e compile
+passaram; rejeição autenticada e navegador ainda pendentes (build falhou no
+prerender). [Change separada, 3/5](changes/exigir-texto-denuncias-avaliacoes/tasks.md).
+
+TMDB recuperado após relato em 20/10: o reinício anterior herdou restrição de
+rede do agente (WinError 10013). App reiniciado com rede autorizada; quatro
+endpoints reais retornaram 200/20 itens e as três fileiras de filmes exibiram
+20 cards cada no navegador. Guardas de conectividade adicionadas aos utilitários;
+11 testes pertinentes passaram. [Causa e evidência](changes/otimizar-performance-app/validation/tmdb-rede-restaurada-2026-10-20.md).
+
+Continuação posterior em 20/10: **11/37 tarefas de performance concluídas**, 26
+abertas. Encerradas 2.2/3.4/4.3/5.1/5.2: fichas progressivas, respostas tardias
+protegidas e cache de busca; **259 testes e compilação aprovados**, com browser
+desktop/celular e dados fictícios. Conclusão integral depende de diagnóstico/
+implementação restantes, contas de teste aprovadas, baseline e metas explícitas.
+[Entrega e critérios ainda abertos](changes/otimizar-performance-app/validation/continuacao-fichas-busca-2026-10-20.md).
+
+Continuação de performance em 20/10: concluídas 2.1, 3.1, 3.2 e 3.3,
+com diagnóstico, deduplicação de leituras concorrentes, proteção de credencial
+na paginação e correções de retry/cooldown. **244 testes e compilação passaram**;
+sem navegador, remoto ou reinício nesta rodada. Estado atual: **6/37 tarefas**,
+31 abertas. [Resultado e limites](changes/otimizar-performance-app/validation/cache-concorrencia-cooldown-2026-10-20.md).
+
+Inventário de performance atualizado em 20/10: tarefa 1.1 concluída com 21
+rotas, 99 vínculos explícitos de eventos e 279 funções em 19 arquivos Python.
+Ferramenta estática e dois testes offline aprovados; não mede latência ou tráfego
+real. A change continua aberta, agora com 2/37 tarefas concluídas.
+[Matriz, reprodução e limites](changes/otimizar-performance-app/validation/inventario-rotas-eventos-2026-10-20.md).
+
 ## Atualização de performance — 20/10/2026
 
 Biblioteca paginada: endpoint publicado e validado autenticado no Xano com
@@ -207,6 +249,7 @@ e [uploads/sessão](validation/uploads-and-session-2026-10-13.md).
 
 | Change | Estado | Concluídas | Restantes | Critério |
 | --- | --- | --- | --- | --- |
+| `otimizar-performance-app` | Ativa | 11 | 26 | Inventário, cache/retry, fichas e busca validados localmente; implementação restante, medições, metas e integração completa pendentes |
 | `criar-modelo-dados-xano` | Arquivada | 37 | 0 | Checklist histórico completo, evidências de persistência e validação documental |
 | `definir-fundacao-codeboxd` | Arquivada | 87 | 0 | Busca Kitsu comprovada em setembro; marcador final corrigido e validação documental atual |
 | `gerenciamento-website` | Ativa | 17 | 17 | Implementação local parcial/completa por tópico; integração remota e interface ainda não concluídas |

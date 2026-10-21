@@ -1,0 +1,108 @@
+{
+  "layer": "browser-local-fixtures",
+  "expected": 12,
+  "completed": [
+    {
+      "case": "media-progressive",
+      "width": 1440,
+      "identifier": 1,
+      "primary_visible_ms": 354,
+      "review_loading_observed": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "media-progressive",
+      "width": 1440,
+      "identifier": 2,
+      "primary_visible_ms": 392,
+      "review_loading_observed": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "media-progressive",
+      "width": 1440,
+      "identifier": 3,
+      "primary_visible_ms": 369,
+      "review_loading_observed": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "media-progressive",
+      "width": 1440,
+      "identifier": 4,
+      "primary_visible_ms": 305,
+      "review_loading_observed": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "signup-429",
+      "width": 1440,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "reset-429",
+      "width": 1440,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "media-progressive",
+      "width": 390,
+      "identifier": 1,
+      "primary_visible_ms": 285,
+      "review_loading_observed": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "media-progressive",
+      "width": 390,
+      "identifier": 2,
+      "primary_visible_ms": 265,
+      "review_loading_observed": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "media-progressive",
+      "width": 390,
+      "identifier": 3,
+      "primary_visible_ms": 274,
+      "review_loading_observed": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "media-progressive",
+      "width": 390,
+      "identifier": 4,
+      "primary_visible_ms": 321,
+      "review_loading_observed": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "signup-429",
+      "width": 390,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "reset-429",
+      "width": 390,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "failure": "",
+  "normal_restored": true
+}

@@ -9,6 +9,33 @@ from Codeboxd_main.services import api
 
 
 class RateLimitTests(unittest.IsolatedAsyncioTestCase):
+    async def test_reset_email_get_is_never_retried(self):
+        client = AsyncMock()
+        client.request.return_value = httpx.Response(429, headers={'Retry-After': '1'})
+        context = AsyncMock()
+        context.__aenter__.return_value = client
+        with patch.object(api.httpx, 'AsyncClient', return_value=context), \
+             patch.object(api, 'base_url', return_value='https://example.invalid'), \
+             patch.object(api.asyncio, 'sleep', new=AsyncMock()) as sleep:
+            with self.assertRaises(api.APIError):
+                await api.request('GET', '/reset/request-reset-link', group='auth')
+        client.request.assert_awaited_once()
+        sleep.assert_not_awaited()
+
+    async def test_short_read_retries_are_bounded_and_writes_never_retry(self):
+        for method in ('GET', 'POST', 'PUT', 'PATCH', 'DELETE'):
+            with self.subTest(method=method):
+                client = AsyncMock()
+                client.request.return_value = httpx.Response(429, headers={'Retry-After': '1'})
+                context = AsyncMock()
+                context.__aenter__.return_value = client
+                with patch.object(api.httpx, 'AsyncClient', return_value=context), \
+                     patch.object(api, 'base_url', return_value='https://example.invalid'), \
+                     patch.object(api.asyncio, 'sleep', new=AsyncMock()) as sleep:
+                    with self.assertRaises(api.APIError): await api.request(method, '/media')
+                self.assertEqual(client.request.await_count, 3 if method == 'GET' else 1)
+                self.assertEqual(sleep.await_count, 2 if method == 'GET' else 0)
+
     async def test_write_is_not_retried_and_exposes_retry_after(self):
         client = AsyncMock()
         client.request.return_value = httpx.Response(429, headers={'Retry-After': '90'},
