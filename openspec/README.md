@@ -1,5 +1,38 @@
 # OpenSpec do Codeboxd
 
+21/10, conclusao posterior: traducao DeepL concluida em 6/6 e arquivada.
+Quatro cenarios reais de navegador (anime/livro, desktop/celular) e oito testes
+aprovados; chave privada restaurada. Registros anteriores de ausencia da chave
+e validacao pendente sao historicos.
+[Evidencias finais](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/conclusao-navegador-2026-10-21.md).
+
+
+21/10, validação de conteúdo: 12/12 casos de navegador em produção isolada e
+18 testes pertinentes aprovados; change em 4/5, faltando rejeição na API real
+com login de teste. Tradução em 5/6: chave DeepL ausente na configuração atual,
+fallback com sinopse original confirmado; tradução visual aguarda configuração.
+[Conteúdo](changes/exigir-texto-denuncias-avaliacoes/validation/retomada-2026-10-21.md)
+e [tradução](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/retomada-2026-10-21.md).
+
+21/10, encerramento posterior: `exigir-openspec-para-implementacoes` e
+`regularizar-merge-e-commits` concluídas em 4/4 e arquivadas. Regra de change ativa,
+exceção de leitura e evidências explícitas no AGENTS.md; revisão do merge histórico
+sem alterar commits ou índice. Restam cinco changes ativas.
+[Registro](validation/encerramento-processo-git-2026-10-21.md).
+
+21/10: arquivadas as changes concluídas `avaliar-meias-estrelas` (5/5),
+`corrigir-erros-operacionais` (7/7) e `padronizar-listas-iniciais` (7/7), após
+consolidar seus contratos em `specs/`. Sete changes permanecem ativas/incompletas.
+[Revisão e arquivamento](validation/arquivamento-changes-2026-10-21.md).
+
+21/10: reset de listas concluído no Xano com backup — sete contas, duas listas
+base vazias por conta (14 listas/zero itens). Cadastro corrigido para acentuação;
+personalizadas futuras permitidas, com remoção da limpeza legada na navegação.
+Catálogo e avaliações preservados. [Entrega e limites](changes/archive/2026-10-21-padronizar-listas-iniciais/validation/execucao-2026-10-21.md).
+
+[Relatório de melhorias de 20/10, comparado com 19/10](RELATORIO_MELHORIAS_2026-10-20.md):
+funcionalidades, otimizações, resultados e pendências ao encerrar o dia.
+
 Continuação da otimização: comunidade deixou de carregar toda a home e seus
 provedores; 274 testes da suíte e compile aprovados. Frontends de validação
 agora usam arquivos e dependências próprios. O timeout do build padrão continua
@@ -195,7 +228,7 @@ Arquivos com finalidade documentada e dados locais preservados.
 
 Meias estrelas em 19/10: seleção de 0,5 a 5, preenchimento parcial, vírgula decimal
 e restauração para visitante/conta. 148 testes, compilação e navegador/Xano real
-aprovados, com limpeza da avaliação de teste. [Change](changes/avaliar-meias-estrelas/tasks.md),
+aprovados, com limpeza da avaliação de teste. [Change](changes/archive/2026-10-21-avaliar-meias-estrelas/tasks.md),
 5/5 tarefas verificadas.
 
 Retorno à descoberta aprimorado em 19/10: botão arredondado com seta amarela,
@@ -210,7 +243,7 @@ reports de teste. [Evidência](changes/gerenciamento-website/validation/denuncia
 Tradução em 19/10/2026: DeepL integrado localmente às descrições das fichas de
 animes/livros, com cache persistente e fallback. Chave configurada privadamente;
 smoke real DeepL e 136 testes locais passaram. Revisão de navegador pendente.
-[Change](changes/traduzir-descricoes-deepl/tasks.md), 5/6 tarefas verificadas.
+[Change](changes/archive/2026-10-21-traduzir-descricoes-deepl/tasks.md), 5/6 tarefas verificadas.
 
 Atualização de 19/10/2026: os três GETs de buscas administrativas foram publicados
 após backup e dry-run limitado; conferência final sem delta. 18 testes locais
@@ -240,7 +273,9 @@ e [uploads/sessão](validation/uploads-and-session-2026-10-13.md).
 | [documentation-checks-2026-10-13.json](documentation-checks-2026-10-13.json) | Resultado estruturado da conferência de tarefas, links, specs e evidências |
 | `specs/<capability>/spec.md` | Contratos consolidados das mudanças concluídas |
 | `changes/gerenciamento-website/` | Planejamento e tarefas administrativas em andamento |
-| `changes/corrigir-erros-operacionais/` | Correções de Git, ambiente e uploads; execução local sem Docker |
+| `changes/archive/2026-10-21-corrigir-erros-operacionais/` | Correções de Git, ambiente e uploads concluídas; execução local sem Docker |
+| `changes/archive/2026-10-21-avaliar-meias-estrelas/` | Avaliações decimais e meias estrelas concluídas |
+| `changes/archive/2026-10-21-padronizar-listas-iniciais/` | Reset único concluído e listas base garantidas no cadastro |
 | `changes/recuperar-senha-codigo-6-digitos/` | Recuperação com seis dígitos, publicada e validada por camadas; entrega real do e-mail pendente |
 | `changes/archive/2026-10-13-criar-modelo-dados-xano/` | Modelo de dados concluído: 37/37 tarefas |
 | `changes/archive/2026-10-13-definir-fundacao-codeboxd/` | Fundação concluída: 87/87 tarefas |
@@ -253,8 +288,14 @@ e [uploads/sessão](validation/uploads-and-session-2026-10-13.md).
 | `criar-modelo-dados-xano` | Arquivada | 37 | 0 | Checklist histórico completo, evidências de persistência e validação documental |
 | `definir-fundacao-codeboxd` | Arquivada | 87 | 0 | Busca Kitsu comprovada em setembro; marcador final corrigido e validação documental atual |
 | `gerenciamento-website` | Ativa | 17 | 17 | Implementação local parcial/completa por tópico; integração remota e interface ainda não concluídas |
-| `corrigir-erros-operacionais` | Concluída, aguardando arquivamento | 7 | 0 | Correções locais verificadas; Docker retirado do escopo pelo usuário |
+| `corrigir-erros-operacionais` | Arquivada em 21/10 | 7 | 0 | Correções locais verificadas; Docker retirado do escopo pelo usuário |
+| `avaliar-meias-estrelas` | Arquivada em 21/10 | 5 | 0 | Interface, persistência decimal e limpeza verificadas |
+| `padronizar-listas-iniciais` | Arquivada em 21/10 | 7 | 0 | Migração real, contrato publicado e regressões locais; limites preservados na evidência |
 | `recuperar-senha-codigo-6-digitos` | Ativa | 7 | 1 | Implementação publicada, conflito de campos corrigido e browser validado; chegada do e-mail em caixa controlada pendente |
+| `exigir-texto-denuncias-avaliacoes` | Ativa | 4 | 1 | Interface validada com fixtures; rejeição autenticada real pendente |
+| `traduzir-descricoes-deepl` | Ativa | 5 | 1 | Validação visual da integração pendente |
+| `exigir-openspec-para-implementacoes` | Arquivada em 21/10 | 4 | 0 | Regras explícitas, bloco Reflex e implementação preservados |
+| `regularizar-merge-e-commits` | Arquivada em 21/10 | 4 | 0 | Merge histórico e conflitos verificados; escopo documental, sem novos commits |
 
 A contagem administrativa anterior era 24/41 porque incluía sete itens H.1–H.7 de trabalho anterior. Eles foram preservados em [HISTORICO.md](HISTORICO.md), sem contar como implementação administrativa. Os 34 IDs administrativos originais permanecem estáveis.
 

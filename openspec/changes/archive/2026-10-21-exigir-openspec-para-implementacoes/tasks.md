@@ -8,6 +8,7 @@
 - [x] 2.1 Document tracking implementation tasks and validation evidence in the change and verify checkboxes are completed only when supported by evidence.
 - [x] 2.2 Validate the OpenSpec change and verify the workflow instructions do not alter application behavior or existing Reflex requirements.
 
+4/4 verificadas em 21/10. [Evidências](validation/conclusao-2026-10-21.md).
 ## Validation evidence — 2026-10-19
 
 - Added `OpenSpec workflow` after the Reflex-managed end marker in `AGENTS.md`.

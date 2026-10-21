@@ -12,7 +12,7 @@ Fonte de contexto atual: [OpenSpec](../openspec/README.md), [relatório de estad
 - Mensagens de upload e URL de banner no backend corrigidas e testadas.
 - Execução local com `.venv`, sem Docker por decisão do usuário. Ajustes Docker desta rodada revertidos.
 - Validação atual: 113 testes, `pip check` e compilação Reflex passaram; verificação Compose anterior ficou fora do escopo atual.
-- Evidência e limites: [correções operacionais](../openspec/changes/corrigir-erros-operacionais/validation/correcoes-2026-10-13.md).
+- Evidência e limites: [correções operacionais](../openspec/changes/archive/2026-10-21-corrigir-erros-operacionais/validation/correcoes-2026-10-13.md).
 
 ## Registro anterior — 23/09/2026
 

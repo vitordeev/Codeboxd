@@ -1,0 +1,124 @@
+{
+  "layer": "browser-local-fixtures",
+  "expected": 12,
+  "completed": [
+    {
+      "case": "required-content",
+      "width": 1440,
+      "identifier": 1,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 1440,
+      "identifier": 2,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 1440,
+      "identifier": 3,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 1440,
+      "identifier": 4,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "signup-429",
+      "width": 1440,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "reset-429",
+      "width": 1440,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 390,
+      "identifier": 1,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 390,
+      "identifier": 2,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 390,
+      "identifier": 3,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "required-content",
+      "width": 390,
+      "identifier": 4,
+      "empty_rejected": true,
+      "whitespace_rejected": true,
+      "valid_text_sent_once": true,
+      "passed": true
+    },
+    {
+      "case": "signup-429",
+      "width": 390,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "case": "reset-429",
+      "width": 390,
+      "preserved_email": true,
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "failure": "",
+  "normal_base": "http://127.0.0.1:3000",
+  "normal_restored": true,
+  "fixture_calls": {
+    "/auth/login": 8,
+    "/auth/me": 16,
+    "/profiles/7": 8,
+    "/media": 8,
+    "/profiles": 8,
+    "/media/1": 4,
+    "/interactions": 8,
+    "/lists": 8,
+    "/media/2": 4,
+    "/media/3": 4,
+    "/media/4": 4,
+    "/auth/signup": 2,
+    "/reset/request-reset-link": 2
+  }
+}

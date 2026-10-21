@@ -40,6 +40,9 @@ async def check(browser,width,identifier):
         await page.locator('input[name=password]').fill('fictional-password1')
         await page.get_by_role('button',name='Entrar',exact=True).click()
         await expect(page.get_by_role('heading',name='Conta fictícia',exact=True)).to_be_visible(timeout=30000)
+        # This suite tests form validation after login has finished; rapid
+        # navigation during profile hydration belongs to navigation regressions.
+        await expect(page.get_by_text('Carregando…',exact=True)).not_to_be_visible(timeout=30000)
         await page.goto(f'http://127.0.0.1:3031/obra/{identifier}')
         submit=page.get_by_role('button',name='Salvar avaliação',exact=True)
         await expect(submit).to_be_visible(timeout=30000)
@@ -52,6 +55,9 @@ async def check(browser,width,identifier):
         await submit.click()
         await expect(page.get_by_text('Escreva sua avaliação antes de enviar.',exact=True)).to_be_visible()
         assert not WRITES['review']
+        # The form intentionally throttles submits for one second. A corrected
+        # input must be submitted after that window rather than being dropped.
+        await page.wait_for_timeout(1100)
         await review.fill('  Gostei da história.  ')
         await page.locator('select[name=rating]').select_option('4.5')
         await submit.click()
@@ -82,8 +88,10 @@ if __name__=='__main__':
     import argparse
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',type=Path,default=Path(__file__).resolve().parents[1]/'openspec/changes/exigir-texto-denuncias-avaliacoes/validation/browser-2026-10-20')
+    parser.add_argument('--normal-base',default='http://127.0.0.1:3030')
+    parser.add_argument('--frontend-workdir',type=Path)
     args=parser.parse_args()
     runner.Fixture=ContentFixture
     runner.media_case=check
     runner.OUTPUT=args.output.resolve()
-    asyncio.run(runner.main())
+    asyncio.run(runner.main(normal_base=args.normal_base,frontend_workdir=args.frontend_workdir))

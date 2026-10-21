@@ -7,7 +7,7 @@
 ## 2. Integração
 
 - [ ] 2.1 Publicar somente os dois contratos após backup e conferência de delta; validar rejeição remota sem criar registros inválidos.
-- [ ] 2.2 Reiniciar app com rede e verificar formulário no navegador, registrando evidência e limites.
+- [x] 2.2 Reiniciar app com rede e verificar formulário no navegador, registrando evidência e limites.
 
 Implementação local: 269 testes e compile --dry passaram. Dois endpoints
 publicados após backup de 78 documentos e dry-run limitado; export posterior
@@ -16,3 +16,9 @@ confirmou somente os dois arquivos alterados, referências de tabelas preservada
 Browser: 0/12 casos, falha no build/prerender por timeout, não no teste do formulário.
 Usuário pediu retomar a otimização; pendências preservadas nesta change separada.
 [Evidência](validation/implementacao-2026-10-20.md).
+
+Retomada 21/10: 12/12 casos de navegador aprovados em produção isolada, com
+backend fictício, quatro tipos e 1440/390px; app existente em 3000 preservado.
+18 testes pertinentes passaram. 2.2 concluída na camada de interface; 2.1
+continua aberta por falta de login para rejeição autenticada na API real.
+Estado atual 4/5. [Resultado e limites](validation/retomada-2026-10-21.md).

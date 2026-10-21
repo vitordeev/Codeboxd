@@ -26,7 +26,6 @@ DEFAULT_MEDIA_LISTS = (
 BROKEN_DEFAULT_LISTS = {
     'jã¡ assisti / li': ('Já assisti / li', 'Obras que você já terminou.'),
 }
-LEGACY_DEFAULT_LISTS = {'gostei', 'não gostei'}
 
 # Tasks stay outside Reflex state: they cannot be pickled. Keys contain only
 # a session-local nonce, cache generation and a digest of the request.
@@ -958,13 +957,6 @@ class SocialState(SessionState):
                     raise APIError('Não foi possível corrigir suas listas padrão.')
                 by_title.pop(old_title,None)
                 by_title[title.casefold()]=result
-            if old_title in LEGACY_DEFAULT_LISTS:
-                old_items=rows(await self._call('GET',f"/lists/{int(old['id'])}/items"))
-                check()
-                if not old_items:
-                    await self._call('DELETE',f"/lists/{int(old['id'])}")
-                    if by_title.get(old_title,{}).get('id')==old.get('id'):
-                        by_title.pop(old_title,None)
         for title,description in DEFAULT_MEDIA_LISTS:
             check()
             if title.casefold() not in by_title:

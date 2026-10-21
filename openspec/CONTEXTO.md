@@ -1,5 +1,10 @@
 # Contexto técnico e funcional
 
+Listas padronizadas em 21/10/2026 por reset único autorizado: todas as sete contas
+receberam Quero ver / ler e Já assisti / li vazias. Signup cria ambas na transação;
+listas personalizadas futuras continuam permitidas. Navegação não deve apagar
+listas personalizadas vazias com nomes legados. [Contrato e execução](changes/archive/2026-10-21-padronizar-listas-iniciais/validation/execucao-2026-10-21.md).
+
 Denúncias exigem descrição escrita; formulário de avaliação exige crítica.
 Xano também exige description em reports e review para nota positiva em
 interactions. Atalhos organizacionais com nota zero permanecem válidos.
@@ -33,7 +38,7 @@ Referência atual: 13/10/2026. Consulte [HISTORICO.md](HISTORICO.md) para a evol
 Tradução opcional: `services/translation.py` usa DEEPL_API_KEY somente no servidor
 para descrições das fichas Kitsu/Jikan/Open Library, com destino PT-BR, cache
 SQLite local em `.local/description-translations.sqlite3` e original em falha.
-TMDB permanece pt-BR nativo. [Change ativa](changes/traduzir-descricoes-deepl/tasks.md).
+TMDB permanece pt-BR nativo. [Change conclu?da e arquivada](changes/archive/2026-10-21-traduzir-descricoes-deepl/tasks.md).
 
 Codeboxd reúne descoberta e registro de experiências com filmes, séries, animes e livros, além de perfis e relações sociais. A aplicação usa Python/Reflex; Xano é responsável por autenticação, persistência e autorização. Os adaptadores de catálogo executam no servidor Python.
 
@@ -72,10 +77,10 @@ restaurada posteriormente: cinema, melhores avaliados e próximos filmes validad
 com 20 cards por fileira no navegador.
 [Validação TMDB](validation/restaurar-tmdb-2026-10-20.md).
 
-Complemento ativo `avaliar-meias-estrelas` (19/10): controle de nota com metades
+Complemento `avaliar-meias-estrelas` (19/10), arquivado em 21/10: controle de nota com metades
 clicáveis, escala 0,5–5 e zero sem nota; vírgula/ponto normalizados no servidor.
 Visitantes restauram meias estrelas do LocalStorage; contas preservam decimais
-no Xano. Trocar nota mantém a crítica em edição. [Evidência](changes/avaliar-meias-estrelas/validation/implementacao-2026-10-19.md).
+no Xano. Trocar nota mantém a crítica em edição. [Evidência](changes/archive/2026-10-21-avaliar-meias-estrelas/validation/implementacao-2026-10-19.md).
 
 | Tópico | Comportamento existente | Contratos/evidências |
 | --- | --- | --- |
@@ -128,7 +133,7 @@ Autoria/ator vêm de `$auth.id`, não do payload. Endpoints protegem propriedade
 
 Senha é enviada pelo submit, sem variável de senha sincronizada. Indisponibilidade transitória não equivale a token inválido; 401/403 podem limpar a sessão. Nota de visitante não escreve no Xano.
 
-O `.gitignore` estava vazio na revisão inicial. A correção operacional adicionou regras e retirou 441 entradas privadas/geradas do índice, preservando arquivos locais. `.env` e arquivos de contas também estavam no histórico de um commit contido na referência `origin/main`: a limpeza atual não remove esse histórico; revisão/rotação de credenciais permanece pendente. Não copiar valores secretos para relatórios. Evidência em `changes/corrigir-erros-operacionais/validation/`.
+O `.gitignore` estava vazio na revisão inicial. A correção operacional adicionou regras e retirou 441 entradas privadas/geradas do índice, preservando arquivos locais. `.env` e arquivos de contas também estavam no histórico de um commit contido na referência `origin/main`: a limpeza atual não remove esse histórico; revisão/rotação de credenciais permanece pendente. Não copiar valores secretos para relatórios. Evidência em `changes/archive/2026-10-21-corrigir-erros-operacionais/validation/`.
 
 ## Ambiente e publicação
 

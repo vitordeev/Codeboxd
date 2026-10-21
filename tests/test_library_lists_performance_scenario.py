@@ -62,10 +62,10 @@ class LibraryListsScenarioTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result['simulated_writes'],2)
         self.assertTrue(result['default_lists_ready'])
 
-    async def test_legacy_default_repair_and_deletion_are_simulated(self):
+    async def test_legacy_default_is_repaired_without_deleting_custom_list(self):
         result=await run_sample('lists','legacy-defaults')
-        self.assertEqual(result['total_requests'],8)
-        self.assertEqual(result['simulated_writes'],2)
+        self.assertEqual(result['total_requests'],6)
+        self.assertEqual(result['simulated_writes'],1)
         self.assertTrue(result['default_lists_ready'])
 
     async def test_revisit_still_requests_public_lists(self):
