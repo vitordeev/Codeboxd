@@ -54,7 +54,7 @@ Revalidação em 22/09/2026: 14 testes locais, 6 verificações com Xano real e 
 - [x] 5.5 Prevent duplicate internally stored media references and verify the same source and external identifier are not stored twice
 - [x] 5.6 Implement external source failure handling and verify unavailable sources do not corrupt existing Codeboxd data
 
-Revalidação em 19/10/2026: buscas reais de filmes, séries, animes e livros aprovadas via TMDB, Kitsu e Open Library; 36 testes automatizados passaram. A migração para Kitsu substitui o bloqueio histórico da Jikan. Comandos, resultados e limites em [validation/external-search-2026-10-19.md](validation/external-search-2026-10-19.md).
+Revalidação em 19/10/2026: buscas reais de filmes, séries, animes e livros aprovadas via TMDB, Kitsu e Open Library; 36 testes automatizados passaram. A migração para Kitsu substitui o bloqueio histórico da Jikan. Comandos, resultados e limites em [validation/external-search-2026-10-19.md](../2026-10-19-definir-fundacao-codeboxd/validation/external-search-2026-10-19.md).
 
 ## 6. Media Discovery
 
@@ -125,7 +125,7 @@ Revalidação em 19/10/2026: buscas reais de filmes, séries, animes e livros ap
 <<<<<<<< HEAD:openspec/changes/archive/2026-10-19-definir-fundacao-codeboxd/tasks.md
 - [x] 11.7 Validate the completed OpenSpec change and verify all proposal artifacts remain valid
 
-Validação final em 19/10/2026: 107 testes automatizados e compilação Reflex aprovados; artefatos aprovados em validação OpenSpec estrita. Evidências históricas revisadas e limites preservados em [validation/final-validation-2026-10-19.md](validation/final-validation-2026-10-19.md). Todas as 87 tarefas estão concluídas.
+Validação final em 19/10/2026: 107 testes automatizados e compilação Reflex aprovados; artefatos aprovados em validação OpenSpec estrita. Evidências históricas revisadas e limites preservados em [validation/final-validation-2026-10-19.md](../2026-10-19-definir-fundacao-codeboxd/validation/final-validation-2026-10-19.md). Todas as 87 tarefas estão concluídas.
 
 Historical evidence 19/09/2026: task 11.6 passed against the published Xano API with movie, series, anime and book records in one temporary list; the list was removed after the check. A real Jikan anime record remains in the shared catalog. The UI searches this cached catalog when an external provider fails, with a visible provider warning. Jikan returned HTTP 504 in that round. This search blocker was superseded by the Kitsu migration and the successful four-category search revalidation on 19/10/2026; task 5.2 is complete and task 11.7 remains open for final validation.
 

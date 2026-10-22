@@ -5,6 +5,8 @@ query "admin/dashboard" verb=GET {
   input {
     int page?=1 filters=min:1
     int per_page?=6 filters=min:1|max:100
+    int reports_page?=1 filters=min:1
+    int reports_per_page?=5 filters=min:1|max:100
   }
 
   stack {
@@ -40,13 +42,13 @@ query "admin/dashboard" verb=GET {
       where = $db.report.status == "pending"
       sort = {report.created_at: "desc"}
       output = ["id", "created_at", "target_type", "reason"]
-      return = {type: "list", paging: {page: 1, per_page: 5, metadata: false}}
+      return = {type: "list", paging: {page: $input.reports_page, per_page: $input.reports_per_page, totals: true}}
     } as $pending_reports
 
     db.query post {
       sort = {post.id: "desc"}
       output = ["id", "user_id", "created_at"]
-      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, metadata: false}}
+      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true}}
     } as $recent_posts
   }
 
@@ -55,8 +57,21 @@ query "admin/dashboard" verb=GET {
     posts_total: $posts_total
     media_total: $media_total
     reports_pending: $reports_pending
-    pending_reports: $pending_reports
-    recent_posts: $recent_posts
+    pending_reports: $pending_reports.items
+    recent_posts: $recent_posts.items
+    recent_posts_pagination: {
+      total: $recent_posts.itemsTotal
+      page: $recent_posts.curPage
+      next_page: $recent_posts.nextPage
+      per_page: $recent_posts.perPage
+    }
+    pending_reports_pagination: {
+      total: $pending_reports.itemsTotal
+      page: $pending_reports.curPage
+      next_page: $pending_reports.nextPage
+      per_page: $pending_reports.perPage
+    }
   }
+
   guid = "ZHfvqwCtLhUcUhqp84Wr9P7dF_o"
 }

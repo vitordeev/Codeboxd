@@ -1,4 +1,10 @@
-## ADDED Requirements
+# submission-content-validation Specification
+
+## Purpose
+
+Exigir conte?do escrito em den?ncias e avalia??es, com rejei??o consistente de texto vazio na interface e na API, preservando a organiza??o da biblioteca sem nota.
+
+## Requirements
 
 ### Requirement: Denúncia com texto obrigatório
 O sistema SHALL exigir descrição escrita não vazia depois de remover espaços nas extremidades em toda denúncia, na interface e no backend.

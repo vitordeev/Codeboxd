@@ -1,0 +1,59 @@
+{
+  "layer": "authenticated_real_api",
+  "checks": [
+    {
+      "endpoint": "/reports",
+      "case": "absent",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "endpoint": "/reports",
+      "case": "null",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "endpoint": "/reports",
+      "case": "empty",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "endpoint": "/reports",
+      "case": "whitespace",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "endpoint": "/interactions",
+      "case": "absent",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "endpoint": "/interactions",
+      "case": "null",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "endpoint": "/interactions",
+      "case": "empty",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "endpoint": "/interactions",
+      "case": "whitespace",
+      "status": 400,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "started_at": "2026-10-22T00:45:37.981516+00:00",
+  "storage_unchanged": {
+    "report": true,
+    "user_media_interaction": true
+  }
+}

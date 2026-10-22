@@ -1,5 +1,34 @@
 # Pendências e sequência de retomada
 
+Conte?do obrigat?rio conclu?do e arquivado em 21/10/2026 (5/5): oito rejei??es
+autenticadas reais aprovadas, registros inalterados e especifica??o consolidada.
+Restam tr?s changes ativas: administra??o, performance e recupera??o de senha.
+[Evid?ncia final](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/conclusao-api-real-2026-10-21.md).
+
+## Estado atual ? revis?o documental de 21/10/2026
+
+A tradu??o DeepL est? conclu?da (6/6), validada em quatro cen?rios reais de
+navegador e arquivada. A resolu??o dos conflitos tamb?m est? conclu?da (2/2).
+
+| Change funcional ativa | Conclu?das | Restantes | Falta verificar/concluir |
+| --- | ---: | ---: | --- |
+| `otimizar-performance-app` | 11 | 26 | Implementa??o restante, medi??es e integra??o completa |
+| `gerenciamento-website` | 17 | 17 | Opera??es administrativas e valida??es autorizadas |
+| `recuperar-senha-codigo-6-digitos` | 7 | 1 | E-mail real e ciclo completo em conta controlada |
+
+Sobreposi??o da capa de livro com a sinopse em 390px: ajuste visual pendente,
+sem nova funcionalidade nesta rodada. Estas contagens n?o medem o percentual
+global do projeto: tarefas t?m escopos e esfor?os diferentes.
+
+[Tradu??o conclu?da](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/conclusao-navegador-2026-10-21.md).
+
+## Registros anteriores ? estado nas respectivas datas
+
+Os relatos abaixo preservam a sequ?ncia de trabalho. Aus?ncia de chave DeepL,
+tradu??o pendente e contagens antigas de changes descrevem momentos anteriores;
+o quadro acima ? a refer?ncia atual.
+
+
 21/10, conclusao posterior: traducao DeepL concluida em 6/6 e arquivada.
 Quatro cenarios reais de navegador (anime/livro, desktop/celular) e oito testes
 aprovados; chave privada restaurada. Registros anteriores de ausencia da chave
@@ -13,7 +42,7 @@ Conteúdo obrigatório agora 4/5; falta login de teste para rejeição na API re
 DeepL permanece 5/6: chave ausente no `.env` atual; configurar de forma privada
 antes de confirmar a tradução visual. Servidor 3000 preservado; build isolado
 via npm passou, sem comprovar resolução da falha do caminho padrão.
-[Conteúdo](changes/exigir-texto-denuncias-avaliacoes/validation/retomada-2026-10-21.md)
+[Conteúdo](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/retomada-2026-10-21.md)
 e [tradução](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/retomada-2026-10-21.md).
 
 Regras OpenSpec e revisão Git concluídas/arquivadas em 21/10 (4/4 cada).
@@ -49,7 +78,7 @@ paralela como ganho de performance. [Revisão atual](changes/otimizar-performanc
 Change separada exigir-texto-denuncias-avaliacoes em 3/5: validações implementadas
 e publicadas; faltam rejeição autenticada real e browser. O build/prerender falhou
 antes de iniciar casos; tratar disponibilidade operacional ao retomar performance.
-[Evidência](changes/exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
+[Evidência](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
 
 Performance em 20/10: a change
 `otimizar-performance-app` tem 11/37 tarefas concluídas. Permanecem 26 abertas,

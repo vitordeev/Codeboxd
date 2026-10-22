@@ -8,7 +8,7 @@ listas personalizadas vazias com nomes legados. [Contrato e execução](changes/
 Denúncias exigem descrição escrita; formulário de avaliação exige crítica.
 Xano também exige description em reports e review para nota positiva em
 interactions. Atalhos organizacionais com nota zero permanecem válidos.
-[Contrato e limites de validação](changes/exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
+[Contrato e limites de validação](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
 
 Fichas agora publicam conteúdo principal antes de complementos; avaliação pessoal
 aguarda restauração antes de abrir o formulário. Resultados têm guardas de
