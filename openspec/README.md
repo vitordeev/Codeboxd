@@ -14,7 +14,7 @@ navegador e arquivada. A resolu??o dos conflitos tamb?m est? conclu?da (2/2).
 | --- | ---: | ---: | --- |
 | `otimizar-performance-app` | 11 | 26 | Implementa??o restante, medi??es e integra??o completa |
 | `gerenciamento-website` | 17 | 17 | Opera??es administrativas e valida??es autorizadas |
-| `recuperar-senha-codigo-6-digitos` | 7 | 1 | E-mail real e ciclo completo em conta controlada |
+| `recuperar-senha-codigo-6-digitos` | 8 | 2 | Resend publicado; alinhar destinat?rio permitido e validar envio/ciclo real |
 
 Sobreposi??o da capa de livro com a sinopse em 390px: ajuste visual pendente,
 sem nova funcionalidade nesta rodada. Estas contagens n?o medem o percentual

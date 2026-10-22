@@ -15,11 +15,36 @@ query "reset/request-reset-link" verb=GET {
         var $message {
           value = "<!DOCTYPE html><html><body style=\"font-family:Arial,sans-serif;line-height:1.6;color:#333\"><div style=\"max-width:600px;margin:20px auto;padding:20px;border:1px solid #ddd;border-radius:8px\"><h2>Redefinir senha do Codeboxd</h2><p>Seu código de recuperação é:</p><p style=\"padding:18px;background:#080808;color:#f5b300;font-size:28px;font-weight:bold;letter-spacing:4px;text-align:center\">" ~ $token_and_email.token ~ "</p><p>Este código tem 6 dígitos, expira em 15 minutos e só pode ser usado uma vez.</p><p>Informe-o na página de redefinição e escolha sua nova senha. Se você não pediu a recuperação, ignore este e-mail.</p><p>Codeboxd</p></div></body></html>"
         }
-        util.send_email {
-          service_provider = "xano"
-          to = $token_and_email.email
-          subject = "Seu código de 6 dígitos para recuperar a senha do Codeboxd"
-          message = $message
+        precondition ($env.RESEND_API_KEY != null && $env.RESEND_API_KEY != "" && $env.RESEND_FROM != null && $env.RESEND_FROM != "") {
+          error_type = "inputerror"
+          error = "Não foi possível enviar o código de recuperação. Tente novamente mais tarde."
+        }
+        var $delivery_accepted { value = false }
+        try_catch {
+          try {
+            api.request {
+              url = "https://api.resend.com/emails"
+              method = "POST"
+              params = {
+                from: $env.RESEND_FROM
+                to: [$token_and_email.email]
+                subject: "Seu código de 6 dígitos para recuperar a senha do Codeboxd"
+                html: $message
+              }
+              headers = ["Content-Type: application/json", "Authorization: Bearer " ~ $env.RESEND_API_KEY]
+              timeout = 15
+            } as $delivery
+            var.update $delivery_accepted {
+              value = $delivery.response.status >= 200 && $delivery.response.status < 300 && $delivery.response.result.id != null
+            }
+          }
+          catch {
+            var.update $delivery_accepted { value = false }
+          }
+        }
+        precondition ($delivery_accepted) {
+          error_type = "inputerror"
+          error = "Não foi possível enviar o código de recuperação. Tente novamente mais tarde."
         }
       }
     }

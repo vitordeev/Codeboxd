@@ -1,0 +1,19 @@
+{
+  "layer": "real_api_and_user_received_email",
+  "passed": false,
+  "started_at": "2026-10-22T17:57:48.885885+00:00",
+  "checks": [
+    {
+      "scenario": "controlled_account_login",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "request_accepted_not_delivery_proof",
+      "passed": false,
+      "http_status": 400
+    }
+  ],
+  "failure_stage": "request_email",
+  "failure_type": "RuntimeError"
+}
