@@ -1,5 +1,16 @@
 # Tarefas da administração
 
+Fechamento solicitado pelo usuário: entregas, evidências, limites, commits e
+retomada de 22/10 consolidados no
+[relatório diário](../../RELATORIO_TRABALHOS_2026-10-22.md). Checklist mantido
+em **21/34**, sem execução real da ferramenta de consultas até o login manual.
+
+Continuação interativa de 22/10: ferramenta `tools/admin_reads_remote.py`
+preparada para leituras reais com login manual da conta admin ID 14. Sete testes
+offline e 21 testes admin aprovados. Execução real aguardando login; nenhum ID
+adicional concluído, **21/34** mantido. Escopo, comando e limites no
+[plano de leituras](validation/plano-leituras-admin-2026-10-22.md).
+
 Atualização de 22/10/2026: **19/34 concluídas, 15 abertas**. Tarefas 6.2 e 6.3
 encerradas com componentes compartilhados de feedback/paginação, 21 testes
 administrativos, compilação e oito cenários de navegador fictícios em desktop

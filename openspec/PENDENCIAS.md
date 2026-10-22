@@ -1,5 +1,10 @@
 # Pendências e sequência de retomada
 
+Fechamento de 22/10: administração **21/34**, recuperação **8/10**, performance
+**11/37**. Próxima etapa administrativa: login manual na ferramenta preparada;
+nenhuma sessão real obtida nesta rodada. Resend depende de destinatário elegível.
+[Relatório do dia e critérios de retomada](RELATORIO_TRABALHOS_2026-10-22.md).
+
 22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
 conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
 local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas

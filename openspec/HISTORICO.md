@@ -1,5 +1,11 @@
 # Histórico e decisões preservadas
 
+22/10/2026 — Fechamento do dia consolidado no
+[relatório de trabalhos](RELATORIO_TRABALHOS_2026-10-22.md), com distinção entre
+entregas anteriores, testes simulados, validação remota e preparação mais recente.
+Ferramenta de consultas admin pronta, sete testes novos e 21 existentes aprovados;
+execução real não iniciada. Sem novo commit ou publicação no fechamento.
+
 22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
 conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
 local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas

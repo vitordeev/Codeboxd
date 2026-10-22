@@ -1,5 +1,10 @@
 # OpenSpec do Codeboxd
 
+[Fechamento de 22/10/2026](RELATORIO_TRABALHOS_2026-10-22.md): entregas de
+Resend, feed/listas e administração, evidências, commits e próximos passos.
+Administração em **21/34**; ferramenta de consultas reais preparada com sete
+testes novos e 21 existentes aprovados, aguardando login admin local.
+
 22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
 conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
 local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas

@@ -1,5 +1,10 @@
 # Contexto técnico e funcional
 
+Consultas administrativas têm executor interativo próprio em
+`tools/admin_reads_remote.py`, independente do servidor Reflex. Confirma conta
+admin aprovada antes de ler APIs; testes offline aprovados, integração real
+ainda aguardando login. [Consolidação do dia](RELATORIO_TRABALHOS_2026-10-22.md).
+
 22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
 conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
 local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas
