@@ -1,0 +1,6 @@
+{
+  "layer": "real_api_no_account",
+  "status": 200,
+  "generic_response": true,
+  "no_secret_in_response": true
+}

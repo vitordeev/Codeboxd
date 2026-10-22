@@ -1,0 +1,12 @@
+{
+  "request_status": 200,
+  "request_at": "2026-10-22 11:34:40+0000",
+  "matched_account": true,
+  "delivery_confirmed": false,
+  "account_active": true,
+  "reset_hash_present": true,
+  "reset_format": "six_digits",
+  "reset_used": false,
+  "reset_requested_at": 1792668880432,
+  "reset_expiration": 1792669780432
+}

@@ -1,0 +1,18 @@
+{
+  "layer": "real_api_and_user_received_email",
+  "passed": false,
+  "started_at": "2026-10-22T11:30:27.092418+00:00",
+  "checks": [
+    {
+      "scenario": "controlled_account_login",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "request_accepted_not_delivery_proof",
+      "passed": true,
+      "http_status": 200
+    }
+  ],
+  "incomplete": true
+}

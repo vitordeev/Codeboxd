@@ -1,0 +1,46 @@
+{
+  "applied": true,
+  "passed": true,
+  "preview_status": 200,
+  "summary": {
+    "workspace": {
+      "created": 0,
+      "updated": 0,
+      "deleted": 0,
+      "truncated": 0,
+      "unchanged": 1
+    },
+    "table": {
+      "created": 0,
+      "updated": 0,
+      "deleted": 0,
+      "truncated": 0,
+      "unchanged": 0
+    },
+    "query": {
+      "created": 0,
+      "updated": 1,
+      "deleted": 0,
+      "truncated": 0,
+      "unchanged": 0
+    },
+    "message": {
+      "created": 0,
+      "updated": 0,
+      "deleted": 0,
+      "truncated": 0,
+      "unchanged": 0
+    }
+  },
+  "has_env": true,
+  "operations": [
+    {
+      "type": "query",
+      "name": "reset/request-reset-link GET",
+      "action": "update"
+    }
+  ],
+  "push_status": 200,
+  "only_expected_definitions_changed": true,
+  "private_variables_verified": true
+}

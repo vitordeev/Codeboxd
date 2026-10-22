@@ -1,0 +1,29 @@
+{
+  "diagnostic": "resend_response_guard_synthetic",
+  "published_changes": false,
+  "start_status": 200,
+  "start_response": {
+    "debug_id": "e5d4f750-e386-4dc0-b86c-0b683b8314a4",
+    "status": "ok",
+    "timing": 0.01,
+    "result": {
+      "accepted": true
+    }
+  },
+  "execution": {
+    "created_at": "2026-10-22 17:56:58+0000",
+    "updated_at": "2026-10-22 17:56:58+0000",
+    "workspace_id": 147717,
+    "status": "ok",
+    "timing": 0.01,
+    "entry_obj_type": "function",
+    "entry_obj_name": "diagnose_recovery_mail",
+    "entry_obj_verb": "",
+    "result": null,
+    "exception": null,
+    "maxed": false,
+    "truncated": false,
+    "expires_at": "2026-10-29 17:56:58+0000",
+    "debug_id": "e5d4f750-e386-4dc0-b86c-0b683b8314a4"
+  }
+}
