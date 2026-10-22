@@ -1,0 +1,14 @@
+{
+  "layer": "browser_local_fictional_backend",
+  "expected": 8,
+  "completed": [
+    {
+      "case": 1,
+      "width": 1440,
+      "passed": true,
+      "javascript_errors": []
+    }
+  ],
+  "failure": "AssertionError: Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" get_by_role(\"heading\", name=\"Dashboard\", exact=True) with timeout 30000ms\n  - waiting for get_by_role(\"heading\", name=\"Dashboard\", exact=True)\n\nAria snapshot:\n- region \"Notifications alt+T\"\n- main:\n  - link \"Codeboxd \u2014 in\u00edcio\":\n    - /url: /\n    - img\n    - text: codeboxd\n  - paragraph: \u00c1REA RESTRITA\n  - heading \"Acesso administrativo\" [level=1]\n  - paragraph: Entre com uma conta autorizada para gerenciar o Codeboxd.\n  - text: E-mail\n  - textbox \"E-mail\":\n    - /placeholder: voce@exemplo.com\n    - text: admin@example.invalid\n  - text: Senha\n  - textbox \"Senha\":\n    - /placeholder: Sua senha\n    - text: fictional-password\n  - button \"Mostrar senha\"\n  - checkbox \"Manter sess\u00e3o neste dispositivo\" [checked]\n  - text: Manter sess\u00e3o neste dispositivo\n  - link \"Esqueci minha senha\":\n    - /url: /redefinir-senha\n  - alert: N\u00e3o foi poss\u00edvel conectar. Tente novamente em instantes.\n  - button \"Entrar na administra\u00e7\u00e3o\"\n  - link \"Voltar ao login do Codeboxd\":\n    - /url: /login\n- link \"Built with Reflex\":\n  - /url: https://reflex.dev\n  - img\n  - text: Built with Reflex",
+  "normal_server_modified": false
+}

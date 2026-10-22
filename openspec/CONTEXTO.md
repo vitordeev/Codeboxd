@@ -1,5 +1,24 @@
 # Contexto técnico e funcional
 
+22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
+conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
+local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas
+remotas. Restam 13 tarefas dependentes de sess?o admin leg?tima.
+[Confer?ncia](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md).
+
+Administração: feedback e paginação compartilhados entre usuários, catálogo
+e reports. Paginação bloqueada durante carregamento; interface das sete
+seções verificada em 1440/390px com APIs fictícias em 22/10. Isso encerra
+6.2/6.3, preservando as verificações remotas e 9.2 em aberto.
+[Evidências](changes/gerenciamento-website/validation/interface-2026-10-22.md).
+
+Feed: referência à obra é opcional. Edição fixa ID/token do editor e não
+pode virar criação após perda de contexto. Listas próprias oferecem busca
+de catálogo e inclusão pela ficha, com confirmação, isolamento de sessão
+e destino. Validado localmente e no navegador com fixtures em 22/10;
+change arquivada com especificações sincronizadas.
+[Entrega e limites](changes/archive/2026-10-22-corrigir-edicao-feed-e-inclusao-listas/validation/implementacao-2026-10-22.md).
+
 Listas padronizadas em 21/10/2026 por reset único autorizado: todas as sete contas
 receberam Quero ver / ler e Já assisti / li vazias. Signup cria ambas na transação;
 listas personalizadas futuras continuam permitidas. Navegação não deve apagar

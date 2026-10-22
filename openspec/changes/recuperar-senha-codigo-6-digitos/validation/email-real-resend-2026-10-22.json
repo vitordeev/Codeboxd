@@ -15,5 +15,6 @@
     }
   ],
   "failure_stage": "request_email",
-  "failure_type": "RuntimeError"
+  "failure_type": "RuntimeError",
+  "incomplete": true
 }

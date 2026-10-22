@@ -1,5 +1,22 @@
 # Pendências e sequência de retomada
 
+22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
+conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
+local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas
+remotas. Restam 13 tarefas dependentes de sess?o admin leg?tima.
+[Confer?ncia](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md).
+
+22/10 — Administração: **19/34**, com 6.2/6.3 concluídas localmente. Restam
+15 tarefas de validação administrativa e integração real; as fixtures de
+navegador não substituem uma conta admin real autorizada.
+[Evidências](changes/gerenciamento-website/validation/interface-2026-10-22.md).
+
+22/10/2026 — Feed e listas concluídos e arquivados (6/6), com especificações
+sincronizadas. Restam três changes ativas: administração, performance e senha.
+Os oito cenários de navegador dessa entrega usam dados fictícios; não
+comprovam integração autenticada com o Xano.
+[Evidências](changes/archive/2026-10-22-corrigir-edicao-feed-e-inclusao-listas/validation/implementacao-2026-10-22.md).
+
 Conte?do obrigat?rio conclu?do e arquivado em 21/10/2026 (5/5): oito rejei??es
 autenticadas reais aprovadas, registros inalterados e especifica??o consolidada.
 Restam tr?s changes ativas: administra??o, performance e recupera??o de senha.
@@ -13,7 +30,7 @@ navegador e arquivada. A resolu??o dos conflitos tamb?m est? conclu?da (2/2).
 | Change funcional ativa | Conclu?das | Restantes | Falta verificar/concluir |
 | --- | ---: | ---: | --- |
 | `otimizar-performance-app` | 11 | 26 | Implementa??o restante, medi??es e integra??o completa |
-| `gerenciamento-website` | 17 | 17 | Opera??es administrativas e valida??es autorizadas |
+| `gerenciamento-website` | 19 | 15 | Opera??es administrativas e valida??es autorizadas |
 | `recuperar-senha-codigo-6-digitos` | 8 | 2 | Resend publicado; alinhar destinat?rio permitido e validar envio/ciclo real |
 
 Sobreposi??o da capa de livro com a sinopse em 390px: ajuste visual pendente,
@@ -127,7 +144,7 @@ Fonte dos checkboxes: [tasks.md](changes/gerenciamento-website/tasks.md). Há 17
 | 3 | 3.1–3.3 | Busca/filtros de usuários, suspensão/reativação e auditoria | Respostas mínimas, sessão suspensa bloqueada, ator servidor e trilha persistida; restaurar conta de teste |
 | 4 | 4.1–4.2 | Paginação/filtros e correção de catálogo real | Tipo correto em todas as páginas; identidade externa preservada; erro não altera registro |
 | 5 | 5.1–5.5 | Persistência, consulta, transições, snapshots e integridade de reports | Validação de alvo/motivo, acesso protegido, decisão auditada e conteúdo alvo intacto; mensagem via snapshot |
-| 6 | 6.2–6.3 | Reutilização/estados de componentes e revisão visual desktop/celular | Vazio, carregamento, erro e retry; navegação legível sem overflow da página |
+| 6 | 6.2–6.3 concluídas em 22/10 | Componentes e interface verificados localmente | 21 testes e 8 cenários de navegador fictícios; integração real segue em 9.2 |
 | 7 | 9.1–9.2 | Completar cobertura de integração e smoke com dados reais | Evidência de autorização, filtros, transições e auditoria; browser admin/membro/visitante e falhas parciais |
 
 Arquivos administrativos já existem. Antes de publicar, comparar o delta local/remoto, conferir documentação de operações e registrar o escopo. O dry-run de setembro não garante o estado remoto atual. Não conceder papel admin automaticamente.

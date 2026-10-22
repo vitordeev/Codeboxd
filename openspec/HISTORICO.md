@@ -1,5 +1,23 @@
 # Histórico e decisões preservadas
 
+22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
+conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
+local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas
+remotas. Restam 13 tarefas dependentes de sess?o admin leg?tima.
+[Confer?ncia](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md).
+
+22/10 — Retomada de `gerenciamento-website`: feedback e paginação unificados,
+botões de página bloqueados durante loading, 21 testes e oito cenários de
+navegador fictícios aprovados em desktop/celular. Tarefas 6.2/6.3 encerradas;
+19/34 concluídas, sem mutações administrativas reais.
+[Evidências](changes/gerenciamento-website/validation/interface-2026-10-22.md).
+
+22/10/2026 — Feed e listas arquivados em 6/6 após sincronizar três requisitos
+em `social-feed` e `user-lists`, preservando cenários anteriores. As 19 specs
+e a change passaram na validação. Implementação: 298 testes e oito cenários
+de navegador fictícios aprovados; integração autenticada Xano não executada.
+[Evidências](changes/archive/2026-10-22-corrigir-edicao-feed-e-inclusao-listas/validation/implementacao-2026-10-22.md).
+
 21/10: `exigir-texto-denuncias-avaliacoes` arquivada em 5/5; dois requisitos
 e cinco cen?rios sincronizados em submission-content-validation, 19 specs
 validadas e evid?ncia real preservada. Restam tr?s changes ativas.
