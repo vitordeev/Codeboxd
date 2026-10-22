@@ -1,5 +1,10 @@
 # OpenSpec do Codeboxd
 
+Conte?do obrigat?rio conclu?do e arquivado em 21/10/2026 (5/5): oito rejei??es
+autenticadas reais aprovadas, registros inalterados e especifica??o consolidada.
+Restam tr?s changes ativas: administra??o, performance e recupera??o de senha.
+[Evid?ncia final](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/conclusao-api-real-2026-10-21.md).
+
 ## Estado atual ? revis?o documental de 21/10/2026
 
 A tradu??o DeepL est? conclu?da (6/6), validada em quatro cen?rios reais de
@@ -9,7 +14,6 @@ navegador e arquivada. A resolu??o dos conflitos tamb?m est? conclu?da (2/2).
 | --- | ---: | ---: | --- |
 | `otimizar-performance-app` | 11 | 26 | Implementa??o restante, medi??es e integra??o completa |
 | `gerenciamento-website` | 17 | 17 | Opera??es administrativas e valida??es autorizadas |
-| `exigir-texto-denuncias-avaliacoes` | 4 | 1 | Rejei??o autenticada na API real |
 | `recuperar-senha-codigo-6-digitos` | 7 | 1 | E-mail real e ciclo completo em conta controlada |
 
 Sobreposi??o da capa de livro com a sinopse em 390px: ajuste visual pendente,
@@ -36,7 +40,7 @@ e validacao pendente sao historicos.
 18 testes pertinentes aprovados; change em 4/5, faltando rejeição na API real
 com login de teste. Tradução em 5/6: chave DeepL ausente na configuração atual,
 fallback com sinopse original confirmado; tradução visual aguarda configuração.
-[Conteúdo](changes/exigir-texto-denuncias-avaliacoes/validation/retomada-2026-10-21.md)
+[Conteúdo](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/retomada-2026-10-21.md)
 e [tradução](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/retomada-2026-10-21.md).
 
 21/10, encerramento posterior: `exigir-openspec-para-implementacoes` e
@@ -73,7 +77,7 @@ operacional antes de novas medições. [Revisão e sequência para concluir](cha
 Texto obrigatório em denúncias/avaliações (20/10): implementado e publicado nos
 dois contratos Xano, com backup e conferência do delta. 269 testes e compile
 passaram; rejeição autenticada e navegador ainda pendentes (build falhou no
-prerender). [Change separada, 3/5](changes/exigir-texto-denuncias-avaliacoes/tasks.md).
+prerender). [Change separada, 3/5](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/tasks.md).
 
 TMDB recuperado após relato em 20/10: o reinício anterior herdou restrição de
 rede do agente (WinError 10013). App reiniciado com rede autorizada; quatro
@@ -317,7 +321,6 @@ e [uploads/sessão](validation/uploads-and-session-2026-10-13.md).
 | `avaliar-meias-estrelas` | Arquivada em 21/10 | 5 | 0 | Interface, persistência decimal e limpeza verificadas |
 | `padronizar-listas-iniciais` | Arquivada em 21/10 | 7 | 0 | Migração real, contrato publicado e regressões locais; limites preservados na evidência |
 | `recuperar-senha-codigo-6-digitos` | Ativa | 7 | 1 | Implementação publicada, conflito de campos corrigido e browser validado; chegada do e-mail em caixa controlada pendente |
-| `exigir-texto-denuncias-avaliacoes` | Ativa | 4 | 1 | Interface validada com fixtures; rejeição autenticada real pendente |
 | `traduzir-descricoes-deepl` | Ativa | 5 | 1 | Validação visual da integração pendente |
 | `exigir-openspec-para-implementacoes` | Arquivada em 21/10 | 4 | 0 | Regras explícitas, bloco Reflex e implementação preservados |
 | `regularizar-merge-e-commits` | Arquivada em 21/10 | 4 | 0 | Merge histórico e conflitos verificados; escopo documental, sem novos commits |

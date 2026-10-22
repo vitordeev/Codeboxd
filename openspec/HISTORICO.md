@@ -1,5 +1,15 @@
 # Histórico e decisões preservadas
 
+21/10: `exigir-texto-denuncias-avaliacoes` arquivada em 5/5; dois requisitos
+e cinco cen?rios sincronizados em submission-content-validation, 19 specs
+validadas e evid?ncia real preservada. Restam tr?s changes ativas.
+
+21/10, conclus?o de conte?do obrigat?rio: change em 5/5 ap?s oito rejei??es
+autenticadas reais (HTTP 400) e compara??o integral das tabelas report e
+user_media_interaction antes/depois, sem altera??es. Login manual privado;
+sem republica??o. Mantida ativa, aguardando sincroniza??o/arquivamento.
+[Evid?ncia final](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/conclusao-api-real-2026-10-21.md).
+
 21/10, revisao documental concluida: cinco links historicos corrigidos; estado
 atual separado dos relatos antigos em README/PENDENCIAS. Conflitos (2/2) e revisao
 documental (3/3) arquivados. Quatro changes funcionais permanecem ativas.
@@ -54,7 +64,7 @@ Rodada de texto obrigatório em 20/10/2026: denúncias e formulário de avaliaç
 passam a exigir texto escrito; contratos publicados após backup/dry-run, somente
 dois endpoints alterados. 269 testes/compile passaram. Browser não executou casos
 por falha de build/prerender; usuário pediu retorno à análise de performance.
-[Registro](changes/exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
+[Registro](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
 
 Correção operacional em 20/10/2026 após relato TMDB: app havia herdado bloqueio
 de rede do executor. Reinício aprovado com rede restaurou consultas reais

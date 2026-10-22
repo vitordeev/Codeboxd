@@ -67,7 +67,7 @@ Referências: [home](validation/carregamento-home-2026-10-20.md),
 [perfil real](changes/otimizar-performance-app/validation/resultado-login-real-apos-cache-2026-10-20.md),
 [biblioteca](changes/otimizar-performance-app/validation/biblioteca-paginada-xano-real-2026-10-20.md),
 [comunidade](changes/otimizar-performance-app/validation/comunidade-sem-home-2026-10-20.md)
-e [conteúdo obrigatório](changes/exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
+e [conteúdo obrigatório](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
 
 ## Situação ao encerrar
 
