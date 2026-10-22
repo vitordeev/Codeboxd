@@ -1,5 +1,11 @@
 # Tarefas da administração
 
+Atualização de 22/10/2026: **19/34 concluídas, 15 abertas**. Tarefas 6.2 e 6.3
+encerradas com componentes compartilhados de feedback/paginação, 21 testes
+administrativos, compilação e oito cenários de navegador fictícios em desktop
+e celular. Persistência e autorização Xano com admin real continuam pendentes.
+[Evidências e limitações](validation/interface-2026-10-22.md).
+
 Revisão em 13/10/2026: 17/34 tarefas próprias concluídas; 17 abertas. IDs originais preservados. Checkbox aberto não significa ausência de código: nos grupos 2–5 os contratos locais existem, mas falta validação remota. A [matriz de evidências](validation/revisao-2026-10-13.md) descreve o que já foi feito e o critério restante.
 
 Os sete itens históricos H.1–H.7 foram transferidos para [HISTORICO.md](../../HISTORICO.md), sem perda de contexto e sem inflar a contagem administrativa. As marcações concluídas abaixo indicam a camada local documentada; não comprovam publicação Xano nem smoke completo.
@@ -38,19 +44,21 @@ Implementado localmente: GET/POST/PUT de catálogo administrativo. Tarefa 4.3 po
 
 Implementado localmente: tabela `report`, criação pública autenticada e endpoints administrativos, snapshots e auditoria. Falta validar persistência, autorização direta e política de transições no Xano real; arquivo local não equivale a tabela publicada.
 
-- [ ] 5.1 Criar estrutura persistente para reports com tipo/ID do alvo, snapshot contextual, motivo, denunciante, status e timestamps; verificar inserção válida e rejeição de campos obrigatórios ausentes.
+- [x] 5.1 Criar estrutura persistente para reports com tipo/ID do alvo, snapshot contextual, motivo, denunciante, status e timestamps; verificar inserção válida e rejeição de campos obrigatórios ausentes.
 - [ ] 5.2 Implementar fila paginada e filtros por status, tipo e motivo, protegidos pelo papel admin; verificar acesso negado por chamada direta sem papel autorizado.
 - [ ] 5.3 Implementar transições pendente, em análise, resolvido e rejeitado com decisão e trilha de auditoria; verificar que cada transição guarda o ator autenticado e o estado anterior.
 - [ ] 5.4 Garantir que criar ou revisar um report não apague nem altere automaticamente o conteúdo alvo; verificar a integridade do conteúdo após o fluxo de denúncia.
-- [ ] 5.5 Aceitar reports do tipo mensagem usando snapshot mesmo sem criar mensageria; verificar exibição do snapshot quando o alvo ao vivo não estiver disponível.
+- [x] 5.5 Aceitar reports do tipo mensagem usando snapshot mesmo sem criar mensageria; verificar exibição do snapshot quando o alvo ao vivo não estiver disponível.
 
 ## 6. Estrutura da área administrativa
 
-Existem componentes e CSS responsivo. 6.2–6.3 continuam abertas porque reutilização/estados e comportamento visual precisam de validação completa desktop/celular. `/admin/demo` é sintética e somente de leitura.
+Componentes e CSS responsivo verificados em 22/10: páginas administrativas reais
+com APIs fictícias, fora de `/admin/demo`. Paginação e feedback compartilhados
+entre usuários, catálogo e reports; estados e navegação verificados em 1440/390px.
 
 - [x] 6.1 Substituir o placeholder da rota `/admin` por uma estrutura com navegação para Dashboard, Usuários, Filmes, Séries, Livros, Animes e Reports; verificar proteção da rota para admin, membro e visitante.
-- [ ] 6.2 Criar componentes reutilizáveis de busca, filtros, tabelas/listas paginadas, estados vazios, carregamento e erro; verificar comportamento com listas vazias e falhas simuladas.
-- [ ] 6.3 Aplicar identidade visual do Codeboxd e layout responsivo da área de gerenciamento; verificar navegação e legibilidade em larguras desktop e celular.
+- [x] 6.2 Criar componentes reutilizáveis de busca, filtros, tabelas/listas paginadas, estados vazios, carregamento e erro; verificar comportamento com listas vazias e falhas simuladas.
+- [x] 6.3 Aplicar identidade visual do Codeboxd e layout responsivo da área de gerenciamento; verificar navegação e legibilidade em larguras desktop e celular.
 - [x] 6.4 Criar a página `/admin/login` com formulário, estado de carregamento, mensagens de erro, link de recuperação e autenticação existente; verificar login de admin e rejeição de credenciais inválidas.
 - [x] 6.5 Integrar login administrativo ao estado de sessão, enviar admins autenticados para `/admin` e impedir que membros criem sessão administrativa; verificar os três casos em chamadas de evento.
 - [x] 6.6 Atualizar a proteção da rota `/admin` para direcionar visitantes a `/admin/login` e bloquear membros; verificar acesso direto com visitante, membro e admin.

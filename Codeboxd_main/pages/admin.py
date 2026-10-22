@@ -85,6 +85,30 @@ def admin_login_page() -> rx.Component:
     )
 
 
+def _admin_feedback(error, notice, loading, message: str) -> rx.Component:
+    return rx.fragment(
+        rx.cond(
+            error != "",
+            rx.el.div(rx.icon("triangle-alert", size=18), rx.el.p(error),
+                role="alert", class_name="admin-dashboard-error"),
+            rx.fragment(),
+        ),
+        rx.cond(notice != "", rx.el.p(notice, role="status", class_name="admin-users-notice"), rx.fragment()),
+        rx.cond(loading, rx.el.p(message, role="status", class_name="admin-loading-message"), rx.fragment()),
+    )
+
+
+def _admin_pagination(page, next_page, loading, on_page) -> rx.Component:
+    return rx.el.nav(
+        rx.el.button("Anterior", type="button", on_click=on_page(page - 1),
+            disabled=loading | (page <= 1), class_name="quiet-button"),
+        rx.el.span("Página " + page.to_string(), class_name="admin-page-number"),
+        rx.el.button("Próxima", type="button", on_click=on_page(next_page),
+            disabled=loading | (next_page == 0), class_name="quiet-button"),
+        aria_label="Paginação dos resultados", class_name="admin-pagination",
+    )
+
+
 def _metric_card(title: str, key: str, icon: str, detail: str) -> rx.Component:
     return rx.el.article(
         rx.el.div(
@@ -364,37 +388,15 @@ def admin_users_page() -> rx.Component:
                     on_submit=AdminState.search_users,
                     class_name="admin-users-search",
                 ),
-                rx.cond(
-                    AdminState.users_error != "",
-                    rx.el.div(rx.icon("triangle-alert", size=18), rx.el.p(AdminState.users_error),
-                        role="alert", class_name="admin-dashboard-error"),
-                    rx.fragment(),
-                ),
-                rx.cond(
-                    AdminState.users_notice != "",
-                    rx.el.p(AdminState.users_notice, role="status", class_name="admin-users-notice"),
-                    rx.fragment(),
-                ),
-                rx.cond(
-                    AdminState.users_loading,
-                    rx.el.p("Carregando contas…", role="status", class_name="admin-loading-message"),
-                    rx.fragment(),
-                ),
+                _admin_feedback(AdminState.users_error, AdminState.users_notice,
+                    AdminState.users_loading, "Carregando contas…"),
                 rx.cond(
                     AdminState.users.length() > 0,
                     rx.el.section(
                         rx.el.p("Resultados: " + AdminState.users_total.to_string(), class_name="admin-users-count"),
                         rx.el.div(rx.foreach(AdminState.users, _admin_user_row), class_name="admin-users-list"),
-                        rx.el.div(
-                            rx.el.button("Anterior", type="button",
-                                on_click=AdminState.change_users_page(AdminState.users_page - 1),
-                                disabled=AdminState.users_page <= 1, class_name="quiet-button"),
-                            rx.el.span("Página " + AdminState.users_page.to_string(), class_name="admin-page-number"),
-                            rx.el.button("Próxima", type="button",
-                                on_click=AdminState.change_users_page(AdminState.users_next_page),
-                                disabled=AdminState.users_next_page == 0, class_name="quiet-button"),
-                            class_name="admin-pagination",
-                        ),
+                        _admin_pagination(AdminState.users_page, AdminState.users_next_page,
+                            AdminState.users_loading, AdminState.change_users_page),
                         class_name="admin-users-results",
                     ),
                     rx.cond(
@@ -561,37 +563,15 @@ def admin_catalog_page(media_type: str) -> rx.Component:
                     on_submit=AdminState.search_catalog,
                     class_name="admin-users-search",
                 ),
-                rx.cond(
-                    AdminState.catalog_error != "",
-                    rx.el.div(rx.icon("triangle-alert", size=18), rx.el.p(AdminState.catalog_error),
-                        role="alert", class_name="admin-dashboard-error"),
-                    rx.fragment(),
-                ),
-                rx.cond(
-                    AdminState.catalog_notice != "",
-                    rx.el.p(AdminState.catalog_notice, role="status", class_name="admin-users-notice"),
-                    rx.fragment(),
-                ),
-                rx.cond(
-                    AdminState.catalog_loading,
-                    rx.el.p("Carregando catálogo…", role="status", class_name="admin-loading-message"),
-                    rx.fragment(),
-                ),
+                _admin_feedback(AdminState.catalog_error, AdminState.catalog_notice,
+                    AdminState.catalog_loading, "Carregando catálogo…"),
                 rx.cond(
                     AdminState.catalog_items.length() > 0,
                     rx.el.section(
                         rx.el.p("Resultados: " + AdminState.catalog_total.to_string(), class_name="admin-users-count"),
                         rx.el.div(rx.foreach(AdminState.catalog_items, _catalog_item_row), class_name="admin-catalog-list"),
-                        rx.el.div(
-                            rx.el.button("Anterior", type="button",
-                                on_click=AdminState.change_catalog_page(AdminState.catalog_page - 1),
-                                disabled=AdminState.catalog_page <= 1, class_name="quiet-button"),
-                            rx.el.span("Página " + AdminState.catalog_page.to_string(), class_name="admin-page-number"),
-                            rx.el.button("Próxima", type="button",
-                                on_click=AdminState.change_catalog_page(AdminState.catalog_next_page),
-                                disabled=AdminState.catalog_next_page == 0, class_name="quiet-button"),
-                            class_name="admin-pagination",
-                        ),
+                        _admin_pagination(AdminState.catalog_page, AdminState.catalog_next_page,
+                            AdminState.catalog_loading, AdminState.change_catalog_page),
                         class_name="admin-users-results",
                     ),
                     rx.cond(
@@ -750,31 +730,15 @@ def admin_reports_page() -> rx.Component:
                     on_submit=AdminState.search_reports,
                     class_name="admin-users-search",
                 ),
-                rx.cond(
-                    AdminState.reports_error != "",
-                    rx.el.div(rx.icon("triangle-alert", size=18), rx.el.p(AdminState.reports_error),
-                        role="alert", class_name="admin-dashboard-error"),
-                    rx.fragment(),
-                ),
-                rx.cond(AdminState.reports_notice != "",
-                    rx.el.p(AdminState.reports_notice, role="status", class_name="admin-users-notice"), rx.fragment()),
-                rx.cond(AdminState.reports_loading,
-                    rx.el.p("Carregando reports…", role="status", class_name="admin-loading-message"), rx.fragment()),
+                _admin_feedback(AdminState.reports_error, AdminState.reports_notice,
+                    AdminState.reports_loading, "Carregando reports…"),
                 rx.cond(
                     AdminState.reports.length() > 0,
                     rx.el.section(
                         rx.el.p("Resultados: " + AdminState.reports_total.to_string(), class_name="admin-users-count"),
                         rx.el.div(rx.foreach(AdminState.reports, _report_card), class_name="admin-reports-list"),
-                        rx.el.div(
-                            rx.el.button("Anterior", type="button",
-                                on_click=AdminState.change_reports_page(AdminState.reports_page - 1),
-                                disabled=AdminState.reports_page <= 1, class_name="quiet-button"),
-                            rx.el.span("Página " + AdminState.reports_page.to_string(), class_name="admin-page-number"),
-                            rx.el.button("Próxima", type="button",
-                                on_click=AdminState.change_reports_page(AdminState.reports_next_page),
-                                disabled=AdminState.reports_next_page == 0, class_name="quiet-button"),
-                            class_name="admin-pagination",
-                        ),
+                        _admin_pagination(AdminState.reports_page, AdminState.reports_next_page,
+                            AdminState.reports_loading, AdminState.change_reports_page),
                         class_name="admin-users-results",
                     ),
                     rx.el.div(rx.icon("inbox", size=24), rx.el.p("Nenhum report corresponde aos filtros."),

@@ -1,0 +1,36 @@
+[
+  [
+    "POST",
+    "/auth/login",
+    {}
+  ],
+  [
+    "GET",
+    "/auth/me",
+    {}
+  ],
+  [
+    "GET",
+    "/auth/me",
+    {}
+  ],
+  [
+    "GET",
+    "/admin/dashboard",
+    {}
+  ],
+  [
+    "GET",
+    "/auth/me",
+    {}
+  ],
+  [
+    "GET",
+    "/admin/catalog",
+    {
+      "media_type": "movie",
+      "page": "1",
+      "per_page": "25"
+    }
+  ]
+]

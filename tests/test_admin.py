@@ -79,6 +79,34 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(self.state.dashboard_error, "Service unavailable")
         self.assertFalse(self.state.dashboard_updated_at)
 
+    async def test_read_sections_recover_after_failure_without_losing_session(self):
+        self.state.session_token = "admin-token"
+        empty_page = {"items": [], "total": 0, "page": 1, "next_page": 0}
+        dashboard = dict(users_total=2, posts_total=3, media_total=4, reports_pending=0,
+                         recent_posts=[], pending_reports=[])
+        for section, response, event in (
+            ("dashboard", dashboard, lambda: self.state.load_dashboard()),
+            ("users", empty_page, lambda: self.state.search_users({"search": "viewer"})),
+            ("catalog", empty_page, lambda: self.state.show_all_catalog()),
+            ("reports", empty_page, lambda: self.state.load_reports()),
+        ):
+            with self.subTest(section=section), patch(
+                "Codeboxd_main.state.session.request", new=AsyncMock(return_value={"id": 1, "role": "admin"})
+            ), patch("Codeboxd_main.state.admin.request", new=AsyncMock(
+                side_effect=[APIError("Temporary failure", 503), response]
+            )) as request:
+                async for _ in event():
+                    pass
+                self.assertEqual(getattr(self.state, section + "_error"), "Temporary failure")
+                self.assertFalse(getattr(self.state, section + "_loading"))
+                self.assertEqual(self.state.session_token, "admin-token")
+                async for _ in event():
+                    pass
+                self.assertEqual(getattr(self.state, section + "_error"), "")
+                self.assertFalse(getattr(self.state, section + "_loading"))
+                self.assertEqual(request.await_count, 2)
+                self.assertTrue(all(call.args[0] == "GET" for call in request.await_args_list))
+
     async def test_user_search_uses_server_pagination_and_discards_unapproved_fields(self):
         self.state.session_token = "admin-token"
         search_result = {

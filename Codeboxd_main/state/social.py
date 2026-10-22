@@ -139,6 +139,7 @@ class SocialState(SessionState):
     selected_post: str = ''
     liked_posts: list[str] = []
     edit_post_id: str = ''
+    post_editor_token: str = ''
     edit_post_body: str = ''
     edit_post_media: str = '0'
     edit_post_spoiler: bool = False
@@ -155,6 +156,18 @@ class SocialState(SessionState):
     quick_lists: list[dict[str,str]] = []
     list_items: list[dict[str,str]] = []
     selected_list: dict[str,str] = {'id':'','title':'','description':'','user_id':'','is_public':'True'}
+    list_media_query: str = ''
+    list_media_results: list[dict[str,str]] = []
+    list_media_searching: bool = False
+    list_media_error: str = ''
+    list_item_saving: bool = False
+    media_list_open: bool = False
+    media_list_loading: bool = False
+    media_list_options: list[dict[str,str]] = []
+    media_list_target: str = ''
+    media_list_error: str = ''
+    _list_search_generation: int = 0
+    _list_media_candidates: dict[str,dict] = {}
     _media: dict[str,dict] = {}
     _results: dict[str,dict] = {}
     _selected_raw: dict = {}
@@ -181,6 +194,7 @@ class SocialState(SessionState):
 
     @rx.event
     def set_post_editor_open(self, value: bool):
+        if self.post_saving: return
         if not value:
             self.cancel_post()
         elif self.is_authenticated:
@@ -263,8 +277,10 @@ class SocialState(SessionState):
 
     @rx.event
     def new_post(self):
+        if self.post_saving: return
         if not self.is_authenticated: return rx.redirect('/login')
         self.cancel_post()
+        self.post_editor_token=uuid.uuid4().hex
         self.post_editor_open = True
 
     @rx.event
@@ -444,6 +460,7 @@ class SocialState(SessionState):
         self.library=[]; self.posts=[]; self.comments=[]; self.lists=[]; self.quick_lists=[]; self.list_items=[]
         self.following_ids=[]; self.liked_posts=[]; self.selected_post=''
         self.edit_post_id=''; self.edit_post_body=''; self.edit_post_media='0'; self.edit_post_spoiler=False
+        self.post_editor_token=''
         self.post_media_query=''; self.post_media_results=[]; self._post_media_candidates={}; self._post_media_raw={}
         self.post_media_selected={'id':'','key':'','title':'','cover':''}
         self.post_existing_image_url=''
@@ -451,6 +468,8 @@ class SocialState(SessionState):
         self.selected_review=''; self.selected_rating='0'; self.selected_status='planned'; self.selected_spoiler=False
         self.trailers=[]
         self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'True'}
+        self._reset_list_search()
+        self.media_list_open=False; self.media_list_options=[]; self.media_list_target=''; self.media_list_error=''
         self.profile={'user_id':'','username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
         self.profile_activity=[]; self.profile_stats=''; self.followers=[]; self.following=[]
 
@@ -1390,11 +1409,14 @@ class SocialState(SessionState):
 
     @rx.event
     def edit_post(self, pid: str):
+        if self.post_saving: return
         for p in self.posts:
             if p['id']==pid and p['user_id']==str(self.user_id):
+                self.post_editor_token=uuid.uuid4().hex
                 self.post_editor_open=True
                 self.edit_post_id=pid; self.edit_post_body=p['body']; self.edit_post_media=p['media_id']; self.edit_post_spoiler=p['spoiler']=='True'
-                self._post_media_raw=self._media.get(p['media_id'],{}) if p['media_id']!='0' else {}
+                self._post_media_raw=deepcopy(self._media.get(p['media_id'],
+                    {'id':int(p['media_id']),'title':p.get('media_title','')})) if p['media_id']!='0' else {}
                 if self._post_media_raw:
                     item=present_media(self._post_media_raw)
                     self.post_media_selected={k:item[k] for k in ('id','key','title','cover')}
@@ -1406,6 +1428,7 @@ class SocialState(SessionState):
     def cancel_post(self):
         self.post_editor_open=False
         self.edit_post_id=''; self.edit_post_body=''; self.edit_post_media='0'; self.edit_post_spoiler=False
+        self.post_editor_token=''
         self.post_media_query=''; self.post_media_results=[]; self.post_media_searching=False
         self._post_media_candidates={}; self._post_media_raw={}
         self.post_media_selected={'id':'','key':'','title':'','cover':''}
@@ -1415,15 +1438,27 @@ class SocialState(SessionState):
     @rx.event
     async def save_post(self, form: dict):
         if self.post_saving: return
+        post_id=str(form.get('post_id',self.edit_post_id)).strip()
+        editor_token=str(form.get('editor_token',self.post_editor_token))
+        if post_id!=self.edit_post_id or editor_token!=self.post_editor_token:
+            self.notice='A publicação mudou. Abra a edição novamente.'
+            return
+        owner=self.user_id; token=self._token()
         self.post_saving=True
         yield
         try:
             if not await self._require_user():
                 yield rx.redirect('/login')
                 return
+            if self.user_id!=owner or self._token()!=token or self.edit_post_id!=post_id or self.post_editor_token!=editor_token:
+                self.notice='A sessão ou a publicação mudou. Abra o editor novamente.'
+                return
             media_id=await self._persist_post_media()
-            method='PUT' if self.edit_post_id else 'POST'
-            path='/posts'+('/'+self.edit_post_id if self.edit_post_id else '')
+            if self.user_id!=owner or self._token()!=token or self.edit_post_id!=post_id or self.post_editor_token!=editor_token:
+                self.notice='A sessão ou a publicação mudou. Abra o editor novamente.'
+                return
+            method='PUT' if post_id else 'POST'
+            path='/posts'+('/'+post_id if post_id else '')
             payload=dict(body=str(form.get('body','')).strip(),media_id=media_id,spoiler=form.get('spoiler')=='on')
             if self._post_image_path:
                 image_path=Path(self._post_image_path)
@@ -1620,11 +1655,13 @@ class SocialState(SessionState):
 
     @rx.event
     def new_list(self):
+        self._reset_list_search()
         self.list_editor_open=True
         self.selected_list=dict(id='',title='',description='',user_id=str(self.user_id),is_public='True'); self.list_items=[]
 
     @rx.event
     async def open_list(self, lid: str):
+        self._reset_list_search()
         stamp=self._route_stamp()
         self.list_items=[]; item=next((i for i in self.lists if i['id']==lid),None)
         if not item: return
@@ -1660,12 +1697,163 @@ class SocialState(SessionState):
     @rx.event
     async def add_list_item(self, form: dict):
         if not await self._require_user(): return rx.redirect('/login')
+        if not self.owns_list:
+            self.notice='Escolha uma lista sua.'
+            return
         try:
             lid=str(int(self.selected_list['id']))
             await self._call('POST',f'/lists/{lid}/items',{'media_id':int(form.get('media_id') or 0)})
             await self.open_list(lid); self.notice='Obra adicionada.'
         except (ValueError,KeyError): self.notice='Salve a lista e escolha uma obra.'
         except APIError as exc: self._failure(exc)
+
+    def _reset_list_search(self):
+        self._list_search_generation+=1
+        self.list_media_query=''; self.list_media_results=[]; self._list_media_candidates={}
+        self.list_media_searching=False; self.list_media_error=''
+
+    @rx.event
+    def update_list_media_query(self, value: str):
+        self._list_search_generation+=1
+        self.list_media_query=value[:160]
+        self.list_media_results=[]; self._list_media_candidates={}; self.list_media_error=''
+        self.list_media_searching=False
+
+    @rx.event
+    async def search_list_media(self):
+        if not self.owns_list: return
+        query=self.list_media_query.strip()
+        if not query:
+            self.list_media_error='Digite o nome de uma obra para pesquisar.'
+            return
+        self._list_search_generation+=1
+        generation=self._list_search_generation
+        context=(self._route_stamp(),self.selected_list.get('id'),self.user_id)
+        self.list_media_searching=True; self.list_media_error=''; self.list_media_results=[]
+        self._list_media_candidates={}
+        yield
+        def current():
+            return generation==self._list_search_generation and context==(self._route_stamp(),self.selected_list.get('id'),self.user_id)
+        try:
+            found,errors=await catalog.search(query,'all')
+            if not current(): return
+            candidates={str(m.get('identity_key') or 'local:'+str(m['id'])):deepcopy(m)
+                        for m in found+list(self._media.values())
+                        if (m.get('identity_key') or m.get('id')) and catalog.title_score(query,m)>0}
+            ranked=catalog.relevant_results(query,list(candidates.values()))[:24]
+            self._list_media_candidates={str(m.get('identity_key') or 'local:'+str(m['id'])):m for m in ranked}
+            self.list_media_results=[]
+            for key,item in self._list_media_candidates.items():
+                shown=present_media(item); shown['key']=key
+                self.list_media_results.append(shown)
+            self.list_media_error=' '.join(errors) or ('Nenhuma obra encontrada.' if not ranked else '')
+        except APIError as exc:
+            if current(): self.list_media_error=str(exc)
+        finally:
+            if current(): self.list_media_searching=False
+
+    async def _persist_list_candidate(self, item: dict) -> dict:
+        item=deepcopy(item)
+        if item.get('id'): return item
+        payload={k:item[k] for k in ('external_source','external_id','media_type','title','description','cover_url','year','details') if k in item}
+        result=await self._call('POST','/media',payload)
+        if not isinstance(result,dict) or not result.get('id'):
+            raise APIError('Não foi possível identificar a obra.')
+        if item.get('identity_key') and result.get('identity_key')!=item['identity_key']:
+            raise APIError('A identidade da obra não corresponde ao resultado.',409)
+        return result
+
+    @rx.event
+    async def add_list_result(self, key: str):
+        if self.list_item_saving or not self.owns_list: return
+        item=deepcopy(self._list_media_candidates.get(key) or {})
+        if not item: return
+        lid=self.selected_list.get('id'); owner=self.user_id; token=self._token()
+        generation=self._list_search_generation
+        self.list_item_saving=True
+        yield
+        def current():
+            return owner==self.user_id and token==self._token() and lid==self.selected_list.get('id') and generation==self._list_search_generation and self.owns_list
+        try:
+            if not await self._require_user():
+                yield rx.redirect('/login'); return
+            if not current(): return
+            record=await self._persist_list_candidate(item)
+            if not current(): return
+            mid=str(record['id'])
+            if any(row['id']==mid for row in self.list_items):
+                self.notice='Esta obra já está na lista.'; return
+            await self._call('POST',f'/lists/{int(lid)}/items',{'media_id':int(mid)})
+            if not current(): return
+            self._media[mid]=record
+            self._list_media_candidates[key]=record
+            self.list_items=[*self.list_items,present_media(record)]
+            self.notice='Obra adicionada à lista.'
+        except (ValueError,KeyError):
+            if current(): self.list_media_error='Selecione uma obra e uma lista válidas.'
+        except APIError as exc:
+            if current(): self.list_media_error=str(exc); self._failure(exc)
+        finally:
+            self.list_item_saving=False
+
+    @rx.event
+    def close_media_lists(self):
+        if not self.list_item_saving:
+            self.media_list_open=False; self.media_list_options=[]; self.media_list_target=''; self.media_list_error=''
+
+    @rx.event
+    def select_media_list(self, value: str):
+        if not self.list_item_saving and any(row['id']==value for row in self.media_list_options):
+            self.media_list_target=value
+
+    @rx.event
+    async def open_media_lists(self):
+        stamp=self._media_stamp()
+        if not await self._require_user():
+            yield rx.redirect('/login'); return
+        if stamp!=self._media_stamp(): return
+        self.media_list_open=True; self.media_list_loading=True
+        self.media_list_options=[]; self.media_list_target=''; self.media_list_error=''
+        yield
+        try:
+            found=rows(await self._call('GET','/lists'))
+            if stamp!=self._media_stamp() or not self.media_list_open: return
+            self.media_list_options=[{'id':str(row['id']),'title':str(row['title']),
+                                      'is_public':str(bool(row.get('is_public')))}
+                                     for row in found if str(row.get('user_id'))==str(self.user_id)]
+            if not self.media_list_options: self.media_list_error='Você ainda não tem listas. Crie uma em Minhas listas.'
+        except APIError as exc:
+            if stamp==self._media_stamp(): self.media_list_error=str(exc)
+        finally:
+            if stamp==self._media_stamp(): self.media_list_loading=False
+
+    @rx.event
+    async def add_current_media_to_list(self):
+        if self.list_item_saving: return
+        lid=self.media_list_target
+        if not any(row['id']==lid for row in self.media_list_options):
+            self.media_list_error='Escolha uma lista sua.'; return
+        stamp=self._media_stamp(); owner=self.user_id
+        self.list_item_saving=True
+        yield
+        def current():
+            return stamp==self._media_stamp() and owner==self.user_id and self.media_list_open and self.media_list_target==lid
+        try:
+            if not await self._require_user():
+                yield rx.redirect('/login'); return
+            if not current(): return
+            mid=await self._persist_selected()
+            if not current(): return
+            await self._call('POST',f'/lists/{int(lid)}/items',{'media_id':mid})
+            if not current(): return
+            self.notice='Obra adicionada à lista.'
+            self.media_list_open=False
+        except (ValueError,KeyError):
+            if current(): self.media_list_error='Escolha uma lista válida.'
+        except APIError as exc:
+            if current(): self.media_list_error=str(exc); self._failure(exc)
+        finally:
+            self.list_item_saving=False
 
     @rx.event
     async def remove_list_item(self, mid: str):

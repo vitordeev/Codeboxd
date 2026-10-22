@@ -1,5 +1,24 @@
 # OpenSpec do Codeboxd
 
+22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
+conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
+local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas
+remotas. Restam 13 tarefas dependentes de sess?o admin leg?tima.
+[Confer?ncia](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md).
+
+22/10 — Administração em **19/34**: componentes compartilhados de feedback e
+paginação; tarefas 6.2/6.3 concluídas com 21 testes e oito cenários fictícios
+de navegador em desktop/celular. As 15 tarefas restantes exigem validação
+administrativa remota e integração real.
+[Evidências](changes/gerenciamento-website/validation/interface-2026-10-22.md).
+
+22/10/2026 — Feed e listas concluídos e arquivados (6/6), com contratos
+consolidados em `social-feed` e `user-lists`. Edição preserva o post original e
+referência opcional; listas oferecem busca e inclusão pela ficha. 298 testes e
+oito cenários de navegador com dados fictícios aprovados; sem validação
+autenticada Xano nesta entrega. Três changes continuam em andamento.
+[Evidências](changes/archive/2026-10-22-corrigir-edicao-feed-e-inclusao-listas/validation/implementacao-2026-10-22.md).
+
 Conte?do obrigat?rio conclu?do e arquivado em 21/10/2026 (5/5): oito rejei??es
 autenticadas reais aprovadas, registros inalterados e especifica??o consolidada.
 Restam tr?s changes ativas: administra??o, performance e recupera??o de senha.
@@ -13,7 +32,7 @@ navegador e arquivada. A resolu??o dos conflitos tamb?m est? conclu?da (2/2).
 | Change funcional ativa | Conclu?das | Restantes | Falta verificar/concluir |
 | --- | ---: | ---: | --- |
 | `otimizar-performance-app` | 11 | 26 | Implementa??o restante, medi??es e integra??o completa |
-| `gerenciamento-website` | 17 | 17 | Opera??es administrativas e valida??es autorizadas |
+| `gerenciamento-website` | 19 | 15 | Opera??es administrativas e valida??es autorizadas |
 | `recuperar-senha-codigo-6-digitos` | 8 | 2 | Resend publicado; alinhar destinat?rio permitido e validar envio/ciclo real |
 
 Sobreposi??o da capa de livro com a sinopse em 390px: ajuste visual pendente,
@@ -316,7 +335,7 @@ e [uploads/sessão](validation/uploads-and-session-2026-10-13.md).
 | `otimizar-performance-app` | Ativa | 11 | 26 | Inventário, cache/retry, fichas e busca validados localmente; implementação restante, medições, metas e integração completa pendentes |
 | `criar-modelo-dados-xano` | Arquivada | 37 | 0 | Checklist histórico completo, evidências de persistência e validação documental |
 | `definir-fundacao-codeboxd` | Arquivada | 87 | 0 | Busca Kitsu comprovada em setembro; marcador final corrigido e validação documental atual |
-| `gerenciamento-website` | Ativa | 17 | 17 | Implementação local parcial/completa por tópico; integração remota e interface ainda não concluídas |
+| `gerenciamento-website` | Ativa | 19 | 15 | Implementação local parcial/completa por tópico; integração remota e interface ainda não concluídas |
 | `corrigir-erros-operacionais` | Arquivada em 21/10 | 7 | 0 | Correções locais verificadas; Docker retirado do escopo pelo usuário |
 | `avaliar-meias-estrelas` | Arquivada em 21/10 | 5 | 0 | Interface, persistência decimal e limpeza verificadas |
 | `padronizar-listas-iniciais` | Arquivada em 21/10 | 7 | 0 | Migração real, contrato publicado e regressões locais; limites preservados na evidência |

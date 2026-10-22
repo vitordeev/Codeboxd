@@ -1,0 +1,8 @@
+{
+  "layer": "historical_code_with_simulated_services",
+  "original_edit_id": "fictional-55",
+  "after_context_reset_method": "POST",
+  "after_context_reset_path": "/posts",
+  "regression_reproduced": true,
+  "remote_writes": false
+}

@@ -343,6 +343,20 @@ def media_page():
                         rx.el.button('Quero ver / ler',on_click=S.quick_add('planned',0,'Quero ver / ler'),class_name='media-list-link'),
                         rx.el.button('Já assisti / li',on_click=S.quick_add('completed',0,'Já assisti / li'),class_name='media-list-link'),
                         class_name='media-list-grid'),
+                    button('Adicionar a outra lista',S.open_media_lists,disabled=S.list_item_saving),
+                    rx.cond(S.media_list_open,rx.el.div(
+                        rx.el.h3('Escolha uma lista',class_name='font-semibold'),
+                        rx.cond(S.media_list_loading,rx.el.p('Carregando suas listas…',role='status'),rx.fragment()),
+                        rx.cond(S.media_list_error!='',rx.el.p(S.media_list_error,role='alert'),rx.fragment()),
+                        rx.el.select(rx.el.option('Selecione uma lista',value=''),
+                            rx.foreach(S.media_list_options,lambda item:rx.el.option(
+                                item['title']+rx.cond(item['is_public']=='True',' · Pública',' · Privada'),value=item['id'])),
+                            value=S.media_list_target,on_change=S.select_media_list,aria_label='Lista de destino',
+                            disabled=S.list_item_saving,class_name=INPUT),
+                        button(rx.cond(S.list_item_saving,'Adicionando…','Confirmar inclusão'),S.add_current_media_to_list,
+                            disabled=S.list_item_saving | (S.media_list_target=='')),
+                        button('Cancelar',S.close_media_lists,disabled=S.list_item_saving),
+                        class_name='space-y-3 mt-4'),rx.fragment()),
                     rx.el.a('Abrir minhas listas →',href='/listas',class_name='block brand-yellow mt-4')),
                 class_name='review-layout'),
             rx.el.section(rx.el.h2('Outros comentários',class_name='section-title'),
@@ -460,7 +474,7 @@ def post_media_picker():
             placeholder='Pesquisar filme, serie, anime ou livro',class_name=INPUT),
             button(rx.cond(S.post_media_searching,'Pesquisando...','Pesquisar obra'),S.search_post_media),
             class_name='post-media-search'),
-        rx.cond(S.post_media_selected['id']!='',rx.el.div(
+        rx.cond((S.post_media_selected['id']!='') | (S.post_media_selected['key']!=''),rx.el.div(
             rx.cond(S.post_media_selected['cover']!='',rx.el.img(src=S.post_media_selected['cover'],
                 alt=S.post_media_selected['title'],class_name='post-media-selected-cover')),
             rx.el.strong(S.post_media_selected['title']),
@@ -552,7 +566,10 @@ def feed_page():
         editor(rx.cond(S.edit_post_id!='','Editar publicação','Criar publicação'),'Compartilhe uma história com sua comunidade.',
             rx.fragment(post_media_picker(),post_image_picker(),
                 rx.el.form(textarea('Sua publicação','body',S.edit_post_body,required=True,max_length=5000),
-                    check('Contém spoilers','spoiler',S.edit_post_spoiler),submit(rx.cond(S.edit_post_id!='','Salvar edição','Publicar')),
+                    rx.el.input(type='hidden',name='post_id',value=S.edit_post_id),
+                    rx.el.input(type='hidden',name='editor_token',value=S.post_editor_token),
+                    check('Contém spoilers','spoiler',S.edit_post_spoiler),submit(
+                        rx.cond(S.post_saving,'Salvando…',rx.cond(S.edit_post_id!='','Salvar edição','Publicar')),disabled=S.post_saving),
                     on_submit=S.save_post,key=S.edit_post_id,class_name='editor-form')),
             open=S.post_editor_open,on_open_change=S.set_post_editor_open),
         rx.el.div(rx.el.section(
@@ -582,6 +599,23 @@ def list_item(m):
     return rx.el.article(media_card(m),rx.cond(S.owns_list,confirm('Remover obra',S.remove_list_item(m['id']))),class_name='list-media-item')
 
 
+def list_media_search():
+    return rx.el.section(
+        rx.el.h3('Adicionar obras à lista',class_name='font-semibold'),
+        rx.el.div(rx.el.input(type='search',value=S.list_media_query,on_change=S.update_list_media_query,
+            placeholder='Buscar filmes, séries, animes e livros',aria_label='Buscar obras para a lista',class_name=INPUT),
+            button(rx.cond(S.list_media_searching,'Pesquisando…','Buscar obras'),S.search_list_media,
+                disabled=S.list_media_searching | S.list_item_saving),class_name='post-media-search'),
+        rx.cond(S.list_media_error!='',rx.el.p(S.list_media_error,role='alert'),rx.fragment()),
+        rx.cond(S.list_media_searching,rx.el.p('Buscando no catálogo…',role='status'),rx.fragment()),
+        rx.el.div(rx.foreach(S.list_media_results,lambda item:rx.el.div(
+            rx.cond(item['cover']!='',rx.el.img(src=item['cover'],alt='',class_name='post-media-result-cover'),rx.icon('clapperboard',size=22)),
+            rx.el.div(rx.el.strong(item['title']),rx.el.p(item['kind']+' · '+item['year'],class_name='text-sm text-gray-400'),class_name='min-w-0 flex-1'),
+            button('Adicionar',S.add_list_result(item['key']),disabled=S.list_item_saving),
+            class_name='flex items-center gap-3 rounded-xl border border-white/10 p-3')),class_name='space-y-2'),
+        class_name='space-y-3')
+
+
 def lists_page():
     return shell('Suas listas','Um lugar para cada história que você quer guardar.',
         rx.cond(S.is_authenticated,button('Criar lista',S.new_list)),
@@ -598,6 +632,6 @@ def lists_page():
             rx.el.div(rx.el.div(rx.el.h2(S.selected_list['title'],class_name='section-title'),rx.el.p(S.selected_list['description'])),
                 rx.cond(S.owns_list,rx.el.div(button('Editar lista',S.set_list_editor_open(True)),confirm('Excluir lista',S.remove_list),class_name='post-actions')),
                 class_name='list-heading'),
-            rx.cond(S.owns_list,rx.el.form(media_select(),submit('Adicionar obra'),on_submit=S.add_list_item,class_name='list-add-form')),
+            rx.cond(S.owns_list,list_media_search()),
             rx.cond(S.list_items.length()>0,rx.el.div(rx.foreach(S.list_items,list_item),class_name='catalog-grid'),
                 rx.el.p('Esta lista ainda não tem obras.',class_name='empty-state')),class_name='space-y-5')))

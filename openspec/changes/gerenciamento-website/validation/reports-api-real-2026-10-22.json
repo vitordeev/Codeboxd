@@ -1,0 +1,225 @@
+{
+  "layer": "real_api_disposable_member",
+  "passed": false,
+  "started_at": "2026-10-22T20:20:09.633710+00:00",
+  "checks": [
+    {
+      "scenario": "temporary_member_signup",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "member_role_server_confirmed",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "own_post_fixture_created",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "own_comment_fixture_created",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reject_missing_target",
+      "passed": true,
+      "http_status": 400
+    },
+    {
+      "scenario": "reject_invalid_reason",
+      "passed": true,
+      "http_status": 400
+    },
+    {
+      "scenario": "reject_missing_description",
+      "passed": true,
+      "http_status": 400
+    },
+    {
+      "scenario": "reject_empty_description",
+      "passed": true,
+      "http_status": 400
+    },
+    {
+      "scenario": "reject_whitespace_description",
+      "passed": true,
+      "http_status": 400
+    },
+    {
+      "scenario": "reject_message_without_context",
+      "passed": true,
+      "http_status": 400
+    },
+    {
+      "scenario": "invalid_reports_not_inserted",
+      "passed": true
+    },
+    {
+      "scenario": "create_report_post",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "persist_report_post",
+      "passed": true
+    },
+    {
+      "scenario": "safe_snapshot_post",
+      "passed": true
+    },
+    {
+      "scenario": "create_report_comment",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "persist_report_comment",
+      "passed": true
+    },
+    {
+      "scenario": "safe_snapshot_comment",
+      "passed": true
+    },
+    {
+      "scenario": "create_report_profile",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "persist_report_profile",
+      "passed": true
+    },
+    {
+      "scenario": "safe_snapshot_profile",
+      "passed": true
+    },
+    {
+      "scenario": "create_report_media",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "persist_report_media",
+      "passed": true
+    },
+    {
+      "scenario": "safe_snapshot_media",
+      "passed": true
+    },
+    {
+      "scenario": "create_report_message",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "persist_report_message",
+      "passed": true
+    },
+    {
+      "scenario": "safe_snapshot_message",
+      "passed": true
+    },
+    {
+      "scenario": "message_context_without_live_message",
+      "passed": true
+    },
+    {
+      "scenario": "reports_preserve_all_target_records",
+      "passed": true
+    },
+    {
+      "scenario": "guest_GET_dashboard_denied",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_GET_users_denied",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_GET_catalog_denied",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_GET_reports_denied",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_PUT_users_denied",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_PUT_catalog_denied",
+      "passed": false,
+      "http_status": 400
+    }
+  ],
+  "cleanup": [
+    {
+      "table": "report",
+      "passed": true
+    },
+    {
+      "table": "report",
+      "passed": true
+    },
+    {
+      "table": "report",
+      "passed": true
+    },
+    {
+      "table": "report",
+      "passed": true
+    },
+    {
+      "table": "report",
+      "passed": true
+    },
+    {
+      "table": "comment",
+      "passed": true
+    },
+    {
+      "table": "post",
+      "passed": true
+    },
+    {
+      "table": "user_list",
+      "passed": true
+    },
+    {
+      "table": "user_list",
+      "passed": true
+    },
+    {
+      "table": "profile",
+      "passed": true
+    },
+    {
+      "table": "event_log",
+      "passed": true
+    },
+    {
+      "table": "user",
+      "passed": true
+    }
+  ],
+  "existing_storage_unchanged": {
+    "user": true,
+    "profile": true,
+    "user_list": true,
+    "user_list_item": true,
+    "post": true,
+    "comment": true,
+    "report": true,
+    "media": true
+  },
+  "failure_type": "RuntimeError"
+}
