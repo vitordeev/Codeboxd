@@ -1,0 +1,177 @@
+{
+  "layer": "real_admin_api_reads",
+  "passed": false,
+  "started_at": "2026-10-23T12:22:07.247644+00:00",
+  "checks": [
+    {
+      "scenario": "dashboard_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "dashboard_totals",
+      "passed": true
+    },
+    {
+      "scenario": "users_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_fields",
+      "passed": true
+    },
+    {
+      "scenario": "users_exact_id_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_exact_id_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_exact_match",
+      "passed": true
+    },
+    {
+      "scenario": "users_role_member_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_role_member_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_role_member_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_role_admin_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_role_admin_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_role_admin_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_empty_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_empty_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_empty_result",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_movie_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "catalog_movie_page",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_movie_matches",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_series_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "catalog_series_page",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_series_matches",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 1838.917
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 419.703
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 200,
+      "duration_ms": 308.931
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 206.757
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 216.661
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 177.84
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 223.548
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 179.149
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "duration_ms": 191.621
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "duration_ms": 213.582
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/catalog",
+      "status": 429,
+      "duration_ms": 302.47
+    }
+  ],
+  "failure_type": "RuntimeError",
+  "request_count": 11
+}

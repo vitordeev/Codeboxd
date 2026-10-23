@@ -35,7 +35,7 @@ def service_name(url: str) -> str:
     host = (urlsplit(str(url)).hostname or '').lower()
     for domain, name in (('xano.io', 'xano'), ('xano.com', 'xano'),
                          ('themoviedb.org', 'tmdb'), ('kitsu.io', 'kitsu'),
-                         ('openlibrary.org', 'open-library'), ('deepl.com', 'deepl')):
+                         ('kitsu.app', 'kitsu'), ('openlibrary.org', 'open-library'), ('deepl.com', 'deepl')):
         if host == domain or host.endswith('.' + domain):
             return name
     return 'other'

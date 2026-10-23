@@ -161,6 +161,7 @@ class SocialState(SessionState):
     list_media_searching: bool = False
     list_media_error: str = ''
     list_item_saving: bool = False
+    list_saving: bool = False
     media_list_open: bool = False
     media_list_loading: bool = False
     media_list_options: list[dict[str,str]] = []
@@ -1633,14 +1634,16 @@ class SocialState(SessionState):
         except APIError as exc: self._failure(exc)
 
     @rx.event
-    async def load_lists(self):
+    async def load_lists(self, refresh_media: bool = True):
         stamp=self._route_stamp()
-        self.notice=''; self.lists=[]; self.list_items=[]
-        self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'True'}
+        self.notice=''
+        if refresh_media:
+            self.lists=[]; self.list_items=[]
+            self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'True'}
         await self._validate_navigation_session()
         if stamp!=self._route_stamp(): return
         try:
-            await self._load_media()
+            if refresh_media: await self._load_media()
             if stamp!=self._route_stamp(): return
             if self.user_id: await self._ensure_default_lists()
             if stamp!=self._route_stamp(): return
@@ -1676,23 +1679,61 @@ class SocialState(SessionState):
 
     @rx.event
     async def save_list(self, form: dict):
-        if not await self._require_user(): return rx.redirect('/login')
+        if self.list_saving: return
         if not str(form.get('title','')).strip(): self.notice='Informe um título para a lista.'; return
-        lid=self.selected_list.get('id','')
+        stamp=self._route_stamp(); lid=self.selected_list.get('id','')
+        generation=self._list_search_generation; owner=self.user_id
+        def current():
+            return (stamp==self._route_stamp() and owner==self.user_id
+                    and generation==self._list_search_generation and self.selected_list.get('id','')==lid)
+        self.list_saving=True
+        yield
         try:
+            if not await self._require_user():
+                yield rx.redirect('/login'); return
+            if not current(): return
             result=await self._call('PUT' if lid else 'POST','/lists'+('/'+lid if lid else ''),dict(
                 title=str(form.get('title','')).strip(),description=str(form.get('description','')).strip(),is_public=form.get('is_public')=='on'))
-            await self.load_lists(); await self.open_list(str(result['id'])); self.notice='Lista salva.'; self.list_editor_open=False
-        except APIError as exc: self._failure(exc)
+            if not current(): return
+            if (not isinstance(result,dict) or not str(result.get('id','')).isdigit()
+                    or int(result['id'])<=0 or (lid and str(result['id'])!=lid)):
+                raise APIError('Não foi possível confirmar a lista salva. Atualize suas listas.')
+            await self.load_lists(refresh_media=False)
+            if not current() or self.notice: return
+            await self.open_list(str(result['id']))
+            if (stamp!=self._route_stamp() or owner!=self.user_id
+                    or self.selected_list.get('id')!=str(result['id']) or self.notice): return
+            self.notice='Lista salva.'; self.list_editor_open=False
+        except APIError as exc:
+            if current(): self._failure(exc)
+        finally:
+            self.list_saving=False
 
     @rx.event
     async def remove_list(self):
-        if not await self._require_user(): return rx.redirect('/login')
+        if self.list_saving: return
+        stamp=self._route_stamp(); lid=self.selected_list.get('id','')
+        generation=self._list_search_generation; owner=self.user_id
+        def current():
+            return (stamp==self._route_stamp() and owner==self.user_id
+                    and generation==self._list_search_generation and self.selected_list.get('id','')==lid)
+        self.list_saving=True
+        yield
         try:
-            await self._call('DELETE','/lists/'+str(int(self.selected_list['id'])))
-            self.new_list(); await self.load_lists(); self.notice='Lista removida.'; self.list_editor_open=False
-        except (ValueError,KeyError): self.notice='Escolha uma lista.'
-        except APIError as exc: self._failure(exc)
+            if not await self._require_user():
+                yield rx.redirect('/login'); return
+            if not current(): return
+            await self._call('DELETE','/lists/'+str(int(lid)))
+            if not current(): return
+            await self.load_lists(refresh_media=False)
+            if not current() or self.notice: return
+            self.new_list(); self.notice='Lista removida.'; self.list_editor_open=False
+        except (ValueError,KeyError):
+            if current(): self.notice='Escolha uma lista.'
+        except APIError as exc:
+            if current(): self._failure(exc)
+        finally:
+            self.list_saving=False
 
     @rx.event
     async def add_list_item(self, form: dict):

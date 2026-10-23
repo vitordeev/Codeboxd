@@ -64,5 +64,8 @@ class ProbeTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(service_name('https://instance.xano.io/api:private/media'), 'xano')
         self.assertEqual(service_name('https://api.themoviedb.org/3/movie/42'), 'tmdb')
         self.assertEqual(service_name('https://xano.io.attacker.invalid'), 'other')
+        self.assertEqual(service_name('https://kitsu.app/api/edge/anime'), 'kitsu')
+        self.assertEqual(service_name('https://kitsu.io/api/edge/anime'), 'kitsu')
+        self.assertEqual(service_name('https://kitsu.app.attacker.invalid'), 'other')
         self.assertEqual(safe_endpoint('https://host/api:private/media/42?token=secret'),
                          '/{value}/media/{value}')

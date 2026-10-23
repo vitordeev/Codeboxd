@@ -39,14 +39,14 @@ def submit(label, **props):
     return rx.el.button(label, type='submit', class_name=BUTTON, **props)
 
 
-def confirm(label, action):
+def confirm(label, action, disabled=False):
     return rx.alert_dialog.root(
-        rx.alert_dialog.trigger(rx.el.button(label, type='button', class_name='quiet-button danger')),
+        rx.alert_dialog.trigger(rx.el.button(label, type='button', class_name='quiet-button danger', disabled=disabled)),
         rx.alert_dialog.content(
             rx.alert_dialog.title(label+'?'),
             rx.alert_dialog.description('Esta ação remove o conteúdo. Deseja continuar?'),
             rx.flex(rx.alert_dialog.cancel(rx.button('Cancelar', variant='soft', class_name='confirm-cancel-button')),
-                    rx.alert_dialog.action(rx.button('Confirmar exclusão', on_click=action, color_scheme='red')),
+                    rx.alert_dialog.action(rx.button('Confirmar exclusão', on_click=action, color_scheme='red', disabled=disabled)),
                     gap='3', justify='end', margin_top='20px', class_name='confirm-dialog-actions'),
             class_name='codeboxd-dialog confirm-dialog'))
 
@@ -592,7 +592,7 @@ def feed_page():
 def list_card(item):
     return rx.el.button(rx.icon('list-video',size=20),rx.el.span(item['title']),
         rx.el.span(rx.cond(item['is_public']=='True','Pública','Privada'),class_name='list-visibility'),rx.icon('chevron-right',size=18),
-        on_click=S.open_list(item['id']),type='button',class_name='list-row')
+        on_click=S.open_list(item['id']),type='button',class_name='list-row',disabled=S.list_saving)
 
 
 def list_item(m):
@@ -618,11 +618,12 @@ def list_media_search():
 
 def lists_page():
     return shell('Suas listas','Um lugar para cada história que você quer guardar.',
-        rx.cond(S.is_authenticated,button('Criar lista',S.new_list)),
+        rx.cond(S.is_authenticated,button('Criar lista',S.new_list,disabled=S.list_saving)),
         editor(rx.cond(S.selected_list['id']=='','Criar lista','Editar lista'),'Organize suas próximas descobertas.',
             rx.el.form(field('Título','title',S.selected_list['title'],required=True,max_length=120),
                 textarea('Descrição','description',S.selected_list['description'],max_length=2000),
-                check('Lista pública','is_public',S.selected_list['is_public']=='True'),submit('Salvar lista'),
+                check('Lista pública','is_public',S.selected_list['is_public']=='True'),
+                submit(rx.cond(S.list_saving,'Salvando…','Salvar lista'),disabled=S.list_saving),
                 on_submit=S.save_list,key=S.selected_list['id']+S.selected_list['title'],class_name='editor-form'),
             open=S.list_editor_open,on_open_change=S.set_list_editor_open),
         rx.cond(S.lists.length()>0,rx.el.div(rx.foreach(S.visible_lists,list_card),class_name='list-directory'),
@@ -630,7 +631,8 @@ def lists_page():
         rx.cond(S.lists.length()>S.visible_count,button('Mostrar mais',S.show_more)),
         rx.cond(S.selected_list['id']!='',rx.el.section(
             rx.el.div(rx.el.div(rx.el.h2(S.selected_list['title'],class_name='section-title'),rx.el.p(S.selected_list['description'])),
-                rx.cond(S.owns_list,rx.el.div(button('Editar lista',S.set_list_editor_open(True)),confirm('Excluir lista',S.remove_list),class_name='post-actions')),
+                rx.cond(S.owns_list,rx.el.div(button('Editar lista',S.set_list_editor_open(True),disabled=S.list_saving),
+                    confirm('Excluir lista',S.remove_list,disabled=S.list_saving),class_name='post-actions')),
                 class_name='list-heading'),
             rx.cond(S.owns_list,list_media_search()),
             rx.cond(S.list_items.length()>0,rx.el.div(rx.foreach(S.list_items,list_item),class_name='catalog-grid'),

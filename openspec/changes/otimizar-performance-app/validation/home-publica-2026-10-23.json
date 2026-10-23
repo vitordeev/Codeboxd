@@ -1,0 +1,246 @@
+{
+  "layer": "real-public-provider-handlers",
+  "browser_measured": false,
+  "xano_measured": false,
+  "samples": [
+    {
+      "primary_ms": null,
+      "finished": true,
+      "complete": false,
+      "shelves": {
+        "movies_now": 0,
+        "movies_rated": 0,
+        "movies_upcoming": 0,
+        "series_rated": 0,
+        "books_fiction": 0,
+        "books_fantasy": 0,
+        "books_mystery": 0,
+        "books_popular": 0,
+        "books_game_theory": 0,
+        "anime_rated": 0,
+        "anime_popular": 0,
+        "anime_current": 0
+      },
+      "failed_shelves": 12,
+      "warning": true,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 524.513,
+      "total_requests": 22,
+      "rate_limited": 0,
+      "services": {
+        "open-library": 9,
+        "kitsu": 3,
+        "tmdb": 10
+      },
+      "statuses": {
+        "0": 22
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 270.962,
+          "duration_ms": 38.654
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 258.895,
+          "duration_ms": 52.784
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 321.568,
+          "duration_ms": 65.125
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 336.557,
+          "duration_ms": 51.025
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 347.281,
+          "duration_ms": 40.865
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 356.198,
+          "duration_ms": 32.472
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 370.281,
+          "duration_ms": 18.891
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 379.081,
+          "duration_ms": 11.093
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 140.144,
+          "duration_ms": 268.767
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 405.72,
+          "duration_ms": 16.856
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/popular",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 208.469,
+          "duration_ms": 220.865
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 234.487,
+          "duration_ms": 196.642
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/popular",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 224.164,
+          "duration_ms": 208.026
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 243.79,
+          "duration_ms": 189.313
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 419.071,
+          "duration_ms": 15.893
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 461.358,
+          "duration_ms": 48.12
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 442.613,
+          "duration_ms": 73.644
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/top_rated",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 453.014,
+          "duration_ms": 64.822
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 470.251,
+          "duration_ms": 48.711
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 477.064,
+          "duration_ms": 42.584
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 485.851,
+          "duration_ms": 34.767
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 0,
+          "outcome": "network-error",
+          "offset_ms": 499.635,
+          "duration_ms": 22.89
+        }
+      ],
+      "index": 1,
+      "phase": "cold"
+    }
+  ],
+  "complete": false,
+  "failure_type": "partial_content"
+}

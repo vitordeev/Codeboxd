@@ -4,6 +4,7 @@ import asyncio
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+from html import escape
 from pathlib import Path
 import secrets
 import threading
@@ -12,6 +13,8 @@ from urllib.parse import parse_qs
 
 import httpx
 from dotenv import dotenv_values
+from tools.performance_probe import safe_endpoint
+from Codeboxd_main.services.api import retry_after_seconds
 
 ROOT = Path(__file__).resolve().parents[1]
 USER_FIELDS = {'id', 'username', 'name', 'role', 'account_status', 'created_at'}
@@ -43,7 +46,7 @@ class Probe:
         self.token = None
         self.calls = 0
         self.report = dict(layer='real_admin_api_reads', passed=False,
-                           started_at=datetime.now(timezone.utc).isoformat(), checks=[])
+                           started_at=datetime.now(timezone.utc).isoformat(), checks=[], requests=[])
 
     def save(self):
         self.output.write_text(json.dumps(self.report, indent=2)+'\n', encoding='utf-8')
@@ -54,8 +57,14 @@ class Probe:
         if self.calls:
             time.sleep(self.pause)
         self.calls += 1
+        started = time.perf_counter()
         response = self.client.request(method, base+path, **kwargs)
+        self.report['requests'].append(dict(method=method, endpoint=safe_endpoint(path),
+            status=response.status_code, duration_ms=round((time.perf_counter()-started)*1000, 3)))
+        self.save()
         if response.status_code == 429:
+            self.report['retry_after_seconds'] = retry_after_seconds(response.headers.get('Retry-After', ''))
+            self.save()
             raise RuntimeError('remote_rate_limit')
         return response
 
@@ -132,7 +141,7 @@ class Probe:
         self.save()
 
 
-def login_server(probe):
+def login_server(probe, role_label='admin aprovada'):
     path = '/'+secrets.token_urlsafe(32)
     ready = threading.Event()
 
@@ -144,13 +153,18 @@ def login_server(probe):
 
         def reply(self, status, body):
             payload = body.encode('utf-8')
-            self.send_response(status)
-            self.send_header('Content-Type', 'text/html; charset=utf-8')
-            self.send_header('Content-Length', str(len(payload)))
-            self.send_header('Cache-Control', 'no-store')
-            self.send_header('Content-Security-Policy', "default-src 'none'; form-action 'self'; frame-ancestors 'none'")
-            self.end_headers()
-            self.wfile.write(payload)
+            try:
+                self.send_response(status)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.send_header('Content-Length', str(len(payload)))
+                self.send_header('Cache-Control', 'no-store')
+                self.send_header('Content-Security-Policy', "default-src 'none'; form-action 'self'; frame-ancestors 'none'")
+                self.end_headers()
+                self.wfile.write(payload)
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                # The browser may navigate away after submitting valid credentials.
+                # Losing that page is independent of the upstream login result.
+                pass
 
         def allowed(self):
             origin = 'http://'+self.server.server_address[0]+':'+str(self.server.server_port)
@@ -162,11 +176,11 @@ def login_server(probe):
                 self.reply(403, 'Acesso recusado.')
                 return
             self.reply(200, '''<!doctype html><meta charset="utf-8"><title>Validação Codeboxd</title>
-                <h1>Validação administrativa Codeboxd</h1>
-                <p>Use a conta admin aprovada. As consultas não alteram dados.</p>
+                <h1>Validação Codeboxd</h1>
+                <p>Use a conta ROLE_LABEL. As consultas não alteram dados.</p>
                 <form method="post"><label>Email <input name="email" type="email" required></label>
                 <label>Senha <input name="password" type="password" autocomplete="off" required></label>
-                <button>Entrar e validar consultas</button></form>''')
+                <button>Entrar e validar consultas</button></form>'''.replace('ROLE_LABEL', escape(role_label)))
 
         def do_POST(self):
             if not self.allowed() or Handler.attempts >= 3 or ready.is_set():
@@ -182,8 +196,8 @@ def login_server(probe):
                 authenticated = probe.authenticate(fields['email'][0], fields['password'][0])
                 fields.clear()
                 if authenticated:
-                    self.reply(200, '<h1>Login confirmado. Validação em andamento.</h1>')
                     ready.set()
+                    self.reply(200, '<h1>Login confirmado. Validação em andamento.</h1>')
                 else:
                     self.reply(403, '<p>Conta não autorizada. Volte e tente novamente.</p>')
             except Exception:
@@ -197,15 +211,15 @@ def login_server(probe):
     return server, path, ready
 
 
-async def main(output):
+async def main(output, pause=3.0, probe_type=Probe, role_label='admin aprovada'):
     from playwright.async_api import async_playwright
     if output.exists():
         raise RuntimeError('output_already_exists')
     output.parent.mkdir(parents=True, exist_ok=True)
     config = dotenv_values(ROOT/'.env')
     with httpx.Client(timeout=25, follow_redirects=False) as client:
-        probe = Probe(client, config['XANO_AUTH_URL'], config['XANO_SOCIAL_URL'], output)
-        server, path, ready = login_server(probe)
+        probe = probe_type(client, config['XANO_AUTH_URL'], config['XANO_SOCIAL_URL'], output, pause=pause)
+        server, path, ready = login_server(probe, role_label)
         worker = threading.Thread(target=server.serve_forever, daemon=True)
         worker.start()
         try:
@@ -214,7 +228,7 @@ async def main(output):
                 try:
                     page = await browser.new_page()
                     await page.goto(f'http://127.0.0.1:{server.server_port}'+path)
-                    print('Aguardando login local da conta admin (até 10 minutos).', flush=True)
+                    print('Aguardando login local da conta '+role_label+' (até 10 minutos).', flush=True)
                     deadline = time.monotonic()+600
                     while not ready.is_set() and time.monotonic() < deadline:
                         await asyncio.sleep(1)
@@ -239,4 +253,8 @@ async def main(output):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
-    raise SystemExit(asyncio.run(main(parser.parse_args().output)))
+    parser.add_argument('--pause', type=float, default=3.0)
+    args = parser.parse_args()
+    if not 1.2 <= args.pause <= 10:
+        parser.error('Use an interval between 1.2 and 10 seconds')
+    raise SystemExit(asyncio.run(main(args.output, args.pause)))

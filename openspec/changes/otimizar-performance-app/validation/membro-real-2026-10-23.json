@@ -1,0 +1,641 @@
+{
+  "layer": "real_member_api_reads",
+  "passed": true,
+  "started_at": "2026-10-23T12:27:28.654132+00:00",
+  "checks": [
+    {
+      "scenario": "profile_1_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "profile_1_shape",
+      "passed": true
+    },
+    {
+      "scenario": "library_1_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "library_1_shape",
+      "passed": true
+    },
+    {
+      "scenario": "lists_1_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "lists_1_shape",
+      "passed": true
+    },
+    {
+      "scenario": "public_lists_1_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "public_lists_1_shape",
+      "passed": true
+    },
+    {
+      "scenario": "feed_1_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "feed_1_shape",
+      "passed": true
+    },
+    {
+      "scenario": "posts_1_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "posts_1_shape",
+      "passed": true
+    },
+    {
+      "scenario": "community_1_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "community_1_shape",
+      "passed": true
+    },
+    {
+      "scenario": "profile_2_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "profile_2_shape",
+      "passed": true
+    },
+    {
+      "scenario": "library_2_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "library_2_shape",
+      "passed": true
+    },
+    {
+      "scenario": "lists_2_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "lists_2_shape",
+      "passed": true
+    },
+    {
+      "scenario": "public_lists_2_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "public_lists_2_shape",
+      "passed": true
+    },
+    {
+      "scenario": "feed_2_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "feed_2_shape",
+      "passed": true
+    },
+    {
+      "scenario": "posts_2_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "posts_2_shape",
+      "passed": true
+    },
+    {
+      "scenario": "community_2_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "community_2_shape",
+      "passed": true
+    },
+    {
+      "scenario": "profile_3_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "profile_3_shape",
+      "passed": true
+    },
+    {
+      "scenario": "library_3_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "library_3_shape",
+      "passed": true
+    },
+    {
+      "scenario": "lists_3_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "lists_3_shape",
+      "passed": true
+    },
+    {
+      "scenario": "public_lists_3_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "public_lists_3_shape",
+      "passed": true
+    },
+    {
+      "scenario": "feed_3_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "feed_3_shape",
+      "passed": true
+    },
+    {
+      "scenario": "posts_3_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "posts_3_shape",
+      "passed": true
+    },
+    {
+      "scenario": "community_3_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "community_3_shape",
+      "passed": true
+    },
+    {
+      "scenario": "profile_4_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "profile_4_shape",
+      "passed": true
+    },
+    {
+      "scenario": "library_4_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "library_4_shape",
+      "passed": true
+    },
+    {
+      "scenario": "lists_4_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "lists_4_shape",
+      "passed": true
+    },
+    {
+      "scenario": "public_lists_4_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "public_lists_4_shape",
+      "passed": true
+    },
+    {
+      "scenario": "feed_4_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "feed_4_shape",
+      "passed": true
+    },
+    {
+      "scenario": "posts_4_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "posts_4_shape",
+      "passed": true
+    },
+    {
+      "scenario": "community_4_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "community_4_shape",
+      "passed": true
+    },
+    {
+      "scenario": "profile_5_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "profile_5_shape",
+      "passed": true
+    },
+    {
+      "scenario": "library_5_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "library_5_shape",
+      "passed": true
+    },
+    {
+      "scenario": "lists_5_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "lists_5_shape",
+      "passed": true
+    },
+    {
+      "scenario": "public_lists_5_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "public_lists_5_shape",
+      "passed": true
+    },
+    {
+      "scenario": "feed_5_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "feed_5_shape",
+      "passed": true
+    },
+    {
+      "scenario": "posts_5_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "posts_5_shape",
+      "passed": true
+    },
+    {
+      "scenario": "community_5_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "community_5_shape",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 980.717
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 586.825
+    },
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 221.563
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 210.963
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles/{value}",
+      "status": 200,
+      "duration_ms": 233.196
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}",
+      "status": 200,
+      "duration_ms": 205.523
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists",
+      "status": 200,
+      "duration_ms": 189.381
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists/public",
+      "status": 200,
+      "duration_ms": 263.995
+    },
+    {
+      "method": "GET",
+      "endpoint": "/feed",
+      "status": 200,
+      "duration_ms": 2680.402
+    },
+    {
+      "method": "GET",
+      "endpoint": "/posts",
+      "status": 200,
+      "duration_ms": 195.406
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles",
+      "status": 200,
+      "duration_ms": 783.924
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles/{value}",
+      "status": 200,
+      "duration_ms": 229.568
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}",
+      "status": 200,
+      "duration_ms": 190.854
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists",
+      "status": 200,
+      "duration_ms": 214.304
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists/public",
+      "status": 200,
+      "duration_ms": 189.234
+    },
+    {
+      "method": "GET",
+      "endpoint": "/feed",
+      "status": 200,
+      "duration_ms": 201.786
+    },
+    {
+      "method": "GET",
+      "endpoint": "/posts",
+      "status": 200,
+      "duration_ms": 195.328
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles",
+      "status": 200,
+      "duration_ms": 185.957
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles/{value}",
+      "status": 200,
+      "duration_ms": 250.902
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}",
+      "status": 200,
+      "duration_ms": 253.827
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists",
+      "status": 200,
+      "duration_ms": 196.44
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists/public",
+      "status": 200,
+      "duration_ms": 268.36
+    },
+    {
+      "method": "GET",
+      "endpoint": "/feed",
+      "status": 200,
+      "duration_ms": 231.631
+    },
+    {
+      "method": "GET",
+      "endpoint": "/posts",
+      "status": 200,
+      "duration_ms": 208.562
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles",
+      "status": 200,
+      "duration_ms": 179.33
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles/{value}",
+      "status": 200,
+      "duration_ms": 235.049
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}",
+      "status": 200,
+      "duration_ms": 3330.577
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists",
+      "status": 200,
+      "duration_ms": 189.332
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists/public",
+      "status": 200,
+      "duration_ms": 769.025
+    },
+    {
+      "method": "GET",
+      "endpoint": "/feed",
+      "status": 200,
+      "duration_ms": 190.005
+    },
+    {
+      "method": "GET",
+      "endpoint": "/posts",
+      "status": 200,
+      "duration_ms": 194.497
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles",
+      "status": 200,
+      "duration_ms": 183.493
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles/{value}",
+      "status": 200,
+      "duration_ms": 223.379
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}",
+      "status": 200,
+      "duration_ms": 190.2
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists",
+      "status": 200,
+      "duration_ms": 559.102
+    },
+    {
+      "method": "GET",
+      "endpoint": "/lists/public",
+      "status": 200,
+      "duration_ms": 185.48
+    },
+    {
+      "method": "GET",
+      "endpoint": "/feed",
+      "status": 200,
+      "duration_ms": 193.206
+    },
+    {
+      "method": "GET",
+      "endpoint": "/posts",
+      "status": 200,
+      "duration_ms": 286.923
+    },
+    {
+      "method": "GET",
+      "endpoint": "/profiles",
+      "status": 200,
+      "duration_ms": 219.128
+    }
+  ],
+  "failure_type": "login_failed",
+  "summary": {
+    "profile": {
+      "samples": [
+        233.196,
+        229.568,
+        250.902,
+        235.049,
+        223.379
+      ],
+      "median_ms": 233.196,
+      "worst_ms": 250.902
+    },
+    "library": {
+      "samples": [
+        205.523,
+        190.854,
+        253.827,
+        3330.577,
+        190.2
+      ],
+      "median_ms": 205.523,
+      "worst_ms": 3330.577
+    },
+    "lists": {
+      "samples": [
+        189.381,
+        214.304,
+        196.44,
+        189.332,
+        559.102
+      ],
+      "median_ms": 196.44,
+      "worst_ms": 559.102
+    },
+    "public_lists": {
+      "samples": [
+        263.995,
+        189.234,
+        268.36,
+        769.025,
+        185.48
+      ],
+      "median_ms": 263.995,
+      "worst_ms": 769.025
+    },
+    "feed": {
+      "samples": [
+        2680.402,
+        201.786,
+        231.631,
+        190.005,
+        193.206
+      ],
+      "median_ms": 201.786,
+      "worst_ms": 2680.402
+    },
+    "posts": {
+      "samples": [
+        195.406,
+        195.328,
+        208.562,
+        194.497,
+        286.923
+      ],
+      "median_ms": 195.406,
+      "worst_ms": 286.923
+    },
+    "community": {
+      "samples": [
+        783.924,
+        185.957,
+        179.33,
+        183.493,
+        219.128
+      ],
+      "median_ms": 185.957,
+      "worst_ms": 783.924
+    }
+  },
+  "browser_measured": false,
+  "application_cache_measured": false,
+  "request_count": 39
+}

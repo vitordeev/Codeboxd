@@ -1,5 +1,20 @@
 # Contexto técnico e funcional
 
+23/10/2026 — Após salvar/excluir lista, `load_lists(refresh_media=False)`
+preserva referências de mídia e atualiza diretório/itens. Entrada normal na
+tela continua recarregando o catálogo. `list_saving` publica espera e bloqueia
+envios simultâneos; guardas impedem resposta antiga de substituir outra seleção
+ou conta. Falhas mantêm editor/rascunho. Validação local: 327 testes e oito
+cenários fictícios de navegador; sem mutações remotas nesta rodada.
+[Evidências](changes/otimizar-performance-app/validation/mutacoes-listas-2026-10-23.md).
+
+Execução atual de 23/10: produção local em `http://localhost:3030`, usando npm
+e `.local/frontends/feed-lists-29552`. Esse diretório está em uso pelo servidor
+normal e não deve ser reutilizado para builds/testes paralelos. Log atual:
+`.local/normal-performance-npm-20261023.log`. HTTP e três seleções TMDB reais
+conferidos após iniciar; o caminho padrão anterior falhou no prerender e sua
+tentativa foi preservada separadamente nas evidências.
+
 Consultas administrativas têm executor interativo próprio em
 `tools/admin_reads_remote.py`, independente do servidor Reflex. Confirma conta
 admin aprovada antes de ler APIs; testes offline aprovados, integração real

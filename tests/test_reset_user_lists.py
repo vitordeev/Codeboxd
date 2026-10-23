@@ -141,7 +141,8 @@ class FutureCustomListsTests(unittest.IsolatedAsyncioTestCase):
         with patch.object(SocialState,'_call',side_effect=call) as request, \
              patch.object(SocialState,'_require_user',new=AsyncMock(return_value=True)), \
              patch.object(SocialState,'_validate_navigation_session',new=AsyncMock()):
-            await state.save_list({'title':'Minha lista personalizada','is_public':'on'})
+            async for _ in state.save_list({'title':'Minha lista personalizada','is_public':'on'}):
+                pass
             offset=request.await_count
             await state._ensure_default_lists()
         self.assertEqual(sum(c.args[0]=='POST' for c in request.await_args_list),1)

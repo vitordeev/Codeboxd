@@ -1,0 +1,52 @@
+[
+  {
+    "method": "POST",
+    "path": "/auth/login",
+    "count": 1
+  },
+  {
+    "method": "GET",
+    "path": "/auth/me",
+    "count": 4
+  },
+  {
+    "method": "GET",
+    "path": "/profiles/7",
+    "count": 1
+  },
+  {
+    "method": "GET",
+    "path": "/media",
+    "count": 1
+  },
+  {
+    "method": "GET",
+    "path": "/profiles",
+    "count": 1
+  },
+  {
+    "method": "GET",
+    "path": "/lists",
+    "count": 3
+  },
+  {
+    "method": "GET",
+    "path": "/lists/public",
+    "count": 3
+  },
+  {
+    "method": "POST",
+    "path": "/lists",
+    "count": 1
+  },
+  {
+    "method": "GET",
+    "path": "/lists/42/items",
+    "count": 2
+  },
+  {
+    "method": "PUT",
+    "path": "/lists/42",
+    "count": 1
+  }
+]
