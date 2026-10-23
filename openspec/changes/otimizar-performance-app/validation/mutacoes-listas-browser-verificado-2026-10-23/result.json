@@ -1,0 +1,64 @@
+{
+  "layer": "browser_local_fictional_backend",
+  "expected": 8,
+  "completed": [
+    {
+      "case": 1,
+      "width": 1440,
+      "passed": true,
+      "catalog_refetched": false,
+      "javascript_errors": []
+    },
+    {
+      "case": 2,
+      "width": 1440,
+      "passed": true,
+      "catalog_refetched": false,
+      "javascript_errors": []
+    },
+    {
+      "case": 3,
+      "width": 1440,
+      "passed": true,
+      "catalog_refetched": false,
+      "javascript_errors": []
+    },
+    {
+      "case": 4,
+      "width": 1440,
+      "passed": true,
+      "catalog_refetched": false,
+      "javascript_errors": []
+    },
+    {
+      "case": 1,
+      "width": 390,
+      "passed": true,
+      "catalog_refetched": false,
+      "javascript_errors": []
+    },
+    {
+      "case": 2,
+      "width": 390,
+      "passed": true,
+      "catalog_refetched": false,
+      "javascript_errors": []
+    },
+    {
+      "case": 3,
+      "width": 390,
+      "passed": true,
+      "catalog_refetched": false,
+      "javascript_errors": []
+    },
+    {
+      "case": 4,
+      "width": 390,
+      "passed": true,
+      "catalog_refetched": false,
+      "javascript_errors": []
+    }
+  ],
+  "failure": "",
+  "normal_server_modified": false
+}

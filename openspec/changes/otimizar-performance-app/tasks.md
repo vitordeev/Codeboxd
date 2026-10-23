@@ -1,5 +1,56 @@
 # Tasks
 
+23/10/2026 — Incremento local de 6.3: salvar/excluir metadados de listas
+preserva referências de mídia e evita a recarga integral do catálogo; envio
+protegido, espera visível e rascunho preservado em falha. Cinco amostras por
+tamanho fictício (5/250 obras), chamadas lógicas de 6 para 5 no fluxo de edição.
+327 testes, compile --dry, build isolado e oito cenários de navegador aprovados.
+Tentativas de navegador anteriores preservadas. Sem escrita remota; 6.3/6.4
+continuam abertas por seus critérios completos. **14/37** mantido.
+[Plano, implementação e resultados](validation/mutacoes-listas-2026-10-23.md).
+
+Aplicação atualizada disponibilizada em produção local em `localhost:3030`;
+HTTP 200 em `/`, `/login` e `/listas`. Smoke de navegador com TMDB real
+confirmou 20 cards em três seleções. Frontend isolado agora em uso pelo servidor
+normal, conforme instrução de preservação no contexto/evidência.
+
+23/10/2026 — Membro real autenticado: **70 checks aprovados**, 39 respostas
+HTTP 200, zero 429; cinco amostras de sete leituras, sem mutações. Corrigida
+classificação indevida de desconexão da página local como falha de login,
+preservando o relatório bruto e registrando a interpretação nas evidências.
+Instrumentação e escopo de execução aprovados/verificados: **1.2 concluída**,
+estado **14/37**. Leituras API não encerram browser, gravações ou comparação
+integral. [Medições e limites](validation/retomada-conclusao-2026-10-23.md).
+
+23/10/2026 — Autorizada a continuação após pedido de login/metas: metas da home
+aprovadas e atendidas na camada Python/provedores. Admin real: primeira execução
+interrompida em 429 após 23 checks; nova execução com 3 s de intervalo concluiu
+**44 checks**, 18 respostas 200, zero 429. Instrumentos preservam dados privados
+somente em memória; 318 testes locais aprovados. Medição de membro preparada
+com cinco amostras de sete leituras e login manual, ainda aguardando interação.
+Sem encerrar tarefas amplas de browser/quotas/mutações com leituras API.
+[Resultados e escopo](validation/retomada-conclusao-2026-10-23.md).
+
+23/10/2026 — Pedido de conclusão: cinco pares reais da home pública (handlers
+Python/provedores, sem Xano/browser) concluídos com 110 respostas 200 e zero
+429. Mediana do primeiro conteúdo frio/aquecido: 538,569/27,853 ms; chamadas
+22/0. Custo separado por provedor registrado; nove regressões da home cobrem
+consulta compartilhada, falha parcial, capas, ordem das séries e destaque.
+Build de produção e oito cenários de feed/listas no navegador com backend
+fictício aprovados em 1440/390px. Encerradas **4.1/4.2** em seus critérios de
+diagnóstico e intervenção incremental, sem atribuir cache histórico ao código
+novo. Estado **13/37**. Metas propostas aguardam aprovação; jornadas reais com
+contas aguardam login. Manter os demais IDs abertos.
+[Evidências e critérios por camada](validation/retomada-conclusao-2026-10-23.md).
+
+23/10/2026 — Continuação solicitada para apresentação: implementado
+compartilhamento limitado de consultas públicas equivalentes em andamento no
+transporte TMDB/Open Library. Cinco amostras com dez consumidores e HTTP fictício
+reduziram dez chamadas para uma; 311 testes e compile --dry aprovados.
+Incremento vinculado a 4.1/4.2, mantidas abertas por baseline/metas e comparação
+real ainda ausentes. Sem reinício, publicação ou navegador. **11/37** mantido.
+[Plano anterior à edição, resultados e limites](validation/catalogo-concorrente-2026-10-23.md).
+
 Continuação posterior: comunidade não depende mais do carregamento da home;
 14 testes dirigidos e compile aprovados. Isolamento dos utilitários fortalecido.
 7.1/7.2 permanecem abertas por cobertura social e validação real ainda ausentes;
@@ -57,7 +108,7 @@ correlação com on_load. Manter 1.3/1.4 abertas.
   Chamadas posicionais, funções auxiliares e serviços estão no JSON; dispatch
   dinâmico exige interpretação. Não é medição de tráfego/latência nem validação
   remota. [Evidência e limites](validation/inventario-rotas-eventos-2026-10-20.md).
-- [ ] 1.2 Propor e obter aprovação para instrumentos de medição, arquivos de evidência, servidor/reinício e dados de teste necessários; verificar registro explícito de escopo autorizado antes de criá-los ou executá-los.
+- [x] 1.2 Propor e obter aprovação para instrumentos de medição, arquivos de evidência, servidor/reinício e dados de teste necessários; verificar registro explícito de escopo autorizado antes de criá-los ou executá-los.
 - [ ] 1.3 Medir jornadas com cache vazio/aquecido, desktop/celular e contas adequadas; verificar pelo menos cinco amostras por cenário, mediana, pior amostra e contagens por serviço, sem segredos nos registros.
 - [ ] 1.4 Identificar origem e escopo do HTTP 429, incluindo chamadas Python aos serviços; verificar endpoint sanitizado, sequência disparadora e Retry-After, distinguindo reprodução real de simulação.
 - [ ] 1.5 Apresentar prioridades e metas numéricas por jornada e obter aprovação antes de registrá-las; verificar tabela com linha de base, orçamento, ambiente e critério de comparação para cada etapa.
@@ -126,8 +177,8 @@ continuam abertas. [Diagnóstico, decisões, testes e limites](validation/cache-
 
 ## 4. Home, categorias e buscas
 
-- [ ] 4.1 Medir e propor melhoria do caminho crítico da home e das categorias; verificar distribuição de custo por provedor, primeiro conteúdo utilizável e aprovação da intervenção.
-- [ ] 4.2 Aplicar melhoria aprovada de carregamento/recursos visuais e validar incrementalmente; verificar conteúdo principal antes de seção lenta, falha parcial, capas, ordem das séries e destaque preservados, com evidência e compilação.
+- [x] 4.1 Medir e propor melhoria do caminho crítico da home e das categorias; verificar distribuição de custo por provedor, primeiro conteúdo utilizável e aprovação da intervenção.
+- [x] 4.2 Aplicar melhoria aprovada de carregamento/recursos visuais e validar incrementalmente; verificar conteúdo principal antes de seção lenta, falha parcial, capas, ordem das séries e destaque preservados, com evidência e compilação.
 - [x] 4.3 Medir e otimizar busca/paginação após aprovação; verificar busca nos quatro tipos, relevância, mais resultados sem duplicatas e resposta antiga ignorada, com testes e evidência por consulta.
 - [ ] 4.4 Comparar ida/retorno e recarga em desktop/celular com cache vazio/aquecido; verificar metas de tempo/chamadas e registrar perdas ou limitações sem ocultar provedores indisponíveis.
 

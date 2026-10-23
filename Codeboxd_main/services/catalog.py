@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 KITSU_URL = 'https://kitsu.app/api/edge'
 _kitsu_cache: OrderedDict = OrderedDict()
 _public_cache: OrderedDict = OrderedDict()
+_public_pending: dict = {}
 
 
 TYPES = {'movie': 'Filme', 'series': 'Série', 'anime': 'Anime', 'book': 'Livro'}
@@ -122,6 +123,33 @@ def media(source: str, kind: str, identifier: str, title: str, **extra) -> dict:
 
 
 async def fetch(url: str, *, cache: bool = False, **kwargs) -> dict:
+    """Share equivalent public reads while preserving independent results."""
+    if not cache:
+        return await _fetch_response(url, **kwargs)
+    digest = hashlib.sha256(json.dumps([url, kwargs], sort_keys=True).encode()).hexdigest()
+    cached = _public_cache.get(digest)
+    if cached and time.monotonic() - cached[0] < 300:
+        _public_cache.move_to_end(digest)
+        return copy.deepcopy(cached[1])
+    key = (asyncio.get_running_loop(), digest)
+    task = _public_pending.get(key)
+    if task is None:
+        if len(_public_pending) >= 128:
+            return await _fetch_response(url, cache=True, **kwargs)
+        task = asyncio.create_task(_fetch_response(url, cache=True, **kwargs))
+        _public_pending[key] = task
+
+        def finished(completed):
+            if _public_pending.get(key) is completed:
+                del _public_pending[key]
+            if not completed.cancelled():
+                completed.exception()
+
+        task.add_done_callback(finished)
+    return copy.deepcopy(await asyncio.shield(task))
+
+
+async def _fetch_response(url: str, *, cache: bool = False, **kwargs) -> dict:
     cache_key = hashlib.sha256(json.dumps([url, kwargs], sort_keys=True).encode()).hexdigest() if cache else ''
     if cache_key in _public_cache:
         stored_at, value = _public_cache[cache_key]

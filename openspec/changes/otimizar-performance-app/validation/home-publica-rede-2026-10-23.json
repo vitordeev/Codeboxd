@@ -1,0 +1,1383 @@
+{
+  "layer": "real-public-provider-handlers",
+  "browser_measured": false,
+  "xano_measured": false,
+  "samples": [
+    {
+      "primary_ms": 809.641,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 5930.25,
+      "total_requests": 22,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 10,
+        "kitsu": 3,
+        "open-library": 9
+      },
+      "statuses": {
+        "200": 22
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 254.555,
+          "duration_ms": 532.465
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 301.825,
+          "duration_ms": 486.051
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 284.429,
+          "duration_ms": 504.968
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 264.842,
+          "duration_ms": 525.259
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 178.791,
+          "duration_ms": 838.405
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 806.698,
+          "duration_ms": 452.6
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 825.059,
+          "duration_ms": 448.651
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 859.067,
+          "duration_ms": 419.162
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 816.613,
+          "duration_ms": 462.453
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 850.249,
+          "duration_ms": 430.412
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 837.324,
+          "duration_ms": 444.021
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1033.942,
+          "duration_ms": 928.68
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 337.816,
+          "duration_ms": 1742.877
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1980.68,
+          "duration_ms": 863.887
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2094.086,
+          "duration_ms": 1402.81
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3562.349,
+          "duration_ms": 714.508
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3511.231,
+          "duration_ms": 921.364
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 318.261,
+          "duration_ms": 4637.74
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3538.857,
+          "duration_ms": 1626.605
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3528.467,
+          "duration_ms": 2150.35
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3549.268,
+          "duration_ms": 2259.828
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 4966.778,
+          "duration_ms": 962.006
+        }
+      ],
+      "index": 1,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 17.456,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 20.009,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 1,
+      "phase": "warm"
+    },
+    {
+      "primary_ms": 521.947,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 8384.601,
+      "total_requests": 22,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 10,
+        "kitsu": 3,
+        "open-library": 9
+      },
+      "statuses": {
+        "200": 22
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 28.503,
+          "duration_ms": 421.836
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 37.442,
+          "duration_ms": 455.025
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 19.922,
+          "duration_ms": 473.71
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 46.6,
+          "duration_ms": 447.919
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 8.939,
+          "duration_ms": 844.995
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 469.781,
+          "duration_ms": 413.064
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 487.017,
+          "duration_ms": 415.471
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 479.278,
+          "duration_ms": 427.886
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 459.47,
+          "duration_ms": 448.373
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 505.553,
+          "duration_ms": 405.069
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 520.399,
+          "duration_ms": 396.771
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 61.628,
+          "duration_ms": 964.272
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 869.476,
+          "duration_ms": 865.952
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1813.507,
+          "duration_ms": 561.76
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1034.336,
+          "duration_ms": 3840.351
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 4920.924,
+          "duration_ms": 904.944
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 54.551,
+          "duration_ms": 5867.924
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 4892.01,
+          "duration_ms": 1129.846
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 4884.722,
+          "duration_ms": 1949.326
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 5937.63,
+          "duration_ms": 2066.761
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 4912.611,
+          "duration_ms": 3280.927
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 4900.683,
+          "duration_ms": 3478.335
+        }
+      ],
+      "index": 2,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 46.393,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 50.957,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 2,
+      "phase": "warm"
+    },
+    {
+      "primary_ms": 538.569,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 7155.278,
+      "total_requests": 22,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 10,
+        "kitsu": 3,
+        "open-library": 9
+      },
+      "statuses": {
+        "200": 22
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 23.647,
+          "duration_ms": 512.733
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 43.374,
+          "duration_ms": 512.584
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 74.199,
+          "duration_ms": 483.185
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 85.831,
+          "duration_ms": 473.946
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 576.987,
+          "duration_ms": 443.757
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 634.289,
+          "duration_ms": 398.443
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 610.141,
+          "duration_ms": 425.347
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 650.114,
+          "duration_ms": 386.547
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 594.368,
+          "duration_ms": 465.414
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 618.606,
+          "duration_ms": 443.281
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 11.707,
+          "duration_ms": 1459.245
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 132.712,
+          "duration_ms": 2270.424
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1494.66,
+          "duration_ms": 1072.771
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2417.783,
+          "duration_ms": 1073.199
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2580.763,
+          "duration_ms": 956.543
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 112.736,
+          "duration_ms": 3457.487
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3510.649,
+          "duration_ms": 1042.159
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3524.159,
+          "duration_ms": 1082.702
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3530.909,
+          "duration_ms": 1105.694
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3517.502,
+          "duration_ms": 1169.915
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3578.143,
+          "duration_ms": 1448.878
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 3503.706,
+          "duration_ms": 3650.015
+        }
+      ],
+      "index": 3,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 27.853,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 29.722,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 3,
+      "phase": "warm"
+    },
+    {
+      "primary_ms": 521.699,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 3790.19,
+      "total_requests": 22,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 10,
+        "kitsu": 3,
+        "open-library": 9
+      },
+      "statuses": {
+        "200": 22
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 44.088,
+          "duration_ms": 394.432
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 24.756,
+          "duration_ms": 414.726
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 36.159,
+          "duration_ms": 466.021
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 15.018,
+          "duration_ms": 489.182
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 472.371,
+          "duration_ms": 410.277
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 487.291,
+          "duration_ms": 396.096
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 447.282,
+          "duration_ms": 437.743
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 519.877,
+          "duration_ms": 379.365
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 7.839,
+          "duration_ms": 894.871
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 460.345,
+          "duration_ms": 460.896
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 480.291,
+          "duration_ms": 442.328
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 59.158,
+          "duration_ms": 1222.436
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 917.025,
+          "duration_ms": 1355.019
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 51.091,
+          "duration_ms": 2303.246
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1296.712,
+          "duration_ms": 1355.175
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2304.06,
+          "duration_ms": 797.229
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2409.355,
+          "duration_ms": 872.781
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2388.591,
+          "duration_ms": 1023.073
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2400.504,
+          "duration_ms": 1011.972
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2372.294,
+          "duration_ms": 1209.332
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2364.26,
+          "duration_ms": 1404.123
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2676.973,
+          "duration_ms": 1112.094
+        }
+      ],
+      "index": 4,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 33.536,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 35.525,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 4,
+      "phase": "warm"
+    },
+    {
+      "primary_ms": 632.982,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 3264.86,
+      "total_requests": 22,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 10,
+        "open-library": 9,
+        "kitsu": 3
+      },
+      "statuses": {
+        "200": 22
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 25.0,
+          "duration_ms": 565.139
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 43.9,
+          "duration_ms": 548.206
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/popular",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 35.507,
+          "duration_ms": 559.035
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 53.501,
+          "duration_ms": 544.68
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 65.984,
+          "duration_ms": 943.577
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 670.262,
+          "duration_ms": 475.972
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 617.153,
+          "duration_ms": 532.377
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 631.735,
+          "duration_ms": 518.975
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 654.731,
+          "duration_ms": 496.81
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 661.887,
+          "duration_ms": 492.401
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/tv/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 644.363,
+          "duration_ms": 514.803
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 10.797,
+          "duration_ms": 1150.631
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 78.501,
+          "duration_ms": 1179.671
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1304.965,
+          "duration_ms": 790.166
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1272.718,
+          "duration_ms": 823.376
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1182.011,
+          "duration_ms": 1072.574
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1265.897,
+          "duration_ms": 1123.011
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1280.913,
+          "duration_ms": 1226.196
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1295.949,
+          "duration_ms": 1218.976
+        },
+        {
+          "service": "kitsu",
+          "endpoint": "/api/edge/anime",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2271.179,
+          "duration_ms": 719.511
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1017.174,
+          "duration_ms": 2190.708
+        },
+        {
+          "service": "open-library",
+          "endpoint": "/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 2529.137,
+          "duration_ms": 734.271
+        }
+      ],
+      "index": 5,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 19.45,
+      "finished": true,
+      "complete": true,
+      "shelves": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20,
+        "series_rated": 20,
+        "books_fiction": 20,
+        "books_fantasy": 20,
+        "books_mystery": 20,
+        "books_popular": 20,
+        "books_game_theory": 6,
+        "anime_rated": 20,
+        "anime_popular": 20,
+        "anime_current": 20
+      },
+      "failed_shelves": 0,
+      "warning": false,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 22.217,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 5,
+      "phase": "warm"
+    }
+  ],
+  "complete": true,
+  "summary": {
+    "cold": {
+      "primary_ms": {
+        "median": 538.569,
+        "worst": 809.641
+      },
+      "elapsed_ms": {
+        "median": 5930.25,
+        "worst": 8384.601
+      },
+      "total_requests": {
+        "median": 22,
+        "worst": 22
+      }
+    },
+    "warm": {
+      "primary_ms": {
+        "median": 27.853,
+        "worst": 46.393
+      },
+      "elapsed_ms": {
+        "median": 29.722,
+        "worst": 50.957
+      },
+      "total_requests": {
+        "median": 0,
+        "worst": 0
+      }
+    }
+  }
+}

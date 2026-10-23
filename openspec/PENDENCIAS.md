@@ -1,5 +1,23 @@
 # Pendências e sequência de retomada
 
+23/10/2026 — Performance **14/37**. Login de membro realizado e 70 checks de
+leituras reais aprovados, 39 respostas 200 sem 429; admin real em 44 checks,
+18 respostas 200 na execução com intervalo de 3 s. Acesso dessas execuções foi
+obtido; tokens descartados ao encerrar. Restam browser real, mutações,
+coleções grandes/duas contas, metas das demais jornadas e comparação integral.
+[Evidências e limites](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md).
+
+23/10/2026 — Performance **13/37**, com 4.1/4.2 concluídas. Home pública medida
+em cinco pares de cache com provedores reais; navegador de feed/listas aprovado
+em oito cenários fictícios. Aprovação das metas propostas e logins manuais de
+teste/admin ainda aguardados. Não arquivar por evidência local parcial.
+[Critérios, resultados e limites](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md).
+
+Fechamento de 22/10: administração **21/34**, recuperação **8/10**, performance
+**11/37**. Próxima etapa administrativa: login manual na ferramenta preparada;
+nenhuma sessão real obtida nesta rodada. Resend depende de destinatário elegível.
+[Relatório do dia e critérios de retomada](RELATORIO_TRABALHOS_2026-10-22.md).
+
 22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
 conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
 local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas

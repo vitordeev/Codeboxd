@@ -1,5 +1,41 @@
 # OpenSpec do Codeboxd
 
+23/10/2026 — Otimização local de listas: salvar/excluir evita recarga do
+catálogo, bloqueia envios simultâneos e preserva rascunho em falha. 327 testes,
+compilação e oito cenários fictícios de navegador aprovados. Performance
+permanece **14/37**; integração remota das mutações continua pendente.
+[Evidência](changes/otimizar-performance-app/validation/mutacoes-listas-2026-10-23.md).
+
+23/10/2026 — Membro real: **70 checks aprovados**, cinco amostras de sete
+leituras, 39 respostas 200 e zero 429. Admin real anteriormente aprovado em
+44 checks. Instrumentação 1.2 concluída; performance em **14/37**. Preservados
+relatório bruto e diagnóstico da desconexão local do formulário; critérios de
+browser/mutações/comparação integral continuam abertos.
+[Resultados por leitura](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md).
+
+23/10/2026 — Admin real: **44 checks aprovados**, 18 respostas 200 sem 429 na
+execução com intervalo de 3 s; tentativa anterior interrompida no limite e
+preservada. Metas da home aprovadas e atendidas na camada Python/provedores.
+318 testes aprovados; validação de membro aguarda login manual. Performance
+permanece em **13/37**, sem encerrar jornadas completas por leituras API.
+[Evidências](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md).
+
+23/10/2026 — Continuação de performance em **13/37**: diagnóstico real da home
+e incremento de consultas concluídos (4.1/4.2). Cinco pares frios/aquecidos,
+110 respostas 200, zero 429; oito cenários de feed/listas aprovados no navegador
+com backend fictício. Metas e jornadas autenticadas permanecem pendentes.
+[Retomada e evidências](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md).
+
+23/10/2026 — Performance: consultas públicas idênticas em andamento agora
+compartilham uma chamada. Cinco amostras locais com HTTP fictício: dez chamadas
+para uma; 311 testes e compilação aprovados. **11/37** mantido, com baseline e
+validação real pendentes. [Evidência](changes/otimizar-performance-app/validation/catalogo-concorrente-2026-10-23.md).
+
+[Fechamento de 22/10/2026](RELATORIO_TRABALHOS_2026-10-22.md): entregas de
+Resend, feed/listas e administração, evidências, commits e próximos passos.
+Administração em **21/34**; ferramenta de consultas reais preparada com sete
+testes novos e 21 existentes aprovados, aguardando login admin local.
+
 22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
 conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
 local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas

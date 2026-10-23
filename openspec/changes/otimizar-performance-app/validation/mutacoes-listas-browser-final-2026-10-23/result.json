@@ -1,0 +1,15 @@
+{
+  "layer": "browser_local_fictional_backend",
+  "expected": 8,
+  "completed": [
+    {
+      "case": 1,
+      "width": 1440,
+      "passed": true,
+      "catalog_refetched": false,
+      "javascript_errors": []
+    }
+  ],
+  "failure": "AssertionError: Locator expected to be visible\nActual value: None\nError: strict mode violation: get_by_text(\"Servi\u00e7o indispon\u00edvel. Tente novamente.\", exact=True) resolved to 2 elements:\n    1) <p role=\"status\" class=\"rounded-xl border border-amber-400/25 bg-amber-400/10 p-4 mb-6\">Servi\u00e7o indispon\u00edvel. Tente novamente.</p> aka locator(\"main\").get_by_text(\"Servi\u00e7o indispon\u00edvel. Tente\")\n    2) <p role=\"status\" class=\"dialog-notice\">Servi\u00e7o indispon\u00edvel. Tente novamente.</p> aka get_by_role(\"status\")\n \nCall log:\n  - Expect \"to_be_visible\" get_by_text(\"Servi\u00e7o indispon\u00edvel. Tente novamente.\", exact=True) with timeout 5000ms\n  - waiting for get_by_text(\"Servi\u00e7o indispon\u00edvel. Tente novamente.\", exact=True)\n",
+  "normal_server_modified": false
+}
