@@ -1,0 +1,18 @@
+{
+  "layer": "real-browser-normal-server",
+  "started_at": "2026-10-24T19:56:18.396902+00:00",
+  "passed": false,
+  "steps": [],
+  "verification_requests": [],
+  "cleanup": [],
+  "backend_python_requests_measured": false,
+  "screenshots_saved": false,
+  "current_step": "manual-login",
+  "failure_type": "TimeoutError",
+  "wire_totals": {
+    "sent_frames": 23,
+    "received_frames": 30,
+    "received_bytes": 15095,
+    "javascript_errors": 0
+  }
+}

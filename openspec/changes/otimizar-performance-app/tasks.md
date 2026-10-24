@@ -1,5 +1,19 @@
 # Tasks
 
+24/10/2026 — Priorizada jornada principal autenticada após aprovação do usuário.
+Executor de navegador real preparado para 1440/390px, fixtures marcadas e limpeza
+restrita com comparação de registros originais; seis salvaguardas offline
+aprovadas e suíte completa com 333 testes aprovada. Primeira tentativa expirou
+no login, sem executar etapas ou mutações; relatório preservado. Segunda
+tentativa preparada com login de membro. Usa servidor normal 3030 sem reinício.
+Etapas 5.3/6.3/9.1 continuam
+abertas até resultado real e respectivos critérios completos.
+[Plano e evidências](validation/jornada-principal-2026-10-24.md).
+
+Pausa solicitada pelo usuário para `git pull`: executor encerrado; três
+tentativas sem login de membro, zero mutações remotas. Alterações locais
+preservadas sem commit; validação real continua pendente.
+
 23/10/2026 — Incremento local de 6.3: salvar/excluir metadados de listas
 preserva referências de mídia e evita a recarga integral do catálogo; envio
 protegido, espera visível e rascunho preservado em falha. Cinco amostras por
