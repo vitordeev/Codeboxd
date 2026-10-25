@@ -6,7 +6,62 @@ import unittest
 
 import httpx
 
-from tools.main_journey_browser import Audit, TABLES
+from tools.main_journey_browser import Audit, TABLES, metadata_token
+
+
+class MetadataProfileTests(unittest.TestCase):
+    def credentials(self, default='project'):
+        raw = ("profiles:\n"
+               "  default:\n"
+               "    access_token: PRIVATE_OTHER_TOKEN\n"
+               "    instance_origin: https://other.example.test\n"
+               "    expires_at: 123\n"
+               "  project:\n"
+               "    access_token: 'PRIVATE_PROJECT_TOKEN'\n"
+               "    instance_origin: https://project.example.test/\n")
+        return raw + (f'default: {default}\n' if default is not None else '')
+
+    def test_declared_default_selects_matching_origin_not_first_token(self):
+        self.assertEqual(metadata_token(self.credentials(), 'https://project.example.test'),
+                         'PRIVATE_PROJECT_TOKEN')
+
+    def test_no_default_requires_unique_origin_match(self):
+        self.assertEqual(metadata_token(self.credentials(None), 'https://project.example.test'),
+                         'PRIVATE_PROJECT_TOKEN')
+        raw = self.credentials(None).replace('https://other.example.test', 'https://project.example.test')
+        with self.assertRaisesRegex(RuntimeError, '^metadata_profile_ambiguous$'):
+            metadata_token(raw, 'https://project.example.test')
+
+    def test_default_with_wrong_origin_never_falls_back_to_other_token(self):
+        with self.assertRaisesRegex(RuntimeError, '^metadata_profile_origin$'):
+            metadata_token(self.credentials('default'), 'https://project.example.test')
+
+    def test_unknown_default_fails_without_disclosing_names_or_tokens(self):
+        with self.assertRaisesRegex(RuntimeError, '^metadata_profile_ambiguous$') as caught:
+            metadata_token(self.credentials('PRIVATE_MISSING_PROFILE'), 'https://project.example.test')
+        self.assertNotIn('PRIVATE', str(caught.exception))
+
+    def test_quoted_url_profile_names_are_supported(self):
+        raw = self.credentials().replace('  project:', '  "https://project.example.test":')
+        raw = raw.replace('default: project', 'default: "https://project.example.test"')
+        self.assertEqual(metadata_token(raw, 'https://project.example.test'), 'PRIVATE_PROJECT_TOKEN')
+
+    def test_duplicate_profiles_fields_and_defaults_fail_closed(self):
+        variants = [self.credentials() + 'default: project\n',
+                    self.credentials().replace('    expires_at:', '    access_token:'),
+                    self.credentials().replace("    access_token: 'PRIVATE_PROJECT_TOKEN'",
+                                               "    access_token: 'PRIVATE_PROJECT_TOKEN'\n    access_token:"),
+                    self.credentials().replace('  project:', '  default:')]
+        for raw in variants:
+            with self.subTest(variant=variants.index(raw)), self.assertRaises(RuntimeError):
+                metadata_token(raw, 'https://project.example.test')
+
+    def test_missing_token_and_non_https_origin_fail_closed(self):
+        raw = self.credentials().replace("    access_token: 'PRIVATE_PROJECT_TOKEN'\n", '')
+        with self.assertRaises(RuntimeError):
+            metadata_token(raw, 'https://project.example.test')
+        with self.assertRaisesRegex(RuntimeError, '^metadata_profile_origin$'):
+            metadata_token(self.credentials(), 'http://project.example.test')
 
 
 class JourneyAuditTests(unittest.TestCase):

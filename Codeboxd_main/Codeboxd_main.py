@@ -9,6 +9,8 @@ from .pages.account import account_page, signup_page, password_reset_page
 from .state.auth_state import AuthState
 from .state.admin import AdminState
 from .state.social import SocialState
+from .services.catalog import catalog_connection_pool
+from .services.api import api_connection_pool
 from .pages.social import discovery_page, media_page, library_page, community_page, profile_page, feed_page, lists_page
 
 
@@ -28,6 +30,8 @@ def protected_admin() -> rx.Component:
 
 
 app = rx.App(head_components=HEAD_COMPONENTS, html_lang="pt-BR")
+app.register_lifespan_task(catalog_connection_pool)
+app.register_lifespan_task(api_connection_pool)
 app.add_page(discovery_page, route="/", on_load=SocialState.visit('home'))
 app.add_page(login_page, route="/login")
 app.add_page(admin_login_page, route="/admin/login", title="Acesso administrativo | Codeboxd",

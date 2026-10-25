@@ -6,6 +6,8 @@ import json
 import logging
 import time
 from collections import OrderedDict
+from contextlib import asynccontextmanager
+from http.cookiejar import CookieJar, DefaultCookiePolicy
 import os
 import re
 import unicodedata
@@ -22,6 +24,48 @@ KITSU_URL = 'https://kitsu.app/api/edge'
 _kitsu_cache: OrderedDict = OrderedDict()
 _public_cache: OrderedDict = OrderedDict()
 _public_pending: dict = {}
+_connection_clients: dict = {}
+
+
+class _NoCookies(DefaultCookiePolicy):
+    def set_ok(self, cookie, request):
+        return False
+
+    def return_ok(self, cookie, request):
+        return False
+
+
+def _new_catalog_client():
+    # Public provider transport only: never retain cookies or default credentials
+    # across requests, providers or application sessions.
+    return httpx.AsyncClient(timeout=httpx.Timeout(8, connect=3),
+        headers={'User-Agent': 'Codeboxd/1.0'}, cookies=CookieJar(policy=_NoCookies()))
+
+
+@asynccontextmanager
+async def catalog_connection_pool():
+    """Own one public HTTP client per backend event loop, closed at shutdown."""
+    loop = asyncio.get_running_loop()
+    if loop in _connection_clients:
+        raise RuntimeError('Catalog connection pool already active')
+    async with _new_catalog_client() as client:
+        _connection_clients[loop] = client
+        try:
+            yield
+        finally:
+            _connection_clients.pop(loop, None)
+
+
+@asynccontextmanager
+async def _catalog_client():
+    client = _connection_clients.get(asyncio.get_running_loop())
+    if client is not None and not client.is_closed:
+        yield client
+    else:
+        # Standalone callers keep their existing bounded lifetime; no global
+        # client is created at import or carried into another asyncio.run loop.
+        async with _new_catalog_client() as client:
+            yield client
 
 
 TYPES = {'movie': 'Filme', 'series': 'Série', 'anime': 'Anime', 'book': 'Livro'}
@@ -158,7 +202,7 @@ async def _fetch_response(url: str, *, cache: bool = False, **kwargs) -> dict:
             return copy.deepcopy(value)
         del _public_cache[cache_key]
     try:
-        async with httpx.AsyncClient(timeout=httpx.Timeout(8, connect=3), headers={'User-Agent': 'Codeboxd/1.0'}) as client:
+        async with _catalog_client() as client:
             for attempt in range(3):
                 try:
                     response = await client.get(url, **kwargs)

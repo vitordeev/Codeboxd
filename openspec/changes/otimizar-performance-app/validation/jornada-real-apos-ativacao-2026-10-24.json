@@ -1,0 +1,17 @@
+{
+  "layer": "real-browser-normal-server",
+  "started_at": "2026-10-25T01:57:42.060860+00:00",
+  "passed": false,
+  "steps": [],
+  "verification_requests": [],
+  "cleanup": [],
+  "backend_python_requests_measured": false,
+  "screenshots_saved": false,
+  "failure_type": "RuntimeError",
+  "wire_totals": {
+    "sent_frames": 0,
+    "received_frames": 0,
+    "received_bytes": 0,
+    "javascript_errors": 0
+  }
+}

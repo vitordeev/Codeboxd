@@ -6,9 +6,10 @@ from tools.login_performance_scenario import run_sample
 
 
 class LoginScenarioTests(unittest.IsolatedAsyncioTestCase):
-    async def test_success_records_five_calls_and_one_session_check(self):
+    async def test_empty_profile_records_four_calls_and_one_session_check(self):
         result = await run_sample()
-        self.assertEqual(result['total_requests'], 5)
+        self.assertEqual(result['total_requests'], 4)
+        self.assertFalse(any(e['endpoint'] == '/media' for e in result['events']))
         self.assertEqual(sum(e['endpoint'] == '/auth/me' for e in result['events']), 1)
         self.assertTrue(result['profile_loaded'])
         self.assertFalse(result['busy_after'])
@@ -41,7 +42,7 @@ class LoginScenarioTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(result['profile_loaded'])
         self.assertTrue(result['error_visible'])
         self.assertEqual(result['rate_limited'], 1)
-        self.assertEqual(result['total_requests'], 6)
+        self.assertEqual(result['total_requests'], 5)
 
     async def test_reference_rate_limit_preserves_profile_without_retries(self):
         result = await run_sample('references-429')
@@ -53,6 +54,6 @@ class LoginScenarioTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_five_quick_profile_visits_reuse_identity_and_detail(self):
         result=await run_sample(visits=5)
-        self.assertEqual(result['total_requests'],5)
+        self.assertEqual(result['total_requests'],4)
         self.assertEqual(sum(e['endpoint']=='/auth/me' for e in result['events']),1)
         self.assertEqual(sum(e['endpoint']=='/profiles/{value}' for e in result['events']),1)

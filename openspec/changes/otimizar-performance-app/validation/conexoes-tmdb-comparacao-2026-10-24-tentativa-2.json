@@ -1,0 +1,541 @@
+{
+  "layer": "real-public-tmdb-transport",
+  "browser_measured": false,
+  "samples": [
+    {
+      "index": 1,
+      "pooled": false,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 2320.972,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 436.255,
+          "duration_ms": 493.163
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1284.092,
+          "duration_ms": 353.57
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1973.244,
+          "duration_ms": 344.487
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    },
+    {
+      "index": 1,
+      "pooled": true,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 895.75,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 0.417,
+          "duration_ms": 359.019
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 361.49,
+          "duration_ms": 120.809
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 483.647,
+          "duration_ms": 123.727
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    },
+    {
+      "index": 2,
+      "pooled": true,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 851.533,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 0.668,
+          "duration_ms": 344.575
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 346.409,
+          "duration_ms": 119.589
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 467.19,
+          "duration_ms": 120.064
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    },
+    {
+      "index": 2,
+      "pooled": false,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 2064.146,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 265.947,
+          "duration_ms": 357.624
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1027.919,
+          "duration_ms": 376.866
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1709.805,
+          "duration_ms": 352.753
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    },
+    {
+      "index": 3,
+      "pooled": false,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 2076.622,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 300.55,
+          "duration_ms": 347.616
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1069.04,
+          "duration_ms": 348.3
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1724.806,
+          "duration_ms": 349.963
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    },
+    {
+      "index": 3,
+      "pooled": true,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 886.108,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 0.787,
+          "duration_ms": 344.899
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 346.925,
+          "duration_ms": 120.736
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 468.984,
+          "duration_ms": 120.404
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    },
+    {
+      "index": 4,
+      "pooled": true,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 975.394,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 0.476,
+          "duration_ms": 356.149
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 358.335,
+          "duration_ms": 122.752
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 482.418,
+          "duration_ms": 119.288
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    },
+    {
+      "index": 4,
+      "pooled": false,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 2058.052,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 297.121,
+          "duration_ms": 351.158
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1019.656,
+          "duration_ms": 354.08
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1700.709,
+          "duration_ms": 355.561
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    },
+    {
+      "index": 5,
+      "pooled": false,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 1871.434,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 290.368,
+          "duration_ms": 346.1
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 901.814,
+          "duration_ms": 359.243
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1515.469,
+          "duration_ms": 354.434
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    },
+    {
+      "index": 5,
+      "pooled": true,
+      "selections": {
+        "movies_now": 20,
+        "movies_rated": 20,
+        "movies_upcoming": 20
+      },
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 870.713,
+      "total_requests": 3,
+      "rate_limited": 0,
+      "services": {
+        "tmdb": 3
+      },
+      "statuses": {
+        "200": 3
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/now_playing",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 0.591,
+          "duration_ms": 356.614
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/top_rated",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 358.392,
+          "duration_ms": 120.584
+        },
+        {
+          "service": "tmdb",
+          "endpoint": "/{value}/movie/upcoming",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 480.134,
+          "duration_ms": 130.359
+        }
+      ],
+      "content_fingerprint": "7da65b7c54f437c92c588e45a28c69a67c9c80d166cc61b5507d3195571ee045"
+    }
+  ],
+  "complete": true,
+  "summary": {
+    "legacy": {
+      "median_ms": 2064.146,
+      "worst_ms": 2320.972,
+      "calls_per_sample": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ]
+    },
+    "pooled": {
+      "median_ms": 886.108,
+      "worst_ms": 975.394,
+      "calls_per_sample": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ]
+    }
+  }
+}

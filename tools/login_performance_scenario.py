@@ -49,7 +49,12 @@ async def run_sample(case='success', delay_ms=50, visits=1):
             '/auth/me': {'id': 7, 'role': 'member', 'username': 'synthetic-user'},
             '/media': [], '/profiles': [],
             '/profiles/7': {'profile': {'user_id': 7, 'username': 'synthetic-user',
-                'display_name': 'Synthetic'}, 'interactions': [], 'followers': [], 'following': []},
+                'display_name': 'Synthetic'},
+                # A media-reference failure is only relevant when activities
+                # actually need those references; empty profiles skip /media.
+                'interactions': [{'media_id': 9, 'status': 'completed', 'rating': 4.5}]
+                    if case == 'references-429' else [],
+                'followers': [], 'following': []},
         }
         if path not in payloads:
             raise AssertionError('Unexpected synthetic endpoint')

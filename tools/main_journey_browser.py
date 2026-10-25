@@ -26,6 +26,77 @@ ROOT = Path(__file__).resolve().parents[1]
 TABLES = ('user_list', 'user_list_item', 'post', 'user_media_interaction')
 
 
+def metadata_token(raw, origin):
+    """Read CLI scalar profile blocks without exposing or guessing credentials.
+
+    This accepts the simple credentials format written by the CLI, not arbitrary
+    YAML. Unknown structures/duplicates fail closed; no credential file is edited.
+    """
+    def scalar(value):
+        value = value.strip()
+        if value[:1] in ('\"', "'"):
+            if len(value) < 2 or value[-1] != value[0]:
+                raise RuntimeError('metadata_profile_format')
+            value = value[1:-1]
+        if not value or '\n' in value or '\r' in value:
+            raise RuntimeError('metadata_profile_format')
+        return value
+
+    profiles, default, current, in_profiles = {}, None, None, False
+    for line in raw.splitlines():
+        if not line.strip() or line.lstrip().startswith('#'):
+            continue
+        if line == 'profiles:':
+            if in_profiles or profiles:
+                raise RuntimeError('metadata_profile_format')
+            in_profiles = True
+            continue
+        if line.startswith('default:'):
+            if default is not None:
+                raise RuntimeError('metadata_profile_format')
+            default = scalar(line.partition(':')[2])
+            in_profiles = False
+            current = None
+            continue
+        block = re.fullmatch(r'  (\S.*):\s*', line)
+        if in_profiles and block:
+            current = scalar(block.group(1))
+            if current in profiles:
+                raise RuntimeError('metadata_profile_format')
+            profiles[current] = {}
+            continue
+        field = re.fullmatch(r'    (access_token|instance_origin):\s*(.*)', line)
+        if in_profiles and current and field:
+            key, value = field.groups()
+            if key in profiles[current]:
+                raise RuntimeError('metadata_profile_format')
+            profiles[current][key] = scalar(value)
+            continue
+        # Other scalar metadata (expiry, account identifiers) is not consumed.
+        if in_profiles and current and re.fullmatch(r'    [a-z_]+:.*', line):
+            continue
+        raise RuntimeError('metadata_profile_format')
+
+    target = origin.rstrip('/')
+    if not target.startswith('https://') or urlsplit(target).path:
+        raise RuntimeError('metadata_profile_origin')
+    if default is not None:
+        selected = profiles.get(default)
+        if selected is None:
+            raise RuntimeError('metadata_profile_ambiguous')
+    else:
+        matching = [profile for profile in profiles.values()
+                    if profile.get('instance_origin', '').rstrip('/') == target]
+        if len(matching) != 1:
+            raise RuntimeError('metadata_profile_ambiguous')
+        selected = matching[0]
+    if selected.get('instance_origin', '').rstrip('/') != target:
+        raise RuntimeError('metadata_profile_origin')
+    if not selected.get('access_token'):
+        raise RuntimeError('metadata_profile_format')
+    return selected['access_token']
+
+
 class Audit:
     def __init__(self, client, auth, social, meta, meta_token, report, *, pause=3):
         self.client, self.auth, self.social, self.meta = client, auth, social, meta
@@ -334,12 +405,12 @@ async def main(output, base):
         config = dotenv_values(ROOT/'.env')
         auth, social = config['XANO_AUTH_URL'].rstrip('/'), config['XANO_SOCIAL_URL'].rstrip('/')
         origin = urlsplit(auth)
+        report['current_step'] = 'metadata-profile'
         raw = (Path.home()/'.xano/credentials.yaml').read_text(encoding='utf-8')
-        tokens = re.findall(r'^\s*access_token:\s*(.*?)\s*$', raw, re.M)
-        if len(tokens) != 1: raise RuntimeError('metadata_profile_ambiguous')
+        meta_token = metadata_token(raw, f'{origin.scheme}://{origin.netloc}')
         meta = f'{origin.scheme}://{origin.netloc}/api:meta/workspace/147717'
         with httpx.Client(timeout=25, follow_redirects=False) as client:
-            audit = Audit(client, auth, social, meta, tokens[0].strip().strip("'\""), report)
+            audit = Audit(client, auth, social, meta, meta_token, report)
             async with async_playwright() as pw:
                 browser = await pw.chromium.launch(channel='msedge', headless=False)
                 context = await browser.new_context(viewport={'width': 1440, 'height': 900})

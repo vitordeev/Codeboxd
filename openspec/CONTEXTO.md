@@ -1,5 +1,34 @@
 # Contexto técnico e funcional
 
+24/10/2026 — Instância normal atual usa **pool de catálogo e pool Xano separados**,
+em **http://localhost:3030**. Launcher PID **10856**, frontend exclusivo
+`.local/frontends/xano-pool-20261024`; não reutilizar esse diretório para testes
+paralelos. Logs `.local/normal-xano-pool-20261024-stdout.log` e `-stderr.log`.
+PID 16476 anterior encerrado após conferir identidade/criação. 374 testes,
+compile/build, leituras reais de membro e três fileiras TMDB aprovados. Mediana
+das três leituras Xano caiu 60,26% no cenário comparado; não é ganho global de
+UI. Open Library mantém timeouts parciais.
+[Evidências e limites](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md).
+
+24/10/2026 — Instância normal atualizada com pool de conexões HTTP do catálogo,
+ativa em **http://localhost:3030**. Launcher PID **16476**, frontend exclusivo
+`.local/frontends/catalog-pool-20261024` (não reutilizar em testes paralelos),
+logs `.local/normal-catalog-pool-20261024-stdout.log` e `-stderr.log`. PID 3764
+anterior encerrado após verificar identidade/criação. HTTP 200 e três fileiras
+TMDB de 20 cards aprovados; Open Library ainda com timeout parcial. Jornada de
+membro anterior parou em metadados 403, sem mutações; não aguarda login daquela
+execução. [Medição e ativação](changes/otimizar-performance-app/validation/conexoes-catalogo-2026-10-24.md).
+
+24/10/2026 — App normal atualizado iniciado em produção em
+`http://localhost:3030`, com `.venv`, npm e frontend
+`.local/frontends/feed-lists-15664`. Diretório agora em uso pelo app normal:
+não reutilizar para testes/builds paralelos. Launcher PID 3764; logs privados
+`.local/normal-performance-20261024-stdout.log` e `-stderr.log`. Rotas 200 após
+normalização da barra final e três fileiras TMDB reais com 20 cards aprovadas.
+Timeouts da primeira tentativa preservados; demais provedores não certificados.
+Executor de jornada real aguarda login manual de membro em janela própria.
+[Ativação e limites](changes/otimizar-performance-app/validation/ativacao-local-2026-10-24.md).
+
 23/10/2026 — Após salvar/excluir lista, `load_lists(refresh_media=False)`
 preserva referências de mídia e atualiza diretório/itens. Entrada normal na
 tela continua recarregando o catálogo. `list_saving` publica espera e bloqueia
