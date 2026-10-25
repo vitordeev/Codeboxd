@@ -1,5 +1,36 @@
 # OpenSpec do Codeboxd
 
+24/10/2026 — Pool Xano aplicado em **localhost:3030**, separado do catálogo.
+Cinco pares reais de perfil/biblioteca/feed, 30 leituras 200 sem 429 e conteúdo
+igual: mediana ativa **3.366 → 1.338 ms (-60,26%)**. 374 testes, compile/build
+e catálogo real no navegador aprovados. Estado **14/37**, com jornadas completas
+ainda abertas. [Resultados e limites](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md).
+
+24/10/2026 — Pool HTTP do catálogo aplicado ao app normal em **localhost:3030**.
+Cinco pares TMDB reais, mesmas três consultas e conteúdo: mediana 2.064 → 886 ms
+(-57,07%). **364 testes**, compile/build e três fileiras reais de 20 cards
+aprovados. Home completa segue parcial por provedores externos; **14/37**.
+[Resultados e limites](changes/otimizar-performance-app/validation/conexoes-catalogo-2026-10-24.md).
+
+24/10/2026 — App atualizado ativo em produção local **http://localhost:3030**.
+Três fileiras TMDB reais com 20 cards aprovadas após timeouts iniciais; janela
+da jornada real aguardando login de membro. Performance **14/37**.
+[Ativação, correção do executor e limites](changes/otimizar-performance-app/validation/ativacao-local-2026-10-24.md).
+
+24/10/2026 — Feed evita preparar cards do catálogo que não exibe; perfil vazio
+dispensa a consulta de mídia. Comparação sintética com 5/250 obras: **60/60
+snapshots funcionais iguais**; 347 testes, compilação isolada e oito cenários
+de navegador fictício em desktop/celular aprovados.
+Performance **14/37**, com validações integradas abertas.
+[Plano e resultados](changes/otimizar-performance-app/validation/referencias-sociais-2026-10-24.md).
+
+24/10/2026 — Revisitas ao feed reutilizam leituras privadas por 15 s; upload de
+post invalida antes/depois da gravação. Cinco amostras sintéticas: 15 → 0 chamadas
+por cinco revisitas, ou 15 → 5 com `/likes` ausente. 340 testes e compilação seca
+aprovados. Sem alteração de páginas/CSS, validação remota ou reinício nesta rodada;
+performance continua **14/37**, com critérios integrados abertos.
+[Plano, resultados e limites](changes/otimizar-performance-app/validation/cache-feed-2026-10-24.md).
+
 23/10/2026 — Otimização local de listas: salvar/excluir evita recarga do
 catálogo, bloqueia envios simultâneos e preserva rascunho em falha. 327 testes,
 compilação e oito cenários fictícios de navegador aprovados. Performance

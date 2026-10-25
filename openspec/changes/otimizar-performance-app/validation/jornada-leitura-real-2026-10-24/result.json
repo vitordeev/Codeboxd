@@ -1,0 +1,7 @@
+{
+  "steps": [],
+  "normal_server_modified": false,
+  "passed": false,
+  "failure_type": "instrumentation_restart_before_journey",
+  "outbound_metrics_unavailable": true
+}

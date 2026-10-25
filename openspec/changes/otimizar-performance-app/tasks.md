@@ -1,5 +1,50 @@
 # Tasks
 
+24/10/2026 — Usuário confirmou maior fluidez do catálogo. Continuação: pool
+separado para o transporte Xano, com token por chamada, cookies bloqueados e
+mesmos timeouts/retries. **374 testes** e compile isolado aprovados. Comparação
+real de membro concluída: cinco pares, mesmo conteúdo, 30 leituras 200 sem 429;
+mediana ativa 3.366 → 1.338 ms (-60,26%). Build aprovado e aplicado em 3030;
+HTTP 200 e três fileiras TMDB reais de 20 cards preservados. Não encerrar
+2.4/6.4/7.4/9.1 por leituras API sem jornada completa.
+Estado **14/37**. [Plano e evidências](validation/conexoes-xano-2026-10-24.md).
+
+24/10/2026 — Incremento do transporte público: pool de conexões com lifespan,
+cookies bloqueados e headers por requisição; sem mudança de UI, chamadas, cache,
+retry ou autenticação. Cinco pares TMDB reais: 30 respostas 200 e conteúdo igual;
+mediana das três consultas 2.064,146 → 886,108 ms (-57,07%). Home completa teve
+conteúdo parcial nas duas versões; não encerrar 4.4/9.1 por esse resultado.
+364 testes, compile seco e build de produção aprovados; aplicado ao servidor
+normal em 3030. Três fileiras TMDB reais com 20 cards aprovadas no navegador.
+Estado **14/37**. [Plano e resultados](validation/conexoes-catalogo-2026-10-24.md).
+
+24/10/2026 — App normal atualizado iniciado em produção local 3030 após usuário
+fechar as instâncias. Rotas 200 após barra final; três fileiras TMDB reais com
+20 cards aprovadas na segunda tentativa, com timeouts iniciais preservados.
+Executor de jornada real corrigido para selecionar perfil padrão Xano somente
+quando a origem corresponde ao projeto; 13 testes pertinentes aprovados.
+Janela de membro aberta; 5.3/6.3/9.1 permanecem abertas aguardando resultado.
+Estado **14/37**. [Ativação e evidências](validation/ativacao-local-2026-10-24.md).
+
+24/10/2026 — Incremento de 7.1/7.2: feed mantém referências sem preparar cópia
+pública do catálogo; perfil sem atividades dispensa `/media`. Cinco amostras
+frias/aquecidas com 5/250 obras: 250 → 0 cards extras no feed grande, perfil
+vazio 3 → 2 consultas; **60/60 snapshots funcionais iguais** antes/depois.
+347 testes, compilação isolada e oito cenários de navegador fictício aprovados
+em 1440/390px, sem erros JavaScript ou overflow.
+Sem mudança de páginas/CSS ou Xano; manter **14/37** e critérios amplos abertos.
+[Plano, comparação e validações](validation/referencias-sociais-2026-10-24.md).
+
+24/10/2026 — Continuação autorizada com foco em desempenho, preservando
+funcionalidades e design. Incremento de 7.1/7.2/7.3: leituras de feed/posts/likes
+reutilizam o cache privado existente de 15 s; upload multipart de post invalida
+leituras antes/depois, inclusive em falha. Cinco amostras HTTP fictícias de cinco
+revisitas: 15 → 0 chamadas com `/likes`, 15 → 5 quando ausente (404 não cacheado).
+Cards preservados; sete novas regressões, 340 testes e compile --dry aprovados.
+Sem browser, mutações remotas ou reinício do servidor normal nesta rodada.
+Manter **14/37**, pois critérios completos de medição social/integração continuam
+abertos. [Plano e evidências](validation/cache-feed-2026-10-24.md).
+
 24/10/2026 — Priorizada jornada principal autenticada após aprovação do usuário.
 Executor de navegador real preparado para 1440/390px, fixtures marcadas e limpeza
 restrita com comparação de registros originais; seis salvaguardas offline

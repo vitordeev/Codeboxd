@@ -1,0 +1,9 @@
+{
+  "layer": "browser-real-public-tmdb",
+  "shelves": {
+    "Agora nos cinemas": 20,
+    "Filmes muito bem avaliados": 20,
+    "No radar: próximos filmes": 20
+  },
+  "passed": true
+}

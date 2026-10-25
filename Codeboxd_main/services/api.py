@@ -2,6 +2,8 @@
 import os
 import asyncio
 import math
+from contextlib import asynccontextmanager
+from http.cookiejar import CookieJar, DefaultCookiePolicy
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from typing import Any
@@ -10,6 +12,45 @@ import httpx
 from dotenv import load_dotenv
 
 load_dotenv()
+
+_connection_clients: dict = {}
+
+
+class _NoCookies(DefaultCookiePolicy):
+    def set_ok(self, cookie, request):
+        return False
+
+    def return_ok(self, cookie, request):
+        return False
+
+
+def _new_api_client():
+    # Identity belongs to each request, never to a pooled connection.
+    return httpx.AsyncClient(timeout=httpx.Timeout(10, connect=3),
+                             cookies=CookieJar(policy=_NoCookies()))
+
+
+@asynccontextmanager
+async def api_connection_pool():
+    loop = asyncio.get_running_loop()
+    if loop in _connection_clients:
+        raise RuntimeError('API connection pool already active')
+    async with _new_api_client() as client:
+        _connection_clients[loop] = client
+        try:
+            yield
+        finally:
+            _connection_clients.pop(loop, None)
+
+
+@asynccontextmanager
+async def _api_client():
+    client = _connection_clients.get(asyncio.get_running_loop())
+    if client is not None and not client.is_closed:
+        yield client
+    else:
+        async with _new_api_client() as client:
+            yield client
 
 
 class APIError(Exception):
@@ -51,7 +92,7 @@ async def request(method: str, path: str, *, group: str = 'social', token: str =
     if token:
         headers['Authorization'] = f'Bearer {token}'
     try:
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10, connect=3)) as client:
+        async with _api_client() as client:
             for attempt in range(3):
                 response = await client.request(method, base_url(group) + path,
                                                 headers=headers, json=data, params=params)

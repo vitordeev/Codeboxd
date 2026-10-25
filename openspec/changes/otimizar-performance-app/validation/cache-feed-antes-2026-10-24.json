@@ -1,0 +1,114 @@
+[
+  {
+    "layer": "offline-synthetic-http",
+    "simulated_latency_ms": 10,
+    "revisits_per_sample": 5,
+    "missing_likes": false,
+    "samples": [
+      {
+        "milliseconds": 235.682,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      },
+      {
+        "milliseconds": 236.602,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      },
+      {
+        "milliseconds": 303.49,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      },
+      {
+        "milliseconds": 251.982,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      },
+      {
+        "milliseconds": 251.192,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      }
+    ],
+    "median_ms": 251.192,
+    "worst_ms": 303.49,
+    "posts_unchanged": true
+  },
+  {
+    "layer": "offline-synthetic-http",
+    "simulated_latency_ms": 10,
+    "revisits_per_sample": 5,
+    "missing_likes": true,
+    "samples": [
+      {
+        "milliseconds": 263.601,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      },
+      {
+        "milliseconds": 231.912,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      },
+      {
+        "milliseconds": 233.739,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      },
+      {
+        "milliseconds": 237.609,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      },
+      {
+        "milliseconds": 235.41,
+        "calls": {
+          "/feed": 5,
+          "/posts": 5,
+          "/likes": 5
+        },
+        "total_calls": 15
+      }
+    ],
+    "median_ms": 235.41,
+    "worst_ms": 263.601,
+    "posts_unchanged": true
+  }
+]

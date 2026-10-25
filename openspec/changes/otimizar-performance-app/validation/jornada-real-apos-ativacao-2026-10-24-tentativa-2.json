@@ -1,0 +1,31 @@
+{
+  "layer": "real-browser-normal-server",
+  "started_at": "2026-10-25T01:59:59.782325+00:00",
+  "passed": false,
+  "steps": [],
+  "verification_requests": [
+    {
+      "method": "GET",
+      "endpoint": "/{value}/auth/me",
+      "status": 200,
+      "duration_ms": 4863.177
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}",
+      "status": 403,
+      "duration_ms": 861.297
+    }
+  ],
+  "cleanup": [],
+  "backend_python_requests_measured": false,
+  "screenshots_saved": false,
+  "current_step": "member-preflight",
+  "failure_type": "RuntimeError",
+  "wire_totals": {
+    "sent_frames": 19,
+    "received_frames": 37,
+    "received_bytes": 37020,
+    "javascript_errors": 0
+  }
+}

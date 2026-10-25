@@ -42,7 +42,17 @@ async def sample():
                 warning=bool(state.notice), **probe.report())
 
 
-async def run(samples=5, timeout=90):
+async def run(samples=5, timeout=90, *, pooled=False):
+    if pooled:
+        async with catalog.catalog_connection_pool():
+            result = await _run_samples(samples, timeout)
+    else:
+        result = await _run_samples(samples, timeout)
+    result['connection_pool_enabled'] = pooled
+    return result
+
+
+async def _run_samples(samples=5, timeout=90):
     if not 1 <= samples <= 5:
         raise ValueError('Use one to five sample pairs')
     report = dict(layer='real-public-provider-handlers', browser_measured=False,
@@ -76,13 +86,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--samples', type=int, choices=range(1, 6), default=5)
+    parser.add_argument('--pooled', action='store_true', help='Use the production catalog connection lifespan')
     args = parser.parse_args()
     # Reserve evidence before making requests; never overwrite prior runs.
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open('x', encoding='utf-8') as output:
         load_dotenv(ROOT/'.env', override=False)
         logging.getLogger('Codeboxd_main.services.catalog').setLevel(logging.CRITICAL)
-        result = asyncio.run(run(args.samples))
+        result = asyncio.run(run(args.samples, pooled=args.pooled))
         output.write(json.dumps(result, indent=2)+'\n')
     print(json.dumps(dict(complete=result['complete'], samples=len(result['samples']),
                           failure_type=result.get('failure_type'), summary=result.get('summary'))))

@@ -75,6 +75,34 @@ Admin depende de conta aprovada; ausência de acesso mantém tarefa aberta.
 
 ### 4. Gerir tráfego sem reduzir garantias
 
+Continuação de 24/10 após usuário confirmar maior fluidez: pool separado do
+transporte Xano no lifespan, sem compartilhar cliente com catálogo ou multipart.
+Reutiliza conexão por loop; token/Accept por requisição, cookies bloqueados,
+sem cache de resposta nem alteração de retries, timeout ou autorização.
+Fallback por chamada fora do lifespan. Validação de contas concorrentes,
+visitante e token inválido permanece obrigatória. Comparação real somente
+de leitura com login manual, sem depender de metadados.
+[Plano e evidências](validation/conexoes-xano-2026-10-24.md).
+
+Continuação de 24/10 após relato de pouca diferença perceptível: reutilizar
+conexões HTTP somente no catálogo público. AsyncClient por loop do backend,
+registrado em lifespan e fechado no shutdown, sem cliente criado no import.
+Cookies bloqueados; autorização por requisição, sem compartilhar cliente Xano,
+sessão ou upload. Fallback fora do lifespan preservado; cache/retry/timeouts
+permanecem iguais. Comparação TMDB real com cinco pares: mediana de 2.064,146
+para 886,108 ms nas mesmas três consultas, sem inferir ganho de toda a jornada.
+[Diagnóstico e limites](validation/conexoes-catalogo-2026-10-24.md).
+
+Continuação autorizada em 24/10 com desempenho como foco e funcionalidades/design
+preservados: GET `/feed`, `/posts` e `/likes` passam a usar o cache privado de
+navegação existente (15 s, 32 entradas). Mantidos token, consulta e paginação na
+chave, nonce por sessão, geração, cópias e descarte de erros. Publicações externas
+podem demorar até 15 s para aparecer numa revisita. Escritas JSON já invalidam;
+upload multipart de post agora invalida antes/depois, inclusive em falha, para
+não reapresentar resultado anterior após persistência incerta. Sem cache negativo
+para o 404 legado de `/likes`, sem modificar autorização, retries ou UI.
+[Comparação sintética e limites](validation/cache-feed-2026-10-24.md).
+
 Incremento local posterior, autorizado na continuação de 20/10: compartilhar
 apenas leituras sociais equivalentes em andamento por nonce de sessão, geração
 e digest da consulta, fora do estado serializado. Preservar TTL, invalidação e
@@ -129,6 +157,16 @@ Alternativas descartadas: ocultar aviso, aumentar retries ou ampliar cache globa
 de dados privados. Alterar Xano/quota exige aprovação específica e verificação.
 
 ### 5. Priorizar conteúdo utilizável
+
+Incremento de referências sociais autorizado em 24/10: `_load_media` tem opção
+interna `prepare_catalog`, com padrão verdadeiro. Somente referências do feed
+usam falso, preservando `_media` completo e evitando preparar/substituir a cópia
+pública `catalog_items`, não utilizada pela página ou busca de obra do post.
+Home, listas e biblioteca legada preservam o modo anterior. Perfil sem atividades
+não solicita `/media` e publica atividade já concluída; perfil com atividade,
+estatísticas e relações preservam seus caminhos. Sem mudança de componentes,
+CSS, contratos ou concorrência de rede.
+[Comparação antes/depois e limites](validation/referencias-sociais-2026-10-24.md).
 
 Incremento posterior em 20/10: `_media_updates` publica a ficha antes dos
 complementos; editor pessoal só aparece depois de restaurar a avaliação.

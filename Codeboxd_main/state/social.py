@@ -509,12 +509,15 @@ class SocialState(SessionState):
         if exc.status==401:
             self._clear_session(); self._reset_personal(); self._identity=0
 
+    def _invalidate_navigation_reads(self):
+        self._navigation_reads={}; self._navigation_generation+=1
+
     async def _call(self, method, path, data=None, params=None, *, paginate=True):
-        cacheable=method=='GET' and (path in ('/media','/profiles','/lists','/interactions')
+        cacheable=method=='GET' and (path in ('/media','/profiles','/lists','/interactions','/feed','/posts','/likes')
                                    or re.fullmatch(r'/profiles/[0-9]+',path) is not None)
         key=hashlib.sha256(json.dumps([self._token(),path,params,data,paginate],sort_keys=True).encode()).hexdigest()
         if method!='GET':
-            self._navigation_reads={}; self._navigation_generation+=1
+            self._invalidate_navigation_reads()
         generation=self._navigation_generation
         token=self._token()
         cached=self._navigation_reads.get(key) if cacheable else None
@@ -532,13 +535,13 @@ class SocialState(SessionState):
             if token!=self._token():
                 raise APIError('Sessão alterada. Atualize a página.',409) from exc
             if exc.status in (401,403):
-                self._navigation_reads={}; self._navigation_generation+=1
+                self._invalidate_navigation_reads()
                 self._forget_navigation_validation()
             raise
         finally:
             # Also discard reads started while a write was in flight.
             if method!='GET':
-                self._navigation_reads={}; self._navigation_generation+=1
+                self._invalidate_navigation_reads()
         if cacheable and generation==self._navigation_generation and token==self._token():
             now=time.monotonic()
             self._navigation_reads={k:v for k,v in self._navigation_reads.items() if v[0]>now}
@@ -575,13 +578,14 @@ class SocialState(SessionState):
         self.notice=self.error_message or 'Entre na sua conta para continuar.'
         return False
 
-    async def _load_media(self, per_page: int | None = None):
+    async def _load_media(self, per_page: int | None = None, *, prepare_catalog: bool = True):
         stamp=self._route_stamp()
         params={'per_page':per_page} if per_page else None
         result=await self._call('GET','/media',params=params)
         if stamp!=self._route_stamp(): return
         self._media={str(m['id']):m for m in rows(result)}
-        self.catalog_items=[present_media(m) for m in self._media.values()]
+        if prepare_catalog:
+            self.catalog_items=[present_media(m) for m in self._media.values()]
 
     async def _load_people(self):
         stamp=self._route_stamp()
@@ -591,7 +595,9 @@ class SocialState(SessionState):
         self.people=[self._person(uid) for uid in self._profiles]
 
     async def _load_reference(self):
-        await asyncio.gather(self._load_media(),self._load_people())
+        # Feed cards and the editor need raw references, not a second public
+        # copy of the entire catalog (including all descriptions and details).
+        await asyncio.gather(self._load_media(prepare_catalog=False),self._load_people())
 
     def _person(self, uid) -> dict[str,str]:
         p=self._profiles.get(str(uid),{})
@@ -1253,7 +1259,7 @@ class SocialState(SessionState):
             if exc.status==404 and int(uid)==self.user_id: self.notice='Complete seu perfil para participar da comunidade.'
             else: self._failure(exc)
             return
-        self.profile_activity_loading=True; self.profile_people_loading=True
+        self.profile_activity_loading=bool(data['interactions']); self.profile_people_loading=True
         # Publish identity and exact counts before requesting optional references.
         yield
 
@@ -1262,8 +1268,11 @@ class SocialState(SessionState):
             own=data if int(uid)==self.user_id or not self.user_id else await self._call('GET',f'/profiles/{self.user_id}')
             return profiles,own
 
-        jobs={asyncio.create_task(self._call('GET','/media')):'activity',
-              asyncio.create_task(people()):'people'}
+        jobs={asyncio.create_task(people()):'people'}
+        # The profile contract already supplies all activity rows. An empty
+        # activity list needs no catalog references, even for large catalogs.
+        if data['interactions']:
+            jobs[asyncio.create_task(self._call('GET','/media'))]='activity'
         try:
             while jobs:
                 done,_=await asyncio.wait(jobs,return_when=asyncio.FIRST_COMPLETED)
@@ -1465,8 +1474,14 @@ class SocialState(SessionState):
                 image_path=Path(self._post_image_path)
                 form_data={key:str(value).lower() if isinstance(value,bool) else str(value)
                            for key,value in payload.items()}
-                await upload_file(path,method=method,token=self._token(),data=form_data,field='image_upload',
-                    filename=image_path.name,content=image_path.read_bytes(),mime=self.post_image_mime)
+                # Multipart bypasses _call; invalidate on both sides just like
+                # JSON writes, including an uncertain outcome after a timeout.
+                self._invalidate_navigation_reads()
+                try:
+                    await upload_file(path,method=method,token=self._token(),data=form_data,field='image_upload',
+                        filename=image_path.name,content=image_path.read_bytes(),mime=self.post_image_mime)
+                finally:
+                    self._invalidate_navigation_reads()
             else:
                 await self._call(method,path,payload)
             self.cancel_post(); await self._refresh_posts(); self.notice='Publicação salva.'

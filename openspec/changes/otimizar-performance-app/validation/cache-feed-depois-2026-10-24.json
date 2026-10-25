@@ -1,0 +1,84 @@
+[
+  {
+    "layer": "offline-synthetic-http",
+    "simulated_latency_ms": 10,
+    "revisits_per_sample": 5,
+    "missing_likes": false,
+    "samples": [
+      {
+        "milliseconds": 8.486,
+        "calls": {},
+        "total_calls": 0
+      },
+      {
+        "milliseconds": 7.407,
+        "calls": {},
+        "total_calls": 0
+      },
+      {
+        "milliseconds": 11.488,
+        "calls": {},
+        "total_calls": 0
+      },
+      {
+        "milliseconds": 9.298,
+        "calls": {},
+        "total_calls": 0
+      },
+      {
+        "milliseconds": 17.117,
+        "calls": {},
+        "total_calls": 0
+      }
+    ],
+    "median_ms": 9.298,
+    "worst_ms": 17.117,
+    "posts_unchanged": true
+  },
+  {
+    "layer": "offline-synthetic-http",
+    "simulated_latency_ms": 10,
+    "revisits_per_sample": 5,
+    "missing_likes": true,
+    "samples": [
+      {
+        "milliseconds": 81.218,
+        "calls": {
+          "/likes": 5
+        },
+        "total_calls": 5
+      },
+      {
+        "milliseconds": 91.693,
+        "calls": {
+          "/likes": 5
+        },
+        "total_calls": 5
+      },
+      {
+        "milliseconds": 125.636,
+        "calls": {
+          "/likes": 5
+        },
+        "total_calls": 5
+      },
+      {
+        "milliseconds": 93.984,
+        "calls": {
+          "/likes": 5
+        },
+        "total_calls": 5
+      },
+      {
+        "milliseconds": 78.871,
+        "calls": {
+          "/likes": 5
+        },
+        "total_calls": 5
+      }
+    ],
+    "median_ms": 91.693,
+    "worst_ms": 125.636,
+    "posts_unchanged": true
+  }
+]
