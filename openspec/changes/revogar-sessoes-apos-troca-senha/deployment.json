@@ -1,0 +1,17 @@
+{
+  "applied": true,
+  "http_status": 200,
+  "passed": true,
+  "operations": [],
+  "summary": null,
+  "response_shape_differed_from_preview": true,
+  "export_verification": {
+    "protected_count": 39,
+    "guard_calls": 40,
+    "unrelated_documents_changed": 0,
+    "added_documents": 1,
+    "only_expected_function_added": true,
+    "has_version_schema": true,
+    "passed": true
+  }
+}

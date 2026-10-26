@@ -6,6 +6,10 @@ query "library" verb=GET {
     int after_id?=0 filters=min:0
   }
   stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+    }
+
     db.get user {
       field_name = "id"
       field_value = $auth.id

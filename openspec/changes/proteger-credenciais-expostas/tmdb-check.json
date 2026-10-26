@@ -1,0 +1,23 @@
+{
+  "current_matches_exposed": false,
+  "mode": "GET-only",
+  "current": {
+    "http_status": 200,
+    "authenticated": true
+  },
+  "exposed": {
+    "http_status": 401,
+    "authenticated": false
+  },
+  "catalog_reads": {
+    "movies": {
+      "http_status": 200,
+      "has_results": true
+    },
+    "series": {
+      "http_status": 200,
+      "has_results": true
+    }
+  },
+  "rotation_verified": true
+}

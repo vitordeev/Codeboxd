@@ -1,0 +1,55 @@
+{
+  "applied": false,
+  "accounts": [
+    {
+      "account": "A.01",
+      "password_changed": false,
+      "old_login_status": 200,
+      "identity_status": 200,
+      "identity_matches_history": true,
+      "role": "member"
+    },
+    {
+      "account": "A.02",
+      "password_changed": false,
+      "old_login_status": 403,
+      "limitation": "Historical login rejected or unavailable; no password change attempted"
+    },
+    {
+      "account": "A.03",
+      "password_changed": false,
+      "old_login_status": 200,
+      "identity_status": 200,
+      "identity_matches_history": true,
+      "role": "member"
+    },
+    {
+      "account": "A.04",
+      "password_changed": false,
+      "old_login_status": 200,
+      "identity_status": 200,
+      "identity_matches_history": true,
+      "role": "member"
+    },
+    {
+      "account": "A.05",
+      "password_changed": false,
+      "old_login_status": 200,
+      "identity_status": 200,
+      "identity_matches_history": true,
+      "role": "member"
+    }
+  ],
+  "historical_tokens": [
+    {
+      "account": "A.04",
+      "status": 401,
+      "rejected": true
+    },
+    {
+      "account": "A.05",
+      "status": 401,
+      "rejected": true
+    }
+  ]
+}

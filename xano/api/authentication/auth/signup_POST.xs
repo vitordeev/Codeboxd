@@ -73,9 +73,13 @@ query "auth/signup" verb=POST {
       }
     }
   
+    api.lambda {
+      code = "return $var.user.session_version ?? 0;"
+    } as $session_version
+
     security.create_auth_token {
       table = "user"
-      extras = {}
+      extras = {session_version: $session_version, purpose: "session"}
       expiration = 86400
       id = $user.id
     } as $authToken

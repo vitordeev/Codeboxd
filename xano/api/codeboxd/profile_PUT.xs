@@ -9,6 +9,10 @@ text avatar_url? filters=trim|max:500
 text banner_url? filters=trim|max:500
  }
  stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+    }
+
 api.lambda {
  code = "if (!/^[a-z0-9_]{3,30}$/.test($input.username)) return false; if (!$input.avatar_url) return true; try { const u = new URL($input.avatar_url); return u.protocol === 'https:' && !!u.hostname && !u.username && !u.password; } catch { return false; }"
 } as $valid_profile

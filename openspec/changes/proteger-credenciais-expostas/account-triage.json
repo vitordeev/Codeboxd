@@ -1,0 +1,43 @@
+[
+  {
+    "path": ".local/auth-validation-6b6910006bf8.json",
+    "object": "22b47e1acae4c9ca0b73969e0dd75232dd5f5f92",
+    "field_counts": {
+      "account_records_with_password": 1,
+      "nonempty_password_fields": 1
+    },
+    "explicit_roles": {},
+    "same_path_present_locally": false
+  },
+  {
+    "path": ".local/auth-validation-f2966e360c9a.json",
+    "object": "5d1872467de17388404040bb5129262d163358d2",
+    "field_counts": {
+      "account_records_with_password": 1,
+      "nonempty_password_fields": 1
+    },
+    "explicit_roles": {},
+    "same_path_present_locally": false
+  },
+  {
+    "path": ".local/signup-test-account.json",
+    "object": "5edd3ad1809743b59232cab9cd77d0edb7f24118",
+    "field_counts": {
+      "account_records_with_password": 1,
+      "nonempty_password_fields": 1
+    },
+    "explicit_roles": {},
+    "same_path_present_locally": false
+  },
+  {
+    "path": ".local/test-accounts.json",
+    "object": "dc8495ee35530ca53b9c3b98985b89ff2169e376",
+    "field_counts": {
+      "account_records_with_password": 2,
+      "nonempty_password_fields": 2,
+      "nonempty_token_fields": 2
+    },
+    "explicit_roles": {},
+    "same_path_present_locally": false
+  }
+]

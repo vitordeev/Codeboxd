@@ -1,5 +1,17 @@
 # Contexto técnico e funcional — 26/10/2026
 
+Atualização de segurança nesta data: [resultado da change ativa](changes/proteger-credenciais-expostas/status.md).
+TMDB exposto revogado, substituto e recarga validados no navegador; quatro senhas
+de teste substituídas, quinta identidade histórica confirmada ausente. A política
+de versões da change revogar-sessoes-apos-troca-senha foi publicada em 39 rotas:
+tokens legados e anteriores à troca são rejeitados; outra conta é preservada.
+Credencial de recuperação só pode alterar senha e é revogada após o uso.
+Tarefa 2.3 concluída, 29 checks remotos e 392 testes locais aprovados, navegador
+autenticado validado. Tokens legados exigem novo login; logout global não mudou.
+Novo check manual antes de commit: `.venv/Scripts/python.exe -B tools/check_staged_secrets.py`.
+Ignore inclui .xano/; substitutos privados ficam em .local, sem valores nos relatórios.
+As descrições anteriores abaixo preservam contexto e evidências das respectivas rodadas.
+
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
 | [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 21/34 | 13 | Autorização completa, mutações, auditoria, filtros/paginação e navegador real |
@@ -116,7 +128,7 @@ Autoria/ator vêm de `$auth.id`, não do payload. Endpoints protegem propriedade
 
 Senha é enviada pelo submit, sem variável de senha sincronizada. Indisponibilidade transitória não equivale a token inválido; 401/403 podem limpar a sessão. Nota de visitante não escreve no Xano.
 
-O `.gitignore` estava vazio na revisão inicial. A correção operacional adicionou regras e retirou 441 entradas privadas/geradas do índice, preservando arquivos locais. `.env` e arquivos de contas também estavam no histórico de um commit contido na referência `origin/main`: a limpeza atual não remove esse histórico; revisão/rotação de credenciais permanece pendente. Não copiar valores secretos para relatórios. Evidência em `changes/archive/2026-10-21-corrigir-erros-operacionais/validation/`.
+O `.gitignore` estava vazio na revisão inicial. A correção operacional adicionou regras e retirou 441 entradas privadas/geradas do índice, preservando arquivos locais. `.env` e arquivos de contas também estavam no histórico de um commit contido na referência `origin/main`: a limpeza atual não remove esse histórico. A revisão/rotação acompanhada pela P.1 foi concluída na cobertura auditada em proteger-credenciais-expostas e sua dependência de sessões, sem reescrever histórico. Não copiar valores secretos para relatórios. Evidência histórica em `changes/archive/2026-10-21-corrigir-erros-operacionais/validation/` e resultado atual nas duas changes de segurança.
 
 ## Ambiente e publicação
 

@@ -7,6 +7,7 @@ query "reset/magic-link-login" verb=POST {
   }
 
   stack {
+    var $reset_session_version { value = 0 }
     api.lambda {
       code = "return /^[0-9]{6}$/.test($input.magic_token);"
     } as $valid_format
@@ -65,6 +66,11 @@ query "reset/magic-link-login" verb=POST {
                     }
                     var.update $accepted { value = true }
                     var.update $reset_user_id { value = $user.id }
+                    api.lambda {
+                      code = "return $var.locked_user.session_version ?? 0;"
+                    } as $consumed_session_version
+                    var.update $reset_session_version { value = $consumed_session_version }
+
                   }
                 }
               }
@@ -81,7 +87,7 @@ query "reset/magic-link-login" verb=POST {
     }
     security.create_auth_token {
       table = "user"
-      extras = {purpose: "password_reset"}
+      extras = {purpose: "password_reset", session_version: $reset_session_version}
       expiration = 300
       id = $reset_user_id
     } as $auth_token

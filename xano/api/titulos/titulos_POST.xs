@@ -10,6 +10,10 @@ query titulos verb=POST {
   }
 
   stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+    }
+
     function.run "Quick Start/enforce_role" {
       input = {user_id: $auth.id, required_role: "admin"}
     } as $role_check

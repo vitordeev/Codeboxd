@@ -1,0 +1,262 @@
+{
+  "applied": false,
+  "http_status": 200,
+  "passed": true,
+  "operations": [
+    {
+      "type": "table",
+      "name": "user",
+      "action": "update"
+    },
+    {
+      "type": "table",
+      "name": "user",
+      "action": "add_field"
+    },
+    {
+      "type": "function",
+      "name": "Security/require_current_session",
+      "action": "create"
+    },
+    {
+      "type": "query",
+      "name": "admin/catalog GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "admin/catalog POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "admin/catalog/{id} PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "admin/dashboard GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "admin/reports GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "admin/reports/{id} PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "admin/users GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "admin/users/{id}/status PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "auth/login POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "auth/me GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "auth/signup POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "comments POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "comments/{id} DELETE",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "comments/{id} PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "feed GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "follows/{user_id} DELETE",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "follows/{user_id} PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "interactions GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "interactions PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "library GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/{id} DELETE",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/{id} PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/{id}/items GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/{id}/items POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/{id}/items/{media_id} DELETE",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "logs/user/my_events GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "media POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "posts POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "posts/{id} DELETE",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "posts/{id} PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "posts/{id}/like DELETE",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "posts/{id}/like PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "profile PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "reports POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "reset/magic-link-login POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "reset/update_password POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "titulos POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "titulos/{titulos_id} PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "titulos/{titulos_id} DELETE",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "titulos/{titulos_id} PATCH",
+      "action": "update"
+    }
+  ],
+  "summary": {
+    "table": {
+      "created": 0,
+      "updated": 1,
+      "deleted": 0,
+      "truncated": 0,
+      "unchanged": 0
+    },
+    "function": {
+      "created": 1,
+      "updated": 0,
+      "deleted": 0,
+      "truncated": 0,
+      "unchanged": 0
+    },
+    "query": {
+      "created": 0,
+      "updated": 42,
+      "deleted": 0,
+      "truncated": 0,
+      "unchanged": 0
+    },
+    "message": {
+      "created": 0,
+      "updated": 0,
+      "deleted": 0,
+      "truncated": 0,
+      "unchanged": 0
+    }
+  }
+}

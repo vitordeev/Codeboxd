@@ -1,0 +1,148 @@
+{
+  "layer": "real-xano-api",
+  "passed": true,
+  "checks": [
+    {
+      "scenario": "legacy_A01_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "legacy_A03_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "legacy_A04_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "legacy_A05_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "legacy_direct_social_read_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "legacy_direct_mutation_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "fresh_login_identity",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "fresh_direct_social_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "member_still_denied_admin",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "concurrent_password_change_one_success",
+      "passed": true
+    },
+    {
+      "scenario": "concurrent_reuse_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "prechange_session_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "prechange_social_read_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "prechange_social_mutation_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "prechange_password_rejected",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "new_password_and_identity",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "other_account_session_preserved",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "private_recovery_generator_without_email",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "private_recovery_code_received",
+      "passed": true
+    },
+    {
+      "scenario": "recovery_credential_issued",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "recovery_cannot_access_identity",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "recovery_cannot_access_social",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "recovery_cannot_access_admin",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "recovery_cannot_mutate_social",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "recovery_password_change_allowed",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "recovery_credential_reuse_rejected",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "recovery_revokes_previous_normal_session",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "recovery_preserves_other_account",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "final_account_access_preserved",
+      "passed": true,
+      "http_status": 200
+    }
+  ]
+}

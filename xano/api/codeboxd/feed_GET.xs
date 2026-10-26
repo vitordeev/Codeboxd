@@ -7,6 +7,10 @@ int per_page?=100 filters=min:1|max:100
 
  }
  stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+    }
+
 db.get user {
  field_name = "id"
  field_value = $auth.id

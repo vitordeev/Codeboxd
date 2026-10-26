@@ -1,0 +1,11 @@
+{
+  "layer": "real-browser-public",
+  "home_status": 200,
+  "shelves": {
+    "Agora nos cinemas": 20,
+    "Filmes muito bem avaliados": 20,
+    "No radar: pr\u00f3ximos filmes": 20,
+    "S\u00e9ries muito bem avaliadas": 20
+  },
+  "passed": true
+}

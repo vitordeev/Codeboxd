@@ -9,6 +9,10 @@ text review? filters=trim|max:10000
 bool spoiler?=false
  }
  stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+    }
+
 precondition ($input.rating == 0 || ($input.review != null && $input.review != "")) {
   error_type = "inputerror"
   error = "Escreva sua avaliação antes de enviar uma nota."
