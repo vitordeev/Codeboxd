@@ -2,6 +2,14 @@
 
 Estado documental reconciliado em **26/10/2026**, para a AP2.
 
+Continuação de segurança nesta data: [proteger-credenciais-expostas](changes/proteger-credenciais-expostas/status.md)
+está concluída com 9/9 tarefas; a dependência
+[revogar-sessoes-apos-troca-senha](changes/revogar-sessoes-apos-troca-senha/tasks.md)
+está concluída com 6/6. TMDB e quatro senhas de teste rotacionados, quinta conta
+histórica ausente, revogação publicada e validada em 39 rotas protegidas.
+Ambas permanecem sem arquivamento automático. A tabela funcional abaixo preserva
+as três changes de produto, sem alterar suas pendências ou contagens.
+
 ## Estado atual
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |

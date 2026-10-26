@@ -11,6 +11,10 @@ query "admin/catalog/{id}" verb=PUT {
   }
 
   stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+    }
+
     api.lambda {
       code = "if (!($input.cover_url || '')) return true; try { const u = new URL($input.cover_url); return u.protocol === 'https:' && !!u.hostname && !u.username && !u.password; } catch { return false; }"
     } as $valid_cover

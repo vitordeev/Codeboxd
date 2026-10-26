@@ -9,6 +9,10 @@ query "reset/update_password" verb=POST {
   }
 
   stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: true}
+    }
+
     // Check that the password inputs are matching
     precondition ($input.password == $input.confirm_password) {
       error = "Passwords do not match!"
@@ -26,11 +30,32 @@ query "reset/update_password" verb=POST {
     }
   
     // Update user record with the new password
-    db.edit user {
-      field_name = "id"
-      field_value = $auth.id
-      data = {password: $input.password}
-    } as $user
+    db.transaction {
+      stack {
+        // Lock the account, then revalidate against the current version.
+        db.edit user {
+          field_name = "id"
+          field_value = $auth.id
+          data = {updated_at: now}
+        }
+        db.get user {
+          field_name = "id"
+          field_value = $auth.id
+          output = ["id", "session_version"]
+        } as $locked_user
+        function.run "Security/require_current_session" {
+          input = {user_id: $auth.id, extras: $auth.extras, allow_reset: true}
+        }
+        api.lambda {
+          code = "return ($var.locked_user.session_version ?? 0) + 1;"
+        } as $next_session_version
+        db.edit user {
+          field_name = "id"
+          field_value = $auth.id
+          data = {password: $input.password, session_version: $next_session_version}
+        } as $user
+      }
+    }
   
     // Create event log
     function.run "Quick Start/log_event" {

@@ -33,7 +33,7 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 
 | ID | Prioridade | Tópico e situação | Critério de conclusão |
 | --- | --- | --- | --- |
-| P.1 | Alta | Ignore e índice corrigidos; 441 entradas privadas/geradas retiradas sem apagar cópias locais. Histórico de `.env` e contas foi confirmado em referência origin/main | Revisar/rotacionar chaves expostas e tratar contas de teste; limpeza atual não elimina commits antigos |
+| P.1 | Resolvida na cobertura auditada | TMDB rotacionado e exposto revogado; quatro senhas substituídas, quinta conta ausente; sessões anteriores revogadas por política publicada; prevenção e navegador validados | Evidências nas changes proteger-credenciais-expostas (9/9) e revogar-sessoes-apos-troca-senha (6/6). Histórico preservado; scanner heurístico e cobertura documentados, sem garantia sobre fontes não examinadas |
 | P.2 | Resolvida localmente | `.venv` instalada e canônica; dependências diretas fixadas; pip check, 113 testes e compilação passaram | Comandos em [AMBIENTE.md](AMBIENTE.md); `venv` anterior preservada |
 | P.3 | Alta antes de hospedar | URL concreta de banner corrigida/testada; execução e armazenamento locais, sem Docker | Manter backup do diretório de uploads; escolher persistência para hospedagem quando essa etapa for solicitada |
 | P.4 | Resolvida | Mensagens de erro de upload corrigidas e verificadas | Testes de rede, HTTP e JSON inválido passaram |
@@ -48,6 +48,21 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 
 
 ## Ajustes visuais e entregas encerradas
+
+Atualização da P.1 em 26/10/2026: a change ativa
+[proteger-credenciais-expostas](changes/proteger-credenciais-expostas/tasks.md)
+inventariou o histórico e comprovou a rotação TMDB: novo token aceito (200),
+exposto rejeitado (401), aplicação recarregada e catálogo aprovado no navegador.
+Quatro senhas de teste substituídas (novas aceitas/antigas rejeitadas); quinta
+senha histórica já rejeitada. Dois tokens históricos retornam 401. Verificador
+de segredos adicionado, testes sintéticos aprovados e ignore reforçado.
+Na continuação autorizada, a dependência revogar-sessoes-apos-troca-senha publicou
+e comprovou a revogação em 39 rotas protegidas: 29 checks remotos, 392 testes
+locais e navegador autenticado aprovados. A quinta identidade foi confirmada
+ausente por metadados, sem remoção nesta rodada. Tarefa 2.3 concluída; P.1
+resolvida na cobertura auditada, sem reescrita do histórico. As pendências de
+entrega de e-mail e das outras changes funcionais permanecem independentes.
+Evidência: [validação](changes/proteger-credenciais-expostas/validation.md).
 
 - P.13 — Retorno à descoberta: resolvido localmente em 19/10, com compilação e checks de navegador. [Evidência](validation/voltar-descoberta-2026-10-19.md).
 - Sobreposição da capa de livro com sinopse em 390px: pendência visual preservada, sem correção nesta revisão; exige change ativa específica antes de implementação.

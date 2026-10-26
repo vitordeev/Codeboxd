@@ -7,6 +7,10 @@ query "auth/me" verb=GET {
   }
 
   stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+    }
+
     // Get the user record based on the auth ID
     db.get user {
       field_name = "id"

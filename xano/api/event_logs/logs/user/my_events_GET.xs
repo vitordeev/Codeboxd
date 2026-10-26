@@ -7,6 +7,10 @@ query "logs/user/my_events" verb=GET {
   }
 
   stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+    }
+
     // Retrieve event logs for the authenticated user
     db.query event_log {
       where = $db.event_log.user_id == $auth.id

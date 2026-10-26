@@ -1,0 +1,42 @@
+{
+  "mode": "GET-only",
+  "accounts": [
+    {
+      "account": "A.01",
+      "historical_id_available": true,
+      "record_status": 200,
+      "identity_matches_history": true,
+      "role": "member",
+      "account_status": "active"
+    },
+    {
+      "account": "A.02",
+      "historical_id_available": false,
+      "limitation": "No historical numeric ID; no broad user enumeration performed"
+    },
+    {
+      "account": "A.03",
+      "historical_id_available": false,
+      "limitation": "No historical numeric ID; no broad user enumeration performed"
+    },
+    {
+      "account": "A.04",
+      "historical_id_available": true,
+      "record_status": 200,
+      "identity_matches_history": true,
+      "role": "member",
+      "account_status": "active"
+    },
+    {
+      "account": "A.05",
+      "historical_id_available": true,
+      "record_status": 200,
+      "identity_matches_history": true,
+      "role": "member",
+      "account_status": "active"
+    }
+  ],
+  "limitations": [],
+  "metadata_tables_status": 200,
+  "user_table_found": true
+}

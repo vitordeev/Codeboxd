@@ -12,6 +12,10 @@ int year?
 json details?
  }
  stack {
+    function.run "Security/require_current_session" {
+      input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+    }
+
 api.lambda {
  code = "const i = $input; const valid = (i.external_source === 'tmdb' && ['movie','series'].includes(i.media_type) && /^[0-9]+$/.test(i.external_id)) || (['jikan','kitsu'].includes(i.external_source) && i.media_type === 'anime' && /^[0-9]+$/.test(i.external_id)) || (i.external_source === 'openlibrary' && i.media_type === 'book' && /^OL[0-9]+W$/.test(i.external_id)); if (!valid) return false; if (!i.cover_url) return true; try { const u = new URL(i.cover_url); return u.protocol === 'https:' && !!u.hostname && !u.username && !u.password; } catch { return false; }"
 } as $valid_media

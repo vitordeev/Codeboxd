@@ -1,0 +1,9 @@
+{
+  "protected_count": 39,
+  "guard_calls": 40,
+  "unrelated_documents_changed": 0,
+  "added_documents": 1,
+  "only_expected_function_added": true,
+  "has_version_schema": true,
+  "passed": true
+}

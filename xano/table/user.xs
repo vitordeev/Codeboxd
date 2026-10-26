@@ -3,6 +3,7 @@ table user {
   auth = true
 
   schema {
+    int session_version?=0 filters=min:0
     int id
     timestamp created_at?=now
     text name filters=trim

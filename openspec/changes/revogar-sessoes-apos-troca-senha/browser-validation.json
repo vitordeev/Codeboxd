@@ -1,0 +1,7 @@
+{
+  "layer": "real-browser-authenticated",
+  "passed": true,
+  "legacy_session_redirected_to_login": true,
+  "fresh_login_redirected_account": true,
+  "fresh_session_library_visible": true
+}

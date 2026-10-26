@@ -12,7 +12,7 @@ query "auth/login" verb=POST {
     db.get user {
       field_name = "email"
       field_value = $input.email
-      output = ["id", "created_at", "name", "email", "password", "role", "account_status"]
+      output = ["session_version", "id", "created_at", "name", "email", "password", "role", "account_status"]
     } as $user
   
     // Check to make sure a user with that email exists
@@ -38,9 +38,13 @@ query "auth/login" verb=POST {
   error = "Operação não permitida."
 }
     // Create an authentication token
+    api.lambda {
+      code = "return $var.user.session_version ?? 0;"
+    } as $session_version
+
     security.create_auth_token {
       table = "user"
-      extras = {}
+      extras = {session_version: $session_version, purpose: "session"}
       expiration = 86400
       id = $user.id
     } as $authToken

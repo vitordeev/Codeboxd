@@ -1,0 +1,633 @@
+{
+  "commits": 67,
+  "shallow": "false",
+  "reachable_blobs": 1444,
+  "scanned": {
+    "history": 1248,
+    "index": 662,
+    "worktree": 678,
+    "local_top_level": 6
+  },
+  "skipped": {
+    "history": 196,
+    "index": 156,
+    "worktree": 151,
+    "local_top_level": 2
+  },
+  "local_configuration": [
+    {
+      "variable": "TMDB_READ_TOKEN",
+      "configured": true
+    },
+    {
+      "variable": "DEEPL_API_KEY",
+      "configured": true
+    },
+    {
+      "variable": "RESEND_API_KEY",
+      "configured": true
+    }
+  ],
+  "sensitive_paths": [
+    {
+      "scope": "history",
+      "path": "Codeboxd_main/pages/account.py",
+      "object": "fa68ca163c782022d7dad2514fb0d8000fbd647e"
+    },
+    {
+      "scope": "history",
+      "path": "openspec/changes/recuperar-senha-codigo-6-digitos/validation/resend-conta-inexistente-2026-10-22.json",
+      "object": "7e5b90fa031671a19fc66d44c10d8f82313ee169"
+    },
+    {
+      "scope": "history",
+      "path": "Codeboxd_main/pages/account.py",
+      "object": "96080b7ac2d95c2d6940bb31a52547ae4d6dc3e4"
+    },
+    {
+      "scope": "history",
+      "path": "Codeboxd_main/pages/account.py",
+      "object": "542bcd10c88c063d566d4a7d8a191bb10dcd9e64"
+    },
+    {
+      "scope": "history",
+      "path": ".env",
+      "object": "dd4d283d89a38472f23fab38fd757a6407a09497"
+    },
+    {
+      "scope": "history",
+      "path": ".local/prepared-conta-1440.png",
+      "object": "25ccf05ffebe5efe852e6dfeae1b3ed93ceef706"
+    },
+    {
+      "scope": "history",
+      "path": ".local/prepared-conta-390.png",
+      "object": "cc216b0ef57b9d0c0a4fcf8375fa8806e11fa8b4"
+    },
+    {
+      "scope": "history",
+      "path": ".local/signup-test-account.json",
+      "object": "5edd3ad1809743b59232cab9cd77d0edb7f24118"
+    },
+    {
+      "scope": "history",
+      "path": ".local/test-accounts.json",
+      "object": "dc8495ee35530ca53b9c3b98985b89ff2169e376"
+    },
+    {
+      "scope": "history",
+      "path": "Codeboxd_main/pages/__pycache__/account.cpython-314.pyc",
+      "object": "1060ea6c1ebd5e1856dac30df35147c06824393f"
+    },
+    {
+      "scope": "history",
+      "path": "Codeboxd_main/pages/account.py",
+      "object": "8940041a97405a085229d72882554e1c80a12388"
+    },
+    {
+      "scope": "history",
+      "path": ".web/.react-router/types/app/routes/+types/[conta]._index.ts",
+      "object": "6e758d841389b0b022b45180b276a06bf94200c1"
+    },
+    {
+      "scope": "history",
+      "path": ".web/app/routes/[conta]._index.jsx",
+      "object": "fb2eaedb651a371e3e5e78784699c07cd231bd05"
+    },
+    {
+      "scope": "history",
+      "path": ".web/app_components/Codeboxd_main/pages/account.jsx",
+      "object": "6a6221f6223df049bfbfbc5b3823b7f7855ba96b"
+    },
+    {
+      "scope": "history",
+      "path": ".web/app/routes/[conta]._index.jsx",
+      "object": "78e206bfb1fe823ab1f5089fd44481531c46d153"
+    },
+    {
+      "scope": "history",
+      "path": ".web/app_components/Codeboxd_main/pages/account.jsx",
+      "object": "12357f62de0a49ae8b289549c571ee5764ebc9f5"
+    },
+    {
+      "scope": "history",
+      "path": "Codeboxd_main/pages/account.py",
+      "object": "f92b317e6530c190f249f5d6e819237010847286"
+    },
+    {
+      "scope": "history",
+      "path": "Codeboxd_main/pages/account.py",
+      "object": "43eb40b4cc43462450860e84d372d42590602bc8"
+    }
+  ],
+  "findings": [
+    {
+      "scope": "history",
+      "path": "openspec/changes/archive/2026-10-13-definir-fundacao-codeboxd/validation/auth_live.py",
+      "object": "8fc2fff6a5436610cd9bb1aef52b2c3ab9af31b5",
+      "category": "password_literal_candidate",
+      "lines": [
+        64
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_admin.py",
+      "object": "1b72369e22dd431df73b3c9050cbff82e96f4b8a",
+      "category": "password_literal_candidate",
+      "lines": [
+        121
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_admin_reads_remote.py",
+      "object": "ebebb5a14919125b5af02744c73d5883f8b7c689",
+      "category": "password_literal_candidate",
+      "lines": [
+        71
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_authentication.py",
+      "object": "f2d5a88c105f6eb89a2c1aad6a660b6652a6de01",
+      "category": "password_literal_candidate",
+      "lines": [
+        64,
+        74,
+        82,
+        90
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_password_recovery.py",
+      "object": "b2d71fba5193f9a13741f7f76a38c0e0d72b2b90",
+      "category": "password_literal_candidate",
+      "lines": [
+        15
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_performance_probe.py",
+      "object": "3c5dafdc8741b17e61a6940d3b0ec11c5adb81fb",
+      "category": "password_literal_candidate",
+      "lines": [
+        20,
+        27,
+        28
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_real_login_measurement.py",
+      "object": "06b49385f0ffb1335493c485ff724cb568a65732",
+      "category": "password_literal_candidate",
+      "lines": [
+        65
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tools/login_performance_scenario.py",
+      "object": "c7ce076b3786ea785d6239ee3883c2c968f5b99b",
+      "category": "password_literal_candidate",
+      "lines": [
+        74
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tools/performance_continuation_browser.py",
+      "object": "be5690ae5f024e0fe8a13a8538e9ec45da2e6938",
+      "category": "password_literal_candidate",
+      "lines": [
+        112,
+        113
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tools/login_performance_scenario.py",
+      "object": "5315a37b76991fc79752d1860eafa808c90f9014",
+      "category": "password_literal_candidate",
+      "lines": [
+        69
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_admin_reads_remote.py",
+      "object": "442f702a6168957f2da5e81b86384d3ef5417c40",
+      "category": "password_literal_candidate",
+      "lines": [
+        53
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_performance_probe.py",
+      "object": "71c0a194d840c0abe352e1256ba56b4db48935e0",
+      "category": "password_literal_candidate",
+      "lines": [
+        20,
+        27,
+        28
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_admin.py",
+      "object": "39a895a772ce21d76b135e0dd7c692efeb29bf08",
+      "category": "password_literal_candidate",
+      "lines": [
+        93
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "openspec/changes/archive/2026-10-13-definir-fundacao-codeboxd/validation/auth_live.py",
+      "object": "fa6f0edea71db80726b1808b3da3161f2a4624a9",
+      "category": "password_literal_candidate",
+      "lines": [
+        64
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tools/performance_continuation_browser.py",
+      "object": "6b7789d935ebe112332c6463761e80ec149d0ccd",
+      "category": "password_literal_candidate",
+      "lines": [
+        112,
+        113
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_admin.py",
+      "object": "9f19ed499399a27734bd6caeca18e50d7bd9aefb",
+      "category": "password_literal_candidate",
+      "lines": [
+        93
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".env",
+      "object": "dd4d283d89a38472f23fab38fd757a6407a09497",
+      "category": "jwt_candidate",
+      "lines": [
+        5
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".env",
+      "object": "dd4d283d89a38472f23fab38fd757a6407a09497",
+      "category": "exact_local_value:TMDB_READ_TOKEN",
+      "lines": [
+        5
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".local/auth-validation-6b6910006bf8.json",
+      "object": "22b47e1acae4c9ca0b73969e0dd75232dd5f5f92",
+      "category": "password_literal_candidate",
+      "lines": [
+        1
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".local/auth-validation-f2966e360c9a.json",
+      "object": "5d1872467de17388404040bb5129262d163358d2",
+      "category": "password_literal_candidate",
+      "lines": [
+        1
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".local/complete_pending_remote.py",
+      "object": "9bd2f088d142a41e8ab35cba8695f02bddf7db40",
+      "category": "password_literal_candidate",
+      "lines": [
+        61
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".local/docs/database.md",
+      "object": "6f58ca034990cf5d075dadb98ea928c4ff068733",
+      "category": "password_literal_candidate",
+      "lines": [
+        299
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".local/signup-test-account.json",
+      "object": "5edd3ad1809743b59232cab9cd77d0edb7f24118",
+      "category": "password_literal_candidate",
+      "lines": [
+        1
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".local/test-accounts.json",
+      "object": "dc8495ee35530ca53b9c3b98985b89ff2169e376",
+      "category": "jwt_candidate",
+      "lines": [
+        1
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".local/test-accounts.json",
+      "object": "dc8495ee35530ca53b9c3b98985b89ff2169e376",
+      "category": "password_literal_candidate",
+      "lines": [
+        1
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".web/app_components/Codeboxd_main/pages/admin.jsx",
+      "object": "e92e62ac15e7bd32b7c8a64c568892b075034cac",
+      "category": "password_literal_candidate",
+      "lines": [
+        52
+      ]
+    },
+    {
+      "scope": "history",
+      "path": ".web/app_components/Codeboxd_main/pages/admin.jsx",
+      "object": "61469b2d4929ae7f8ef9e7c68d66a0499be58ee4",
+      "category": "password_literal_candidate",
+      "lines": [
+        45
+      ]
+    },
+    {
+      "scope": "history",
+      "path": "tests/test_authentication.py",
+      "object": "f3592832a3973f63a1723cc78c8a0a3d4a5e75d0",
+      "category": "password_literal_candidate",
+      "lines": [
+        62,
+        72,
+        79
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "openspec/changes/archive/2026-10-13-definir-fundacao-codeboxd/validation/auth_live.py",
+      "object": "8fc2fff6a5436610cd9bb1aef52b2c3ab9af31b5",
+      "category": "password_literal_candidate",
+      "lines": [
+        64
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "openspec/changes/archive/2026-10-19-definir-fundacao-codeboxd/validation/auth_live.py",
+      "object": "8fc2fff6a5436610cd9bb1aef52b2c3ab9af31b5",
+      "category": "password_literal_candidate",
+      "lines": [
+        64
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "tests/test_admin.py",
+      "object": "1b72369e22dd431df73b3c9050cbff82e96f4b8a",
+      "category": "password_literal_candidate",
+      "lines": [
+        121
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "tests/test_admin_reads_remote.py",
+      "object": "ebebb5a14919125b5af02744c73d5883f8b7c689",
+      "category": "password_literal_candidate",
+      "lines": [
+        71
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "tests/test_authentication.py",
+      "object": "f2d5a88c105f6eb89a2c1aad6a660b6652a6de01",
+      "category": "password_literal_candidate",
+      "lines": [
+        64,
+        74,
+        82,
+        90
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "tests/test_password_recovery.py",
+      "object": "b2d71fba5193f9a13741f7f76a38c0e0d72b2b90",
+      "category": "password_literal_candidate",
+      "lines": [
+        15
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "tests/test_performance_probe.py",
+      "object": "3c5dafdc8741b17e61a6940d3b0ec11c5adb81fb",
+      "category": "password_literal_candidate",
+      "lines": [
+        20,
+        27,
+        28
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "tests/test_real_login_measurement.py",
+      "object": "06b49385f0ffb1335493c485ff724cb568a65732",
+      "category": "password_literal_candidate",
+      "lines": [
+        65
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "tools/login_performance_scenario.py",
+      "object": "c7ce076b3786ea785d6239ee3883c2c968f5b99b",
+      "category": "password_literal_candidate",
+      "lines": [
+        74
+      ]
+    },
+    {
+      "scope": "index",
+      "path": "tools/performance_continuation_browser.py",
+      "object": "be5690ae5f024e0fe8a13a8538e9ec45da2e6938",
+      "category": "password_literal_candidate",
+      "lines": [
+        112,
+        113
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": ".env",
+      "object": "",
+      "category": "jwt_candidate",
+      "lines": [
+        6
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": ".env",
+      "object": "",
+      "category": "deepl_key_candidate",
+      "lines": [
+        7
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": ".env",
+      "object": "",
+      "category": "exact_local_value:TMDB_READ_TOKEN",
+      "lines": [
+        6
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": ".env",
+      "object": "",
+      "category": "exact_local_value:DEEPL_API_KEY",
+      "lines": [
+        7
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": ".env",
+      "object": "",
+      "category": "exact_local_value:RESEND_API_KEY",
+      "lines": [
+        8
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "openspec/changes/archive/2026-10-13-definir-fundacao-codeboxd/validation/auth_live.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        64
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "openspec/changes/archive/2026-10-19-definir-fundacao-codeboxd/validation/auth_live.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        64
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "tests/test_admin.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        121
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "tests/test_admin_reads_remote.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        71
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "tests/test_authentication.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        64,
+        74,
+        82,
+        90
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "tests/test_password_recovery.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        15
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "tests/test_performance_probe.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        20,
+        27,
+        28
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "tests/test_real_login_measurement.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        65
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "tools/login_performance_scenario.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        74
+      ]
+    },
+    {
+      "scope": "worktree",
+      "path": "tools/performance_continuation_browser.py",
+      "object": "",
+      "category": "password_literal_candidate",
+      "lines": [
+        112,
+        113
+      ]
+    }
+  ],
+  "limitations": [
+    "No remote fetch or provider validation",
+    "No reflog/unreachable objects",
+    "Binary and >2MB content excluded",
+    "Generated directories and nested .local builds excluded",
+    "Heuristic candidates require triage; representative path per history object",
+    "No secret values or fingerprints persisted"
+  ]
+}

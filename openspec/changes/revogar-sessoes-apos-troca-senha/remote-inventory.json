@@ -1,0 +1,217 @@
+{
+  "documents": 78,
+  "authenticated": [
+    {
+      "route": "admin/catalog",
+      "method": "GET",
+      "guid": "yI9z9PqXqahTF-oiKEYk0vb1WxQ"
+    },
+    {
+      "route": "admin/catalog",
+      "method": "POST",
+      "guid": "d70jOc3ICgBnQ-ub2n-PP8eSEuI"
+    },
+    {
+      "route": "admin/catalog/{id}",
+      "method": "PUT",
+      "guid": "Vx8MnAruE2ue8Zg1DqhEVCLw2mY"
+    },
+    {
+      "route": "admin/dashboard",
+      "method": "GET",
+      "guid": "ZHfvqwCtLhUcUhqp84Wr9P7dF_o"
+    },
+    {
+      "route": "admin/reports",
+      "method": "GET",
+      "guid": "e5OZqm4A_ebZHyUe8errrdMf5-M"
+    },
+    {
+      "route": "admin/reports/{id}",
+      "method": "PUT",
+      "guid": "fu5_YlaQjEFxaFcIiUj5NcwHJS0"
+    },
+    {
+      "route": "admin/users",
+      "method": "GET",
+      "guid": "09BI7xyc2hNxuSEMu2PQqgRvtY4"
+    },
+    {
+      "route": "admin/users/{id}/status",
+      "method": "PUT",
+      "guid": "PlSEprlaEyTxRpf6RF3YAOHMIL8"
+    },
+    {
+      "route": "auth/me",
+      "method": "GET",
+      "guid": "K0J82VGROn2aGHYNGmG9X7cmH1M"
+    },
+    {
+      "route": "comments",
+      "method": "POST",
+      "guid": "MFYBXCn7QgDoViz_u7UzCUeqYUA"
+    },
+    {
+      "route": "comments/{id}",
+      "method": "DELETE",
+      "guid": "PAzBpSut0XwM2jBj8QA63g0D2DU"
+    },
+    {
+      "route": "comments/{id}",
+      "method": "PUT",
+      "guid": "XTWhJ5ODYWMQRdbyqm4bdb7Fjmg"
+    },
+    {
+      "route": "feed",
+      "method": "GET",
+      "guid": "xrRcMn9iopzec83mV8yJVpSiRLc"
+    },
+    {
+      "route": "follows/{user_id}",
+      "method": "DELETE",
+      "guid": "h0jPckwo3IeRQvBiqkwznXOHoWA"
+    },
+    {
+      "route": "follows/{user_id}",
+      "method": "PUT",
+      "guid": "tbaHveLfCKvAkaW3CmVYe002YHU"
+    },
+    {
+      "route": "interactions",
+      "method": "GET",
+      "guid": "lHGLb1vOEmt4aLacrVGAhdFyp_8"
+    },
+    {
+      "route": "interactions",
+      "method": "PUT",
+      "guid": "fjLiz9t_uHh3TOWyCthIv6LLYDE"
+    },
+    {
+      "route": "library",
+      "method": "GET",
+      "guid": "SgsdYaGY1jNwlmBSFlfy2go-A7k"
+    },
+    {
+      "route": "lists",
+      "method": "GET",
+      "guid": "zUEDvn06ODhCr4xWHoRo_y_0S1E"
+    },
+    {
+      "route": "lists",
+      "method": "POST",
+      "guid": "e0SNrmbgrquRIypbGRSj39HFkeI"
+    },
+    {
+      "route": "lists/{id}",
+      "method": "DELETE",
+      "guid": "13idjuue_hg2Tj95U8H-mA5m3Ro"
+    },
+    {
+      "route": "lists/{id}",
+      "method": "PUT",
+      "guid": "YZaczDP8F7yjnoLtnTJ_G1sh1eI"
+    },
+    {
+      "route": "lists/{id}/items",
+      "method": "GET",
+      "guid": "_3l4NasD5zKmsOzfSmjhKomojyM"
+    },
+    {
+      "route": "lists/{id}/items",
+      "method": "POST",
+      "guid": "hzINFcLoRjjnJNVIeJojah0z-po"
+    },
+    {
+      "route": "lists/{id}/items/{media_id}",
+      "method": "DELETE",
+      "guid": "YJYsP1TeL8ejd6ppwdLNagBZV2U"
+    },
+    {
+      "route": "logs/user/my_events",
+      "method": "GET",
+      "guid": "oQaijwIIIeMQNqoS_yG1vgfabgE"
+    },
+    {
+      "route": "media",
+      "method": "POST",
+      "guid": "woRdxNUnhDu93EQnbzi1v4ro0pg"
+    },
+    {
+      "route": "posts",
+      "method": "POST",
+      "guid": "pyzcTfQxoALUmuvA6thVWWqcda8"
+    },
+    {
+      "route": "posts/{id}",
+      "method": "DELETE",
+      "guid": "_iipjta4Ftcsixdn-Y7HXhG3BJI"
+    },
+    {
+      "route": "posts/{id}",
+      "method": "PUT",
+      "guid": "qe--qlzGinsokmakSyTWuKE18eo"
+    },
+    {
+      "route": "posts/{id}/like",
+      "method": "DELETE",
+      "guid": "XGKjubgvxaDXCrYcIK7eBq3XI7g"
+    },
+    {
+      "route": "posts/{id}/like",
+      "method": "PUT",
+      "guid": "FPIqrapDgIMLfuMvO4WsLLRlXME"
+    },
+    {
+      "route": "profile",
+      "method": "PUT",
+      "guid": "o13suNaroufjBeOUShNCayscUc4"
+    },
+    {
+      "route": "reports",
+      "method": "POST",
+      "guid": "3iZ1eGhUhEAS3aPjJNCKzfX95F0"
+    },
+    {
+      "route": "reset/update_password",
+      "method": "POST",
+      "guid": "uu3mbalHPafTRIy10GtGBdmRrrI"
+    },
+    {
+      "route": "titulos",
+      "method": "POST",
+      "guid": "Ti-cLy33B4PwDXWnz7a6YHZx_SA"
+    },
+    {
+      "route": "titulos/{titulos_id}",
+      "method": "PUT",
+      "guid": "c7eNodCwO1bJZMVQ3vFUPkkxFrM"
+    },
+    {
+      "route": "titulos/{titulos_id}",
+      "method": "DELETE",
+      "guid": "oZz6F-zWZG0pIUJ9bAoK8egIGh4"
+    },
+    {
+      "route": "titulos/{titulos_id}",
+      "method": "PATCH",
+      "guid": "94DY-atWIycUYtO4B8OxPT8h3fU"
+    }
+  ],
+  "issuers": [
+    {
+      "route": "auth/login",
+      "method": "POST",
+      "guid": "RPh7b_INf_frBVRqjsK_ihO577M"
+    },
+    {
+      "route": "auth/signup",
+      "method": "POST",
+      "guid": "urY15kLDHVGb4vbbHON3_u2xqTk"
+    },
+    {
+      "route": "reset/magic-link-login",
+      "method": "POST",
+      "guid": "dt11WPhZBTfemUoGnpTO8EPVmuY"
+    }
+  ]
+}
