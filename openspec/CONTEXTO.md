@@ -1,112 +1,27 @@
-# Contexto técnico e funcional
+# Contexto técnico e funcional — 26/10/2026
 
-24/10/2026 — Instância normal atual usa **pool de catálogo e pool Xano separados**,
-em **http://localhost:3030**. Launcher PID **10856**, frontend exclusivo
-`.local/frontends/xano-pool-20261024`; não reutilizar esse diretório para testes
-paralelos. Logs `.local/normal-xano-pool-20261024-stdout.log` e `-stderr.log`.
-PID 16476 anterior encerrado após conferir identidade/criação. 374 testes,
-compile/build, leituras reais de membro e três fileiras TMDB aprovados. Mediana
-das três leituras Xano caiu 60,26% no cenário comparado; não é ganho global de
-UI. Open Library mantém timeouts parciais.
-[Evidências e limites](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md).
+| Change funcional ativa | Concluídas | Abertas | Critérios restantes |
+| --- | ---: | ---: | --- |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 21/34 | 13 | Autorização completa, mutações, auditoria, filtros/paginação e navegador real |
+| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
+| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
-24/10/2026 — Instância normal atualizada com pool de conexões HTTP do catálogo,
-ativa em **http://localhost:3030**. Launcher PID **16476**, frontend exclusivo
-`.local/frontends/catalog-pool-20261024` (não reutilizar em testes paralelos),
-logs `.local/normal-catalog-pool-20261024-stdout.log` e `-stderr.log`. PID 3764
-anterior encerrado após verificar identidade/criação. HTTP 200 e três fileiras
-TMDB de 20 cards aprovados; Open Library ainda com timeout parcial. Jornada de
-membro anterior parou em metadados 403, sem mutações; não aguarda login daquela
-execução. [Medição e ativação](changes/otimizar-performance-app/validation/conexoes-catalogo-2026-10-24.md).
+As contagens vêm dos checklists, não medem o percentual global do produto.
+As três changes têm planejamento completo; isso não significa implementação concluída.
 
-24/10/2026 — App normal atualizado iniciado em produção em
-`http://localhost:3030`, com `.venv`, npm e frontend
-`.local/frontends/feed-lists-15664`. Diretório agora em uso pelo app normal:
-não reutilizar para testes/builds paralelos. Launcher PID 3764; logs privados
-`.local/normal-performance-20261024-stdout.log` e `-stderr.log`. Rotas 200 após
-normalização da barra final e três fileiras TMDB reais com 20 cards aprovadas.
-Timeouts da primeira tentativa preservados; demais provedores não certificados.
-Executor de jornada real aguarda login manual de membro em janela própria.
-[Ativação e limites](changes/otimizar-performance-app/validation/ativacao-local-2026-10-24.md).
+Evidências mais recentes:
 
-23/10/2026 — Após salvar/excluir lista, `load_lists(refresh_media=False)`
-preserva referências de mídia e atualiza diretório/itens. Entrada normal na
-tela continua recarregando o catálogo. `list_saving` publica espera e bloqueia
-envios simultâneos; guardas impedem resposta antiga de substituir outra seleção
-ou conta. Falhas mantêm editor/rascunho. Validação local: 327 testes e oito
-cenários fictícios de navegador; sem mutações remotas nesta rodada.
-[Evidências](changes/otimizar-performance-app/validation/mutacoes-listas-2026-10-23.md).
-
-Execução atual de 23/10: produção local em `http://localhost:3030`, usando npm
-e `.local/frontends/feed-lists-29552`. Esse diretório está em uso pelo servidor
-normal e não deve ser reutilizado para builds/testes paralelos. Log atual:
-`.local/normal-performance-npm-20261023.log`. HTTP e três seleções TMDB reais
-conferidos após iniciar; o caminho padrão anterior falhou no prerender e sua
-tentativa foi preservada separadamente nas evidências.
-
-Consultas administrativas têm executor interativo próprio em
-`tools/admin_reads_remote.py`, independente do servidor Reflex. Confirma conta
-admin aprovada antes de ler APIs; testes offline aprovados, integração real
-ainda aguardando login. [Consolidação do dia](RELATORIO_TRABALHOS_2026-10-22.md).
-
-22/10 ? Retomada administrativa: **21/34**, com 5.1/5.5 encerradas ap?s
-conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
-local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas
-remotas. Restam 13 tarefas dependentes de sess?o admin leg?tima.
-[Confer?ncia](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md).
-
-Administração: feedback e paginação compartilhados entre usuários, catálogo
-e reports. Paginação bloqueada durante carregamento; interface das sete
-seções verificada em 1440/390px com APIs fictícias em 22/10. Isso encerra
-6.2/6.3, preservando as verificações remotas e 9.2 em aberto.
-[Evidências](changes/gerenciamento-website/validation/interface-2026-10-22.md).
-
-Feed: referência à obra é opcional. Edição fixa ID/token do editor e não
-pode virar criação após perda de contexto. Listas próprias oferecem busca
-de catálogo e inclusão pela ficha, com confirmação, isolamento de sessão
-e destino. Validado localmente e no navegador com fixtures em 22/10;
-change arquivada com especificações sincronizadas.
-[Entrega e limites](changes/archive/2026-10-22-corrigir-edicao-feed-e-inclusao-listas/validation/implementacao-2026-10-22.md).
-
-Listas padronizadas em 21/10/2026 por reset único autorizado: todas as sete contas
-receberam Quero ver / ler e Já assisti / li vazias. Signup cria ambas na transação;
-listas personalizadas futuras continuam permitidas. Navegação não deve apagar
-listas personalizadas vazias com nomes legados. [Contrato e execução](changes/archive/2026-10-21-padronizar-listas-iniciais/validation/execucao-2026-10-21.md).
-
-Denúncias exigem descrição escrita; formulário de avaliação exige crítica.
-Xano também exige description em reports e review para nota positiva em
-interactions. Atalhos organizacionais com nota zero permanecem válidos.
-[Contrato e limites de validação](changes/archive/2026-10-21-exigir-texto-denuncias-avaliacoes/validation/implementacao-2026-10-20.md).
-
-Fichas agora publicam conteúdo principal antes de complementos; avaliação pessoal
-aguarda restauração antes de abrir o formulário. Resultados têm guardas de
-visita/rota/token/obra, com proteção adicional para geração de gravação da nota.
-Busca TMDB/Open Library reutiliza cache público de 300 s (Kitsu já usava cache),
-mantendo páginas e termos separados. Feed, referências e seleção de listas
-descartam respostas de contexto anterior.
-[Evidência local e pendências reais](changes/otimizar-performance-app/validation/continuacao-fichas-busca-2026-10-20.md).
-
-Leituras sociais equivalentes em andamento compartilham tarefa transitória no
-processo por nonce de sessão, geração e digest da consulta; tasks não entram no
-estado persistido. TTL de cache social continua 15 s. Paginação fixa o token
-inicial e rejeita troca de credencial. GET de recuperação de senha não repete
-automaticamente após 429; pedido tem cooldown local por hash do e-mail.
-Catálogo respeita Retry-After em formato data HTTP.
-[Entrega local e limites](changes/otimizar-performance-app/validation/cache-concorrencia-cooldown-2026-10-20.md).
-
-Inventário estático reproduzível de rotas/eventos disponível em
-`tools/performance_inventory.py`, sem importar o app. A tarefa 1.1 da change
-de performance registra componentes, handlers e chamadas por função em
-[matriz e JSON](changes/otimizar-performance-app/validation/inventario-rotas-eventos-2026-10-20.md).
-
-Referência atual: 13/10/2026. Consulte [HISTORICO.md](HISTORICO.md) para a evolução e [PENDENCIAS.md](PENDENCIAS.md) para o trabalho restante.
+- [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
+- [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
+- [Administração, 22/10](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
+- [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
 
 ## Produto e arquitetura
 
 Tradução opcional: `services/translation.py` usa DEEPL_API_KEY somente no servidor
 para descrições das fichas Kitsu/Jikan/Open Library, com destino PT-BR, cache
 SQLite local em `.local/description-translations.sqlite3` e original em falha.
-TMDB permanece pt-BR nativo. [Change conclu?da e arquivada](changes/archive/2026-10-21-traduzir-descricoes-deepl/tasks.md).
+TMDB permanece pt-BR nativo. [Change concluída e arquivada](changes/archive/2026-10-21-traduzir-descricoes-deepl/tasks.md).
 
 Codeboxd reúne descoberta e registro de experiências com filmes, séries, animes e livros, além de perfis e relações sociais. A aplicação usa Python/Reflex; Xano é responsável por autenticação, persistência e autorização. Os adaptadores de catálogo executam no servidor Python.
 
@@ -183,10 +98,10 @@ O último registro remoto de `/likes` é HTTP 404. O feed usa `/posts/{id}/discu
 
 Recuperação de senha atualizada em 14/10: código de seis dígitos, 15 minutos,
 até cinco tentativas, intervalo de 60 segundos para reenvio e uso único sob
-transação por conta. Provedor Xano para e-mail; token intermediário de cinco
+transação por conta. Envio pelo Xano integrado ao Resend desde 22/10; token intermediário de cinco
 minutos não é salvo como sessão no navegador. Contratos publicados e testes
 remotos/browser passaram, mas chegada em caixa real continua pendente na change
-`recuperar-senha-codigo-6-digitos` (P.6). UUIDs antigos exigem novo pedido.
+`recuperar-senha-codigo-6-digitos` (P.6). UUIDs antigos exigem novo pedido. O serviço nativo falhou; Resend foi publicado, mas rejeitou o destinatário testado com o remetente de testes. Entrega e ciclo real permanecem abertos (8/10).
 
 Rodada 13–14/10/2026: tabela report e nove endpoints administrativos foram
 publicados; os quatro GETs rejeitaram visitante/membro, com admin/desativado e
@@ -210,3 +125,7 @@ Ambiente canônico atual: `.venv`, Python 3.14.6, Reflex 0.9.11.post1, httpx 0.2
 Docker/Caddy/Compose estão preparados; build Linux, DNS, HTTPS e publicação não foram comprovados. Docker usa Python 3.12, diferente do ambiente Windows validado. Por decisão do usuário, continuar sem Docker. Os ajustes de volume desta rodada foram revertidos; arquivos históricos de preparação não são a estratégia de execução atual. Hospedagem/domínio permanecem fora do escopo de execução.
 
 Portas citadas em relatórios antigos são registros históricos; não garantem um servidor ativo hoje. Compilar pode limpar `.states`; não restaurar automaticamente pickles rastreados.
+
+## Operação registrada e disponibilidade
+
+A última ativação documentada é 24/10 em localhost:3030, com pools separados para catálogo e Xano. PIDs e diretórios anteriores estão nas evidências e nos snapshots, sem garantia de processo ativo hoje. As leituras admin reais de 23/10 foram aprovadas no cenário limitado da performance; não concluem a change administrativa.

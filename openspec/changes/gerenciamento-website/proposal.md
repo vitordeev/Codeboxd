@@ -1,3 +1,5 @@
+> Estado reconciliado em 26/10/2026: 21/34 tarefas concluídas, 13 abertas. Tabela report e endpoints publicados em 13–19/10; interface com fixtures em 22/10. Leituras admin reais de 23/10 constam na change de performance. Faltam critérios completos de autorização, mutações, auditoria e browser real; não arquivar. As seções e rodadas anteriores abaixo preservam o planejamento e sua evolução; o checklist e a evidência datada prevalecem sobre resumos antigos.
+
 ## Why
 
 O Codeboxd precisa de uma área administrativa para acompanhar a atividade do site e permitir que pessoas autorizadas gerenciem usuários, catálogo e denúncias em um só lugar. Esta proposta nasceu antes da implementação do fluxo. Na revisão de 13/10/2026, telas, estados e contratos locais já existem; o trabalho restante é concluir autorização e persistência remotas, testes integrados e validação visual. Ver `tasks.md` e `validation/revisao-2026-10-13.md`.

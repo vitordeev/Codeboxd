@@ -1,5 +1,22 @@
 # Histórico e decisões preservadas
 
+## Reconciliação de 26/10/2026
+
+Estado atual: administração 21/34, performance 14/37, recuperação 8/10.
+Foram reconciliados os documentos centrais e removidos marcadores residuais de
+merge de dois arquivos históricos da fundação (tasks/design em ambas as datas).
+Duplicação de 5.2/11.7 corrigida: 87 IDs únicos por checklist da fundação.
+As duas versões de evidência são preservadas na revisão; diretórios e IDs não
+foram apagados nem tratados como entregas distintas somáveis.
+As três changes funcionais continuam abertas por critérios não atendidos.
+
+## Registros históricos anteriores
+
+O texto abaixo descreve cada data indicada. Referências a espera por login,
+contagens e estado operacional foram posteriormente superadas; para o estado
+atual, consultar [README.md](README.md) e os checklists ativos.
+
+
 22/10/2026 — Fechamento do dia consolidado no
 [relatório de trabalhos](RELATORIO_TRABALHOS_2026-10-22.md), com distinção entre
 entregas anteriores, testes simulados, validação remota e preparação mais recente.

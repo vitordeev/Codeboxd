@@ -1,4 +1,18 @@
-# Validação da revisão documental — 13/10/2026
+# Validação documental — 26/10/2026
+
+Resultados atuais: [relatório da revisão](changes/archive/2026-10-26-reconciliar-openspec-ap2/validation.md)
+e [inventário reproduzível](changes/archive/2026-10-26-reconciliar-openspec-ap2/audit.json).
+
+- Validação estrita pré-arquivamento: 23 itens ativos/specs e 14 changes arquivadas aprovados.
+- Validação final após arquivamento: **22 itens ativos/specs e 15 changes arquivadas aprovados**, zero falhas. Auditoria: 221 documentos Markdown, 323 links locais válidos, nenhum marcador de merge ou ID duplicado e nenhum checklist arquivado aberto.
+- Fundação: corrigidos marcadores de merge e IDs 5.2/11.7 duplicados; 87 tarefas únicas em cada cópia histórica.
+- Centrais reconciliados: administração 21/34, performance 14/37, recuperação 8/10.
+- Auditoria complementar verifica links, IDs, metadados, marcadores e tarefas abertas em arquivos históricos.
+- Nenhum novo teste do app, Reflex, navegador ou serviço remoto executado hoje; resultados anteriores são históricos.
+
+## Registro histórico da revisão de 13/10/2026
+
+As contagens e conclusões abaixo descrevem exclusivamente aquela rodada.
 
 Este documento preserva a rodada documental inicial. Depois dela houve implementação de correções: 113 testes e compilação no `.venv` passaram. Estado atual e limitações estão no [relatório operacional](changes/archive/2026-10-21-corrigir-erros-operacionais/validation/correcoes-2026-10-13.md); as contagens abaixo descrevem a rodada anterior.
 
