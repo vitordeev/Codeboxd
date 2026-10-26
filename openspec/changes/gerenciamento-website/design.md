@@ -1,3 +1,5 @@
+> Estado reconciliado em 26/10/2026: 21/34 tarefas concluídas, 13 abertas. Tabela report e endpoints publicados em 13–19/10; interface com fixtures em 22/10. Leituras admin reais de 23/10 constam na change de performance. Faltam critérios completos de autorização, mutações, auditoria e browser real; não arquivar. As seções e rodadas anteriores abaixo preservam o planejamento e sua evolução; o checklist e a evidência datada prevalecem sobre resumos antigos.
+
 ## Context
 
 Ver `proposal.md` para a motivação e `specs/` para os contratos observáveis. Revisão em 13/10/2026: a rota `/admin` já apresenta dashboard, e existem páginas/estado para usuários, catálogo e reports, além de `/admin/login`. A sessão confirma o papel por `/auth/me`. Contratos locais Xano existem e foram reconhecidos em dry-run histórico, mas publicação e autorização direta precisam de evidência remota. O catálogo social separa registros persistidos de dados externos. Estado por tarefa: `validation/revisao-2026-10-13.md`.
@@ -51,12 +53,12 @@ Ver `proposal.md` para a motivação e `specs/` para os contratos observáveis. 
 
 ## Estado de implementação e validação
 
-Publicação posterior em 13/10/2026 autorizada pelo usuário: tabela report e nove endpoints foram aplicados no Xano, com dry-run posterior sem delta. GETs administrativos rejeitaram visitante/membro. O dashboard passou a aceitar `page`/`per_page` para atividade recente. Admin/desativado, mutações e persistência ainda precisam de evidência; ver `validation/publicacao-admin-2026-10-13.md`. A contagem permanece 17/34.
+Publicação posterior em 13/10/2026 autorizada pelo usuário: tabela report e nove endpoints foram aplicados no Xano, com dry-run posterior sem delta. GETs administrativos rejeitaram visitante/membro. O dashboard passou a aceitar `page`/`per_page` para atividade recente. Admin/desativado, mutações e persistência ainda precisam de evidência; ver `validation/publicacao-admin-2026-10-13.md`. A contagem nessa rodada era 17/34; atual: 21/34.
 
-17/34 tarefas próprias concluídas. Grupos 2–5 têm contratos locais; integração real continua pendente. Grupos 6–8 têm UI/handlers e testes simulados, com revisão visual e estados ainda abertos. Grupo 9 distingue compilação/dry-run de teste remoto. A demonstração `/admin/demo` não acessa Xano nem substitui a validação integrada.
+Estado histórico de 13/10: 17/34 tarefas próprias concluídas. Grupos 2–5 têm contratos locais; integração real continua pendente. Grupos 6–8 têm UI/handlers e testes simulados, com revisão visual e estados ainda abertos. Grupo 9 distingue compilação/dry-run de teste remoto. A demonstração `/admin/demo` não acessa Xano nem substitui a validação integrada.
 
 As referências de `docs/ADMIN_OPERATIONS.md` documentam matriz de operações, concessão manual de admin e rollback. A fonte de anime atual é Kitsu; registros Jikan são legados. A tabela `report` pertence a esta change e não deve ser atribuída à migração social arquivada.
 
 O endpoint de decisão aceita os três estados de destino, mas o contrato local não impõe um grafo de transições terminais. Verificar política e comportamento em 5.3/9.1 antes de afirmar cobertura de transições inválidas. Revisar um report não executa exclusão do conteúdo alvo.
 
-Recuperação de senha, seletor de mídia e upload do feed (H.1–H.7) são histórico anterior em `openspec/HISTORICO.md`. Entrega de e-mail e upload real no browser seguem como pendências transversais, não tarefas administrativas concluídas.
+Recuperação de senha, seletor de mídia e upload do feed (H.1–H.7) são histórico anterior em `openspec/HISTORICO.md`. Entrega de e-mail segue pendente; upload real no browser foi validado em 14/10. São assuntos transversais, não tarefas administrativas concluídas.

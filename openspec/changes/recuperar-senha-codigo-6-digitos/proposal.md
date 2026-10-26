@@ -1,3 +1,5 @@
+> Estado reconciliado em 26/10/2026: 8/10 tarefas concluídas. Resend integrado e publicado em 22/10 após falha do serviço nativo. Provedor/remetente já escolhidos; resta destinatário elegível ou domínio verificado, envio aceito e chegada/ciclo completo. 3.2 e 3.4 continuam abertas; não arquivar. As seções e rodadas anteriores abaixo preservam o planejamento e sua evolução; o checklist e a evidência datada prevalecem sobre resumos antigos.
+
 ## Why
 
 O usuário exige recuperação de senha com código de exatamente seis dígitos enviado

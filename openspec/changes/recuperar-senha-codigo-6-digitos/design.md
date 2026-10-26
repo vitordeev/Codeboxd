@@ -1,9 +1,11 @@
+> Estado reconciliado em 26/10/2026: 8/10 tarefas concluídas. Resend integrado e publicado em 22/10 após falha do serviço nativo. Provedor/remetente já escolhidos; resta destinatário elegível ou domínio verificado, envio aceito e chegada/ciclo completo. 3.2 e 3.4 continuam abertas; não arquivar. As seções e rodadas anteriores abaixo preservam o planejamento e sua evolução; o checklist e a evidência datada prevalecem sobre resumos antigos.
+
 ## Context
 
 Ver proposal.md e pendência P.6. A UI já usa os endpoints de solicitação, troca
 de código por token e atualização de senha. A função original gera UUID com 60
 minutos, e o token de recuperação tem 24 horas. Não há limite específico de
-tentativas/reenvio. O provedor atual é `util.send_email` com serviço Xano.
+tentativas/reenvio. O provedor original era `util.send_email`; foi substituído por Resend em 22/10.
 
 ## Goals / Non-Goals
 
@@ -40,7 +42,7 @@ entrega verificável. **Non-Goals:** alterar login comum, papéis, hospedagem ou
 - Consumo usa `password_reset.used`; token temporário de auth dura cinco minutos
   e é passado diretamente à atualização de senha, sem cookie/session storage.
 - Solicitação retorna sempre mensagem genérica para conta inexistente,
-  desativada ou em cooldown. Envio usa o provedor Xano atual, condicionado a um
+  desativada ou em cooldown. Envio usa Resend a partir do Xano, condicionado a um
   resultado de geração; falhas do provedor têm acompanhamento operacional.
 
 ## Risks / Trade-offs
@@ -68,7 +70,7 @@ solicitação não comprova envio. Capturar o resultado de util.send_email e
 rejeitar falha interna com mensagem pública sanitizada, preservando respostas
 genéricas para inexistente/desativado/cooldown. Entrega exige correção do
 serviço nativo ou configuração explícita de outro provedor; seleção/configuração
-do provedor ainda aguarda informação do usuário. Não conceder papéis do app
+do provedor foi concluída posteriormente com Resend, conforme evidência de 22/10. Não conceder papéis do app
 para tentar corrigir administração interna da plataforma Xano.
 
 Qual caixa de e-mail controlada será usada para comprovar chegada e fluxo real?

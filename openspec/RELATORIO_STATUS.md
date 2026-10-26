@@ -1,114 +1,51 @@
-# Relatório do estado do Codeboxd
+# Estado do Codeboxd — 26/10/2026
 
-Meias estrelas em 19/10: 0,5–5 com preenchimento parcial, notas em vírgula e
-restauração decimal de visitante/conta. 148 testes e compilação aprovados; nove
-checks de browser/Xano real confirmaram persistência 1,5 e preservação da crítica.
-Avaliação de teste removida. [Evidência](changes/archive/2026-10-21-avaliar-meias-estrelas/validation/implementacao-2026-10-19.md).
+## Funcionalidades entregues no escopo arquivado
 
-Denúncia de obras em 19/10: retorno no modal e tratamento de 429 corrigidos;
-obra externa recebe ID ao enviar. 143 testes/compilação aprovados; denúncia de
-teste persistida no Xano e sucesso confirmado no browser, com limpeza. Limitação
-429 testada por simulação. [Evidência](changes/gerenciamento-website/validation/denunciar-obras-2026-10-19.md).
+| Área | Entrega e limite |
+| --- | --- |
+| Conta | Cadastro, login, logout e isolamento por conta; recuperação ainda ativa |
+| Catálogo | TMDB (filmes/séries), Kitsu (animes), Open Library (livros); disponibilidade externa variável |
+| Descoberta/ficha | Busca, categorias, paginação, metadados e complementos conforme a fonte |
+| Biblioteca | Status de consumo, reviews e notas de 0,5 a 5; persistência histórica verificada |
+| Perfis/social | Perfil, seguidores, posts, imagens, curtidas e comentários; compatibilidade histórica para `/likes` ausente |
+| Listas | Públicas/privadas e itens dos quatro tipos; listas iniciais padronizadas |
+| Complementos | DeepL, texto obrigatório em denúncias/reviews e edição de feed/inclusão em listas arquivados |
+| Dados | Modelo Xano concluído no escopo original; administração acompanhada separadamente |
 
-Tradução opcional DeepL em 19/10: fichas anime/livro integradas localmente com
-cache persistente, fallback e chave privada; 136 testes locais e smoke DeepL real
-passaram. Revisão de navegador ainda aberta. [Evidência](changes/archive/2026-10-21-traduzir-descricoes-deepl/validation/implementacao-2026-10-19.md).
+O arquivamento comprova os critérios documentados da entrega e sua data; não
+garante disponibilidade contínua dos provedores ou funcionamento atual de todas as telas.
 
-Atualização de 19/10/2026: correções dos três GETs administrativos publicadas;
-backup estrutural de 77 documentos e dry-run posterior sem delta. 18 testes
-locais passaram; visitante/membro rejeitados nos endpoints reais. Faltam testes
-funcionais com admin aprovado e navegador; contagem administrativa mantida em
-17/34. [Evidência](changes/gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md).
+## Trabalho ainda ativo
 
-Base inicial: 13/10/2026, código/documentação e evidências históricas. Atualização de encerramento: 14/10/2026, com nova publicação Xano, testes remotos de visitante/membro e recuperação inválida, e validação de imagem no navegador. Evidências e limites estão nas rodadas abaixo.
+| Change funcional ativa | Concluídas | Abertas | Critérios restantes |
+| --- | ---: | ---: | --- |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 21/34 | 13 | Autorização completa, mutações, auditoria, filtros/paginação e navegador real |
+| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
+| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
-## Avaliação geral
+As contagens vêm dos checklists, não medem o percentual global do produto.
+As três changes têm planejamento completo; isso não significa implementação concluída.
 
-Recuperação de senha por seis dígitos (pedido posterior em 14/10): contratos
-publicados; 127 testes locais, compilação, 22 cenários Xano e sete de browser
-passaram. Prazo, tentativas, reenvio, consumo concorrente e troca/restauração de
-senha comprovados na conta de teste. Chegada do e-mail em caixa real controlada
-continua pendente. [Evidência](changes/recuperar-senha-codigo-6-digitos/validation/implementacao-2026-10-14.md).
+Evidências mais recentes:
 
-Encerramento em 14/10: P.5 validada no navegador em 15 cenários com criação,
-recarga, edição e cancelamento de imagem; posts, arquivos temporários e blobs
-remotos de teste limpos. 120 testes locais e compilação aprovados. Contratos
-publicados de admin/posts ficaram sincronizados no dry-run final. O commit
-`f93287e` de 13/10 registra apenas backup/testes/evidência; demais alterações
-continuam locais. [Resultado completo P.5](validation/uploads-and-session-2026-10-13.md).
+- [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
+- [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
+- [Administração, 22/10](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
+- [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
 
-Rodada mais recente: [administração publicada](changes/gerenciamento-website/validation/publicacao-admin-2026-10-13.md), com tabela report/nove endpoints sincronizados e rejeição de visitante/membro nos GETs. Admin/desativado e mutações permanecem pendentes. Backup local verificado foi registrado no commit `f93287e`; upload e rascunho receberam correções acompanhadas em [P.5](validation/uploads-and-session-2026-10-13.md). Suíte atual: 120 testes locais aprovados, compilação e pip check aprovados; fluxo de recuperação inválido verificado remotamente. Entrega de e-mail e rotação TMDB não concluídas.
+## Limites da avaliação
 
-Retomada posterior nesta data: autorização local administrativa e busca de usuários corrigidas; dry-run limitado passou, mas quatro GETs administrativos reais retornaram 404. Nenhum endpoint foi publicado nesta rodada. [Evidência atual](changes/gerenciamento-website/validation/retomada-admin-2026-10-13.md); 113 testes locais passaram novamente, sem nova validação autenticada ou navegador.
+Em 26/10 foram executadas verificações documentais, sem nova suíte do aplicativo,
+login, envio de e-mail, mutações Xano ou navegador. O número de testes de 24/10 é
+histórico. Hospedagem está fora da etapa atual; execução com `.venv`, sem Docker.
+Credenciais históricas, backup de uploads e refinamento visual continuam em
+[PENDENCIAS.md](PENDENCIAS.md). Não há cálculo comprovado de “80% do projeto”.
 
-A fundação funcional e o modelo de dados estão concluídos no escopo original. A administração tem telas, estados e contratos locais, mas ainda precisa de validação real. As correções locais de Git, ambiente, mensagens e URL de banner foram aplicadas; Docker foi retirado do escopo pelo usuário; a execução permanece local. A prontidão para publicação ainda não foi comprovada.
+## Histórico e rastreabilidade
 
-| Entrega | Situação | Tarefas |
-| --- | --- | --- |
-| Fundação do produto | Concluída e arquivada | 87/87 |
-| Modelo de dados Xano | Concluído e arquivado | 37/37 |
-| Administração | Em andamento | 17/34 concluídas; 17 abertas |
-| Correções operacionais | Concluídas no escopo local, sem Docker | 7/7 |
-
-Contagens medem os checklists de seus respectivos escopos, não uma porcentagem geral de prontidão do produto. Correções transversais e complementos posteriores são acompanhados separadamente.
-
-## O que está pronto no escopo original
-
-| Área | Entregue | Evidência/limite |
-| --- | --- | --- |
-| Estrutura | Aplicação Reflex, rotas, estados, serviços e estilos | Compilação atual aprovada |
-| Conta | Cadastro, login, logout, identidade verificada e bloqueio de ações sem autenticação | Testes locais e integrações históricas Xano; redefinição de senha é complemento ainda pendente de teste completo |
-| Catálogo | Filmes/séries TMDB, animes Kitsu e livros Open Library; identidade e normalização | APIs e navegador verificados historicamente; disponibilidade atual não retestada |
-| Descoberta | Busca global, categorias independentes, relevância por título, paginação e falhas parciais | Testes locais e smoke histórico |
-| Home e ficha | Coleções por tipo, capas/fallback, metadados, trailers e relacionados quando disponíveis | Implementação atual e evidências históricas; campos dependem da fonte |
-| Visitantes | Navegação pública e nota pessoal somente no navegador | Sem publicação de nota de visitante no Xano |
-| Biblioteca | Status de consumo, notas, reviews e isolamento por conta | Testes locais e persistência histórica após novo login |
-| Perfis | Perfil público, edição própria, atividades e estatísticas | Ownership e privacidade verificados historicamente; persistência operacional de banner precisa de ajuste |
-| Social | Seguir/deixar de seguir, feed dos seguidos, posts, curtidas e comentários | Evidência histórica de autoria, unicidade e exclusões; `/likes` depende do fallback documentado |
-| Listas | Criar/editar/excluir, visibilidade pública/privada e itens dos quatro tipos sem duplicação | Mesma mídia em listas diferentes e ownership verificados historicamente |
-| Dados | Usuários, perfis, mídias, interações, seguidores, posts, curtidas, comentários e listas | Migração inicial Xano concluída; reports administrativos pertencem à change ativa |
-| OpenSpec | Índice, contexto, histórico, pendências, contratos e arquivos de entregas concluídas | 16 specs consolidadas; validações estritas aprovadas |
-
-## Implementado, mas ainda não concluído operacionalmente
-
-| Área | O que já existe | O que falta |
-| --- | --- | --- |
-| Login administrativo | Formulário dedicado e verificação do papel admin | Smoke atual no navegador e autorização direta nos endpoints |
-| Dashboard | Indicadores, atividade, pendências e tratamento de falhas | Conferir contagens e respostas com dados reais |
-| Usuários | Busca, filtros, paginação, confirmação de suspensão/reativação | Testar conta suspensa usando operações protegidas e conferir auditoria persistida |
-| Catálogo administrativo | Seções por tipo, cadastro sem duplicata e correção de campos | Validar paginação, filtros e preservação de identidade no Xano real |
-| Denúncias | Modelo report, snapshots, fila, decisão e auditoria locais | Comprovar publicação/persistência, autorização, transições e conteúdo alvo intacto |
-| Interface administrativa | Navegação, componentes e CSS responsivo | Validar estados vazios/erros e telas desktop/celular com dados reais |
-| Imagem em post | Multipart convertido em metadados, prévia, rascunho preservado e cancelamento com limpeza | Fluxo validado no navegador nesta rodada; evidência em P.5 |
-| Redefinição de senha | Solicitar código, validar e alterar senha | Confirmar entrega de e-mail e fluxo completo com conta controlada |
-| Publicação | Preparação histórica preservada, fora do escopo atual | Escolher e validar solução somente quando solicitada; sem Docker nesta etapa |
-
-Os contratos administrativos locais e o dry-run histórico não comprovam publicação remota. A rota `/admin/demo` usa dados fictícios e não substitui os testes reais.
-
-## Correções e organização ainda necessárias
-
-1. **Credenciais antigas:** ignore e índice corrigidos; 441 entradas retiradas sem apagar arquivos locais. O histórico contém `.env` e arquivos de contas em commit incluído na referência `origin/main`; revisar/rotacionar credenciais e tratar contas de teste.
-2. **Banners em produção:** URL concreta corrigida/testada; arquivos permanecem no diretório local. Backup e eventual migração serão tratados quando houver hospedagem; Docker excluído desta etapa.
-3. **Ambiente corrigido:** `.venv` canônica instalada, dependências diretas fixadas e pip check aprovado; `venv` anterior preservada.
-4. **Mensagens de upload corrigidas:** rede, HTTP e resposta inválida verificadas por testes controlados.
-5. **Curtidas:** revalidar a ausência remota de `/likes` e decidir manter compatibilidade ou publicar a rota após revisão.
-6. **Documentos externos:** checkpoints atuais reconciliados e direcionados ao OpenSpec; evidências históricas preservadas.
-7. **Scripts históricos:** adaptar cópias antes de reutilizar caminhos/portas antigos, preservando as evidências arquivadas.
-
-Separação dos estados/páginas sociais é uma melhoria conforme crescimento, sem impedir o encerramento do escopo já entregue. Chat, notificações e recomendações por aprendizado de máquina estão fora do escopo atual, não são funcionalidades prometidas como prontas.
-
-## Qualidade verificada
-
-- 127 testes locais passaram e o Reflex compilou no `.venv` após a atualização da recuperação por seis dígitos.
-- A configuração Compose chegou a ser verificada, mas os ajustes foram revertidos após o usuário decidir continuar sem Docker; nenhum teste de contêiner foi executado.
-- OpenSpec mantém 16 specs consolidadas, três changes não arquivadas (duas em andamento e uma concluída) e duas arquivadas; recuperação tem 6/7 tarefas verificadas, aguardando chegada real do e-mail.
-- IDs de tarefas preservados; resultados/scripts históricos mantidos byte a byte.
-- Essas verificações não garantem disponibilidade contínua de APIs nem integração administrativa completa.
-
-## Próxima sequência recomendada
-
-Tratar credenciais presentes no histórico e validar autorização administrativa diretamente no Xano, dashboard, usuários, catálogo e reports. Concluir revisão de interface, imagem de post e redefinição de senha. A execução permanece local com `.venv`. Hospedagem e eventual migração de arquivos exigem uma etapa futura solicitada pelo usuário.
-
-Correções executadas: [relatório operacional](changes/archive/2026-10-21-corrigir-erros-operacionais/validation/correcoes-2026-10-13.md). Comandos de setup: [AMBIENTE.md](AMBIENTE.md).
-
-Detalhamento por tarefa: [administração](changes/gerenciamento-website/tasks.md) e [matriz de evidências](changes/gerenciamento-website/validation/revisao-2026-10-13.md). Pendências transversais: [PENDENCIAS.md](PENDENCIAS.md). Datas e limites das verificações: [VALIDACAO.md](VALIDACAO.md) e [HISTORICO.md](HISTORICO.md).
+Relatórios datados e evidências preservam o estado de suas próprias rodadas.
+Os documentos centrais anteriores a esta reconciliação foram preservados em
+[snapshot da revisão](changes/archive/2026-10-26-reconciliar-openspec-ap2/antes/README.txt).
+Esses snapshots não são o estado atual. Portas, processos e janelas citados em
+evidências históricas não foram verificados como ativos em 26/10.

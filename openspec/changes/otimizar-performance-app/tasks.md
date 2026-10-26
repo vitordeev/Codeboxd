@@ -1,3 +1,5 @@
+> Estado reconciliado em 26/10/2026: 14/37 tarefas concluídas, 23 abertas. Intervenções incrementais e pools aplicados até 24/10; último registro: 374 testes e leituras reais comparadas. Metas da home aprovadas em 23/10 no cenário Python/provedores. Demais metas e jornadas completas permanecem abertas; não arquivar. Restrições de autorização descritas na proposta original se referem à rodada de criação; aprovações incrementais estão nas evidências e tasks. As seções e rodadas anteriores abaixo preservam o planejamento e sua evolução; o checklist e a evidência datada prevalecem sobre resumos antigos.
+
 # Tasks
 
 24/10/2026 — Usuário confirmou maior fluidez do catálogo. Continuação: pool
