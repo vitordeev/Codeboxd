@@ -11,6 +11,7 @@
 | Perfis/social | Perfil, seguidores, posts, imagens, curtidas e comentários; compatibilidade histórica para `/likes` ausente |
 | Listas | Públicas/privadas e itens dos quatro tipos; listas iniciais padronizadas |
 | Complementos | DeepL, texto obrigatório em denúncias/reviews e edição de feed/inclusão em listas arquivados |
+| Segurança | Credenciais 9/9 e sessões 6/6, arquivadas em 26/10 após sincronização: TMDB rotacionado, quatro senhas substituídas, quinta conta ausente e revogação validada em 39 rotas |
 | Dados | Modelo Xano concluído no escopo original; administração acompanhada separadamente |
 
 O arquivamento comprova os critérios documentados da entrega e sua data; não
@@ -36,11 +37,13 @@ Evidências mais recentes:
 
 ## Limites da avaliação
 
-Em 26/10 foram executadas verificações documentais, sem nova suíte do aplicativo,
-login, envio de e-mail, mutações Xano ou navegador. O número de testes de 24/10 é
-histórico. Hospedagem está fora da etapa atual; execução com `.venv`, sem Docker.
-Credenciais históricas, backup de uploads e refinamento visual continuam em
-[PENDENCIAS.md](PENDENCIAS.md). Não há cálculo comprovado de “80% do projeto”.
+A revisão documental inicial de 26/10 não executou o aplicativo. Na continuação
+de segurança dessa data houve 392 testes locais aprovados, 29 checks remotos e
+navegador real; [evidências da entrega arquivada](changes/archive/2026-10-26-revogar-sessoes-apos-troca-senha/validation.md).
+O arquivamento posterior conferiu esses registros e validou documentos, sem
+reexecutar testes remotos. Hospedagem segue fora da etapa; execução com `.venv`,
+sem Docker. P.1 resolvida na cobertura auditada; backup de uploads e refinamento
+visual continuam em [PENDENCIAS.md](PENDENCIAS.md). Não há cálculo comprovado de “80% do projeto”.
 
 ## Histórico e rastreabilidade
 

@@ -1,0 +1,175 @@
+{
+  "date": "2026-10-26",
+  "markdown_files": 238,
+  "local_links_checked": 339,
+  "broken_links": [
+    {
+      "file": "openspec\\changes\\gerenciamento-website\\validation\\interface-2026-10-22.md",
+      "target": "browser-componentes-2026-10-22/server.log"
+    }
+  ],
+  "conflict_markers": [],
+  "checklists": [
+    {
+      "change": "archive\\2026-10-05-criar-modelo-dados-xano",
+      "done": 37,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-13-criar-modelo-dados-xano",
+      "done": 37,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-13-definir-fundacao-codeboxd",
+      "done": 87,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-19-definir-fundacao-codeboxd",
+      "done": 87,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-21-avaliar-meias-estrelas",
+      "done": 5,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-21-corrigir-erros-operacionais",
+      "done": 7,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-21-exigir-openspec-para-implementacoes",
+      "done": 4,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-21-exigir-texto-denuncias-avaliacoes",
+      "done": 5,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-21-padronizar-listas-iniciais",
+      "done": 7,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-21-regularizar-merge-e-commits",
+      "done": 4,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-21-resolver-conflito-arquivamento-openspec",
+      "done": 2,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-21-revisar-consistencia-documental-openspec",
+      "done": 3,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-21-traduzir-descricoes-deepl",
+      "done": 6,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-22-corrigir-edicao-feed-e-inclusao-listas",
+      "done": 6,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-26-proteger-credenciais-expostas",
+      "done": 9,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-26-reconciliar-openspec-ap2",
+      "done": 4,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "archive\\2026-10-26-revogar-sessoes-apos-troca-senha",
+      "done": 6,
+      "open": 0,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "gerenciamento-website",
+      "done": 21,
+      "open": 13,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "otimizar-performance-app",
+      "done": 14,
+      "open": 23,
+      "duplicate_ids": [],
+      "metadata": true
+    },
+    {
+      "change": "recuperar-senha-codigo-6-digitos",
+      "done": 8,
+      "open": 2,
+      "duplicate_ids": [],
+      "metadata": true
+    }
+  ],
+  "archived_scope_broken_links": [],
+  "pre_existing_links_outside_scope": [
+    {
+      "file": "openspec/changes/gerenciamento-website/validation/interface-2026-10-22.md",
+      "target": "browser-componentes-2026-10-22/server.log",
+      "already_in_HEAD": true
+    }
+  ],
+  "original_artifacts_checked": 41,
+  "comparison": "Git HEAD text with CRLF normalized",
+  "relocated_markdown_links": [
+    "openspec/changes/archive/2026-10-26-proteger-credenciais-expostas/status.md",
+    "openspec/changes/archive/2026-10-26-proteger-credenciais-expostas/tasks.md",
+    "openspec/changes/archive/2026-10-26-proteger-credenciais-expostas/validation.md"
+  ],
+  "archive_scope_passed": true,
+  "secret_review": {
+    "files": 52,
+    "passed": true,
+    "findings": []
+  }
+}

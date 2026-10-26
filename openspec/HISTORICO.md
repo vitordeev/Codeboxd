@@ -1,5 +1,15 @@
 # Histórico e decisões preservadas
 
+## Arquivamento das entregas de segurança — 26/10/2026
+
+Após a reconciliação documental e a implementação de segurança desta data, o
+usuário solicitou verificar e arquivar as entregas concluídas. Credenciais 9/9
+e sessões 6/6 foram arquivadas após sincronizar seis requisitos nas specs
+operational-reliability e user-authentication. Evidências anteriores preservadas;
+nenhuma nova chamada remota nesta rodada. Três changes funcionais seguem ativas.
+O arquivo passou de 15 para 17 diretórios, sem apagar ou somar entregas duplicadas.
+Ver [validação documental](VALIDACAO.md) e os registros archival.md de cada pasta.
+
 ## Reconciliação de 26/10/2026
 
 Estado atual: administração 21/34, performance 14/37, recuperação 8/10.

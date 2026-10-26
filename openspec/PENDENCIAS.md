@@ -49,8 +49,8 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 
 ## Ajustes visuais e entregas encerradas
 
-Atualização da P.1 em 26/10/2026: a change ativa
-[proteger-credenciais-expostas](changes/proteger-credenciais-expostas/tasks.md)
+Atualização da P.1 em 26/10/2026: a change arquivada
+[proteger-credenciais-expostas](changes/archive/2026-10-26-proteger-credenciais-expostas/tasks.md)
 inventariou o histórico e comprovou a rotação TMDB: novo token aceito (200),
 exposto rejeitado (401), aplicação recarregada e catálogo aprovado no navegador.
 Quatro senhas de teste substituídas (novas aceitas/antigas rejeitadas); quinta
@@ -62,7 +62,9 @@ locais e navegador autenticado aprovados. A quinta identidade foi confirmada
 ausente por metadados, sem remoção nesta rodada. Tarefa 2.3 concluída; P.1
 resolvida na cobertura auditada, sem reescrita do histórico. As pendências de
 entrega de e-mail e das outras changes funcionais permanecem independentes.
-Evidência: [validação](changes/proteger-credenciais-expostas/validation.md).
+As duas changes de segurança foram arquivadas nesta data; os seis requisitos
+foram sincronizados nas especificações principais. Novas evoluções exigem change ativa.
+Evidência: [validação](changes/archive/2026-10-26-proteger-credenciais-expostas/validation.md).
 
 - P.13 — Retorno à descoberta: resolvido localmente em 19/10, com compilação e checks de navegador. [Evidência](validation/voltar-descoberta-2026-10-19.md).
 - Sobreposição da capa de livro com sinopse em 390px: pendência visual preservada, sem correção nesta revisão; exige change ativa específica antes de implementação.

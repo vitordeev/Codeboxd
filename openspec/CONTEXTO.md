@@ -1,6 +1,6 @@
 # Contexto técnico e funcional — 26/10/2026
 
-Atualização de segurança nesta data: [resultado da change ativa](changes/proteger-credenciais-expostas/status.md).
+Atualização de segurança nesta data: [resultado da change arquivada](changes/archive/2026-10-26-proteger-credenciais-expostas/status.md).
 TMDB exposto revogado, substituto e recarga validados no navegador; quatro senhas
 de teste substituídas, quinta identidade histórica confirmada ausente. A política
 de versões da change revogar-sessoes-apos-troca-senha foi publicada em 39 rotas:
@@ -11,6 +11,12 @@ autenticado validado. Tokens legados exigem novo login; logout global não mudou
 Novo check manual antes de commit: `.venv/Scripts/python.exe -B tools/check_staged_secrets.py`.
 Ignore inclui .xano/; substitutos privados ficam em .local, sem valores nos relatórios.
 As descrições anteriores abaixo preservam contexto e evidências das respectivas rodadas.
+
+As duas changes de segurança foram arquivadas por solicitação do usuário em
+26/10/2026, com deltas sincronizados em operational-reliability e user-authentication.
+Ferramentas/scripts de implantação dessas entregas possuem destinos datados ou
+da change então ativa: adaptar em nova change antes de reutilizar, sem sobrescrever
+os relatórios arquivados. O scanner permanente de commits não depende dessas pastas.
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
