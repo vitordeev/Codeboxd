@@ -1,14 +1,18 @@
 # OpenSpec do Codeboxd
 
+Listas: [corrigir-duplicacao-listas-padrao](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/tasks.md) foi sincronizada e arquivada em 26/10/2026 com **11/11 tarefas**. Coleção própria separada, públicas agrupadas por autor e identidade estável publicada/ativada. Validação local, API e duas contas reais no navegador, limpeza e limites estão na [conclusão](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). As três changes funcionais abaixo mantêm suas pendências; o arquivo histórico agora reúne 18 entregas/diretórios, preservando as contagens anteriores por rodada.
+
 Estado documental reconciliado em **26/10/2026**, para a AP2.
 
-Continuação de segurança nesta data: [proteger-credenciais-expostas](changes/proteger-credenciais-expostas/status.md)
+Continuação de segurança nesta data: [proteger-credenciais-expostas](changes/archive/2026-10-26-proteger-credenciais-expostas/status.md)
 está concluída com 9/9 tarefas; a dependência
-[revogar-sessoes-apos-troca-senha](changes/revogar-sessoes-apos-troca-senha/tasks.md)
+[revogar-sessoes-apos-troca-senha](changes/archive/2026-10-26-revogar-sessoes-apos-troca-senha/tasks.md)
 está concluída com 6/6. TMDB e quatro senhas de teste rotacionados, quinta conta
 histórica ausente, revogação publicada e validada em 39 rotas protegidas.
-Ambas permanecem sem arquivamento automático. A tabela funcional abaixo preserva
-as três changes de produto, sem alterar suas pendências ou contagens.
+Ambas foram arquivadas em 26/10/2026 por solicitação do usuário, após sincronizar
+seis requisitos com as specs principais e conferir tarefas/evidências.
+A tabela funcional abaixo preserva as três changes de produto, sem alterar
+suas pendências ou contagens.
 
 ## Estado atual
 
@@ -34,7 +38,8 @@ Fundação (87 tarefas únicas), modelo de dados (37), meias estrelas, listas in
 tradução DeepL, conteúdo obrigatório, correções operacionais e ajustes de feed/listas
 têm entregas arquivadas. Os 14 diretórios históricos anteriores são preservados;
 fundação e modelo de dados aparecem em duas datas e não são entregas somáveis.
-Esta revisão documental foi validada e arquivada em 26/10: 15 diretórios de arquivo no total.
+Esta revisão documental foi validada e arquivada em 26/10, chegando a 15 diretórios.
+As duas entregas de segurança arquivadas posteriormente nessa data elevam o total a 17.
 Nenhuma change funcional ativa está pronta para arquivar.
 
 ## Onde consultar

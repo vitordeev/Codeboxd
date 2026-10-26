@@ -1,5 +1,19 @@
 # Histórico e decisões preservadas
 
+## Correção e prevenção de listas — 26/10/2026
+
+Diagnóstico confirmou duas listas padrão por perfil; a repetição visual vinha da mistura de listas públicas com a coleção pessoal. Separação entregue, seguida de agrupamento por autor e alinhamento do nome à direita da foto conforme refinamentos do usuário. Continuação autorizada publicou identidade estável/única, atribuiu 16 chaves legadas e validou concorrência e persistência real. Conta descartável criada explicitamente para testar cadastro/concorrência e removida, preservando 19 listas/8 vínculos originais. Implementação 11/11; [conclusão](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10/2026 por solicitação do usuário; demais changes mantêm seu escopo e pendências.
+
+## Arquivamento das entregas de segurança — 26/10/2026
+
+Após a reconciliação documental e a implementação de segurança desta data, o
+usuário solicitou verificar e arquivar as entregas concluídas. Credenciais 9/9
+e sessões 6/6 foram arquivadas após sincronizar seis requisitos nas specs
+operational-reliability e user-authentication. Evidências anteriores preservadas;
+nenhuma nova chamada remota nesta rodada. Três changes funcionais seguem ativas.
+O arquivo passou de 15 para 17 diretórios, sem apagar ou somar entregas duplicadas.
+Ver [validação documental](VALIDACAO.md) e os registros archival.md de cada pasta.
+
 ## Reconciliação de 26/10/2026
 
 Estado atual: administração 21/34, performance 14/37, recuperação 8/10.

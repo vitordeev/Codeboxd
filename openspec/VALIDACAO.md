@@ -1,6 +1,53 @@
 # Validação documental — 26/10/2026
 
-Resultados atuais: [relatório da revisão](changes/archive/2026-10-26-reconciliar-openspec-ap2/validation.md)
+## Conclusão das listas
+
+Change corrigir-duplicacao-listas-padrao implementada com 11/11 critérios; suíte de 411 testes, compilação/build e recarga normal, publicação/backfill real, 18 checks API e 14 critérios de navegador com duas contas autenticadas comprovados. Limpeza descartável concluída e inventário final confirma 19 listas/8 vínculos originais, zero duplicatas/conflitos. [Mapa de evidências e condições de execução](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Validação estrita da change e diff check aprovados; quatro requisitos sincronizados em duas specs e change arquivada em 26/10/2026, com conferência integral dos blocos e caminhos. As falhas transitórias e 429 anteriores foram preservados nas evidências, sem fechar metas amplas de performance.
+
+## Arquivamento das entregas de segurança
+
+Por solicitação do usuário, proteger-credenciais-expostas (9/9) e
+revogar-sessoes-apos-troca-senha (6/6) foram conferidas e arquivadas em 26/10.
+Quatro artefatos de cada change completos, checklists sem tarefas abertas e
+evidências sanitizadas aprovadas da implementação foram conferidos.
+
+Três requisitos de operational-reliability e três de user-authentication
+sincronizados manualmente, preservando Purpose e conteúdo anterior. Comparação
+integral dos seis blocos confirmou ausência de delta restante antes de mover.
+`openspec archive <nome> --yes --skip-specs` evitou reaplicar os deltas já
+sincronizados; nenhuma validação foi desativada.
+
+Destinos: `changes/archive/2026-10-26-proteger-credenciais-expostas/` e
+`changes/archive/2026-10-26-revogar-sessoes-apos-troca-senha/`. Mantidos metadados,
+IDs e evidências; referências centrais e links entre as duas pastas reconciliados.
+Permanecem três changes funcionais ativas e 17 diretórios históricos no arquivo.
+
+A rodada é documental: não fez novos testes de app, navegador ou Xano, nem
+alterou credenciais. Os registros de 392 testes, 29 checks e navegador pertencem
+à implementação anterior. Validação final: 22 itens ativos/specs e 17 changes
+arquivadas aprovados; zero falhas do OpenSpec. Permanecem avisos preexistentes de
+texto longo em requisitos de outras capacidades, sem alterar seu escopo.
+
+A auditoria examinou 238 Markdown e 339 links locais: nenhum link quebrado nas
+duas entregas movidas, nenhum conflito, metadados e IDs preservados e nenhum
+checklist arquivado aberto. Uma referência pré-existente ao log ignorado
+`browser-componentes-2026-10-22/server.log`, em gerenciamento-website, continua
+ausente; o link já consta do HEAD e está fora do escopo deste arquivo. Não foi
+fabricado um log nem alterada a change incompleta para esconder a limitação.
+
+Os 41 artefatos originalmente versionados nas duas changes foram comparados com
+HEAD normalizando CRLF: conteúdo preservado, exceto três Markdown com correção
+de links relativos entre as pastas movidas. Registro reproduzível do resultado:
+[auditoria do arquivo](changes/archive/2026-10-26-revogar-sessoes-apos-troca-senha/archive-verification.json).
+Nenhum git add, commit ou push é executado nesta rodada.
+
+Revisão adicional dos 52 arquivos existentes novos/modificados com o scanner
+permanente: aprovada, sem achados. `git diff --check -- openspec` passou e não
+há alterações fora de openspec nem conteúdo preparado no índice nesta rodada.
+
+## Rodada documental anterior da AP2
+
+Resultados da revisão anterior: [relatório da revisão](changes/archive/2026-10-26-reconciliar-openspec-ap2/validation.md)
 e [inventário reproduzível](changes/archive/2026-10-26-reconciliar-openspec-ap2/audit.json).
 
 - Validação estrita pré-arquivamento: 23 itens ativos/specs e 14 changes arquivadas aprovados.

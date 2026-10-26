@@ -134,6 +134,7 @@ async def main(output, frontend_workdir=None):
     threading.Thread(target=server.serve_forever,daemon=True).start()
     env=dict(os.environ,XANO_AUTH_URL='http://127.0.0.1:3040',XANO_SOCIAL_URL='http://127.0.0.1:3040',
              COOKIE_SECURE='false',REFLEX_STATE_MANAGER_MODE='memory',DEEPL_API_KEY='',TMDB_READ_TOKEN='',
+             DEFAULT_LIST_IDENTITY_ENABLED='false',
              REFLEX_WEB_WORKDIR=str(frontend),REFLEX_USE_NPM='true',
              REFLEX_APP_MODULE_IMPORT='tools.feed_lists_fixture_app')
     results=[]; failure=''

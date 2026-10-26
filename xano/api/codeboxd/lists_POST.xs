@@ -5,6 +5,7 @@ query "lists" verb=POST {
 text title filters=trim|min:1|max:120
 text description? filters=trim|max:2000
 bool is_public?=true
+text default_kind?="" filters=trim
  }
  stack {
     function.run "Security/require_current_session" {
@@ -20,9 +21,18 @@ precondition ($actor != null && $actor.account_status != "disabled") {
   error_type = "accessdenied"
   error = "Operação não permitida."
 }
-db.add user_list {
- data = {user_id: $auth.id, title: $input.title, description: $input.description, is_public: $input.is_public, updated_at: now}
-} as $result
+conditional {
+ if ($input.default_kind != "") {
+  function.run "Lists/ensure_default_list" {
+   input = {user_id: $auth.id, default_kind: $input.default_kind}
+  } as $result
+ }
+ else {
+  db.add user_list {
+   data = {user_id: $auth.id, default_key: null, title: $input.title, description: $input.description, is_public: $input.is_public, updated_at: now}
+  } as $result
+ }
+}
  }
  response = $result
  guid = "e0SNrmbgrquRIypbGRSj39HFkeI"

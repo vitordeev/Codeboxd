@@ -595,6 +595,15 @@ def list_card(item):
         on_click=S.open_list(item['id']),type='button',class_name='list-row',disabled=S.list_saving)
 
 
+def public_list_group(group):
+    return rx.el.section(
+        rx.el.a(avatar(group['avatar_url'],group['display_name']),
+            rx.el.span(group['display_name'],class_name='public-list-owner-name font-semibold'),
+            href='/perfil/'+group['user_id'],class_name='public-list-owner'),
+        rx.el.div(rx.foreach(group['lists'],list_card),class_name='list-directory'),
+        class_name='public-list-group')
+
+
 def list_item(m):
     return rx.el.article(media_card(m),rx.cond(S.owns_list,confirm('Remover obra',S.remove_list_item(m['id']))),class_name='list-media-item')
 
@@ -617,8 +626,13 @@ def list_media_search():
 
 
 def lists_page():
-    return shell('Suas listas','Um lugar para cada história que você quer guardar.',
-        rx.cond(S.is_authenticated,button('Criar lista',S.new_list,disabled=S.list_saving)),
+    return shell('Listas','Um lugar para cada história que você quer guardar.',
+        rx.el.h2(rx.cond(S.is_authenticated & (S.list_scope=='own'),'Suas listas','Listas públicas'),class_name='section-title'),
+        rx.cond(S.is_authenticated,rx.el.div(
+            button('Minhas listas',S.change_list_scope('own'),disabled=S.list_saving | (S.list_scope=='own')),
+            button('Explorar listas públicas',S.change_list_scope('public'),disabled=S.list_saving | (S.list_scope=='public')),
+            class_name='flex flex-wrap gap-3')),
+        rx.cond(S.is_authenticated & (S.list_scope=='own'),button('Criar lista',S.new_list,disabled=S.list_saving)),
         editor(rx.cond(S.selected_list['id']=='','Criar lista','Editar lista'),'Organize suas próximas descobertas.',
             rx.el.form(field('Título','title',S.selected_list['title'],required=True,max_length=120),
                 textarea('Descrição','description',S.selected_list['description'],max_length=2000),
@@ -626,8 +640,12 @@ def lists_page():
                 submit(rx.cond(S.list_saving,'Salvando…','Salvar lista'),disabled=S.list_saving),
                 on_submit=S.save_list,key=S.selected_list['id']+S.selected_list['title'],class_name='editor-form'),
             open=S.list_editor_open,on_open_change=S.set_list_editor_open),
-        rx.cond(S.lists.length()>0,rx.el.div(rx.foreach(S.visible_lists,list_card),class_name='list-directory'),
-            rx.el.p('Nenhuma lista disponível. Crie sua primeira coleção.',class_name='empty-state')),
+        rx.cond(S.lists.length()>0,
+            rx.cond(S.is_authenticated & (S.list_scope=='own'),
+                rx.el.div(rx.foreach(S.visible_lists,list_card),class_name='list-directory'),
+                rx.el.div(rx.foreach(S.public_list_groups,public_list_group),class_name='public-list-groups')),
+            rx.el.p(rx.cond(S.is_authenticated & (S.list_scope=='own'),
+                'Você ainda não tem listas. Crie sua primeira coleção.','Nenhuma lista pública disponível.'),class_name='empty-state')),
         rx.cond(S.lists.length()>S.visible_count,button('Mostrar mais',S.show_more)),
         rx.cond(S.selected_list['id']!='',rx.el.section(
             rx.el.div(rx.el.div(rx.el.h2(S.selected_list['title'],class_name='section-title'),rx.el.p(S.selected_list['description'])),

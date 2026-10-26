@@ -16,6 +16,8 @@ async def finish(events):
 
 class ListMutationPerformanceTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
+        legacy = patch.dict('os.environ', {'DEFAULT_LIST_IDENTITY_ENABLED':'false'})
+        legacy.start(); self.addCleanup(legacy.stop)
         self.s = rx.State(_reflex_internal_init=True).get_substate(SocialState.get_full_name().split('.'))
         self.s.router.url.path = '/listas'
         self.s.user_id = self.s._identity = 7
@@ -107,8 +109,9 @@ class ListMutationPerformanceTests(unittest.IsolatedAsyncioTestCase):
                     await finish(self.s.save_list({'title': 'Edited'}))
                 after.append(len(self.calls))
                 self.assertEqual(len(self.s._media), size)
-            self.assertEqual(before, [6]*5)
-            self.assertEqual(after, [5]*5)
+            # Both paths now omit the unrelated public directory request.
+            self.assertEqual(before, [5]*5)
+            self.assertEqual(after, [4]*5)
 
     async def test_failed_write_preserves_editor_and_draft_without_retry(self):
         original = deepcopy(self.s.selected_list)

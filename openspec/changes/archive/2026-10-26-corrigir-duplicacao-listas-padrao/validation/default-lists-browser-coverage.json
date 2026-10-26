@@ -1,0 +1,78 @@
+{
+  "layer": "real_browser_criterion_coverage",
+  "passed": true,
+  "required_checks": 14,
+  "checks": [
+    {
+      "scenario": "account_1_personal_lists_1440",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "account_1_personal_lists_390",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "account_1_layout_1440",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "account_1_layout_390",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "account_2_personal_lists_1440",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "account_2_personal_lists_390",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "account_2_layout_1440",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "account_2_layout_390",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "account_1_foreign_list_read_only",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "account_2_foreign_list_read_only",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "add_existing_media_persisted_1440",
+      "passed": true,
+      "source": "default-lists-browser-real-1793042015407026100.json"
+    },
+    {
+      "scenario": "remove_test_media_persisted_1440",
+      "passed": true,
+      "source": "default-lists-browser-real-1793042015407026100.json"
+    },
+    {
+      "scenario": "add_existing_media_persisted_390",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    },
+    {
+      "scenario": "remove_test_media_persisted_390",
+      "passed": true,
+      "source": "default-lists-browser-real.json"
+    }
+  ],
+  "conditions": "Final mobile and two-account run paced 20 seconds; desktop writes verified in previous run; fast run limitations preserved separately"
+}

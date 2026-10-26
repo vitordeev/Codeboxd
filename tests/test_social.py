@@ -372,6 +372,8 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         request.assert_awaited_once()
 
     async def test_repairs_mojibake_default_list_for_existing_user(self):
+        legacy = patch.dict('os.environ', {'DEFAULT_LIST_IDENTITY_ENABLED':'false'})
+        legacy.start(); self.addCleanup(legacy.stop)
         s=self.state
         broken={'id':22,'title':'JÃ¡ assisti / li','description':'Obras que vocÃª jÃ¡ terminou.',
                 'is_public':True}

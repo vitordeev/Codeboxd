@@ -1,0 +1,13 @@
+{
+  "layer": "remote_publication",
+  "published": true,
+  "operations": [],
+  "passed": true,
+  "unrelated_documents_changed": 0,
+  "new_function_present": true,
+  "only_expected_function_added": true,
+  "removed_documents": 0,
+  "documents_after": 80,
+  "nullable_default_key": true,
+  "unique_default_key": true
+}

@@ -1,0 +1,32 @@
+{
+  "layer": "remote_dry_run",
+  "published": false,
+  "operations": [
+    {
+      "type": "table",
+      "name": "user_list",
+      "action": "update"
+    },
+    {
+      "type": "table",
+      "name": "user_list",
+      "action": "add_field"
+    },
+    {
+      "type": "function",
+      "name": "Lists/ensure_default_list",
+      "action": "create"
+    },
+    {
+      "type": "query",
+      "name": "auth/signup POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists POST",
+      "action": "update"
+    }
+  ],
+  "passed": true
+}

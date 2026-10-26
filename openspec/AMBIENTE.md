@@ -1,5 +1,9 @@
 # Ambiente de desenvolvimento
 
+## Identidade das listas padrão
+
+`DEFAULT_LIST_IDENTITY_ENABLED` habilita preparação por chave estável de proprietário/tipo. Em 26/10/2026 o campo anulável/index único, função e endpoints foram publicados, as 16 listas padrão legadas identificadas com preservação dos dados e a flag habilitada no `.env` privado. `.env.example` mantém false para instalações sem a migração. Não habilitar em outro workspace antes de publicar o contrato e revisar o backfill. Fixtures legadas fixam false; testes da nova identidade fixam true. Planejamento, backup/rollback e evidências em [backend-identidade.md](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/backend-identidade.md).
+
 Ambiente canônico desde 13/10/2026: `.venv`. O `venv` anterior permanece no disco para compatibilidade; não é necessário usar ambos.
 
 ## Preparação no Windows

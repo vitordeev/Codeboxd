@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-26",
+  "tasks_completed": 11,
+  "tasks_open": 0,
+  "spec_sync": [
+    {
+      "capability": "data-user-lists",
+      "requirements_synced": [
+        "Idempotent default list preparation",
+        "Non-destructive default list reconciliation"
+      ],
+      "scenarios": 4,
+      "verified": true
+    },
+    {
+      "capability": "user-lists",
+      "requirements_synced": [
+        "Separate personal and public list discovery",
+        "Public lists grouped by owner"
+      ],
+      "scenarios": 6,
+      "verified": true
+    }
+  ],
+  "expected_archive": "openspec/changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao",
+  "evidence_verified": true,
+  "archived": true,
+  "main_specs_verified_after_archive": 4,
+  "central_links_verified": true
+}

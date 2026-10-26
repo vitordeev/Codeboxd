@@ -4,6 +4,7 @@ table user_list {
     int id
     timestamp created_at?=now
     int user_id { table = "user" }
+    text? default_key? filters=trim|max:80
     text title filters=trim|min:1|max:120
     text description? filters=trim|max:2000
     bool is_public?=true
@@ -12,6 +13,7 @@ table user_list {
   index = [
     {type: "primary", field: [{name: "id"}]}
     {type: "btree", field: [{name: "user_id", op: "asc"}]}
+    {type: "btree|unique", field: [{name: "default_key", op: "asc"}]}
   ]
   guid = "9VYvnA6iqkXTs0IWM26qVjsJRk0"
 }

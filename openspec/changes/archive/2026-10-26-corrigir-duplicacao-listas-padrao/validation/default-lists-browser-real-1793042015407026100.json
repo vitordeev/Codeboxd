@@ -1,0 +1,39 @@
+{
+  "layer": "real_browser_two_authenticated_accounts",
+  "checks": [
+    {
+      "scenario": "account_1_personal_lists_1440",
+      "passed": true
+    },
+    {
+      "scenario": "account_1_layout_1440",
+      "passed": true
+    },
+    {
+      "scenario": "account_1_personal_lists_390",
+      "passed": true
+    },
+    {
+      "scenario": "account_1_layout_390",
+      "passed": true
+    },
+    {
+      "scenario": "account_1_foreign_list_read_only",
+      "passed": true
+    },
+    {
+      "scenario": "add_existing_media_persisted_1440",
+      "passed": true
+    },
+    {
+      "scenario": "remove_test_media_persisted_1440",
+      "passed": true
+    }
+  ],
+  "passed": false,
+  "active_step": "add_existing_media_390",
+  "error": {
+    "type": "AssertionError",
+    "source_line": 80
+  }
+}

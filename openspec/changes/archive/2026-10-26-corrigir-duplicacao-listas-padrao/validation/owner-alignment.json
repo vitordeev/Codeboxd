@@ -1,0 +1,44 @@
+{
+  "layer": "browser_local_app_public_read_only",
+  "results": [
+    {
+      "width": 1440,
+      "long_name": false,
+      "headers": 8,
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "long_name": true,
+      "headers": 8,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "long_name": false,
+      "headers": 8,
+      "passed": true
+    },
+    {
+      "width": 390,
+      "long_name": true,
+      "headers": 8,
+      "passed": true
+    },
+    {
+      "width": 320,
+      "long_name": false,
+      "headers": 8,
+      "passed": true
+    },
+    {
+      "width": 320,
+      "long_name": true,
+      "headers": 8,
+      "passed": true
+    }
+  ],
+  "authenticated": false,
+  "writes": false,
+  "profile_data_logged": false
+}
