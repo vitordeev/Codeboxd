@@ -1,0 +1,55 @@
+{
+  "layer": "real_browser_two_authenticated_accounts",
+  "checks": [
+    {
+      "scenario": "account_1_personal_lists_1440",
+      "passed": true
+    },
+    {
+      "scenario": "account_1_layout_1440",
+      "passed": true
+    },
+    {
+      "scenario": "account_1_personal_lists_390",
+      "passed": true
+    },
+    {
+      "scenario": "account_1_layout_390",
+      "passed": true
+    },
+    {
+      "scenario": "account_1_foreign_list_read_only",
+      "passed": true
+    },
+    {
+      "scenario": "add_existing_media_persisted_390",
+      "passed": true
+    },
+    {
+      "scenario": "remove_test_media_persisted_390",
+      "passed": true
+    },
+    {
+      "scenario": "account_2_personal_lists_1440",
+      "passed": true
+    },
+    {
+      "scenario": "account_2_layout_1440",
+      "passed": true
+    },
+    {
+      "scenario": "account_2_personal_lists_390",
+      "passed": true
+    },
+    {
+      "scenario": "account_2_layout_390",
+      "passed": true
+    },
+    {
+      "scenario": "account_2_foreign_list_read_only",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "active_step": "account_2_public_directory"
+}

@@ -1,5 +1,7 @@
 # Contexto técnico e funcional — 26/10/2026
 
+Listas: coleção pessoal separada de descoberta pública agrupada por autor; nome permanece à direita do avatar. Backend usa `user_list.default_key` anulável e único para proprietário/tipo padrão, preservando personalizadas homônimas. Cadastro e preparação compartilham função que reaproveita a lista sem sobrescrever suas personalizações. Contratos publicados, 16 chaves legadas atribuídas sem perda de 19 listas/8 vínculos e flag privada habilitada. Validação com 411 testes, 18 checks API e 14 critérios de navegador real concluída, incluindo limpeza descartável. [Conclusão da change, 11/11](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Quatro requisitos sincronizados e change arquivada em 26/10/2026; tabelas históricas abaixo preservam seu contexto original.
+
 Atualização de segurança nesta data: [resultado da change arquivada](changes/archive/2026-10-26-proteger-credenciais-expostas/status.md).
 TMDB exposto revogado, substituto e recarga validados no navegador; quatro senhas
 de teste substituídas, quinta identidade histórica confirmada ausente. A política

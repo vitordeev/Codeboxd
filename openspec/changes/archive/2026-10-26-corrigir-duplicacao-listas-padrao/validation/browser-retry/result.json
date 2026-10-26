@@ -1,0 +1,32 @@
+{
+  "layer": "browser_local_fictional_backend",
+  "expected": 8,
+  "completed": [
+    {
+      "case": 1,
+      "width": 1440,
+      "passed": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 2,
+      "width": 1440,
+      "passed": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 3,
+      "width": 1440,
+      "passed": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 4,
+      "width": 1440,
+      "passed": true,
+      "javascript_errors": []
+    }
+  ],
+  "failure": "AssertionError: Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" get_by_text(\"Esta lista ainda n\u00e3o tem obras.\", exact=True) with timeout 30000ms\n  - waiting for get_by_text(\"Esta lista ainda n\u00e3o tem obras.\", exact=True)\n\nAria snapshot:\n- region \"Notifications alt+T\"\n- banner:\n  - link \"Codeboxd \u2014 in\u00edcio\":\n    - /url: /\n    - img\n    - text: codeboxd\n  - navigation \"Navega\u00e7\u00e3o principal\":\n    - link \"In\u00edcio\":\n      - /url: /\n    - link \"Feed\":\n      - /url: /feed\n    - link \"Listas\":\n      - /url: /listas\n    - link \"Perfil\":\n      - /url: /conta\n  - link \"Meu perfil\":\n    - /url: /conta\n  - button \"Sair\"\n- main:\n  - heading \"Listas\" [level=1]\n  - paragraph: Um lugar para cada hist\u00f3ria que voc\u00ea quer guardar.\n  - heading \"Listas p\u00fablicas\" [level=2]\n  - button \"Minhas listas\"\n  - button \"Explorar listas p\u00fablicas\" [disabled]\n  - button \"Lista de outra pessoa P\u00fablica\"\n  - link \"Ver perfil do autor\":\n    - /url: /perfil/8\n  - heading \"Lista de outra pessoa\" [level=2]\n  - paragraph\n  - article:\n    - link \"Fixture movie Filme \u00b7 2020\":\n      - /url: /obra/1\n      - heading \"Fixture movie\" [level=3]\n      - paragraph: Filme \u00b7 2020\n- contentinfo:\n  - paragraph: Codeboxd \u00b7 Suas hist\u00f3rias, sua comunidade.\n  - link \"Biblioteca\":\n    - /url: /biblioteca\n  - link \"Comunidade\":\n    - /url: /comunidade\n- link:\n  - /url: https://reflex.dev\n  - img",
+  "normal_server_modified": false
+}

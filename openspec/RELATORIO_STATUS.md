@@ -1,5 +1,9 @@
 # Estado do Codeboxd — 26/10/2026
 
+## Listas concluídas e arquivadas
+
+[corrigir-duplicacao-listas-padrao](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/tasks.md): 11/11. Coleção pessoal corrigida, descoberta agrupada por autor e nome à direita da foto; identidade padrão anulável/única publicada e ativada, com backfill de 16 listas. 411 testes, build, 18 checks API e 14 critérios reais de navegador comprovados; teste descartável limpo, preservando 19 listas/8 vínculos originais e zero duplicatas. [Evidências e condições](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Quatro requisitos sincronizados e change arquivada em 26/10/2026. Quotas de navegação rápida permanecem na change de performance.
+
 ## Funcionalidades entregues no escopo arquivado
 
 | Área | Entrega e limite |

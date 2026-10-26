@@ -1,0 +1,90 @@
+{
+  "layer": "real_xano_api",
+  "checks": [
+    {
+      "scenario": "signup_succeeds",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "signup_two_default_keys",
+      "passed": true
+    },
+    {
+      "scenario": "remove_only_empty_disposable_default",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "concurrent_defaults_return_same_record",
+      "passed": true
+    },
+    {
+      "scenario": "concurrent_defaults_persist_only_two",
+      "passed": true
+    },
+    {
+      "scenario": "rename_default",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "preparation_preserves_renamed_private_default",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "restore_disposable_default_metadata",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "nullable_identity_allows_custom_homonyms",
+      "passed": true
+    },
+    {
+      "scenario": "invalid_default_kind_rejected",
+      "passed": true,
+      "http_status": 400
+    },
+    {
+      "scenario": "visitor_cannot_create_default",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "second_controlled_account_login",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "second_account_isolation",
+      "passed": true
+    },
+    {
+      "scenario": "cannot_mutate_other_account_list",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "owner_comes_from_authenticated_session",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "private_browser_destination_created",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "preexisting_lists_unchanged",
+      "passed": true
+    },
+    {
+      "scenario": "preexisting_entries_unchanged",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "cleanup_pending": false
+}

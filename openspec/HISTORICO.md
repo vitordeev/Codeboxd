@@ -1,5 +1,9 @@
 # Histórico e decisões preservadas
 
+## Correção e prevenção de listas — 26/10/2026
+
+Diagnóstico confirmou duas listas padrão por perfil; a repetição visual vinha da mistura de listas públicas com a coleção pessoal. Separação entregue, seguida de agrupamento por autor e alinhamento do nome à direita da foto conforme refinamentos do usuário. Continuação autorizada publicou identidade estável/única, atribuiu 16 chaves legadas e validou concorrência e persistência real. Conta descartável criada explicitamente para testar cadastro/concorrência e removida, preservando 19 listas/8 vínculos originais. Implementação 11/11; [conclusão](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10/2026 por solicitação do usuário; demais changes mantêm seu escopo e pendências.
+
 ## Arquivamento das entregas de segurança — 26/10/2026
 
 Após a reconciliação documental e a implementação de segurança desta data, o

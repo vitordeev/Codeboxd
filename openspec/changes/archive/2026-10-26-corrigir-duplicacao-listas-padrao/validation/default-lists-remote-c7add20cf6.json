@@ -1,0 +1,44 @@
+{
+  "layer": "real_xano_api",
+  "checks": [
+    {
+      "scenario": "signup_succeeds",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "signup_two_default_keys",
+      "passed": true
+    },
+    {
+      "scenario": "remove_only_empty_disposable_default",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "concurrent_defaults_return_same_record",
+      "passed": true
+    },
+    {
+      "scenario": "concurrent_defaults_persist_only_two",
+      "passed": true
+    },
+    {
+      "scenario": "rename_default",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "preparation_preserves_renamed_private_default",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "restore_disposable_default_metadata",
+      "passed": true,
+      "http_status": 200
+    }
+  ],
+  "passed": false,
+  "cleanup_pending": false
+}

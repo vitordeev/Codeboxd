@@ -1,5 +1,11 @@
 # Pendências atuais — 26/10/2026
 
+## Listas — concluídas e arquivadas
+
+Change [corrigir-duplicacao-listas-padrao](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/tasks.md): **11/11 tarefas concluídas**. Coleção própria separada, descoberta agrupada por autor com nome à direita do avatar, preparação idempotente publicada no Xano e 16 identidades legadas atribuídas. 411 testes, compilação/build, 18 checks API e 14 critérios de navegador com duas contas reais comprovados. Conta e registros descartáveis removidos; 19 listas e 8 vínculos originais preservados, zero duplicatas/conflitos. [Conclusão e evidências](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md).
+
+Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10/2026 por solicitação do usuário. Limite de chamadas em navegação rápida continua no escopo de performance; validação funcional final foi espaçada conforme a evidência. As três changes funcionais abaixo mantêm suas pendências e contagens.
+
 ## Changes funcionais abertas
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |

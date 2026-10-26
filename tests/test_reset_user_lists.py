@@ -118,6 +118,10 @@ class ResetTests(unittest.TestCase):
 
 
 class FutureCustomListsTests(unittest.IsolatedAsyncioTestCase):
+    def setUp(self):
+        legacy = patch.dict('os.environ', {'DEFAULT_LIST_IDENTITY_ENABLED':'false'})
+        legacy.start(); self.addCleanup(legacy.stop)
+
     async def test_navigation_preserves_custom_lists_with_legacy_titles(self):
         state=rx.State(_reflex_internal_init=True).get_substate(SocialState.get_full_name().split('.'))
         lists=[{'id':i+1,'title':title} for i,(title,_) in enumerate(DEFAULTS)]

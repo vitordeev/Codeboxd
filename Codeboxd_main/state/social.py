@@ -12,12 +12,20 @@ from pathlib import Path
 from urllib.parse import urlencode, urlsplit
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
+from typing import TypedDict
 import reflex as rx
 from reflex.constants import Endpoint
 from .session import SessionState
 from ..services import catalog
 from ..services.api import APIError, base_url, request, rows
 from ..services.uploads import upload_file
+
+
+class PublicListGroup(TypedDict):
+    user_id: str
+    display_name: str
+    avatar_url: str
+    lists: list[dict[str, str]]
 
 DEFAULT_MEDIA_LISTS = (
     ('Quero ver / ler', 'Obras para descobrir depois.'),
@@ -153,6 +161,8 @@ class SocialState(SessionState):
     edit_comment_id: str = ''
     edit_comment_body: str = ''
     lists: list[dict[str,str]] = []
+    list_scope: str = 'own'
+    public_list_authors: dict[str,dict[str,str]] = {}
     quick_lists: list[dict[str,str]] = []
     list_items: list[dict[str,str]] = []
     selected_list: dict[str,str] = {'id':'','title':'','description':'','user_id':'','is_public':'True'}
@@ -409,6 +419,19 @@ class SocialState(SessionState):
     def visible_lists(self) -> list[dict[str,str]]:
         return self.lists[:self.visible_count]
 
+    @rx.var
+    def public_list_groups(self) -> list[PublicListGroup]:
+        if self.user_id and self.list_scope=='own': return []
+        groups: dict[str,PublicListGroup] = {}
+        for item in self.visible_lists:
+            uid=item.get('user_id','')
+            if uid not in groups:
+                author=self.public_list_authors.get(uid,{})
+                groups[uid]=dict(user_id=uid,display_name=author.get('display_name') or 'Usuário',
+                    avatar_url=author.get('avatar_url',''),lists=[])
+            groups[uid]['lists'].append(item)
+        return list(groups.values())
+
     @rx.event
     def show_more(self):
         self.visible_count+=20
@@ -459,6 +482,8 @@ class SocialState(SessionState):
         self.report_reason='spam'; self.report_description=''; self.report_sending=False
         self.report_error=''; self._report_retry_at=0.0
         self.library=[]; self.posts=[]; self.comments=[]; self.lists=[]; self.quick_lists=[]; self.list_items=[]
+        self.list_scope='own'
+        self.public_list_authors={}
         self.following_ids=[]; self.liked_posts=[]; self.selected_post=''
         self.edit_post_id=''; self.edit_post_body=''; self.edit_post_media='0'; self.edit_post_spoiler=False
         self.post_editor_token=''
@@ -963,6 +988,8 @@ class SocialState(SessionState):
 
     async def _ensure_default_lists(self):
         """Repair and create default lists when an account accesses its lists."""
+        if os.getenv('DEFAULT_LIST_IDENTITY_ENABLED','false').lower()=='true':
+            return await self._ensure_identified_default_lists()
         stamp=self._route_stamp()
         def check():
             if stamp!=self._route_stamp(): raise APIError('A página mudou. Atualize suas listas.',409)
@@ -994,6 +1021,30 @@ class SocialState(SessionState):
                 by_title[title.casefold()]=result
         self.quick_lists=[dict(id=str(by_title[title.casefold()]['id']),title=title)
                           for title,_ in DEFAULT_MEDIA_LISTS]
+
+    async def _ensure_identified_default_lists(self):
+        """Use server-owned default identity after the backend migration."""
+        stamp=self._route_stamp(); owner=self.user_id
+        def check():
+            if stamp!=self._route_stamp() or owner!=self.user_id:
+                raise APIError('A conta mudou. Atualize suas listas.',409)
+        existing=rows(await self._call('GET','/lists'))
+        check()
+        prepared=[]
+        for kind,(title,description) in zip(('planned','completed'),DEFAULT_MEDIA_LISTS):
+            key=f'{owner}:{kind}'
+            matches=[item for item in existing if item.get('default_key')==key
+                     and str(item.get('user_id'))==str(owner)]
+            if len(matches)>1: raise APIError('Suas listas padrão precisam de revisão.',409)
+            check()
+            result=matches[0] if matches else await self._call('POST','/lists',dict(
+                title=title,description=description,is_public=True,default_kind=kind))
+            check()
+            if (not isinstance(result,dict) or not result.get('id')
+                    or result.get('default_key')!=key or str(result.get('user_id'))!=str(owner)):
+                raise APIError('Não foi possível preparar suas listas padrão.')
+            prepared.append(dict(id=str(result['id']),title=title))
+        self.quick_lists=prepared
 
     async def _prepare_default_lists(self, authenticated: bool):
         stamp=self._route_stamp()
@@ -1653,6 +1704,7 @@ class SocialState(SessionState):
         stamp=self._route_stamp()
         self.notice=''
         if refresh_media:
+            self.list_scope='own'
             self.lists=[]; self.list_items=[]
             self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'True'}
         await self._validate_navigation_session()
@@ -1660,16 +1712,45 @@ class SocialState(SessionState):
         try:
             if refresh_media: await self._load_media()
             if stamp!=self._route_stamp(): return
-            if self.user_id: await self._ensure_default_lists()
+            scope=self.list_scope if self.user_id else 'public'
+            owner=self.user_id
+            if self.user_id and scope=='own': await self._ensure_default_lists()
             if stamp!=self._route_stamp(): return
-            public=rows(await self._call('GET','/lists/public'))
-            if stamp!=self._route_stamp(): return
-            own=rows(await self._call('GET','/lists')) if self.user_id else []
-            if stamp!=self._route_stamp(): return
-            combined={str(i['id']):i for i in public+own}
+            result=rows(await self._call('GET','/lists' if scope=='own' else '/lists/public'))
+            if (stamp!=self._route_stamp() or owner!=self.user_id
+                    or scope!=(self.list_scope if self.user_id else 'public')): return
+            eligible=[i for i in result if str(i.get('user_id'))==str(owner)] if scope=='own' else [
+                i for i in result if i.get('is_public') is True]
+            authors={}
+            if scope=='public':
+                try:
+                    profiles=rows(await self._call('GET','/profiles'))
+                    authors={str(p['user_id']):dict(
+                        display_name=str(p.get('display_name') or p.get('username') or 'Usuário'),
+                        avatar_url=catalog.safe_url(p.get('avatar_url'))) for p in profiles}
+                except APIError:
+                    # Public lists remain usable when profile references fail.
+                    pass
+            if (stamp!=self._route_stamp() or owner!=self.user_id
+                    or scope!=(self.list_scope if self.user_id else 'public')): return
+            self.public_list_authors=authors
+            combined={str(i['id']):i for i in eligible}
             self.lists=[{k:str(v if v is not None else '') for k,v in i.items()} for i in combined.values()]
         except APIError as exc:
             if stamp==self._route_stamp(): self._failure(exc)
+
+    @rx.event
+    async def change_list_scope(self, scope: str):
+        if scope not in ('own','public') or self.list_saving: return
+        self.list_scope=scope
+        self._visit_generation+=1
+        self.visible_count=20
+        self.lists=[]; self.list_items=[]
+        self.public_list_authors={}
+        self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'True'}
+        self.list_editor_open=False
+        self._reset_list_search()
+        await self.load_lists(refresh_media=False)
 
     @rx.event
     def new_list(self):
@@ -1685,7 +1766,7 @@ class SocialState(SessionState):
         if not item: return
         self.selected_list=item
         try:
-            path=f'/lists/{int(lid)}/items' if self.user_id else f'/lists/public/{int(lid)}/items'
+            path=f'/lists/{int(lid)}/items' if self.owns_list else f'/lists/public/{int(lid)}/items'
             items=rows(await self._call('GET',path))
             if stamp!=self._route_stamp() or self.selected_list.get('id')!=lid: return
             self.list_items=[present_media(self._media.get(str(i['media_id']),{'id':i['media_id']})) for i in items]

@@ -62,12 +62,12 @@ query "auth/signup" verb=POST {
           }
         } as $profile
 
-        db.add user_list {
-          data = {user_id: $user.id, title: "Quero ver / ler", description: "Obras para descobrir depois.", is_public: true, updated_at: now}
+        function.run "Lists/ensure_default_list" {
+          input = {user_id: $user.id, default_kind: "planned"}
         } as $watchlist
 
-        db.add user_list {
-          data = {user_id: $user.id, title: "Já assisti / li", description: "Obras que você já terminou.", is_public: true, updated_at: now}
+        function.run "Lists/ensure_default_list" {
+          input = {user_id: $user.id, default_kind: "completed"}
         } as $completed_list
 
       }

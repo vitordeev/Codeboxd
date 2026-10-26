@@ -418,3 +418,9 @@ button:disabled { cursor: wait; }
 }
 .password-visibility-toggle:hover { color: #f5b300; }
 .password-visibility-toggle:focus-visible { outline: 2px solid #f5b300; outline-offset: -2px; }
+.public-list-groups { display: flex; flex-direction: column; gap: 24px; }
+.public-list-group { min-width: 0; }
+.public-list-owner { display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: center; gap: 12px; margin-bottom: 12px; width: 100%; }
+.public-list-owner-name { grid-column: 2; grid-row: 1; overflow-wrap: anywhere; min-width: 0; text-align: left; }
+.public-list-owner .avatar { grid-column: 1; grid-row: 1; width: 44px; height: 44px; }
+.public-list-owner:hover { color: var(--yellow); }

@@ -1,5 +1,7 @@
 # OpenSpec do Codeboxd
 
+Listas: [corrigir-duplicacao-listas-padrao](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/tasks.md) foi sincronizada e arquivada em 26/10/2026 com **11/11 tarefas**. Coleção própria separada, públicas agrupadas por autor e identidade estável publicada/ativada. Validação local, API e duas contas reais no navegador, limpeza e limites estão na [conclusão](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). As três changes funcionais abaixo mantêm suas pendências; o arquivo histórico agora reúne 18 entregas/diretórios, preservando as contagens anteriores por rodada.
+
 Estado documental reconciliado em **26/10/2026**, para a AP2.
 
 Continuação de segurança nesta data: [proteger-credenciais-expostas](changes/archive/2026-10-26-proteger-credenciais-expostas/status.md)

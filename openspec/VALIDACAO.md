@@ -1,5 +1,9 @@
 # Validação documental — 26/10/2026
 
+## Conclusão das listas
+
+Change corrigir-duplicacao-listas-padrao implementada com 11/11 critérios; suíte de 411 testes, compilação/build e recarga normal, publicação/backfill real, 18 checks API e 14 critérios de navegador com duas contas autenticadas comprovados. Limpeza descartável concluída e inventário final confirma 19 listas/8 vínculos originais, zero duplicatas/conflitos. [Mapa de evidências e condições de execução](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Validação estrita da change e diff check aprovados; quatro requisitos sincronizados em duas specs e change arquivada em 26/10/2026, com conferência integral dos blocos e caminhos. As falhas transitórias e 429 anteriores foram preservados nas evidências, sem fechar metas amplas de performance.
+
 ## Arquivamento das entregas de segurança
 
 Por solicitação do usuário, proteger-credenciais-expostas (9/9) e
