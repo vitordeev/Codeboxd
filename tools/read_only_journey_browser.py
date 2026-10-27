@@ -77,6 +77,8 @@ def proxy_handler(measurement, bases, client):
             self.send_response(status)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Content-Length', str(len(body)))
+            if self.close_connection:
+                self.send_header('Connection', 'close')
             if wait:
                 self.send_header('Retry-After', str(wait))
             self.end_headers()
@@ -89,6 +91,16 @@ def proxy_handler(measurement, bases, client):
             if not allowed_read(self.command, self.path):
                 measurement.stop_reason = 'blocked-non-read-request'
                 self.close_connection = True
+                # Closing with unread POST bytes can reset TCP on Windows before
+                # the caller receives the denial. Drain only a bounded body;
+                # nothing from a denied request is sent upstream or recorded.
+                try:
+                    length = int(self.headers.get('Content-Length', '0'))
+                    if 0 < length <= 8192:
+                        self.connection.settimeout(1)
+                        self.rfile.read(length)
+                except (ValueError, OSError):
+                    pass
                 self.reply(403, b'{}')
                 return
             if not measurement.reserve(self.command):

@@ -1,0 +1,8 @@
+{
+  "layer": "metadata_read_only_query_diagnostic",
+  "published": false,
+  "start_status": 200,
+  "status": "exception",
+  "result_keys": [],
+  "counts": {}
+}

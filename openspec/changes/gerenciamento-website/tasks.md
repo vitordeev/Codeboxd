@@ -104,6 +104,16 @@ Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte co
 
 ## Retomada e encerramento
 
+27/10/2026 — retomada autorizada após AP2: inventário das três changes e
+ampliação das verificações de busca/filtros administrativos reais (3.1/9.1).
+31 testes administrativos locais aprovados, incluindo dois novos; sem execução
+remota no primeiro incremento. Login admin posterior permitiu seis requisições
+reais: 11 checks passaram e a busca pelo próprio username retornou vazio,
+interrompendo o cenário. Contrato local/remoto alinhado no dry-run; diagnóstico
+isolado inconclusivo. Após reparo do proxy na change de performance, suíte
+completa com 413 testes aprovados. 21/34 mantido.
+[Evidências e limites](validation/retomada-2026-10-27.md).
+
 19/10/2026 — denúncia de obra corrigida localmente: modal com erro visível,
 rascunho preservado, cooldown/Retry-After e POST sem repetição automática; obra
 externa obtém ID antes do envio. 143 testes e compilação passaram; criação real

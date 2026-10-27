@@ -52,7 +52,7 @@ class Probe:
         self.output.write_text(json.dumps(self.report, indent=2)+'\n', encoding='utf-8')
 
     def request(self, method, base, path, **kwargs):
-        if self.calls >= 40:
+        if self.calls >= 60:
             raise RuntimeError('request_budget')
         if self.calls:
             time.sleep(self.pause)
@@ -113,6 +113,33 @@ class Probe:
                                 {x['id'] for x in following['items']}))
         return data
 
+    def user_filters(self, own):
+        """Exercise real search/filter contracts without exporting account values."""
+        row = own['items'][0]
+        for field in ('username', 'name'):
+            value = row.get(field)
+            self.check('users_'+field+'_available', isinstance(value, str) and bool(value.strip()))
+            value = value.strip()
+            data = self.paged('users_search_'+field, '/admin/users', {'search': value})
+            self.check('users_search_'+field+'_matches', data['total'] > 0 and all(
+                value.casefold() in str(item.get('username', '')).casefold()
+                or value.casefold() in str(item.get('name', '')).casefold()
+                for item in data['items']))
+        for status in ('active', 'disabled'):
+            data = self.paged('users_status_'+status, '/admin/users', {'account_status': status})
+            self.check('users_status_'+status+'_matches', all(
+                item.get('account_status') == status for item in data['items']))
+        combined = self.paged('users_combined', '/admin/users', {
+            'user_id': 14, 'role': 'admin', 'account_status': 'active'})
+        self.check('users_combined_matches', combined['total'] == 1
+                   and combined['items'][0].get('id') == 14
+                   and combined['items'][0].get('role') == 'admin'
+                   and combined['items'][0].get('account_status') == 'active')
+        for field in ('role', 'account_status'):
+            response = self.request('GET', self.social, '/admin/users',
+                params={field: 'invalid'}, headers={'Authorization': 'Bearer '+self.token})
+            self.check('users_invalid_'+field, response.status_code == 400, response.status_code)
+
     def run(self):
         if not self.token:
             raise RuntimeError('admin_session_required')
@@ -124,6 +151,7 @@ class Probe:
         self.check('users_fields', all(set(row) <= USER_FIELDS for row in users['items']))
         own = self.paged('users_exact_id', '/admin/users', {'user_id': 14})
         self.check('users_exact_match', own['total'] == 1 and own['items'][0]['id'] == 14)
+        self.user_filters(own)
         for role in ('member', 'admin'):
             data = self.paged('users_role_'+role, '/admin/users', {'role': role})
             self.check('users_role_'+role+'_matches', all(x['role'] == role for x in data['items']))

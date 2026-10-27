@@ -1,0 +1,17 @@
+{
+  "layer": "metadata_read_only_query_diagnostic",
+  "published": false,
+  "start_status": 200,
+  "status": "ok",
+  "result_keys": [
+    "original_count",
+    "normalized_count",
+    "normalized_id"
+  ],
+  "counts": {
+    "original_count": 0,
+    "normalized_count": 0,
+    "normalized_id": 0
+  },
+  "passed": true
+}

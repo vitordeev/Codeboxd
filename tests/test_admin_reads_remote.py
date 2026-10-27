@@ -95,13 +95,15 @@ class AdminReadProbeTests(unittest.TestCase):
         def handler(request):
             calls.append((request.method, request.url.path))
             params = request.url.params
+            if params.get('role') == 'invalid' or params.get('account_status') == 'invalid':
+                return httpx.Response(400, json={'message': 'Invalid filter'})
             if request.url.path.endswith('/dashboard'):
                 return httpx.Response(200, json=dict(users_total=1, posts_total=0,
                                                      media_total=0, reports_pending=0))
             items = []
-            if request.url.path.endswith('/users') and not params.get('search'):
-                if params.get('role', 'admin') == 'admin':
-                    items = [dict(id=14, name='PRIVATE DISPLAY NAME', role='admin',
+            if request.url.path.endswith('/users') and not params.get('search', '').startswith('cbnomatch_'):
+                if params.get('role', 'admin') == 'admin' and params.get('account_status', 'active') == 'active':
+                    items = [dict(id=14, name='PRIVATE DISPLAY NAME', username='private_username', role='admin',
                                   account_status='active')]
             return httpx.Response(200, json=dict(items=items, total=len(items), page=1,
                                                   per_page=1, next_page=None))
@@ -115,7 +117,40 @@ class AdminReadProbeTests(unittest.TestCase):
             self.assertTrue(all(x['passed'] for x in result['checks']))
             self.assertTrue(all(method == 'GET' for method, _ in calls))
             self.assertNotIn('PRIVATE DISPLAY NAME', output.read_text())
+            self.assertNotIn('private_username', output.read_text())
             self.assertEqual(len(result['requests']), len(calls))
             self.assertTrue(all(row['duration_ms'] >= 0 for row in result['requests']))
             self.assertTrue(all(set(row) == {'method', 'endpoint', 'status', 'duration_ms'}
                                 for row in result['requests']))
+
+    def test_user_search_rejects_unrelated_results_without_exporting_search(self):
+        def handler(request):
+            return httpx.Response(200, json=dict(items=[dict(id=99, name='Unrelated',
+                username='someone_else')], total=1, page=1, per_page=1, next_page=None))
+        with tempfile.TemporaryDirectory() as tmp, httpx.Client(transport=httpx.MockTransport(handler)) as client:
+            output = Path(tmp)/'report.json'
+            probe = Probe(client, 'https://example.test', 'https://example.test', output, pause=0)
+            probe.token = 'private-token'
+            with self.assertRaisesRegex(RuntimeError, 'contract_check_failed'):
+                probe.user_filters({'items': [dict(username='private_search', name='Private Name')]})
+            self.assertNotIn('private_search', output.read_text())
+            self.assertNotIn('someone_else', output.read_text())
+            self.assertFalse(probe.report['checks'][-1]['passed'])
+
+    def test_combined_user_filters_cannot_succeed_with_empty_result(self):
+        def handler(request):
+            params = request.url.params
+            if params.get('user_id'):
+                items = []
+            elif params.get('account_status') == 'disabled':
+                items = [dict(id=15, account_status='disabled')]
+            else:
+                items = [dict(id=14, username='example', name='Example', account_status='active')]
+            return httpx.Response(200, json=dict(items=items, total=len(items), page=1,
+                per_page=1, next_page=None))
+        with tempfile.TemporaryDirectory() as tmp, httpx.Client(transport=httpx.MockTransport(handler)) as client:
+            probe = Probe(client, 'https://example.test', 'https://example.test', Path(tmp)/'r.json', pause=0)
+            probe.token = 'private-token'
+            with self.assertRaisesRegex(RuntimeError, 'contract_check_failed'):
+                probe.user_filters({'items': [dict(username='example', name='Example')]})
+            self.assertEqual(probe.report['checks'][-1]['scenario'], 'users_combined_matches')
