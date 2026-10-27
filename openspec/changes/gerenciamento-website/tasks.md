@@ -111,6 +111,12 @@ Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte co
 
 ## Retomada e encerramento
 
+Próximo incremento em 27/10/2026: dashboard preparado para publicação restrita,
+com backup privado, executor de contagens independentes e testes de paginação.
+Interpretador Xano: 4 cenários/12 verificações sintéticas aprovados; sem aceite
+real ou publicação nesta preparação. 2.2/2.3 abertas, 22/34 mantido.
+[Plano e evidências](validation/dashboard-2026-10-27.md).
+
 Continuação de 27/10/2026 — comparações reais descartaram defaults omitidos;
 defeito reproduzido no interpretador com dados sintéticos. Correção candidata
 limitada ao GET de usuários: modos de busca separados, includes e escape de

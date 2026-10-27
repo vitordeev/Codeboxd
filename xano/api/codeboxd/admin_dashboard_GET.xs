@@ -44,7 +44,7 @@ query "admin/dashboard" verb=GET {
 
     db.query report {
       where = $db.report.status == "pending"
-      sort = {report.created_at: "desc"}
+      sort = {report.created_at: "desc", report.id: "desc"}
       output = ["curPage", "nextPage", "itemsTotal", "perPage", "items.id", "items.created_at", "items.target_type", "items.reason"]
       return = {type: "list", paging: {page: $input.reports_page, per_page: $input.reports_per_page, totals: true, metadata: true}}
     } as $pending_reports
