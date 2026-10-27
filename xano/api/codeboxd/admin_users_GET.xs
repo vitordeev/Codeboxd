@@ -37,12 +37,41 @@ query "admin/users" verb=GET {
       error = "Papel inválido."
     }
 
-    db.query user {
-      where = (($input.user_id > 0 && $db.user.id == $input.user_id) || ($input.user_id == 0 && ($input.search == "" || $db.user.username ~ $input.search || $db.user.name ~ $input.search))) && ($input.account_status == "" || $db.user.account_status == $input.account_status) && ($input.role == "" || $db.user.role == $input.role)
-      sort = {user.id: "asc"}
-      output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.username", "items.name", "items.role", "items.account_status", "items.created_at"]
-      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
-    } as $users
+    var $users { value = null }
+
+    api.lambda {
+      code = "return $input.search.replace(/[\\\\%_]/g, '\\\\$&');"
+    } as $search_literal
+
+    conditional {
+      if ($input.user_id > 0) {
+        db.query user {
+          where = $db.user.id == $input.user_id && ($input.account_status == "" || $db.user.account_status == $input.account_status) && ($input.role == "" || $db.user.role == $input.role)
+          sort = {user.id: "asc"}
+          output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.username", "items.name", "items.role", "items.account_status", "items.created_at"]
+          return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
+        } as $users_by_id
+        var.update $users { value = $users_by_id }
+      }
+      elseif ($input.search != "") {
+        db.query user {
+          where = $db.user.username includes $search_literal && ($input.account_status == "" || $db.user.account_status == $input.account_status) && ($input.role == "" || $db.user.role == $input.role) || $db.user.name includes $search_literal && ($input.account_status == "" || $db.user.account_status == $input.account_status) && ($input.role == "" || $db.user.role == $input.role)
+          sort = {user.id: "asc"}
+          output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.username", "items.name", "items.role", "items.account_status", "items.created_at"]
+          return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
+        } as $users_by_text
+        var.update $users { value = $users_by_text }
+      }
+      else {
+        db.query user {
+          where = $db.user.id > 0 && ($input.account_status == "" || $db.user.account_status == $input.account_status) && ($input.role == "" || $db.user.role == $input.role)
+          sort = {user.id: "asc"}
+          output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.username", "items.name", "items.role", "items.account_status", "items.created_at"]
+          return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
+        } as $users_unfiltered
+        var.update $users { value = $users_unfiltered }
+      }
+    }
   }
 
   response = {

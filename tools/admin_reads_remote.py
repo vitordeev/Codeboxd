@@ -125,6 +125,12 @@ class Probe:
                 value.casefold() in str(item.get('username', '')).casefold()
                 or value.casefold() in str(item.get('name', '')).casefold()
                 for item in data['items']))
+            upper = self.paged('users_search_'+field+'_uppercase', '/admin/users', {'search': value.upper()})
+            self.check('users_search_'+field+'_uppercase_matches', upper['total'] == data['total']
+                       and upper['total'] > 0 and all(
+                value.casefold() in str(item.get('username', '')).casefold()
+                or value.casefold() in str(item.get('name', '')).casefold()
+                for item in upper['items']))
         for status in ('active', 'disabled'):
             data = self.paged('users_status_'+status, '/admin/users', {'account_status': status})
             self.check('users_status_'+status+'_matches', all(
@@ -166,6 +172,47 @@ class Probe:
             data = self.paged('reports_'+field, '/admin/reports', {field: value})
             self.check('reports_'+field+'_matches', all(x[field] == value for x in data['items']))
         self.report['passed'] = True
+        self.save()
+
+
+class UserSearchProbe(Probe):
+    """Diagnose omitted/default parameters with real reads and aggregate output."""
+
+    def run(self):
+        if not self.token:
+            raise RuntimeError('admin_session_required')
+        self.report['layer'] = 'real_admin_user_search_diagnostic'
+        own = self.get('known_id', '/admin/users', {'user_id': 14, 'page': 1, 'per_page': 1})
+        self.check('known_id_exists', page_contract(own) and no_secrets(own)
+                   and own['total'] == 1 and own['items'][0].get('id') == 14)
+        row = own['items'][0]
+        self.check('known_search_fields', all(isinstance(row.get(key), str) and row[key].strip()
+                   for key in ('username', 'name')))
+        defaults = {'user_id': 0, 'search': '', 'role': '', 'account_status': ''}
+        cases = [
+            ('omitted', {}, ''),
+            ('zero_id', {'user_id': 0}, ''),
+            ('empty_text_filters', {'search': '', 'role': '', 'account_status': ''}, ''),
+            ('all_defaults', defaults, ''),
+            ('username_omitted', {'search': row['username']}, row['username']),
+            ('username_zero_id', {'user_id': 0, 'search': row['username']}, row['username']),
+            ('username_all_defaults', dict(defaults, search=row['username']), row['username']),
+            ('name_all_defaults', dict(defaults, search=row['name']), row['name']),
+        ]
+        self.report['comparisons'] = []
+        for name, filters, term in cases:
+            data = self.get(name, '/admin/users', dict(filters, page=1, per_page=1))
+            self.check(name+'_contract', page_contract(data) and no_secrets(data))
+            self.report['comparisons'].append(dict(scenario=name, total=data['total'],
+                items_count=len(data['items']), matching_count=sum(
+                    term.casefold() in str(item.get('username', '')).casefold()
+                    or term.casefold() in str(item.get('name', '')).casefold()
+                    for item in data['items'])))
+            self.save()
+        # Success means the diagnostic completed; not acceptance of broken searches.
+        self.report['passed'] = True
+        self.report['search_acceptance_passed'] = all(item['total'] > 0 and item['matching_count'] > 0
+            for item in self.report['comparisons'])
         self.save()
 
 
@@ -282,7 +329,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--pause', type=float, default=3.0)
+    parser.add_argument('--diagnose-user-search', action='store_true')
     args = parser.parse_args()
     if not 1.2 <= args.pause <= 10:
         parser.error('Use an interval between 1.2 and 10 seconds')
-    raise SystemExit(asyncio.run(main(args.output, args.pause)))
+    raise SystemExit(asyncio.run(main(args.output, args.pause,
+        probe_type=UserSearchProbe if args.diagnose_user_search else Probe)))

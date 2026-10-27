@@ -1,0 +1,47 @@
+{
+  "layer": "isolated_xano_synthetic_search",
+  "published": false,
+  "real_data_validated": false,
+  "cases": [
+    {
+      "scenario": "empty",
+      "status": "ok",
+      "counts": {
+        "all_count": 3,
+        "original_count": 0,
+        "text_count": 3,
+        "exact_count": 1
+      }
+    },
+    {
+      "scenario": "username",
+      "status": "ok",
+      "counts": {
+        "all_count": 3,
+        "original_count": 0,
+        "text_count": 1,
+        "exact_count": 1
+      }
+    },
+    {
+      "scenario": "partial",
+      "status": "ok",
+      "counts": {
+        "all_count": 3,
+        "original_count": 0,
+        "text_count": 2,
+        "exact_count": 1
+      }
+    },
+    {
+      "scenario": "no_match",
+      "status": "ok",
+      "counts": {
+        "all_count": 3,
+        "original_count": 0,
+        "text_count": 0,
+        "exact_count": 1
+      }
+    }
+  ]
+}

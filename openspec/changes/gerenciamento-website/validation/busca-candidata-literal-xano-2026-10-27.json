@@ -1,0 +1,123 @@
+{
+  "layer": "isolated_xano_synthetic_search",
+  "published": false,
+  "real_data_validated": false,
+  "cases": [
+    {
+      "scenario": "batch",
+      "status": "ok",
+      "counts": {}
+    }
+  ],
+  "checks": [
+    {
+      "scenario": "empty",
+      "passed": true,
+      "total": 3,
+      "items_count": 3
+    },
+    {
+      "scenario": "username",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "name_case",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "partial",
+      "passed": true,
+      "total": 2,
+      "items_count": 2
+    },
+    {
+      "scenario": "no_match",
+      "passed": true,
+      "total": 0,
+      "items_count": 0
+    },
+    {
+      "scenario": "literal_regex",
+      "passed": true,
+      "total": 0,
+      "items_count": 0
+    },
+    {
+      "scenario": "literal_underscore",
+      "passed": true,
+      "total": 2,
+      "items_count": 2
+    },
+    {
+      "scenario": "literal_percent",
+      "passed": true,
+      "total": 0,
+      "items_count": 0
+    },
+    {
+      "scenario": "literal_backslash",
+      "passed": true,
+      "total": 0,
+      "items_count": 0
+    },
+    {
+      "scenario": "exact_id",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "id_precedence",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "disabled",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "member",
+      "passed": true,
+      "total": 2,
+      "items_count": 2
+    },
+    {
+      "scenario": "combined",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "id_mismatched_filter",
+      "passed": true,
+      "total": 0,
+      "items_count": 0
+    },
+    {
+      "scenario": "page_one",
+      "passed": true,
+      "total": 3,
+      "items_count": 1
+    },
+    {
+      "scenario": "page_two",
+      "passed": true,
+      "total": 3,
+      "items_count": 1
+    },
+    {
+      "scenario": "page_three",
+      "passed": true,
+      "total": 3,
+      "items_count": 1
+    }
+  ],
+  "passed": true
+}

@@ -104,6 +104,13 @@ Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte co
 
 ## Retomada e encerramento
 
+Continuação de 27/10/2026 — comparações reais descartaram defaults omitidos;
+defeito reproduzido no interpretador com dados sintéticos. Correção candidata
+limitada ao GET de usuários: modos de busca separados, includes e escape de
+curingas, filtros/paginação preservados. 415 testes locais e 33 admin aprovados
+nos momentos descritos; publicação e aceite real permanecem pendentes. 21/34.
+[Plano, testes e backup](validation/busca-parametros-2026-10-27.md).
+
 27/10/2026 — retomada autorizada após AP2: inventário das três changes e
 ampliação das verificações de busca/filtros administrativos reais (3.1/9.1).
 31 testes administrativos locais aprovados, incluindo dois novos; sem execução

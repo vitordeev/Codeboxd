@@ -1,0 +1,163 @@
+{
+  "layer": "isolated_xano_synthetic_search",
+  "published": false,
+  "real_data_validated": false,
+  "cases": [
+    {
+      "scenario": "empty",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "username",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "name_case",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "partial",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "no_match",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "exact_id",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "id_precedence",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "disabled",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "member",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "combined",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "id_mismatched_filter",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "page_one",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "page_two",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "page_three",
+      "status": "ok",
+      "counts": {}
+    }
+  ],
+  "checks": [
+    {
+      "scenario": "empty",
+      "passed": true,
+      "total": 3,
+      "items_count": 3
+    },
+    {
+      "scenario": "username",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "name_case",
+      "passed": false,
+      "total": 0,
+      "items_count": 0
+    },
+    {
+      "scenario": "partial",
+      "passed": true,
+      "total": 2,
+      "items_count": 2
+    },
+    {
+      "scenario": "no_match",
+      "passed": true,
+      "total": 0,
+      "items_count": 0
+    },
+    {
+      "scenario": "exact_id",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "id_precedence",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "disabled",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "member",
+      "passed": true,
+      "total": 2,
+      "items_count": 2
+    },
+    {
+      "scenario": "combined",
+      "passed": true,
+      "total": 1,
+      "items_count": 1
+    },
+    {
+      "scenario": "id_mismatched_filter",
+      "passed": true,
+      "total": 0,
+      "items_count": 0
+    },
+    {
+      "scenario": "page_one",
+      "passed": true,
+      "total": 3,
+      "items_count": 1
+    },
+    {
+      "scenario": "page_two",
+      "passed": true,
+      "total": 3,
+      "items_count": 1
+    },
+    {
+      "scenario": "page_three",
+      "passed": true,
+      "total": 3,
+      "items_count": 1
+    }
+  ]
+}
