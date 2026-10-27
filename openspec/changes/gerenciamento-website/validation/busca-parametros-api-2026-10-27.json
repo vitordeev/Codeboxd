@@ -1,0 +1,212 @@
+{
+  "layer": "real_admin_user_search_diagnostic",
+  "passed": true,
+  "started_at": "2026-10-27T12:48:22.145758+00:00",
+  "checks": [
+    {
+      "scenario": "known_id_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "known_id_exists",
+      "passed": true
+    },
+    {
+      "scenario": "known_search_fields",
+      "passed": true
+    },
+    {
+      "scenario": "omitted_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "omitted_contract",
+      "passed": true
+    },
+    {
+      "scenario": "zero_id_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "zero_id_contract",
+      "passed": true
+    },
+    {
+      "scenario": "empty_text_filters_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "empty_text_filters_contract",
+      "passed": true
+    },
+    {
+      "scenario": "all_defaults_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "all_defaults_contract",
+      "passed": true
+    },
+    {
+      "scenario": "username_omitted_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "username_omitted_contract",
+      "passed": true
+    },
+    {
+      "scenario": "username_zero_id_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "username_zero_id_contract",
+      "passed": true
+    },
+    {
+      "scenario": "username_all_defaults_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "username_all_defaults_contract",
+      "passed": true
+    },
+    {
+      "scenario": "name_all_defaults_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "name_all_defaults_contract",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 751.247
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 258.925
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 274.916
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 206.015
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 229.672
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 219.39
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 401.235
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 203.801
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 223.13
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 1006.522
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 212.968
+    }
+  ],
+  "comparisons": [
+    {
+      "scenario": "omitted",
+      "total": 0,
+      "items_count": 0,
+      "matching_count": 0
+    },
+    {
+      "scenario": "zero_id",
+      "total": 0,
+      "items_count": 0,
+      "matching_count": 0
+    },
+    {
+      "scenario": "empty_text_filters",
+      "total": 0,
+      "items_count": 0,
+      "matching_count": 0
+    },
+    {
+      "scenario": "all_defaults",
+      "total": 0,
+      "items_count": 0,
+      "matching_count": 0
+    },
+    {
+      "scenario": "username_omitted",
+      "total": 0,
+      "items_count": 0,
+      "matching_count": 0
+    },
+    {
+      "scenario": "username_zero_id",
+      "total": 0,
+      "items_count": 0,
+      "matching_count": 0
+    },
+    {
+      "scenario": "username_all_defaults",
+      "total": 0,
+      "items_count": 0,
+      "matching_count": 0
+    },
+    {
+      "scenario": "name_all_defaults",
+      "total": 0,
+      "items_count": 0,
+      "matching_count": 0
+    }
+  ],
+  "search_acceptance_passed": false,
+  "request_count": 11
+}

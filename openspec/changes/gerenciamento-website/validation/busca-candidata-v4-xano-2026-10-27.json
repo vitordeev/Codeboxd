@@ -1,0 +1,13 @@
+{
+  "layer": "isolated_xano_synthetic_search",
+  "published": false,
+  "real_data_validated": false,
+  "cases": [
+    {
+      "scenario": "candidate",
+      "status": "exception",
+      "counts": {}
+    }
+  ],
+  "error": "Param: search - Invalid filter: "
+}

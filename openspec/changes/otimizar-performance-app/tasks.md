@@ -2,6 +2,11 @@
 
 # Tasks
 
+27/10/2026 — retomada após AP2: correção localizada do proxy de medição para
+responder a escritas bloqueadas sem deixar corpo pequeno pendente no socket.
+Vínculo 1.2/9.1/9.2; sem fechamento de tarefas amplas.
+[Plano e validação](validation/proxy-rejeicao-2026-10-27.md).
+
 24/10/2026 — Usuário confirmou maior fluidez do catálogo. Continuação: pool
 separado para o transporte Xano, com token por chamada, cookies bloqueados e
 mesmos timeouts/retries. **374 testes** e compile isolado aprovados. Comparação

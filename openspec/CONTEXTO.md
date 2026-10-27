@@ -1,4 +1,10 @@
-# Contexto técnico e funcional — 26/10/2026
+# Contexto técnico e funcional — 27/10/2026
+
+Busca administrativa em 27/10: GET /admin/users usa modos separados de ID,
+texto e listagem sem termo, includes com escape de curingas e filtros/paginação
+preservados. Publicado após autorização, com backup e dry-run posterior sem
+delta. 79 checks reais aprovados; tarefa 3.1 concluída, administração **22/34**.
+[Evidências e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
 Listas: coleção pessoal separada de descoberta pública agrupada por autor; nome permanece à direita do avatar. Backend usa `user_list.default_key` anulável e único para proprietário/tipo padrão, preservando personalizadas homônimas. Cadastro e preparação compartilham função que reaproveita a lista sem sobrescrever suas personalizações. Contratos publicados, 16 chaves legadas atribuídas sem perda de 19 listas/8 vínculos e flag privada habilitada. Validação com 411 testes, 18 checks API e 14 critérios de navegador real concluída, incluindo limpeza descartável. [Conclusão da change, 11/11](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Quatro requisitos sincronizados e change arquivada em 26/10/2026; tabelas históricas abaixo preservam seu contexto original.
 
@@ -22,7 +28,7 @@ os relatórios arquivados. O scanner permanente de commits não depende dessas p
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 21/34 | 13 | Autorização completa, mutações, auditoria, filtros/paginação e navegador real |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e navegador real |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 

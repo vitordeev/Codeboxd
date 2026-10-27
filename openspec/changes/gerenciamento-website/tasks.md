@@ -2,6 +2,13 @@
 
 # Tarefas da administração
 
+Atualização em 27/10/2026: **22/34 concluídas, 12 abertas**. Tarefa 3.1 encerrada
+após publicação restrita do GET /admin/users, dry-run sem delta e validação real
+com login admin: 79 checks aprovados em 34 requisições, sem 429. Buscas por
+ID/nome/username, diferenças de caixa, vazio, filtros, paginação e privacidade
+comprovados no escopo documentado. [Evidências](validation/busca-parametros-2026-10-27.md).
+Os registros datados anteriores abaixo preservam suas contagens históricas.
+
 Fechamento solicitado pelo usuário: entregas, evidências, limites, commits e
 retomada de 22/10 consolidados no
 [relatório diário](../../RELATORIO_TRABALHOS_2026-10-22.md). Checklist mantido
@@ -41,7 +48,7 @@ Revisão em 19/10/2026: endpoints e tabela de reports já existem no workspace 1
 
 Implementado localmente: consulta paginada, alteração de status e registro `event_log` em transação. Falta testar respostas reais, bloqueio da conta suspensa e persistência da auditoria.
 
-- [ ] 3.1 Implementar endpoint paginado de busca de usuários por identificador/nome e filtros administrativos; verificar busca sem resultados e ausência de senha, token e dados secretos no payload.
+- [x] 3.1 Implementar endpoint paginado de busca de usuários por identificador/nome e filtros administrativos; verificar busca sem resultados e ausência de senha, token e dados secretos no payload.
 - [ ] 3.2 Implementar suspensão e reativação usando os estados `disabled` e `active`, com ator administrativo obtido da sessão; verificar que uma sessão suspensa não pode continuar usando operações protegidas.
 - [ ] 3.3 Persistir auditoria das mudanças de conta com ator, ação, horário e motivo opcional; verificar que o histórico identifica a conta e a ação sem aceitar o ator do payload como fonte de verdade.
 
@@ -103,6 +110,29 @@ Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte co
 - [x] 9.4 Documentar as migrações, os novos endpoints, a concessão manual do papel admin e o procedimento de rollback; verificar que outra pessoa consegue seguir as instruções em ambiente de desenvolvimento.
 
 ## Retomada e encerramento
+
+Próximo incremento em 27/10/2026: dashboard preparado para publicação restrita,
+com backup privado, executor de contagens independentes e testes de paginação.
+Interpretador Xano: 4 cenários/12 verificações sintéticas aprovados; sem aceite
+real ou publicação nesta preparação. 2.2/2.3 abertas, 22/34 mantido.
+[Plano e evidências](validation/dashboard-2026-10-27.md).
+
+Continuação de 27/10/2026 — comparações reais descartaram defaults omitidos;
+defeito reproduzido no interpretador com dados sintéticos. Correção candidata
+limitada ao GET de usuários: modos de busca separados, includes e escape de
+curingas, filtros/paginação preservados. 415 testes locais e 33 admin aprovados
+nos momentos descritos; publicação e aceite real permanecem pendentes. 21/34.
+[Plano, testes e backup](validation/busca-parametros-2026-10-27.md).
+
+27/10/2026 — retomada autorizada após AP2: inventário das três changes e
+ampliação das verificações de busca/filtros administrativos reais (3.1/9.1).
+31 testes administrativos locais aprovados, incluindo dois novos; sem execução
+remota no primeiro incremento. Login admin posterior permitiu seis requisições
+reais: 11 checks passaram e a busca pelo próprio username retornou vazio,
+interrompendo o cenário. Contrato local/remoto alinhado no dry-run; diagnóstico
+isolado inconclusivo. Após reparo do proxy na change de performance, suíte
+completa com 413 testes aprovados. 21/34 mantido.
+[Evidências e limites](validation/retomada-2026-10-27.md).
 
 19/10/2026 — denúncia de obra corrigida localmente: modal com erro visível,
 rascunho preservado, cooldown/Retry-After e POST sem repetição automática; obra

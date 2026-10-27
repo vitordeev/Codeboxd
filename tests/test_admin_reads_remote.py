@@ -6,10 +6,47 @@ from unittest.mock import Mock
 
 import httpx
 
-from tools.admin_reads_remote import Probe, login_server, no_secrets, page_contract
+from tools.admin_reads_remote import Probe, UserSearchProbe, login_server, no_secrets, page_contract
 
 
 class AdminReadProbeTests(unittest.TestCase):
+    def test_search_diagnostic_distinguishes_omitted_id_without_exporting_terms(self):
+        calls = []
+        def handler(request):
+            calls.append(request)
+            params = request.url.params
+            items = [] if 'user_id' not in params else [dict(id=14, name='PRIVATE NAME',
+                username='PRIVATE_USERNAME', role='admin', account_status='active')]
+            return httpx.Response(200, json=dict(items=items, total=len(items), page=1,
+                per_page=1, next_page=None))
+        with tempfile.TemporaryDirectory() as tmp, httpx.Client(transport=httpx.MockTransport(handler)) as client:
+            output = Path(tmp)/'report.json'
+            probe = UserSearchProbe(client, 'https://example.test', 'https://example.test', output, pause=0)
+            probe.token = 'PRIVATE_TOKEN'
+            probe.run()
+            result = json.loads(output.read_text())
+            self.assertTrue(result['passed'])
+            self.assertFalse(result['search_acceptance_passed'])
+            comparisons = {row['scenario']: row for row in result['comparisons']}
+            self.assertEqual(comparisons['omitted']['total'], 0)
+            self.assertEqual(comparisons['zero_id']['total'], 1)
+            self.assertEqual(comparisons['username_all_defaults']['matching_count'], 1)
+            self.assertEqual(len(calls), 9)
+            self.assertTrue(all(request.method == 'GET' for request in calls))
+            self.assertNotIn('PRIVATE', output.read_text())
+
+    def test_search_diagnostic_aborts_when_known_account_is_missing(self):
+        with tempfile.TemporaryDirectory() as tmp, httpx.Client(transport=httpx.MockTransport(
+            lambda request: httpx.Response(200, json=dict(items=[], total=0, page=1,
+                per_page=1, next_page=None)))) as client:
+            probe = UserSearchProbe(client, 'https://example.test', 'https://example.test',
+                Path(tmp)/'report.json', pause=0)
+            probe.token = 'private-token'
+            with self.assertRaisesRegex(RuntimeError, 'contract_check_failed'):
+                probe.run()
+            self.assertFalse(probe.report['passed'])
+            self.assertEqual(probe.calls, 1)
+
     def test_disconnected_browser_does_not_turn_response_into_login_failure(self):
         server, _, _ = login_server(None)
         try:
@@ -95,13 +132,15 @@ class AdminReadProbeTests(unittest.TestCase):
         def handler(request):
             calls.append((request.method, request.url.path))
             params = request.url.params
+            if params.get('role') == 'invalid' or params.get('account_status') == 'invalid':
+                return httpx.Response(400, json={'message': 'Invalid filter'})
             if request.url.path.endswith('/dashboard'):
                 return httpx.Response(200, json=dict(users_total=1, posts_total=0,
                                                      media_total=0, reports_pending=0))
             items = []
-            if request.url.path.endswith('/users') and not params.get('search'):
-                if params.get('role', 'admin') == 'admin':
-                    items = [dict(id=14, name='PRIVATE DISPLAY NAME', role='admin',
+            if request.url.path.endswith('/users') and not params.get('search', '').startswith('cbnomatch_'):
+                if params.get('role', 'admin') == 'admin' and params.get('account_status', 'active') == 'active':
+                    items = [dict(id=14, name='PRIVATE DISPLAY NAME', username='private_username', role='admin',
                                   account_status='active')]
             return httpx.Response(200, json=dict(items=items, total=len(items), page=1,
                                                   per_page=1, next_page=None))
@@ -115,7 +154,40 @@ class AdminReadProbeTests(unittest.TestCase):
             self.assertTrue(all(x['passed'] for x in result['checks']))
             self.assertTrue(all(method == 'GET' for method, _ in calls))
             self.assertNotIn('PRIVATE DISPLAY NAME', output.read_text())
+            self.assertNotIn('private_username', output.read_text())
             self.assertEqual(len(result['requests']), len(calls))
             self.assertTrue(all(row['duration_ms'] >= 0 for row in result['requests']))
             self.assertTrue(all(set(row) == {'method', 'endpoint', 'status', 'duration_ms'}
                                 for row in result['requests']))
+
+    def test_user_search_rejects_unrelated_results_without_exporting_search(self):
+        def handler(request):
+            return httpx.Response(200, json=dict(items=[dict(id=99, name='Unrelated',
+                username='someone_else')], total=1, page=1, per_page=1, next_page=None))
+        with tempfile.TemporaryDirectory() as tmp, httpx.Client(transport=httpx.MockTransport(handler)) as client:
+            output = Path(tmp)/'report.json'
+            probe = Probe(client, 'https://example.test', 'https://example.test', output, pause=0)
+            probe.token = 'private-token'
+            with self.assertRaisesRegex(RuntimeError, 'contract_check_failed'):
+                probe.user_filters({'items': [dict(username='private_search', name='Private Name')]})
+            self.assertNotIn('private_search', output.read_text())
+            self.assertNotIn('someone_else', output.read_text())
+            self.assertFalse(probe.report['checks'][-1]['passed'])
+
+    def test_combined_user_filters_cannot_succeed_with_empty_result(self):
+        def handler(request):
+            params = request.url.params
+            if params.get('user_id'):
+                items = []
+            elif params.get('account_status') == 'disabled':
+                items = [dict(id=15, account_status='disabled')]
+            else:
+                items = [dict(id=14, username='example', name='Example', account_status='active')]
+            return httpx.Response(200, json=dict(items=items, total=len(items), page=1,
+                per_page=1, next_page=None))
+        with tempfile.TemporaryDirectory() as tmp, httpx.Client(transport=httpx.MockTransport(handler)) as client:
+            probe = Probe(client, 'https://example.test', 'https://example.test', Path(tmp)/'r.json', pause=0)
+            probe.token = 'private-token'
+            with self.assertRaisesRegex(RuntimeError, 'contract_check_failed'):
+                probe.user_filters({'items': [dict(username='example', name='Example')]})
+            self.assertEqual(probe.report['checks'][-1]['scenario'], 'users_combined_matches')

@@ -1,0 +1,99 @@
+{
+  "layer": "real_admin_api_reads",
+  "passed": false,
+  "started_at": "2026-10-27T12:25:06.646177+00:00",
+  "checks": [
+    {
+      "scenario": "dashboard_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "dashboard_totals",
+      "passed": true
+    },
+    {
+      "scenario": "users_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_fields",
+      "passed": true
+    },
+    {
+      "scenario": "users_exact_id_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_exact_id_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_exact_match",
+      "passed": true
+    },
+    {
+      "scenario": "users_username_available",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_username_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_search_username_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_username_matches",
+      "passed": false
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 1440.414
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 296.875
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 200,
+      "duration_ms": 782.737
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 375.46
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 846.433
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 204.0
+    }
+  ],
+  "failure_type": "RuntimeError",
+  "request_count": 6
+}

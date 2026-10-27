@@ -1,0 +1,26 @@
+{
+  "layer": "isolated_xano_synthetic_search",
+  "published": false,
+  "real_data_validated": false,
+  "cases": [
+    {
+      "scenario": "empty",
+      "status": "ok",
+      "counts": {}
+    },
+    {
+      "scenario": "username",
+      "status": "exception",
+      "counts": {}
+    }
+  ],
+  "checks": [
+    {
+      "scenario": "empty",
+      "passed": true,
+      "total": 3,
+      "items_count": 3
+    }
+  ],
+  "error": "Param: search - Invalid filter: "
+}

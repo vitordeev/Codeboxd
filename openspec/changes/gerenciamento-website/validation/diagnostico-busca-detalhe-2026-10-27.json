@@ -1,0 +1,9 @@
+{
+  "layer": "metadata_read_only_query_diagnostic",
+  "published": false,
+  "start_status": 200,
+  "status": "exception",
+  "error": "Param: null - Invalid syntax: missing parameter - dbo",
+  "result_keys": [],
+  "counts": {}
+}

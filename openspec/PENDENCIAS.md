@@ -1,4 +1,7 @@
-# Pendências atuais — 26/10/2026
+# Pendências atuais — 27/10/2026
+
+Busca administrativa publicada e validada: tarefa 3.1 concluída, 79 checks reais
+aprovados; administração agora **22/34**. [Entrega e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
 ## Listas — concluídas e arquivadas
 
@@ -10,7 +13,7 @@ Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 21/34 | 13 | Autorização completa, mutações, auditoria, filtros/paginação e navegador real |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e navegador real |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
@@ -26,7 +29,7 @@ Evidências mais recentes:
 
 ## Critérios administrativos restantes
 
-Os 13 IDs abertos são 2.1–2.3, 3.1–3.3, 4.1–4.2, 5.2–5.4 e 9.1–9.2.
+Os 12 IDs abertos são 2.1–2.3, 3.2–3.3, 4.1–4.2, 5.2–5.4 e 9.1–9.2.
 Telas/contratos já existem; falta completar os critérios reais indicados no checklist.
 5.1 e 5.5 estão concluídas; 6.2/6.3 tiveram validação local com fixtures.
 As leituras admin reais de 23/10 eliminam a antiga afirmação de que nunca houve

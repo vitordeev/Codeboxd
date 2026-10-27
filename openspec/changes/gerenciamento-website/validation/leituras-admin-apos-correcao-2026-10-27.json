@@ -1,0 +1,560 @@
+{
+  "layer": "real_admin_api_reads",
+  "passed": true,
+  "started_at": "2026-10-27T13:45:08.973520+00:00",
+  "checks": [
+    {
+      "scenario": "dashboard_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "dashboard_totals",
+      "passed": true
+    },
+    {
+      "scenario": "users_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_continuation",
+      "passed": true
+    },
+    {
+      "scenario": "users_fields",
+      "passed": true
+    },
+    {
+      "scenario": "users_exact_id_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_exact_id_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_exact_match",
+      "passed": true
+    },
+    {
+      "scenario": "users_username_available",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_username_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_search_username_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_username_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_username_uppercase_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_search_username_uppercase_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_username_uppercase_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_name_available",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_name_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_search_name_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_name_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_search_name_continuation",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_name_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_name_uppercase_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_search_name_uppercase_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_name_uppercase_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_search_name_uppercase_continuation",
+      "passed": true
+    },
+    {
+      "scenario": "users_search_name_uppercase_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_status_active_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_status_active_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_status_active_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_status_active_continuation",
+      "passed": true
+    },
+    {
+      "scenario": "users_status_active_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_status_disabled_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_status_disabled_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_status_disabled_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_combined_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_combined_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_combined_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_invalid_role",
+      "passed": true,
+      "http_status": 400
+    },
+    {
+      "scenario": "users_invalid_account_status",
+      "passed": true,
+      "http_status": 400
+    },
+    {
+      "scenario": "users_role_member_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_role_member_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_role_member_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_role_member_continuation",
+      "passed": true
+    },
+    {
+      "scenario": "users_role_member_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_role_admin_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_role_admin_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_role_admin_matches",
+      "passed": true
+    },
+    {
+      "scenario": "users_empty_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_empty_page",
+      "passed": true
+    },
+    {
+      "scenario": "users_empty_result",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_movie_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "catalog_movie_page",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_movie_matches",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_series_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "catalog_series_page",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_series_matches",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_anime_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "catalog_anime_page",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_anime_matches",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_book_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "catalog_book_page",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_book_matches",
+      "passed": true
+    },
+    {
+      "scenario": "reports_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reports_page",
+      "passed": true
+    },
+    {
+      "scenario": "reports_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reports_continuation",
+      "passed": true
+    },
+    {
+      "scenario": "reports_status_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reports_status_page",
+      "passed": true
+    },
+    {
+      "scenario": "reports_status_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reports_status_continuation",
+      "passed": true
+    },
+    {
+      "scenario": "reports_status_matches",
+      "passed": true
+    },
+    {
+      "scenario": "reports_target_type_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reports_target_type_page",
+      "passed": true
+    },
+    {
+      "scenario": "reports_target_type_matches",
+      "passed": true
+    },
+    {
+      "scenario": "reports_reason_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reports_reason_page",
+      "passed": true
+    },
+    {
+      "scenario": "reports_reason_matches",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 948.444
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 370.096
+    },
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 336.546
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 200,
+      "duration_ms": 1019.709
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 967.124
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 310.302
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 395.334
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 300.767
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 244.294
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 605.487
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 561.969
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 248.775
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 253.986
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 2303.8
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 1110.173
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 2037.19
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 230.564
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 648.625
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 400,
+      "duration_ms": 213.631
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 400,
+      "duration_ms": 204.887
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 250.767
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 557.789
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 305.01
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 853.994
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "duration_ms": 220.662
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "duration_ms": 231.387
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "duration_ms": 224.305
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "duration_ms": 216.877
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "duration_ms": 239.496
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "duration_ms": 263.681
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "duration_ms": 239.722
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "duration_ms": 311.479
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "duration_ms": 774.99
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "duration_ms": 197.329
+    }
+  ],
+  "request_count": 34
+}
