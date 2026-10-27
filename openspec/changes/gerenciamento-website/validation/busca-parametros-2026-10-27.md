@@ -111,3 +111,40 @@ restrito, repetir dry-run sem delta e rodar o probe completo com novo login manu
 Rollback, se necessário: usar apenas o arquivo anterior no diretório privado
 de backup indicado, primeiro com dry-run e revisão; não importar registros.
 Isso restaura o endpoint anterior, incluindo o defeito conhecido, sem apagar dados.
+
+## Continuação autorizada
+
+Usuário respondeu "prossiga com as atualizacoes" ao pedido de publicação limitada
+e validação real. Autorização cobre GET /admin/users no workspace 147717 e
+repetição das consultas com login admin manual. Conferir o remoto contra o
+backup antes de publicar; preservar endpoints, registros e env fora do delta.
+Sem solicitar novamente aprovação funcional para a mesma atualização.
+
+## Publicação e aceite real concluídos
+
+- Git limpo antes da continuação; endpoint remoto conferido por exportação
+  sem registros/env: correspondia exatamente ao backup revisado.
+- Prévia interativa confirmou um único UPDATE, `admin/users GET`. Após
+  confirmação dentro do escopo autorizado, CLI retornou **Pushed 1 documents
+  to workspace 147717 from xano in 2.7s**. Transação padrão preservada;
+  sem `--force`, `--sync`, registros, env ou mudanças de privilégio.
+- Dry-run posterior, com o mesmo include: **No changes to push**.
+- [Resultado real](leituras-admin-apos-correcao-2026-10-27.json): **79/79 checks
+  aprovados**, 34 requisições incluindo login e /auth/me; nenhum 429. Credenciais
+  digitadas somente no formulário local, identidade admin ativa ID 14 confirmada
+  pelo servidor. Senhas, token, termos e corpos de resposta não foram exportados.
+- Busca de usuários comprovou ID exato, nome/username reais, versões em caixa
+  alta com os mesmos totais, ausência de resultado, estados active/disabled,
+  papéis member/admin, combinação de ID/papel/estado, rejeição de filtros
+  inválidos com 400, formato/continuação paginada sem IDs repetidos e projeção
+  sem email/senha/token/segredos. Caracteres literais e três páginas completas
+  seguem também cobertos pelos 18 cenários sintéticos do candidato publicado.
+- Leituras de dashboard, quatro tipos de catálogo e filtros de reports também
+  passaram com os dados disponíveis. Não comprovam contagens independentes,
+  todos os estados possíveis, mutações/auditoria ou interface completa.
+- Tarefa **3.1 concluída**. Administração passa a **22/34**, com 12 abertas.
+  2.1–2.3, 3.2–3.3, 4.1–4.2, 5.2–5.4 e 9.1–9.2 continuam pendentes.
+  Performance e recuperação de senha não tiveram seus critérios alterados.
+- Sem alterações de código Reflex ou processo normal; nenhuma compilação
+  adicional necessária nesta continuação de publicação/validação. Registros
+  de negócio preservados; login pode gerar a auditoria normal de autenticação.

@@ -2,6 +2,13 @@
 
 # Tarefas da administração
 
+Atualização em 27/10/2026: **22/34 concluídas, 12 abertas**. Tarefa 3.1 encerrada
+após publicação restrita do GET /admin/users, dry-run sem delta e validação real
+com login admin: 79 checks aprovados em 34 requisições, sem 429. Buscas por
+ID/nome/username, diferenças de caixa, vazio, filtros, paginação e privacidade
+comprovados no escopo documentado. [Evidências](validation/busca-parametros-2026-10-27.md).
+Os registros datados anteriores abaixo preservam suas contagens históricas.
+
 Fechamento solicitado pelo usuário: entregas, evidências, limites, commits e
 retomada de 22/10 consolidados no
 [relatório diário](../../RELATORIO_TRABALHOS_2026-10-22.md). Checklist mantido
@@ -41,7 +48,7 @@ Revisão em 19/10/2026: endpoints e tabela de reports já existem no workspace 1
 
 Implementado localmente: consulta paginada, alteração de status e registro `event_log` em transação. Falta testar respostas reais, bloqueio da conta suspensa e persistência da auditoria.
 
-- [ ] 3.1 Implementar endpoint paginado de busca de usuários por identificador/nome e filtros administrativos; verificar busca sem resultados e ausência de senha, token e dados secretos no payload.
+- [x] 3.1 Implementar endpoint paginado de busca de usuários por identificador/nome e filtros administrativos; verificar busca sem resultados e ausência de senha, token e dados secretos no payload.
 - [ ] 3.2 Implementar suspensão e reativação usando os estados `disabled` e `active`, com ator administrativo obtido da sessão; verificar que uma sessão suspensa não pode continuar usando operações protegidas.
 - [ ] 3.3 Persistir auditoria das mudanças de conta com ator, ação, horário e motivo opcional; verificar que o histórico identifica a conta e a ação sem aceitar o ator do payload como fonte de verdade.
 

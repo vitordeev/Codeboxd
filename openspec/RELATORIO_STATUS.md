@@ -1,4 +1,9 @@
-# Estado do Codeboxd — 26/10/2026
+# Estado do Codeboxd — 27/10/2026
+
+Busca administrativa: tarefa 3.1 concluída após correção e publicação limitada
+ao GET /admin/users. Backup conferido, dry-run posterior sem delta e 79 checks
+reais aprovados em 34 requisições, sem 429. Administração **22/34**; demais
+critérios continuam abertos. [Evidências e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
 ## Listas concluídas e arquivadas
 
@@ -25,7 +30,7 @@ garante disponibilidade contínua dos provedores ou funcionamento atual de todas
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 21/34 | 13 | Autorização completa, mutações, auditoria, filtros/paginação e navegador real |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e navegador real |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
