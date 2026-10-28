@@ -157,3 +157,12 @@ Publicação posterior autorizada: [publicacao-admin-2026-10-13.md](validation/p
 Rodada de implementação posterior à revisão: [retomada-admin-2026-10-13.md](validation/retomada-admin-2026-10-13.md). Tarefas 2.1 e 3.1 receberam correções locais de estado ativo e busca vazia/ID exato. Dry-run limitado passou (tabela report + nove endpoints novos); GETs administrativos atuais retornaram 404. Publicação e cenários autenticados continuam pendentes; nenhum checkbox foi encerrado por essas evidências.
 
 Começar pela autorização direta (2.1), depois dashboard, usuários, catálogo e reports. Registrar testes reais e limpeza de objetos temporários antes de marcar checkboxes. Concluir revisão visual e validação integrada por último. [Pendências centrais](../../PENDENCIAS.md) incluem imagem de post, entrega de e-mail, armazenamento e ambiente, fora do checklist administrativo.
+
+## Agente 2 — 28/10/2026
+
+Incremento dos IDs 2.1/3.2/3.3/9.1: gerador offline de 12 cenários sintéticos
+extraindo o guard e endpoint de status reais; checador de estado/auditoria e
+rejeições específicas. 14 testes novos, 21 administrativos e 4 de revogação
+aprovados; OpenSpec válido. Sem execução de interpretador, APIs, navegador ou
+alteração de dados reais. **22/34 mantido**; critérios remotos continuam abertos.
+[Plano, comandos, evidências e limites](validation/agente-2-2026-10-28.md).
