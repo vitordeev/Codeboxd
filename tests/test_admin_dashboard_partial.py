@@ -12,6 +12,7 @@ class AdminDashboardPartialTests(unittest.IsolatedAsyncioTestCase):
         path = AdminState.get_full_name().split(".")
         self.state = rx.State(_reflex_internal_init=True).get_substate(path)
         self.state.session_token = "admin-token"
+        self.state.dashboard_updated_at = "stale timestamp"
         self.response = {
             "users_total": 5,
             "posts_total": 8,
@@ -33,20 +34,22 @@ class AdminDashboardPartialTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_bad_metric_does_not_hide_valid_metrics_or_other_sections(self):
         self.response["posts_total"] = True
+        self.response["reports_pending"] = 0
         request = await self.load()
 
         request.assert_awaited_once()
         self.assertEqual(dict(self.state.dashboard_stats), {
-            "users_total": "5", "posts_total": "—", "media_total": "13", "reports_pending": "2"
+            "users_total": "5", "posts_total": "—", "media_total": "13", "reports_pending": "0"
         })
         self.assertIn("posts_total", self.state.dashboard_metric_errors)
         self.assertEqual(self.state.recent_posts[0]["id"], "9")
         self.assertEqual(self.state.pending_reports[0]["id"], "3")
         self.assertTrue(self.state.dashboard_updated_at)
+        self.assertNotEqual(self.state.dashboard_updated_at, "stale timestamp")
         self.assertEqual(self.state.dashboard_error, "")
 
     async def test_float_negative_boolean_and_missing_metrics_are_unavailable(self):
-        self.response.update(users_total=1.5, posts_total=-1, media_total=False)
+        self.response.update(users_total=1.5, posts_total=-1, media_total=float("nan"))
         del self.response["reports_pending"]
         await self.load()
 
@@ -59,13 +62,12 @@ class AdminDashboardPartialTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_activity_sections_fail_independently_and_do_not_show_empty_state(self):
         self.response["recent_posts"] = {"unexpected": "object"}
-        del self.response["pending_reports"]
         await self.load()
 
         self.assertIn("indisponível", self.state.recent_posts_error)
-        self.assertIn("indisponíveis", self.state.pending_reports_error)
+        self.assertEqual(self.state.pending_reports_error, "")
         self.assertEqual(self.state.recent_posts, [])
-        self.assertEqual(self.state.pending_reports, [])
+        self.assertEqual(self.state.pending_reports[0]["id"], "3")
         self.assertEqual(self.state.dashboard_stats["users_total"], "5")
 
     async def test_http_error_clears_all_previous_data_and_keeps_http_error(self):
