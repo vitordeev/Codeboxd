@@ -2,6 +2,13 @@
 
 # Tarefas da administração
 
+28/10/2026 — Agente 4 prepara fixture sintética de moderação vinculada a
+5.2/5.3/5.4/9.1: extração dos GET/PUT reais, matriz de filtros/páginas e
+checker de decisão, auditoria e preservação. Apenas testes offline do gerador
+e checker nesta rodada; sem execução Xano, publicação ou navegador. Nenhum
+critério remoto encerrado; **22/34 mantido**.
+[Escopo, critérios e evidências](validation/agente-4-2026-10-28.md).
+
 Atualização em 27/10/2026: **22/34 concluídas, 12 abertas**. Tarefa 3.1 encerrada
 após publicação restrita do GET /admin/users, dry-run sem delta e validação real
 com login admin: 79 checks aprovados em 34 requisições, sem 429. Buscas por
