@@ -2,6 +2,12 @@
 
 # Tarefas da administração
 
+28/10/2026 — Agente 3: gerador offline de fixtures sintéticas extraindo GET/PUT
+do catálogo, manifesto de 21 cenários e checadores de paginação/identidade.
+14 testes Python passaram; OpenSpec válido. Sem execução Xano, publicação,
+dados reais ou navegador; 4.1/4.2/9.1 permanecem abertas e **22/34** mantido.
+[Evidências e limitações](validation/agente-3-2026-10-28.md).
+
 Atualização em 27/10/2026: **22/34 concluídas, 12 abertas**. Tarefa 3.1 encerrada
 após publicação restrita do GET /admin/users, dry-run sem delta e validação real
 com login admin: 79 checks aprovados em 34 requisições, sem 429. Buscas por
