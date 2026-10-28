@@ -117,7 +117,12 @@ def _metric_card(title: str, key: str, icon: str, detail: str) -> rx.Component:
             class_name="admin-metric-heading",
         ),
         rx.el.p(AdminState.dashboard_stats[key], class_name="admin-metric-value"),
-        rx.el.p(detail, class_name="admin-metric-detail"),
+        rx.el.p(
+            rx.cond(AdminState.dashboard_metric_errors[key] != "",
+                AdminState.dashboard_metric_errors[key], detail),
+            class_name="admin-metric-detail",
+            role=rx.cond(AdminState.dashboard_metric_errors[key] != "", "alert", ""),
+        ),
         class_name="admin-metric-card",
     )
 
@@ -248,9 +253,13 @@ def admin_dashboard_page() -> rx.Component:
                         class_name="admin-section-heading",
                     ),
                     rx.cond(
-                        AdminState.pending_reports.length() > 0,
-                        rx.el.ul(rx.foreach(AdminState.pending_reports, _pending_report), class_name="admin-activity-list"),
-                        rx.el.div(rx.icon("inbox", size=24), rx.el.p("Nenhum report pendente."), class_name="admin-activity-empty"),
+                        AdminState.pending_reports_error != "",
+                        rx.el.p(AdminState.pending_reports_error, role="alert", class_name="admin-dashboard-error"),
+                        rx.cond(
+                            AdminState.pending_reports.length() > 0,
+                            rx.el.ul(rx.foreach(AdminState.pending_reports, _pending_report), class_name="admin-activity-list"),
+                            rx.el.div(rx.icon("inbox", size=24), rx.el.p("Nenhum report pendente."), class_name="admin-activity-empty"),
+                        ),
                     ),
                     class_name="admin-activity-card",
                 ),
@@ -263,12 +272,16 @@ def admin_dashboard_page() -> rx.Component:
                         class_name="admin-section-heading",
                     ),
                     rx.cond(
-                        AdminState.recent_posts.length() > 0,
-                        rx.el.ul(rx.foreach(AdminState.recent_posts, _recent_post), class_name="admin-activity-list"),
-                        rx.el.div(
-                            rx.icon("inbox", size=25),
-                            rx.el.p("Nenhuma publicação recente para exibir."),
-                            class_name="admin-activity-empty",
+                        AdminState.recent_posts_error != "",
+                        rx.el.p(AdminState.recent_posts_error, role="alert", class_name="admin-dashboard-error"),
+                        rx.cond(
+                            AdminState.recent_posts.length() > 0,
+                            rx.el.ul(rx.foreach(AdminState.recent_posts, _recent_post), class_name="admin-activity-list"),
+                            rx.el.div(
+                                rx.icon("inbox", size=25),
+                                rx.el.p("Nenhuma publicação recente para exibir."),
+                                class_name="admin-activity-empty",
+                            ),
                         ),
                     ),
                     class_name="admin-activity-card",

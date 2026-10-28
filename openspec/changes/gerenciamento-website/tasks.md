@@ -157,3 +157,10 @@ Publicação posterior autorizada: [publicacao-admin-2026-10-13.md](validation/p
 Rodada de implementação posterior à revisão: [retomada-admin-2026-10-13.md](validation/retomada-admin-2026-10-13.md). Tarefas 2.1 e 3.1 receberam correções locais de estado ativo e busca vazia/ID exato. Dry-run limitado passou (tabela report + nove endpoints novos); GETs administrativos atuais retornaram 404. Publicação e cenários autenticados continuam pendentes; nenhum checkbox foi encerrado por essas evidências.
 
 Começar pela autorização direta (2.1), depois dashboard, usuários, catálogo e reports. Registrar testes reais e limpeza de objetos temporários antes de marcar checkboxes. Concluir revisão visual e validação integrada por último. [Pendências centrais](../../PENDENCIAS.md) incluem imagem de post, entrega de e-mail, armazenamento e ambiente, fora do checklist administrativo.
+
+28/10/2026 — correção local adicional de falha parcial do dashboard, preservando
+indicadores válidos, separando erros por métrica/lista, limpando dados antigos em
+nova consulta e mantendo erro HTTP. 5 novos testes e 21 testes administrativos
+passaram com respostas simuladas; sem validação remota ou navegador. A tarefa 7.1
+permanece como registrada historicamente; esta evidência não altera nem encerra
+critérios de validação remota/visual da tarefa 9.2. [Evidência](validation/agente-1-2026-10-28.md).

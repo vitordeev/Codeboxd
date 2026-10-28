@@ -17,8 +17,11 @@ class AdminState(SessionState):
         'media_total': '—',
         'reports_pending': '—',
     }
+    dashboard_metric_errors: dict[str, str] = {}
     recent_posts: list[dict[str, str]] = []
+    recent_posts_error: str = ''
     pending_reports: list[dict[str, str]] = []
+    pending_reports_error: str = ''
     users_loading: bool = False
     users_error: str = ''
     users_notice: str = ''
@@ -625,6 +628,15 @@ class AdminState(SessionState):
             return
         self.dashboard_loading = True
         self.dashboard_error = ''
+        self.dashboard_metric_errors = {}
+        self.dashboard_stats = {key: '—' for key in (
+            'users_total', 'posts_total', 'media_total', 'reports_pending'
+        )}
+        self.recent_posts = []
+        self.recent_posts_error = ''
+        self.pending_reports = []
+        self.pending_reports_error = ''
+        self.dashboard_updated_at = ''
         yield
         try:
             if not self._token():
@@ -642,33 +654,45 @@ class AdminState(SessionState):
             result = await request('GET', '/admin/dashboard', group='social', token=self._token())
             if not isinstance(result, dict):
                 raise APIError('O serviço retornou dados inesperados para o dashboard.')
-            keys = ('users_total', 'posts_total', 'media_total', 'reports_pending')
-            if any(not isinstance(result.get(key), (int, float)) for key in keys):
-                raise APIError('O serviço não retornou todos os indicadores do dashboard.')
-            self.dashboard_stats = {key: str(result[key]) for key in keys}
-            recent = result.get('recent_posts', [])
-            if not isinstance(recent, list) or any(not isinstance(item, dict) for item in recent):
-                raise APIError('O serviço retornou atividade recente em formato inesperado.')
-            self.recent_posts = [
-                {
-                    'id': str(item.get('id') or ''),
-                    'user_id': str(item.get('user_id') or ''),
-                    'created_at': str(item.get('created_at') or ''),
-                }
-                for item in recent
-            ]
-            pending = result.get('pending_reports', [])
-            if not isinstance(pending, list) or any(not isinstance(item, dict) for item in pending):
-                raise APIError('O serviço retornou reports pendentes em formato inesperado.')
-            self.pending_reports = [
-                {
-                    'id': str(item.get('id') or ''),
-                    'target_type': str(item.get('target_type') or ''),
-                    'reason': str(item.get('reason') or ''),
-                    'created_at': str(item.get('created_at') or ''),
-                }
-                for item in pending
-            ]
+            metric_labels = {
+                'users_total': 'Usuários', 'posts_total': 'Publicações',
+                'media_total': 'Obras no catálogo', 'reports_pending': 'Reports pendentes',
+            }
+            for key, label in metric_labels.items():
+                value = result.get(key)
+                if type(value) is int and value >= 0:
+                    self.dashboard_stats[key] = str(value)
+                else:
+                    self.dashboard_metric_errors[key] = (
+                        f'{label}: indicador indisponível (resposta ausente ou inválida).'
+                    )
+
+            recent = result.get('recent_posts')
+            if isinstance(recent, list) and all(isinstance(item, dict) for item in recent):
+                self.recent_posts = [
+                    {
+                        'id': str(item.get('id') or ''),
+                        'user_id': str(item.get('user_id') or ''),
+                        'created_at': str(item.get('created_at') or ''),
+                    }
+                    for item in recent
+                ]
+            else:
+                self.recent_posts_error = 'Atividade recente indisponível (resposta ausente ou inválida).'
+
+            pending = result.get('pending_reports')
+            if isinstance(pending, list) and all(isinstance(item, dict) for item in pending):
+                self.pending_reports = [
+                    {
+                        'id': str(item.get('id') or ''),
+                        'target_type': str(item.get('target_type') or ''),
+                        'reason': str(item.get('reason') or ''),
+                        'created_at': str(item.get('created_at') or ''),
+                    }
+                    for item in pending
+                ]
+            else:
+                self.pending_reports_error = 'Reports pendentes indisponíveis (resposta ausente ou inválida).'
             self.dashboard_updated_at = datetime.now().astimezone().strftime('%d/%m/%Y %H:%M')
         except APIError as exc:
             self.dashboard_error = str(exc)
