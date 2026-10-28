@@ -2,6 +2,14 @@
 
 # Tasks
 
+28/10/2026 — Continuação isolada para instrumentação da tarefa 1.4: o probe
+agora registra Retry-After como segundos numéricos somente em respostas 429,
+com datas HTTP normalizadas sem guardar o cabeçalho bruto. Testes offline com
+MockTransport cobrem valor numérico, datas com relógio controlado, ausente,
+inválido, resposta não 429, sanitização e contagem de eventos descartados.
+Isso comprova instrumentação simulada; reprodução e escopo reais da quota não
+foram repetidos. Manter 1.4 e 9.2 abertas. [Evidência](validation/agente-5-2026-10-28.md).
+
 27/10/2026 — retomada após AP2: correção localizada do proxy de medição para
 responder a escritas bloqueadas sem deixar corpo pequeno pendente no socket.
 Vínculo 1.2/9.1/9.2; sem fechamento de tarefas amplas.

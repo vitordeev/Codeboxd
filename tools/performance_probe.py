@@ -8,7 +8,10 @@ import argparse
 import asyncio
 from collections import Counter
 from contextlib import contextmanager
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 import json
+import math
 import time
 from urllib.parse import urlsplit
 from unittest.mock import patch
@@ -39,6 +42,26 @@ def service_name(url: str) -> str:
         if host == domain or host.endswith('.' + domain):
             return name
     return 'other'
+
+
+def retry_after_seconds(value: str | None, *, now: datetime | None = None) -> int | None:
+    """Normalize a Retry-After value without retaining its original text."""
+    if value is None:
+        return None
+    try:
+        seconds = float(value)
+        return max(1, math.ceil(seconds)) if math.isfinite(seconds) else None
+    except (ValueError, TypeError, OverflowError):
+        try:
+            deadline = parsedate_to_datetime(value)
+            if deadline.tzinfo is None:
+                deadline = deadline.replace(tzinfo=timezone.utc)
+            current = now or datetime.now(timezone.utc)
+            if current.tzinfo is None:
+                current = current.replace(tzinfo=timezone.utc)
+            return max(1, math.ceil((deadline - current).total_seconds()))
+        except (ValueError, TypeError, OverflowError):
+            return None
 
 
 class HttpProbe:
@@ -76,10 +99,13 @@ class HttpProbe:
                 'GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS') else 'OTHER'
             status = 0
             outcome = 'interrupted'
+            retry_after = None
             try:
                 response = await original(client, request, *args, **kwargs)
                 status = response.status_code
                 outcome = 'response'
+                if status == 429:
+                    retry_after = retry_after_seconds(response.headers.get('Retry-After'))
                 return response
             except httpx.RequestError:
                 outcome = 'network-error'
@@ -91,6 +117,7 @@ class HttpProbe:
                 if len(self.events) < self.max_events:
                     self.events.append(dict(service=service, endpoint=endpoint,
                         method=method, status=status, outcome=outcome,
+                        retry_after_seconds=retry_after,
                         offset_ms=round((start-self.started)*1000, 3),
                         duration_ms=round((time.perf_counter()-start)*1000, 3)))
 
