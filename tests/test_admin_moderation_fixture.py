@@ -134,6 +134,28 @@ class ModerationFixtureTests(unittest.TestCase):
                 with self.assertRaises(FileExistsError):
                     fixture.main()
 
+    def test_checker_rejects_invalid_audit_and_review_timestamps(self):
+        case = next(case for case in fixture.cases() if case['name'] == 'decision_resolved')
+        invalid = (None, True, False, [], [2000], {}, {'timestamp': 2000},
+                   float('nan'), float('inf'), float('-inf'), 0, -1, 0.0, -0.1,
+                   '', '2000', '2026-10-28T12:00:00Z')
+        for location, field, check in (('audit', 'created_at', 'audit'),
+                                       ('reports_after', 'reviewed_at', 'stored_decision')):
+            for value in invalid:
+                with self.subTest(location=location, value=value):
+                    data = synthetic_result(case)
+                    data[location][0][field] = value
+                    self.assertFalse(fixture.check_result(data, case)[check])
+
+    def test_checker_accepts_positive_finite_numeric_timestamps(self):
+        case = next(case for case in fixture.cases() if case['name'] == 'decision_resolved')
+        for timestamp in (2000, 2000.5, 1793188800000):
+            with self.subTest(timestamp=timestamp):
+                data = synthetic_result(case)
+                data['audit'][0]['created_at'] = timestamp
+                data['reports_after'][0]['reviewed_at'] = timestamp
+                self.assertTrue(all(fixture.check_result(data, case).values()))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -11,6 +11,7 @@ checker does not mean the Xano functions have executed successfully.
 """
 import argparse
 import json
+import math
 from pathlib import Path
 import re
 
@@ -152,6 +153,12 @@ def _same(actual, expected):
     return actual == expected
 
 
+def _timestamp(value):
+    """Accept positive epoch numbers emitted by the Xano fixture, never truthiness."""
+    return ((type(value) is int and value > 0)
+            or (type(value) is float and math.isfinite(value) and value > 0))
+
+
 def check_result(data, case):
     """Check an interpreter result, never simulate execution of a contract."""
     if not isinstance(data, dict):
@@ -178,11 +185,11 @@ def check_result(data, case):
                               and _same(result.get("reviewer_user_id"), 1) and result.get("decision") == "Synthetic review")
         current = reports[0] if checks["reports_preserved"] else {}
         checks["stored_decision"] = (current.get("status") == desired and _same(current.get("reviewer_user_id"), 1)
-                                     and current.get("decision") == "Synthetic review" and bool(current.get("reviewed_at")))
+                                     and current.get("decision") == "Synthetic review" and _timestamp(current.get("reviewed_at")))
         audit = data.get("audit")
         event = audit[0] if isinstance(audit, list) and len(audit) == 1 and isinstance(audit[0], dict) else {}
         checks["audit"] = (_same(event.get("user_id"), 1) and event.get("action") == "admin_report_status_changed"
-                           and bool(event.get("created_at")) and _same(event.get("metadata"), dict(
+                           and _timestamp(event.get("created_at")) and _same(event.get("metadata"), dict(
                                report_id=1, target_type="post", target_id="1", previous_status="pending",
                                new_status=desired, decision="Synthetic review")))
     else:

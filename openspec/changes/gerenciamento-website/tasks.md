@@ -9,6 +9,10 @@ e checker nesta rodada; sem execução Xano, publicação ou navegador. Nenhum
 critério remoto encerrado; **22/34 mantido**.
 [Escopo, critérios e evidências](validation/agente-4-2026-10-28.md).
 
+Revisão do PR #20 em 28/10: corrigida a aceitação de timestamps por truthiness
+no checker. Novas regressões cobrem booleanos, objetos, não finitos e valores
+não positivos, sem executar Xano ou fechar critérios remotos.
+
 Atualização em 27/10/2026: **22/34 concluídas, 12 abertas**. Tarefa 3.1 encerrada
 após publicação restrita do GET /admin/users, dry-run sem delta e validação real
 com login admin: 79 checks aprovados em 34 requisições, sem 429. Buscas por
