@@ -117,11 +117,10 @@ def _metric_card(title: str, key: str, icon: str, detail: str) -> rx.Component:
             class_name="admin-metric-heading",
         ),
         rx.el.p(AdminState.dashboard_stats[key], class_name="admin-metric-value"),
-        rx.el.p(
-            rx.cond(AdminState.dashboard_metric_errors[key] != "",
-                AdminState.dashboard_metric_errors[key], detail),
-            class_name="admin-metric-detail",
-            role=rx.cond(AdminState.dashboard_metric_errors[key] != "", "alert", ""),
+        rx.cond(
+            AdminState.dashboard_metric_errors[key] != "",
+            rx.el.p(AdminState.dashboard_metric_errors[key], class_name="admin-metric-detail", role="alert"),
+            rx.el.p(detail, class_name="admin-metric-detail"),
         ),
         class_name="admin-metric-card",
     )

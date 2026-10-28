@@ -162,6 +162,8 @@ Começar pela autorização direta (2.1), depois dashboard, usuários, catálogo
 indicadores válidos, separando erros por métrica/lista, limpando dados antigos em
 nova consulta e mantendo erro HTTP. 6 novos testes e 21 testes administrativos
 passaram com respostas simuladas;
-compilação Reflex local passou; sem validação remota ou navegador. A tarefa 7.1
+compilação Reflex local passou. O harness `tools/admin_layout_browser.py` agora
+espera placeholders sem timestamp após HTTP 503, verifica falha parcial e recuperação;
+execução do navegador não realizada nesta rodada. Sem validação remota. A tarefa 7.1
 permanece como registrada historicamente; esta evidência não altera nem encerra
 critérios de validação remota/visual da tarefa 9.2. [Evidência](validation/agente-1-2026-10-28.md).

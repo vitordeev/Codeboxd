@@ -36,8 +36,12 @@ class Fixture(BaseHTTPRequestHandler):
         elif path == '/auth/me':
             data = {'id': 7, 'role': 'admin', 'account_status': 'active'}
         elif path == '/admin/dashboard':
-            data = dict(users_total=26, posts_total=2, media_total=4, reports_pending=0,
-                        recent_posts=[], pending_reports=[])
+            if MODE == 'partial':
+                data = dict(users_total=26, posts_total=True, media_total=4, reports_pending=0,
+                            recent_posts={'invalid': 'shape'}, pending_reports=[])
+            else:
+                data = dict(users_total=26, posts_total=2, media_total=4, reports_pending=0,
+                            recent_posts=[], pending_reports=[])
         elif path in ('/admin/users', '/admin/catalog', '/admin/reports'):
             page = int(query.get('page', 1))
             if path.endswith('users'):
@@ -89,8 +93,25 @@ async def check(browser, width, case):
             await page.get_by_role('button', name='Atualizar', exact=True).click()
             await expect(page.get_by_text('Carregando os indicadores…', exact=True)).to_be_visible()
             await expect(page.get_by_role('alert')).to_contain_text('Serviço indisponível', timeout=30000)
-            await expect(page.locator('.admin-metric-value').first).to_have_text('26')
+            await expect(page.locator('.admin-metric-value')).to_have_text(['—', '—', '—', '—'])
+            await expect(page.locator('.admin-dashboard-updated')).to_have_count(0)
             await screenshot(page, 'dashboard-error', width)
+            MODE = 'partial'
+            await page.get_by_role('button', name='Atualizar', exact=True).click()
+            await expect(page.locator('.admin-metric-value').nth(0)).to_have_text('26', timeout=30000)
+            await expect(page.locator('.admin-metric-value').nth(1)).to_have_text('—')
+            await expect(page.locator('.admin-metric-detail').nth(1)).to_contain_text('indicador indisponível')
+            await expect(page.locator('.admin-activity-card').nth(1).get_by_role('alert'))\
+                .to_contain_text('Atividade recente indisponível')
+            await expect(page.locator('.admin-activity-card').nth(0).get_by_text(
+                'Nenhum report pendente.', exact=True)).to_be_visible()
+            await screenshot(page, 'dashboard-partial', width)
+            MODE = 'ready'
+            await page.get_by_role('button', name='Atualizar', exact=True).click()
+            await expect(page.locator('.admin-metric-value').nth(1)).to_have_text('2', timeout=30000)
+            await expect(page.locator('.admin-metric-detail').nth(1)).to_have_text('Histórias compartilhadas')
+            await expect(page.locator('.admin-activity-card').nth(1).get_by_role('alert')).to_have_count(0)
+            await expect(page.locator('.admin-dashboard-updated')).to_be_visible()
         elif case == 2:
             await page.locator('.admin-sidebar').get_by_role('link', name='Usuários', exact=True).click()
             await expect(page.get_by_role('heading', name='Usuários', exact=True)).to_be_visible()
