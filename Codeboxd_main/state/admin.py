@@ -17,7 +17,9 @@ class AdminState(SessionState):
         'media_total': '—',
         'reports_pending': '—',
     }
-    dashboard_metric_errors: dict[str, str] = {}
+    dashboard_metric_errors: dict[str, str] = {
+        'users_total': '', 'posts_total': '', 'media_total': '', 'reports_pending': '',
+    }
     recent_posts: list[dict[str, str]] = []
     recent_posts_error: str = ''
     pending_reports: list[dict[str, str]] = []
@@ -628,7 +630,9 @@ class AdminState(SessionState):
             return
         self.dashboard_loading = True
         self.dashboard_error = ''
-        self.dashboard_metric_errors = {}
+        self.dashboard_metric_errors = {
+            'users_total': '', 'posts_total': '', 'media_total': '', 'reports_pending': '',
+        }
         self.dashboard_stats = {key: '—' for key in (
             'users_total', 'posts_total', 'media_total', 'reports_pending'
         )}

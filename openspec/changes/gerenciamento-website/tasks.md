@@ -160,7 +160,8 @@ Começar pela autorização direta (2.1), depois dashboard, usuários, catálogo
 
 28/10/2026 — correção local adicional de falha parcial do dashboard, preservando
 indicadores válidos, separando erros por métrica/lista, limpando dados antigos em
-nova consulta e mantendo erro HTTP. 5 novos testes e 21 testes administrativos
-passaram com respostas simuladas; sem validação remota ou navegador. A tarefa 7.1
+nova consulta e mantendo erro HTTP. 6 novos testes e 21 testes administrativos
+passaram com respostas simuladas;
+compilação Reflex local passou; sem validação remota ou navegador. A tarefa 7.1
 permanece como registrada historicamente; esta evidência não altera nem encerra
 critérios de validação remota/visual da tarefa 9.2. [Evidência](validation/agente-1-2026-10-28.md).

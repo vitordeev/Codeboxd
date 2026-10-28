@@ -48,6 +48,17 @@ class AdminDashboardPartialTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotEqual(self.state.dashboard_updated_at, "stale timestamp")
         self.assertEqual(self.state.dashboard_error, "")
 
+    async def test_all_metric_error_keys_exist_and_are_empty_for_initially_available_state(self):
+        self.assertEqual(dict(self.state.dashboard_metric_errors), {
+            "users_total": "", "posts_total": "", "media_total": "", "reports_pending": ""
+        })
+
+        await self.load()
+
+        self.assertEqual(dict(self.state.dashboard_metric_errors), {
+            "users_total": "", "posts_total": "", "media_total": "", "reports_pending": ""
+        })
+
     async def test_float_negative_boolean_and_missing_metrics_are_unavailable(self):
         self.response.update(users_total=1.5, posts_total=-1, media_total=float("nan"))
         del self.response["reports_pending"]
@@ -99,7 +110,9 @@ class AdminDashboardPartialTests(unittest.IsolatedAsyncioTestCase):
         self.response["media_total"] = 21
         await self.load()
 
-        self.assertEqual(self.state.dashboard_metric_errors, {})
+        self.assertEqual(dict(self.state.dashboard_metric_errors), {
+            "users_total": "", "posts_total": "", "media_total": "", "reports_pending": ""
+        })
         self.assertEqual(self.state.dashboard_stats["media_total"], "21")
         self.assertEqual(self.state.recent_posts_error, "")
         self.assertEqual(self.state.pending_reports_error, "")
