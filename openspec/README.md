@@ -1,5 +1,14 @@
 # OpenSpec do Codeboxd
 
+28/10/2026 — feed corrigido localmente: foto principal e obra em miniatura,
+curtidas com estado/pending e comentários em diálogo contextual. Change
+[corrigir-publicacoes-foto-interacoes](changes/corrigir-publicacoes-foto-interacoes/tasks.md)
+com **6/6 tarefas**, 432 testes e oito cenários de navegador fictício aprovados.
+[Entrega e limites](changes/corrigir-publicacoes-foto-interacoes/validation.md).
+Sem publicação Xano ou reinício da instância normal; as três changes abaixo
+continuam com seus próprios critérios e contagens. Sincronização/arquivo do
+feed não executados.
+
 27/10/2026 — busca administrativa corrigida e publicada no Xano, com backup,
 dry-run final sem delta e **79 checks reais aprovados** após login admin.
 Tarefa 3.1 concluída; administração **22/34**. [Publicação, aceite e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).

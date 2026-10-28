@@ -1,0 +1,7 @@
+{
+  "layer": "browser_local_fictional_backend",
+  "expected": 8,
+  "completed": [],
+  "failure": "AssertionError: Locator expected to have count '1'\nActual value: 0 \nCall log:\n  - Expect \"to_have_count\" locator(\".post-card\").first.locator(\".post-personal-image\") with timeout 5000ms\n  - waiting for locator(\".post-card\").first.locator(\".post-personal-image\")\n    14 \u00d7 locator resolved to 0 elements\n       - unexpected value \"0\"\n",
+  "normal_server_modified": false
+}

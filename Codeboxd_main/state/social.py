@@ -146,6 +146,14 @@ class SocialState(SessionState):
     comments: list[dict[str,str]] = []
     selected_post: str = ''
     liked_posts: list[str] = []
+    liking_posts: list[str] = []
+    post_interaction_errors: dict[str,str] = {}
+    discussion_loading: bool = False
+    discussion_error: str = ''
+    comment_saving: bool = False
+    deleting_comments: list[str] = []
+    comment_editor_token: str = ''
+    _discussion_generation: int = 0
     edit_post_id: str = ''
     post_editor_token: str = ''
     edit_post_body: str = ''
@@ -1429,7 +1437,7 @@ class SocialState(SessionState):
                 raise
             # Older workspaces have no /likes route. Resolve like state only
             # when a user opens a discussion or taps its like button.
-            liked=[]
+            liked=[pid for pid in self.liked_posts if pid in combined]
         if stamp!=self._route_stamp(): return
         self.liked_posts=liked; self.posts=[]
         def post_timestamp(post):
@@ -1459,6 +1467,7 @@ class SocialState(SessionState):
     @rx.event
     async def load_feed(self):
         stamp=self._route_stamp()
+        self.close_discussion(); self.post_interaction_errors={}
         self.posts=[]; self.comments=[]; self.notice=''
         if not await self._require_user(navigation=True): return rx.redirect('/login')
         if stamp!=self._route_stamp(): return
@@ -1634,18 +1643,45 @@ class SocialState(SessionState):
 
     @rx.event
     async def discussion(self, pid: str):
+        if not pid.isdecimal(): return
         if self.selected_post!=pid:
             self.edit_comment_id=''; self.edit_comment_body=''
-        self.comments=[]
+            self.comment_editor_token=uuid.uuid4().hex
+        self.selected_post=pid
+        self._discussion_generation+=1
+        generation=self._discussion_generation
+        stamp=self._route_stamp()
+        self.comments=[]; self.discussion_error=''; self.discussion_loading=True
+        yield
         try:
-            data=await self._call('GET',f'/posts/{int(pid)}/discussion'); self.selected_post=pid
-            self.comments=[dict(id=str(c['id']),user_id=str(c['user_id']),body=c['body'],author=self._person(c['user_id'])['display_name']) for c in data['comments']]
-            self._set_post_counts(pid, len(data['likes']), len(data['comments']))
-            if any(l['user_id']==self.user_id for l in data['likes']):
-                if pid not in self.liked_posts: self.liked_posts.append(pid)
-            elif pid in self.liked_posts: self.liked_posts.remove(pid)
-            self.notice=f"{len(data['likes'])} curtidas · {len(data['comments'])} comentários"
-        except APIError as exc: self._failure(exc)
+            await self._fetch_discussion(pid,generation,stamp)
+        except APIError as exc:
+            if self._discussion_current(pid,generation,stamp):
+                self.discussion_error=str(exc)
+                if exc.status in (401,403): self._failure(exc)
+        finally:
+            if self._discussion_current(pid,generation,stamp): self.discussion_loading=False
+
+    def _discussion_current(self,pid,generation,stamp):
+        return self.selected_post==pid and generation==self._discussion_generation and stamp==self._route_stamp()
+
+    async def _fetch_discussion(self,pid,generation,stamp):
+        data=await self._call('GET',f'/posts/{int(pid)}/discussion')
+        if not self._discussion_current(pid,generation,stamp): return
+        self._validate_discussion(data)
+        self.comments=[dict(id=str(c['id']),user_id=str(c['user_id']),body=str(c['body']),
+            author=self._person(c['user_id'])['display_name'],avatar=self._person(c['user_id'])['avatar_url']) for c in data['comments']]
+        self._set_post_counts(pid,len(data['likes']),len(data['comments']))
+        if any(str(l.get('user_id'))==str(self.user_id) for l in data['likes']):
+            if pid not in self.liked_posts: self.liked_posts.append(pid)
+        elif pid in self.liked_posts: self.liked_posts.remove(pid)
+
+    def _validate_discussion(self,data):
+        if (not isinstance(data,dict) or not isinstance(data.get('comments'),list)
+                or not isinstance(data.get('likes'),list)
+                or any(not isinstance(c,dict) or not all(key in c for key in ('id','user_id','body')) for c in data.get('comments',[]))
+                or any(not isinstance(l,dict) or 'user_id' not in l for l in data.get('likes',[]))):
+            raise APIError('Não foi possível carregar as interações. Tente novamente.')
 
     def _set_post_counts(self, pid: str, likes: int, comments: int):
         self.posts=[dict(post, likes_count=str(likes), comments_count=str(comments))
@@ -1653,51 +1689,114 @@ class SocialState(SessionState):
 
     @rx.event
     def close_discussion(self):
+        self._discussion_generation+=1
         self.selected_post=''
         self.comments=[]
         self.edit_comment_id=''
         self.edit_comment_body=''
+        self.comment_editor_token=''
+        self.discussion_loading=False; self.discussion_error=''
+
+    @rx.event
+    def set_discussion_open(self,opened: bool):
+        if not opened: self.close_discussion()
+
+    @rx.event
+    def set_comment_body(self,body: str):
+        if not self.comment_saving: self.edit_comment_body=body[:2000]
+
+    @rx.event
+    def cancel_comment_edit(self):
+        if self.comment_saving: return
+        self.edit_comment_id=''; self.edit_comment_body=''
+        self.comment_editor_token=uuid.uuid4().hex
 
     @rx.event
     async def like(self, pid: str):
-        if not await self._require_user(): return rx.redirect('/login')
+        if not pid.isdecimal() or pid in self.liking_posts: return
+        self.liking_posts.append(pid)
+        self.post_interaction_errors.pop(pid,None)
+        stamp=self._route_stamp()
+        yield
         try:
+            if not await self._require_user():
+                yield rx.redirect('/login'); return
+            if stamp!=self._route_stamp(): return
             data=await self._call('GET',f'/posts/{int(pid)}/discussion')
-            already_liked=any(like.get('user_id')==self.user_id for like in data['likes'])
+            if stamp!=self._route_stamp(): return
+            self._validate_discussion(data)
+            already_liked=any(str(like.get('user_id'))==str(self.user_id) for like in data['likes'])
             await self._call('DELETE' if already_liked else 'PUT',f'/posts/{int(pid)}/like')
+            if stamp!=self._route_stamp(): return
             if already_liked:
                 if pid in self.liked_posts: self.liked_posts.remove(pid)
             elif pid not in self.liked_posts:
                 self.liked_posts.append(pid)
             count=len(data['likes'])-int(already_liked)+int(not already_liked)
             self._set_post_counts(pid, count, len(data['comments']))
-            self.notice=f'{count} curtidas Â· {len(data["comments"])} comentÃ¡rios'
-        except APIError as exc: self._failure(exc)
+        except APIError as exc:
+            if stamp==self._route_stamp():
+                self.post_interaction_errors[pid]=str(exc)
+                if exc.status in (401,403): self._failure(exc)
+        finally:
+            if pid in self.liking_posts: self.liking_posts.remove(pid)
 
     @rx.event
     def edit_comment(self, cid: str):
+        if self.comment_saving: return
         for c in self.comments:
-            if c['id']==cid and c['user_id']==str(self.user_id): self.edit_comment_id=cid; self.edit_comment_body=c['body']
+            if c['id']==cid and c['user_id']==str(self.user_id):
+                self.edit_comment_id=cid; self.edit_comment_body=c['body']; self.comment_editor_token=uuid.uuid4().hex
 
     @rx.event
     async def save_comment(self, form: dict):
-        if not await self._require_user(): return rx.redirect('/login')
+        if self.comment_saving or self.deleting_comments or self.discussion_loading or not self.selected_post: return
+        pid=self.selected_post; cid=self.edit_comment_id; generation=self._discussion_generation; stamp=self._route_stamp()
+        token=self.comment_editor_token
+        if not token or str(form.get('post_id',''))!=pid or str(form.get('comment_token',''))!=token: return
         body=str(form.get('body','')).strip()
-        if not body:
-            self.notice='Escreva um comentÃ¡rio antes de salvar.'
+        if not body or len(body)>2000:
+            self.discussion_error='Escreva um comentário de até 2000 caracteres.'
             return
+        self.edit_comment_body=body; self.discussion_error=''; self.comment_saving=True
+        yield
         try:
-            await self._call('PUT' if self.edit_comment_id else 'POST','/comments'+('/'+self.edit_comment_id if self.edit_comment_id else ''),
-                dict(post_id=int(self.selected_post),body=body))
-            self.edit_comment_id=''; self.edit_comment_body=''; await self.discussion(self.selected_post)
-        except (ValueError,TypeError): self.notice='Escolha uma publicação.'
-        except APIError as exc: self._failure(exc)
+            if not await self._require_user():
+                yield rx.redirect('/login'); return
+            if not self._discussion_current(pid,generation,stamp): return
+            await self._call('PUT' if cid else 'POST','/comments'+('/'+cid if cid else ''),dict(post_id=int(pid),body=body))
+            if not self._discussion_current(pid,generation,stamp): return
+            self.edit_comment_id=''; self.edit_comment_body=''; self.comment_editor_token=uuid.uuid4().hex
+            try:
+                await self._fetch_discussion(pid,generation,stamp)
+            except APIError:
+                if self._discussion_current(pid,generation,stamp):
+                    self.discussion_error='Comentário salvo. Não foi possível atualizar a lista; tente recarregar os comentários.'
+        except APIError as exc:
+            if self._discussion_current(pid,generation,stamp):
+                self.discussion_error=str(exc)
+                if exc.status in (401,403): self._failure(exc)
+        finally: self.comment_saving=False
 
     @rx.event
     async def remove_comment(self, cid: str):
-        if not await self._require_user(): return rx.redirect('/login')
-        try: await self._call('DELETE',f'/comments/{int(cid)}'); await self.discussion(self.selected_post)
-        except APIError as exc: self._failure(exc)
+        if self.comment_saving or self.deleting_comments or not any(c['id']==cid and c['user_id']==str(self.user_id) for c in self.comments): return
+        pid=self.selected_post; generation=self._discussion_generation; stamp=self._route_stamp()
+        self.deleting_comments.append(cid); self.discussion_error=''
+        yield
+        try:
+            if not await self._require_user():
+                yield rx.redirect('/login'); return
+            if not self._discussion_current(pid,generation,stamp): return
+            await self._call('DELETE',f'/comments/{int(cid)}')
+            if self._discussion_current(pid,generation,stamp):
+                self.comments=[c for c in self.comments if c['id']!=cid]
+                if self.edit_comment_id==cid: self.cancel_comment_edit()
+                await self._fetch_discussion(pid,generation,stamp)
+        except APIError as exc:
+            if self._discussion_current(pid,generation,stamp): self.discussion_error=str(exc)
+        finally:
+            if cid in self.deleting_comments: self.deleting_comments.remove(cid)
 
     @rx.event
     async def load_lists(self, refresh_media: bool = True):
