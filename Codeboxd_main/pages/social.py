@@ -499,10 +499,13 @@ def post_image_picker():
             class_name='post-image-upload-prompt'),id='post_image_upload',
             accept={'image/png':['.png'],'image/jpeg':['.jpg','.jpeg'],'image/webp':['.webp'],
                 'image/gif':['.gif']},max_files=1,max_size=5*1024*1024,
+            on_drop=S.stage_post_image(rx.upload_files(upload_id='post_image_upload')),
             class_name='post-image-dropzone'),
         rx.cond(rx.selected_files('post_image_upload').length()>0,
             rx.el.div(rx.el.span(rx.selected_files('post_image_upload')[0],class_name='post-image-filename'),
-                button('Carregar imagem',S.stage_post_image(rx.upload_files(upload_id='post_image_upload'))),
+                rx.cond(S.post_image_staging,rx.el.span('Carregando imagem...',role='status'),
+                    rx.el.button('Descartar seleção',type='button',
+                        on_click=rx.clear_selected_files('post_image_upload'),class_name='quiet-button')),
                 class_name='post-image-upload-actions'),rx.fragment()),
         rx.cond(S.post_image_filename!='',rx.el.div(
             rx.el.img(src=rx.get_upload_url(S.post_image_filename),alt='Previa da imagem enviada',
@@ -514,17 +517,27 @@ def post_image_picker():
 
 def post(p):
     return rx.el.article(
-        rx.el.div(rx.el.a(avatar(p['avatar'],p['author']),href='/perfil/'+p['user_id']),
-            rx.el.div(rx.el.a(p['author'],href='/perfil/'+p['user_id'],class_name='font-semibold'),
-                rx.el.p(p['published_at'],class_name='text-xs text-gray-500')),class_name='post-author'),
+        rx.el.div(
+            rx.el.div(rx.el.a(avatar(p['avatar'],p['author']),href='/perfil/'+p['user_id']),
+                rx.el.div(rx.el.a(p['author'],href='/perfil/'+p['user_id'],class_name='font-semibold'),
+                    rx.el.p(p['published_at'],class_name='text-xs text-gray-500')),
+                class_name='flex min-w-0 items-center gap-3 post-author'),
+            rx.cond((p['media_id']!='0') & (p['media_id']!=''),rx.el.a(
+                rx.cond(p['media_cover']!='',rx.el.img(src=p['media_cover'],alt=p['media_title'],loading='lazy',
+                    style={'width':'36px','height':'48px','objectFit':'cover','borderRadius':'6px','flexShrink':'0'},
+                    class_name='post-work-thumbnail'),
+                    rx.el.span(rx.icon('book-open',size=18),class_name='post-work-placeholder',
+                        style={'width':'36px','height':'48px','display':'flex','alignItems':'center',
+                            'justifyContent':'center','flexShrink':'0'})),
+                rx.el.div(rx.el.span('Obra associada',class_name='text-xs text-gray-400'),
+                    rx.el.strong(rx.cond(p['media_title']!='',p['media_title'],'Ver obra'),
+                        class_name='block truncate text-sm'),class_name='min-w-0'),
+                rx.icon('chevron-right',size=16),href='/obra/'+p['media_id'],title=p['media_title'],
+                class_name='ml-auto flex min-w-0 max-w-[55%] items-center gap-2 rounded-lg border border-white/10 px-2 py-1'),
+                rx.fragment()),
+            class_name='flex flex-wrap items-center justify-between gap-3'),
         rx.cond(p['image_url']!='',rx.el.img(src=p['image_url'],alt='Imagem anexada a publicacao',
             loading='lazy',class_name='post-personal-image')),
-        rx.cond((p['media_id']!='0') & (p['media_id']!=''),rx.el.a(
-            rx.cond(p['media_cover']!='',rx.el.img(src=p['media_cover'],alt=p['media_title'],loading='lazy',class_name='post-work-thumbnail'),
-                rx.el.span(rx.icon('book-open',size=22),class_name='post-work-placeholder')),
-            rx.el.div(rx.el.span('Obra associada',class_name='post-work-label'),
-                rx.el.strong(rx.cond(p['media_title']!='',p['media_title'],'Ver obra'))),
-            rx.icon('chevron-right',size=18),href='/obra/'+p['media_id'],class_name='post-work-card')),
         spoiler(p['body'],p['spoiler']),
         rx.el.div(rx.el.button(rx.icon('heart',size=25,fill=rx.cond(S.liked_posts.contains(p['id']),'currentColor','none')),
             on_click=S.like(p['id']),disabled=S.liking_posts.contains(p['id']),
@@ -610,7 +623,8 @@ def feed_page():
                     rx.el.input(type='hidden',name='post_id',value=S.edit_post_id),
                     rx.el.input(type='hidden',name='editor_token',value=S.post_editor_token),
                     check('Contém spoilers','spoiler',S.edit_post_spoiler),submit(
-                        rx.cond(S.post_saving,'Salvando…',rx.cond(S.edit_post_id!='','Salvar edição','Publicar')),disabled=S.post_saving),
+                        rx.cond(S.post_saving,'Salvando…',rx.cond(S.edit_post_id!='','Salvar edição','Publicar')),
+                        disabled=S.post_saving | (rx.selected_files('post_image_upload').length()>0)),
                     on_submit=S.save_post,key=S.edit_post_id,class_name='editor-form')),
             open=S.post_editor_open,on_open_change=S.set_post_editor_open),
         rx.el.div(rx.el.section(

@@ -55,6 +55,11 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 | P.11 | Antes de reusar validações | Scripts históricos têm caminhos anteriores ao arquivo e portas fixas | Copiar/adaptar scripts para nova pasta de resultados; preservar arquivo histórico e não criar contas incidentalmente |
 | P.12 | Publicada em 19/10; validação funcional parcial | Três GETs corrigidos publicados após backup de 77 documentos e delta limitado; dry-run final sem mudanças. 18 testes locais passaram; visitante 401 e membro 403 confirmados | Validar buscas, caixa, vazio, filtros e paginação com admin aprovado e interface no navegador. Leituras admin reais posteriores registradas em 23/10; mutações e browser completo continuam pendentes. [Evidência](changes/gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md) |
 
+Atualização P.6 em 28/10: os testes locais de recuperação/cooldown passaram
+(24 testes); a documentação oficial confirma a restrição do remetente de teste.
+Nenhuma chamada ou troca real executada. 3.2/3.4 continuam abertas até envio
+aceito a uma caixa elegível e ciclo/restauração controlados. [Evidências e próximo passo](changes/recuperar-senha-codigo-6-digitos/validation/elegibilidade-resend-2026-10-28.md).
+
 
 ## Ajustes visuais e entregas encerradas
 

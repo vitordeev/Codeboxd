@@ -201,6 +201,7 @@ class SocialState(SessionState):
     visible_count: int = 20
     post_editor_open: bool = False
     post_saving: bool = False
+    post_image_staging: bool = False
     list_editor_open: bool = False
     report_dialog_open: bool = False
     report_target_type: str = ''
@@ -213,7 +214,7 @@ class SocialState(SessionState):
 
     @rx.event
     def set_post_editor_open(self, value: bool):
-        if self.post_saving: return
+        if self.post_saving or self.post_image_staging: return
         if not value:
             self.cancel_post()
         elif self.is_authenticated:
@@ -296,7 +297,7 @@ class SocialState(SessionState):
 
     @rx.event
     def new_post(self):
-        if self.post_saving: return
+        if self.post_saving or self.post_image_staging: return
         if not self.is_authenticated: return rx.redirect('/login')
         self.cancel_post()
         self.post_editor_token=uuid.uuid4().hex
@@ -368,6 +369,18 @@ class SocialState(SessionState):
 
     @rx.event
     async def stage_post_image(self, files: list[rx.UploadFile]):
+        if self.post_image_staging: return
+        self.post_image_staging=True
+        yield
+        result=None
+        try:
+            result=await self._stage_post_image(files)
+        finally:
+            self.post_image_staging=False
+        if result is not None:
+            yield result
+
+    async def _stage_post_image(self, files: list[rx.UploadFile]):
         if not await self._require_user(): return rx.redirect('/login')
         if len(files)!=1:
             self.notice='Selecione uma imagem.'
@@ -394,6 +407,7 @@ class SocialState(SessionState):
         self.post_image_filename=relative
         self.post_image_mime=mime
         self.notice='Imagem carregada. Ela ser\u00e1 salva junto com a publica\u00e7\u00e3o.'
+        return rx.clear_selected_files('post_image_upload')
 
     def _discard_post_upload(self):
         if self._post_image_path:
@@ -404,6 +418,7 @@ class SocialState(SessionState):
 
     @rx.event
     def remove_post_image(self):
+        if self.post_image_staging: return
         self._discard_post_upload()
         self.notice='Imagem removida do rascunho.'
 
@@ -1507,6 +1522,9 @@ class SocialState(SessionState):
 
     @rx.event
     async def save_post(self, form: dict):
+        if self.post_image_staging:
+            self.notice='Aguarde o carregamento da imagem antes de publicar.'
+            return
         if self.post_saving: return
         post_id=str(form.get('post_id',self.edit_post_id)).strip()
         editor_token=str(form.get('editor_token',self.post_editor_token))
