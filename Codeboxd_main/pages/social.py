@@ -499,10 +499,13 @@ def post_image_picker():
             class_name='post-image-upload-prompt'),id='post_image_upload',
             accept={'image/png':['.png'],'image/jpeg':['.jpg','.jpeg'],'image/webp':['.webp'],
                 'image/gif':['.gif']},max_files=1,max_size=5*1024*1024,
+            on_drop=S.stage_post_image(rx.upload_files(upload_id='post_image_upload')),
             class_name='post-image-dropzone'),
         rx.cond(rx.selected_files('post_image_upload').length()>0,
             rx.el.div(rx.el.span(rx.selected_files('post_image_upload')[0],class_name='post-image-filename'),
-                button('Carregar imagem',S.stage_post_image(rx.upload_files(upload_id='post_image_upload'))),
+                rx.cond(S.post_image_staging,rx.el.span('Carregando imagem...',role='status'),
+                    rx.el.button('Descartar seleção',type='button',
+                        on_click=rx.clear_selected_files('post_image_upload'),class_name='quiet-button')),
                 class_name='post-image-upload-actions'),rx.fragment()),
         rx.cond(S.post_image_filename!='',rx.el.div(
             rx.el.img(src=rx.get_upload_url(S.post_image_filename),alt='Previa da imagem enviada',
@@ -514,27 +517,78 @@ def post_image_picker():
 
 def post(p):
     return rx.el.article(
-        rx.el.div(rx.el.a(avatar(p['avatar'],p['author']),href='/perfil/'+p['user_id']),
-            rx.el.div(rx.el.a(p['author'],href='/perfil/'+p['user_id'],class_name='font-semibold'),
-                rx.el.p(p['published_at'],class_name='text-xs text-gray-500')),class_name='post-author'),
-        rx.cond(p['media_cover']!='',rx.el.a(rx.el.img(src=p['media_cover'],alt=p['media_title'],loading='lazy',class_name='post-cover'),href='/obra/'+p['media_id'])),
-        rx.cond(p['media_id']!='0',rx.el.a(p['media_title'],href='/obra/'+p['media_id'],class_name='block brand-yellow')),
+        rx.el.div(
+            rx.el.div(rx.el.a(avatar(p['avatar'],p['author']),href='/perfil/'+p['user_id']),
+                rx.el.div(rx.el.a(p['author'],href='/perfil/'+p['user_id'],class_name='font-semibold'),
+                    rx.el.p(p['published_at'],class_name='text-xs text-gray-500')),
+                class_name='flex min-w-0 items-center gap-3 post-author'),
+            rx.cond((p['media_id']!='0') & (p['media_id']!=''),rx.el.a(
+                rx.cond(p['media_cover']!='',rx.el.img(src=p['media_cover'],alt=p['media_title'],loading='lazy',
+                    style={'width':'36px','height':'48px','objectFit':'cover','borderRadius':'6px','flexShrink':'0'},
+                    class_name='post-work-thumbnail'),
+                    rx.el.span(rx.icon('book-open',size=18),class_name='post-work-placeholder',
+                        style={'width':'36px','height':'48px','display':'flex','alignItems':'center',
+                            'justifyContent':'center','flexShrink':'0'})),
+                rx.el.div(rx.el.span('Obra associada',class_name='text-xs text-gray-400'),
+                    rx.el.strong(rx.cond(p['media_title']!='',p['media_title'],'Ver obra'),
+                        class_name='block truncate text-sm'),class_name='min-w-0'),
+                rx.icon('chevron-right',size=16),href='/obra/'+p['media_id'],title=p['media_title'],
+                class_name='ml-auto flex min-w-0 max-w-[55%] items-center gap-2 rounded-lg border border-white/10 px-2 py-1'),
+                rx.fragment()),
+            class_name='flex flex-wrap items-center justify-between gap-3'),
         rx.cond(p['image_url']!='',rx.el.img(src=p['image_url'],alt='Imagem anexada a publicacao',
-            loading='lazy',class_name='w-full max-h-[600px] rounded-2xl object-contain bg-[#171714]')),
+            loading='lazy',class_name='post-personal-image')),
         spoiler(p['body'],p['spoiler']),
-        rx.el.div(rx.el.button(rx.icon('heart',size=18),rx.cond(S.liked_posts.contains(p['id']),'Descurtir','Curtir'),on_click=S.like(p['id']),class_name='quiet-button'),
-            rx.el.button(rx.icon('message-circle',size=18),rx.cond(p['comments_count']!='',p['comments_count']+' coment\u00e1rios','Coment\u00e1rios'),on_click=S.discussion(p['id']),class_name='quiet-button'),
-            rx.cond(p['likes_count']!='',rx.el.span(p['likes_count']+' curtidas',class_name='text-sm text-gray-400'),rx.fragment()),
+        rx.el.div(rx.el.button(rx.icon('heart',size=25,fill=rx.cond(S.liked_posts.contains(p['id']),'currentColor','none')),
+            on_click=S.like(p['id']),disabled=S.liking_posts.contains(p['id']),
+            aria_label=rx.cond(S.liked_posts.contains(p['id']),'Descurtir publicação','Curtir publicação'),
+            aria_pressed=S.liked_posts.contains(p['id']),
+            class_name=rx.cond(S.liked_posts.contains(p['id']),'post-icon-button post-liked','post-icon-button')),
+            rx.el.button(rx.icon('message-circle',size=25),on_click=S.discussion(p['id']),aria_label='Abrir comentários',class_name='post-icon-button'),
+            class_name='post-interactions'),
+        rx.cond(p['likes_count']!='',rx.el.strong(rx.cond(p['likes_count']=='1','1 curtida',p['likes_count']+' curtidas'),class_name='post-like-count')),
+        rx.el.button(rx.cond((p['comments_count']!='') & (p['comments_count']!='0'),'Ver comentários ('+p['comments_count']+')','Adicionar um comentário…'),
+            on_click=S.discussion(p['id']),class_name='post-comments-link'),
+        rx.cond(S.post_interaction_errors.get(p['id'],'')!='',rx.el.p(S.post_interaction_errors.get(p['id'],''),role='alert',class_name='post-interaction-error')),
+        rx.el.div(
             rx.cond(p['user_id']!=S.user_id.to_string(),rx.el.button('Denunciar',on_click=S.open_report('post',p['id']),class_name='quiet-button')),
             rx.cond(p['user_id']==S.user_id.to_string(),rx.fragment(rx.el.button('Editar',on_click=S.edit_post(p['id']),class_name='quiet-button'),confirm('Excluir publicação',S.remove_post(p['id'])))),
             class_name='post-actions'),class_name='post-card')
 
 
 def comment(c):
-    return rx.el.article(rx.el.a(c['author'],href='/perfil/'+c['user_id'],class_name='font-semibold'),rx.el.p(c['body'],class_name='whitespace-pre-wrap'),
-        rx.cond(c['user_id']==S.user_id.to_string(),rx.el.div(button('Editar',S.edit_comment(c['id'])),
-            confirm('Excluir comentário',S.remove_comment(c['id'])),class_name='flex gap-3'),
-            rx.el.button('Denunciar',on_click=S.open_report('comment',c['id']),class_name='quiet-button')),class_name=CARD)
+    return rx.el.article(rx.el.a(avatar(c.get('avatar',''),c['author']),href='/perfil/'+c['user_id']),
+        rx.el.div(rx.el.p(rx.el.a(c['author'],href='/perfil/'+c['user_id'],class_name='comment-author'),' ',c['body'],class_name='comment-text'),
+            rx.cond(c['user_id']==S.user_id.to_string(),rx.el.div(
+                rx.el.button('Editar',on_click=S.edit_comment(c['id']),disabled=S.comment_saving,class_name='comment-option'),
+                rx.el.button('Excluir',on_click=S.remove_comment(c['id']),disabled=S.comment_saving | (S.deleting_comments.length()>0),class_name='comment-option'),class_name='comment-options'),
+                rx.el.button('Denunciar',on_click=S.open_report('comment',c['id']),class_name='comment-option')),
+            class_name='comment-content'),class_name='post-comment')
+
+
+def post_discussion():
+    return rx.dialog.root(rx.dialog.content(
+        rx.el.div(rx.dialog.title('Comentários'),rx.dialog.close(rx.el.button(rx.icon('x',size=20),aria_label='Fechar comentários',class_name='post-icon-button')),class_name='post-discussion-heading'),
+        rx.dialog.description('Converse sobre esta publicação.',class_name='post-discussion-description'),
+        rx.el.div(
+            rx.cond(S.discussion_loading,rx.el.p('Carregando comentários…',role='status',class_name='post-comments-empty'),
+                rx.cond(S.comments.length()>0,rx.foreach(S.comments,comment),rx.el.div(rx.icon('message-circle',size=30),
+                    rx.el.strong('Ainda não há comentários'),rx.el.p('Seja a primeira pessoa a comentar.'),class_name='post-comments-empty'))),
+            class_name='post-comments-list'),
+        rx.cond(S.discussion_error!='',rx.el.div(rx.el.p(S.discussion_error,role='alert'),
+            rx.el.button('Recarregar comentários',on_click=S.discussion(S.selected_post),disabled=S.discussion_loading | S.comment_saving,class_name='comment-option'),class_name='post-interaction-error')),
+        rx.cond(S.edit_comment_id!='',rx.el.div(rx.el.span('Editando comentário'),
+            rx.el.button('Cancelar edição',on_click=S.cancel_comment_edit,disabled=S.comment_saving,class_name='comment-option'),class_name='comment-editing')),
+        rx.el.form(
+            rx.el.input(type='hidden',name='post_id',value=S.selected_post),
+            rx.el.input(type='hidden',name='comment_token',value=S.comment_editor_token),
+            rx.el.textarea(name='body',value=S.edit_comment_body,on_change=S.set_comment_body,required=True,max_length=2000,
+                placeholder='Adicione um comentário…',aria_label='Comentário',disabled=S.comment_saving,class_name='post-comment-input'),
+            rx.el.button(rx.cond(S.comment_saving,'Enviando…',rx.cond(S.edit_comment_id!='','Salvar','Publicar')),
+                type='submit',disabled=S.comment_saving | S.discussion_loading | (S.deleting_comments.length()>0),class_name='post-comment-submit'),
+            on_submit=S.save_comment,class_name='post-comment-composer'),
+        class_name='post-discussion-dialog',max_width='640px',width='calc(100vw - 24px)',padding='0'),
+        open=S.selected_post!='',on_open_change=S.set_discussion_open)
 
 
 def report_dialog():
@@ -569,24 +623,20 @@ def feed_page():
                     rx.el.input(type='hidden',name='post_id',value=S.edit_post_id),
                     rx.el.input(type='hidden',name='editor_token',value=S.post_editor_token),
                     check('Contém spoilers','spoiler',S.edit_post_spoiler),submit(
-                        rx.cond(S.post_saving,'Salvando…',rx.cond(S.edit_post_id!='','Salvar edição','Publicar')),disabled=S.post_saving),
+                        rx.cond(S.post_saving,'Salvando…',rx.cond(S.edit_post_id!='','Salvar edição','Publicar')),
+                        disabled=S.post_saving | (rx.selected_files('post_image_upload').length()>0)),
                     on_submit=S.save_post,key=S.edit_post_id,class_name='editor-form')),
             open=S.post_editor_open,on_open_change=S.set_post_editor_open),
         rx.el.div(rx.el.section(
             rx.cond(S.posts.length()>0,rx.foreach(S.visible_posts,post),rx.el.div(rx.icon('messages-square',size=36),
                 rx.el.p('Seu feed começa com uma boa história.'),rx.el.a('Encontrar pessoas',href='/comunidade',class_name='brand-yellow'),class_name='empty-state')),
             rx.cond(S.posts.length()>S.visible_count,button('Mostrar mais',S.show_more)),
-            rx.cond(S.selected_post!='',rx.el.section(
-                rx.el.div(rx.el.h2('Coment\u00e1rios',class_name='section-title'),button('Fechar',S.close_discussion),class_name='flex items-center justify-between'),
-                rx.cond(S.comments.length()>0,rx.foreach(S.comments,comment),rx.el.p('Seja a primeira pessoa a comentar.',class_name='text-sm text-gray-400')),
-                rx.el.form(textarea('Comentário','body',S.edit_comment_body,required=True,max_length=2000),submit(rx.cond(S.edit_comment_id!='','Salvar edi\u00e7\u00e3o','Comentar')),
-                    on_submit=S.save_comment,key=S.selected_post+S.edit_comment_id,class_name=CARD),class_name='space-y-4')),
             class_name='feed-stream'),
             rx.el.aside(button('+ Criar publicação',S.new_post),rx.el.h2('Pessoas da comunidade',class_name='section-title'),
                 rx.foreach(S.suggested_people,lambda p:rx.el.a(avatar(p['avatar_url'],p['display_name']),
                     rx.el.div(rx.el.strong(p['display_name']),rx.el.p('@'+p['username'])),href='/perfil/'+p['user_id'],class_name='sidebar-person')),
                 rx.el.a('Explorar comunidade →',href='/comunidade',class_name='brand-yellow'),class_name='feed-sidebar'),class_name='feed-layout')),
-        report_dialog())
+        post_discussion(),report_dialog())
 
 
 def list_card(item):

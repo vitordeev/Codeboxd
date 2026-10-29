@@ -86,3 +86,10 @@ confirmou que não existe conta Codeboxd correspondente ao e-mail permitido.
 Nenhuma conta criada, privilégio alterado ou chave copiada para evidências.
 3.4 segue aberta por faltar envio aceito e 3.2 por faltar recebimento/ciclo
 completo. Atual: 8/10. [Entrega e evidências](validation/resend-integracao-2026-10-22.md).
+
+Retomada em 28/10: 24 testes locais de recuperação, cooldown e não repetição
+de solicitação passaram; OpenSpec válido. A documentação oficial atual do
+Resend confirma que `onboarding@resend.dev` só aceita o e-mail proprietário;
+domínio verificado é necessário para outra caixa. Nenhuma solicitação, credencial,
+conta ou senha real foi usada. **3.2 e 3.4 continuam abertas; 8/10 mantido.**
+[Comandos, fontes e próximo passo](validation/elegibilidade-resend-2026-10-28.md).

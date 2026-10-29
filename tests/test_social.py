@@ -445,9 +445,9 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
             raise AssertionError(path)
         with patch('Codeboxd_main.state.session.request',new=AsyncMock(side_effect=session_api)), \
              patch('Codeboxd_main.state.social.request',new=AsyncMock(side_effect=social_api)):
-            await s.like('7')
+            async for _ in s.like('7'): pass
             self.assertNotIn('7',s.liked_posts)
-            await s.like('7')
+            async for _ in s.like('7'): pass
         self.assertEqual(methods,['DELETE','PUT'])
         self.assertIn('7',s.liked_posts)
 

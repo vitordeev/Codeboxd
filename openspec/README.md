@@ -1,5 +1,14 @@
 # OpenSpec do Codeboxd
 
+28/10/2026 — feed corrigido localmente: foto principal e obra em miniatura,
+curtidas com estado/pending e comentários em diálogo contextual. Change
+[corrigir-publicacoes-foto-interacoes](changes/corrigir-publicacoes-foto-interacoes/tasks.md)
+com **6/6 tarefas**, 432 testes e oito cenários de navegador fictício aprovados.
+[Entrega e limites](changes/corrigir-publicacoes-foto-interacoes/validation.md).
+Sem publicação Xano ou reinício da instância normal; as três changes abaixo
+continuam com seus próprios critérios e contagens. Sincronização/arquivo do
+feed não executados.
+
 27/10/2026 — busca administrativa corrigida e publicada no Xano, com backup,
 dry-run final sem delta e **79 checks reais aprovados** após login admin.
 Tarefa 3.1 concluída; administração **22/34**. [Publicação, aceite e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
@@ -35,6 +44,7 @@ Evidências mais recentes:
 - [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
 - [Administração, 22/10](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
 - [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
+- [Recuperação/Resend, 28/10](changes/recuperar-senha-codigo-6-digitos/validation/elegibilidade-resend-2026-10-28.md): 24 testes locais passaram; a elegibilidade do destinatário ainda bloqueia envio/entrega reais, e 3.2/3.4 permanecem abertas.
 
 ## Entregas arquivadas
 

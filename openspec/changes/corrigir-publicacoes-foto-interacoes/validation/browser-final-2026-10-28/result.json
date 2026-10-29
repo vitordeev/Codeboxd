@@ -1,0 +1,96 @@
+{
+  "layer": "browser_local_fictional_backend",
+  "expected": 8,
+  "completed": [
+    {
+      "case": 1,
+      "width": 1440,
+      "passed": true,
+      "thumbnail": true,
+      "like_toggle": true,
+      "comments_create_edit": true,
+      "draft_after_error": true,
+      "escape_closes": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 2,
+      "width": 1440,
+      "passed": true,
+      "thumbnail": true,
+      "like_toggle": true,
+      "comments_create_edit": true,
+      "draft_after_error": true,
+      "escape_closes": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 3,
+      "width": 1440,
+      "passed": true,
+      "thumbnail": true,
+      "like_toggle": true,
+      "comments_create_edit": true,
+      "draft_after_error": true,
+      "escape_closes": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 4,
+      "width": 1440,
+      "passed": true,
+      "thumbnail": true,
+      "like_toggle": true,
+      "comments_create_edit": true,
+      "draft_after_error": true,
+      "escape_closes": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 1,
+      "width": 390,
+      "passed": true,
+      "thumbnail": true,
+      "like_toggle": true,
+      "comments_create_edit": true,
+      "draft_after_error": true,
+      "escape_closes": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 2,
+      "width": 390,
+      "passed": true,
+      "thumbnail": true,
+      "like_toggle": true,
+      "comments_create_edit": true,
+      "draft_after_error": true,
+      "escape_closes": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 3,
+      "width": 390,
+      "passed": true,
+      "thumbnail": true,
+      "like_toggle": true,
+      "comments_create_edit": true,
+      "draft_after_error": true,
+      "escape_closes": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 4,
+      "width": 390,
+      "passed": true,
+      "thumbnail": true,
+      "like_toggle": true,
+      "comments_create_edit": true,
+      "draft_after_error": true,
+      "escape_closes": true,
+      "javascript_errors": []
+    }
+  ],
+  "failure": "",
+  "normal_server_modified": false
+}

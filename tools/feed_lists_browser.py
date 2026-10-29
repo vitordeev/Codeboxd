@@ -119,7 +119,7 @@ async def check(browser,width,case):
         await context.close()
 
 
-async def main(output, frontend_workdir=None):
+async def main(output, frontend_workdir=None, readiness_path='/login'):
     global OUTPUT
     OUTPUT=output.resolve()
     OUTPUT.mkdir(parents=True,exist_ok=True)
@@ -148,7 +148,7 @@ async def main(output, frontend_workdir=None):
             for _ in range(240):
                 if process.poll() is not None: raise RuntimeError('Production process exited; inspect server.log')
                 try:
-                    with urllib.request.urlopen('http://127.0.0.1:3031/login',timeout=1): break
+                    with urllib.request.urlopen('http://127.0.0.1:3031'+readiness_path,timeout=1): break
                 except OSError: await asyncio.sleep(1)
             else: raise TimeoutError('Production startup')
             async with async_playwright() as playwright:

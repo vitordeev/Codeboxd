@@ -9,6 +9,7 @@ import reflex as rx
 
 from Codeboxd_main.state.social import SocialState
 from Codeboxd_main.services.api import APIError
+from Codeboxd_main.pages.social import feed_page, post_image_picker
 
 
 def media(kind='movie', mid=0):
@@ -32,6 +33,31 @@ class FeedListWorkflowTests(unittest.IsolatedAsyncioTestCase):
         self.s.posts=[dict(id='55',user_id='7',body='Original',media_id=mid,
                            spoiler='False',media_title='Matrix',image_url='/image.png')]
         self.s.edit_post('55')
+
+    def test_post_image_picker_starts_upload_on_selection(self):
+        picker=post_image_picker()
+        upload=picker.children[1].children[0]
+        hooks=' '.join(upload.special_props[0]._var_data.hooks)
+        self.assertIn('stage_post_image',hooks)
+        self.assertIn('on_drop_',hooks)
+        self.assertNotIn('Carregar imagem',str(picker))
+        self.assertIn('Descartar',str(picker))
+        page=str(feed_page())
+        self.assertIn('disabled:pyOr',page)
+        self.assertIn('filesById["post_image_upload"]',page)
+
+    async def test_selected_post_image_is_staged_and_cleared_after_success(self):
+        from types import SimpleNamespace
+
+        image=SimpleNamespace(name='fixture.png',read=AsyncMock(return_value=b'\x89PNG\r\n\x1a\nfixture'))
+        with TemporaryDirectory() as directory, \
+             patch.object(SocialState,'_require_user',new=AsyncMock(return_value=True)), \
+             patch('Codeboxd_main.state.social.rx.get_upload_dir',return_value=Path(directory)):
+            await finish(self.s.stage_post_image([image]))
+            self.assertFalse(self.s.post_image_staging)
+            self.assertEqual(self.s.post_image_mime,'image/png')
+            self.assertTrue(Path(self.s._post_image_path).is_file())
+            self.assertEqual(Path(self.s._post_image_path).read_bytes(),b'\x89PNG\r\n\x1a\nfixture')
 
     async def test_edit_keeps_id_with_without_replaced_and_removed_media(self):
         for action in ('none','keep','replace','remove'):

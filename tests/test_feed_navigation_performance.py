@@ -160,9 +160,9 @@ class FeedNavigationPerformanceTests(unittest.IsolatedAsyncioTestCase):
                         raise APIError('Upload unavailable', 503)
                     return {'id': 1}
 
-                with patch('Codeboxd_main.state.social.request', side_effect=request), \
+                with patch('Codeboxd_main.state.social.request', side_effect=request) as request_mock, \
                      patch.object(SocialState, '_require_user', new=AsyncMock(return_value=True)), \
-                     patch.object(SocialState, '_refresh_posts', new=AsyncMock()), \
+                     patch.object(SocialState, '_refresh_posts', new=AsyncMock()) as refresh, \
                      patch('Codeboxd_main.state.social.upload_file', side_effect=upload) as uploads:
                     await current._call('GET', '/feed')
                     async for _ in current.save_post({'body': 'Draft with image'}):
@@ -170,6 +170,17 @@ class FeedNavigationPerformanceTests(unittest.IsolatedAsyncioTestCase):
                     self.assertFalse(current._navigation_reads)
                     self.assertEqual(await current._call('GET', '/feed'), [{'id': 3}])
                     uploads.assert_awaited_once()
+                    self.assertEqual(uploads.await_args.args[0], '/posts')
+                    self.assertEqual(uploads.await_args.kwargs['field'], 'image_upload')
+                    self.assertEqual(uploads.await_args.kwargs['data']['body'], 'Draft with image')
+                    self.assertEqual(uploads.await_args.kwargs['filename'], image.name)
+                    self.assertEqual(uploads.await_args.kwargs['content'], b'fixture-image')
+                    self.assertEqual(uploads.await_args.kwargs['mime'], 'image/png')
+                    if fails:
+                        refresh.assert_not_awaited()
+                        self.assertTrue(all(call.args[0] == 'GET' for call in request_mock.call_args_list))
+                    else:
+                        refresh.assert_awaited_once()
                 self.assertFalse(current.post_saving)
                 if fails:
                     self.assertEqual(current.edit_post_body, 'Draft with image')

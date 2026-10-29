@@ -1,5 +1,12 @@
 # Contexto técnico e funcional — 27/10/2026
 
+Complemento de 28/10: implementação local do feed usa foto principal, cartão
+compacto da obra e diálogo de comentários. SocialState fixa contexto de
+discussão/sessão, bloqueia mutações concorrentes e replay de comentários, mantém
+rascunho em erro e resolve likes legados sob demanda. Contratos Xano mantidos.
+432 testes e oito cenários com dados fictícios aprovados; instância normal sem
+reinício e sem nova gravação real. [Evidências](changes/corrigir-publicacoes-foto-interacoes/validation.md).
+
 Busca administrativa em 27/10: GET /admin/users usa modos separados de ID,
 texto e listagem sem termo, includes com escape de curingas e filtros/paginação
 preservados. Publicado após autorização, com backup e dry-run posterior sem
