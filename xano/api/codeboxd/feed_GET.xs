@@ -3,7 +3,7 @@ query "feed" verb=GET {
  auth = "user"
  input {
 int page?=1 filters=min:1
-int per_page?=100 filters=min:1|max:100
+int per_page?=20 filters=min:1|max:100
 
  }
  stack {

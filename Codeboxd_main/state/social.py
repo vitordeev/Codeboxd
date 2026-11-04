@@ -112,6 +112,11 @@ class SocialState(SessionState):
     availability: list[dict[str,str]] = []
     community_reviews: list[dict[str,str]] = []
     selected_status: str = 'planned'
+    selected_list_status: str = ''
+    list_status_loading: bool = False
+    list_status_saving: bool = False
+    list_status_error: str = ''
+    _list_status_generation: int = 0
     selected_rating: str = '0'
     guest_ratings: str = rx.LocalStorage('{}', name='codeboxd_guest_ratings', sync=True)
     trailers: list[dict[str,str]] = []
@@ -142,7 +147,13 @@ class SocialState(SessionState):
     followers: list[dict[str,str]] = []
     following: list[dict[str,str]] = []
     following_ids: list[str] = []
+    following_pending: list[str] = []
+    _follow_generation: int = 0
     posts: list[dict[str,str]] = []
+    feed_error: str = ''
+    feed_warning: str = ''
+    feed_loading: bool = False
+    _feed_generation: int = 0
     comments: list[dict[str,str]] = []
     selected_post: str = ''
     liked_posts: list[str] = []
@@ -488,6 +499,9 @@ class SocialState(SessionState):
             if generation==self._visit_generation: self.busy=False
 
     def _reset_personal(self):
+        self._list_status_generation+=1; self._follow_generation+=1; self._feed_generation+=1
+        self.selected_list_status=''; self.list_status_error=''; self.list_status_loading=False
+        self.following_pending=[]; self.feed_error=''; self.feed_warning=''; self.feed_loading=False
         self._library_generation+=1
         self._library_cursor=0; self._library_owner=''; self._library_retry_at=0.0
         self.library_loading=False; self.library_has_more=False; self.library_error=''
@@ -875,6 +889,9 @@ class SocialState(SessionState):
         self.community_reviews=[]
         self.selected={'id':'','title':'','kind':'','year':'','cover':'','description':'','details':'','source':'','external_id':'','backdrop':''}
         self.selected_status='planned'; self.selected_rating='0'; self.selected_review=''; self.selected_spoiler=False
+        self.selected_list_status=''; self.list_status_error=''
+        self.list_status_loading=False
+        self._list_status_generation+=1
         self.trailers=[]
         if external:
             params=self.router.url.query_parameters
@@ -903,6 +920,8 @@ class SocialState(SessionState):
                     else: await self._load_personal_interaction(str(identifier),authenticated is True)
                 finally:
                     if current(): self.media_interaction_loading=False
+                if current() and authenticated is True and self._selected_raw.get('id'):
+                    await self._load_selected_list_status(int(self._selected_raw['id']))
             jobs={asyncio.create_task(job) for job in (
                 personal(),
                 self._prepare_default_lists(authenticated is True),self._load_trailers(),
@@ -1146,11 +1165,47 @@ class SocialState(SessionState):
         except APIError as exc:
             if stamp==self._media_stamp(): self._failure(exc)
 
+    def _confirmed_list_status(self, result, mid: int) -> str:
+        if (not isinstance(result,dict) or 'status' not in result
+                or str(result.get('user_id'))!=str(self.user_id)
+                or str(result.get('media_id'))!=str(mid)
+                or result['status'] not in (None,'watched','want_to_watch')):
+            raise APIError('Não foi possível confirmar o estado da lista. Atualize a ficha.')
+        return result['status'] or ''
+
+    def _apply_list_status(self, mid: int, status: str):
+        self.selected_list_status=status
+        if status:
+            self.selected_status={'watched':'completed','want_to_watch':'planned'}[status]
+            if (self._saved_interaction.get('user_id')==self.user_id
+                    and self._saved_interaction.get('media_id')==mid):
+                self._saved_interaction={**self._saved_interaction,'status':self.selected_status}
+        key=self.selected_list.get('default_key','')
+        kinds={f'{self.user_id}:planned':'want_to_watch',f'{self.user_id}:completed':'watched'}
+        if self.owns_list and key in kinds:
+            items=[row for row in self.list_items if row['id']!=str(mid)]
+            if status==kinds[key]:
+                items.append(present_media(self._selected_raw))
+            self.list_items=items
+
+    async def _load_selected_list_status(self, mid: int):
+        stamp=self._media_stamp(); owner=self.user_id
+        self._list_status_generation+=1; generation=self._list_status_generation
+        self.list_status_loading=True; self.list_status_error=''
+        def current():
+            return stamp==self._media_stamp() and owner==self.user_id and generation==self._list_status_generation
+        try:
+            result=await self._call('GET',f'/media-list-status/{mid}')
+            if current(): self._apply_list_status(mid,self._confirmed_list_status(result,mid))
+        except APIError as exc:
+            if current(): self.list_status_error=str(exc); self._failure(exc)
+        finally:
+            if current(): self.list_status_loading=False
+
     @rx.event
     async def quick_add(self, status: str, rating: float = 0, list_title: str = ''):
-        stamp=self._media_stamp()
-        if not await self._require_user(): return rx.redirect('/login')
-        if stamp!=self._media_stamp(): return
+        if self.list_status_saving or self.list_item_saving: return
+        stamp=self._media_stamp(); owner=self.user_id
         try: rating=float(normalize_rating(rating))
         except ValueError:
             self.notice='Escolha uma nota em passos de 0,5.'
@@ -1164,23 +1219,33 @@ class SocialState(SessionState):
         if list_title not in {title for title,_ in DEFAULT_MEDIA_LISTS}:
             self.notice='Escolha uma lista válida.'
             return
+        self.list_status_saving=True
+        self._list_status_generation+=1
+        self.list_status_loading=False; self.list_status_error=''
+        yield
+        def current():
+            return stamp==self._media_stamp() and owner==self.user_id
         try:
-            await self._ensure_default_lists()
-            if stamp!=self._media_stamp(): return
+            if not await self._require_user():
+                yield rx.redirect('/login'); return
+            if not current(): return
             mid=await self._persist_selected()
-            if stamp!=self._media_stamp(): return
-            await self._call('PUT','/interactions',dict(media_id=mid,status=status,rating=rating,
-                review=self.selected_review,spoiler=self.selected_spoiler))
-            if stamp!=self._media_stamp(): return
-            self._saved_interaction={}
-            target=next(item for item in self.quick_lists if item['title']==list_title)
-            await self._call('POST',f"/lists/{int(target['id'])}/items",{'media_id':mid})
-            if stamp!=self._media_stamp(): return
-            self.selected_status=status
-            if rating: self.selected_rating=normalize_rating(rating)
-            self.notice=f'“{self.selected["title"]}” adicionada à lista {list_title}.'
+            if not current(): return
+            path=f'/media-list-status/{mid}'
+            result=await self._call('GET',path)
+            if not current(): return
+            confirmed=self._confirmed_list_status(result,mid)
+            self._apply_list_status(mid,confirmed)
+            desired={'planned':'want_to_watch','completed':'watched'}[status]
+            desired=None if confirmed==desired else desired
+            result=await self._call('PUT',path,{'status':desired})
+            if not current(): return
+            self._apply_list_status(mid,self._confirmed_list_status(result,mid))
+            self.notice='Listas atualizadas.'
         except APIError as exc:
-            if stamp==self._media_stamp(): self._failure(exc)
+            if current(): self.list_status_error=str(exc); self._failure(exc)
+        finally:
+            self.list_status_saving=False
 
     @rx.event
     async def load_library(self):
@@ -1275,6 +1340,7 @@ class SocialState(SessionState):
     @rx.event
     async def load_community(self):
         stamp=self._route_stamp()
+        follow_generation=self._follow_generation
         self.following_ids=[]
         self.notice=''
         await self._validate_navigation_session()
@@ -1286,7 +1352,7 @@ class SocialState(SessionState):
         if self.user_id:
             try:
                 data=await self._call('GET',f'/profiles/{self.user_id}')
-                if stamp!=self._route_stamp(): return
+                if stamp!=self._route_stamp() or follow_generation!=self._follow_generation: return
                 self.following_ids=[str(f['followed_id']) for f in data['following']]
             except APIError as exc:
                 if exc.status!=404: self._failure(exc)
@@ -1299,6 +1365,7 @@ class SocialState(SessionState):
     async def _profile_updates(self):
         self._profile_generation+=1
         generation=self._profile_generation
+        follow_generation=self._follow_generation
         self.notice=''; self.profile_activity=[]; self.followers=[]; self.following=[]
         self.profile_stats=''; self.following_ids=[]
         self.profile_counts={'followers':0,'following':0,'activities':0}
@@ -1324,7 +1391,7 @@ class SocialState(SessionState):
             self.profile={k:str(v or '') for k,v in data['profile'].items()}
             self.profile_counts={'followers':len(data['followers']),'following':len(data['following']),
                                  'activities':len(data['interactions'])}
-            if int(uid)==self.user_id:
+            if int(uid)==self.user_id and follow_generation==self._follow_generation:
                 self.following_ids=[str(f['followed_id']) for f in data['following']]
             completed=sum(i['status']=='completed' for i in data['interactions'])
             self.profile_stats=f"{completed} obras concluídas · {len(data['followers'])} seguidores · {len(data['following'])} seguindo"
@@ -1363,7 +1430,8 @@ class SocialState(SessionState):
                             self._profiles={str(p['user_id']):p for p in profiles}
                             self.followers=[self._person(i['follower_id']) for i in data['followers']]
                             self.following=[self._person(i['followed_id']) for i in data['following']]
-                            self.following_ids=[str(f['followed_id']) for f in own['following']] if self.user_id else []
+                            if follow_generation==self._follow_generation:
+                                self.following_ids=[str(f['followed_id']) for f in own['following']] if self.user_id else []
                     except APIError as exc:
                         if current():
                             if section=='activity': self.profile_activity_error=str(exc)
@@ -1428,32 +1496,75 @@ class SocialState(SessionState):
 
     @rx.event
     async def follow(self, uid: str):
-        if not await self._require_user(): return rx.redirect('/login')
-        if uid==str(self.user_id): self.notice='Este é o seu perfil.'; return
         try:
-            if uid in self.following_ids:
-                await self._call('DELETE',f'/follows/{int(uid)}'); self.following_ids.remove(uid)
+            if isinstance(uid,bool) or not str(uid).strip().isdigit() or int(uid)<=0:
+                raise ValueError
+            uid=str(int(uid))
+        except (ValueError,TypeError):
+            self.notice='Escolha um perfil válido.'; return
+        if uid in self.following_pending: return
+        if uid==str(self.user_id): self.notice='Este é o seu perfil.'; return
+        stamp=self._route_stamp(); owner=self.user_id
+        self.following_pending=[*self.following_pending,uid]
+        yield
+        def current():
+            return stamp==self._route_stamp() and owner==self.user_id
+        try:
+            if not await self._require_user():
+                yield rx.redirect('/login'); return
+            if not current(): return
+            self._follow_generation+=1
+            method='DELETE' if uid in self.following_ids else 'PUT'
+            result=await self._call(method,f'/follows/{uid}')
+            if not current(): return
+            if (isinstance(result,dict) and str(result.get('follower_id'))==str(owner)
+                    and str(result.get('followed_id'))==uid
+                    and (type(result.get('following')) is bool or ('following' not in result and method=='PUT'))):
+                following=result.get('following',True)
+            elif method=='DELETE' and isinstance(result,dict) and result.get('success') is True and 'following' not in result:
+                # Legacy DELETE returns only success; verify persisted direction.
+                confirmed=await self._call('GET',f'/profiles/{owner}')
+                if not current(): return
+                if not isinstance(confirmed,dict) or not isinstance(confirmed.get('following'),list):
+                    raise APIError('Não foi possível confirmar a conexão. Atualize o perfil.')
+                following=any(str(row.get('followed_id'))==uid for row in rows(confirmed['following']))
             else:
-                await self._call('PUT',f'/follows/{int(uid)}'); self.following_ids.append(uid)
+                raise APIError('Não foi possível confirmar a conexão. Atualize o perfil.')
+            ids=[item for item in self.following_ids if item!=uid]
+            self.following_ids=[*ids,uid] if following else ids
             self.notice='Conexões atualizadas.'
-        except APIError as exc: self._failure(exc)
+        except APIError as exc:
+            if current(): self._failure(exc)
+        finally:
+            self._follow_generation+=1
+            self.following_pending=[item for item in self.following_pending if item!=uid]
 
     async def _refresh_posts(self):
         stamp=self._route_stamp()
+        generation=self._feed_generation; owner=self.user_id
+        def current():
+            return stamp==self._route_stamp() and generation==self._feed_generation and owner==self.user_id
         data=rows(await self._call('GET','/feed',params={'per_page':20}))
-        if stamp!=self._route_stamp(): return
-        own=rows(await self._call('GET','/posts',params={'user_id':self.user_id,'per_page':20}))
-        if stamp!=self._route_stamp(): return
+        if not current(): return
+        warnings=[]
+        try:
+            own=rows(await self._call('GET','/posts',params={'user_id':self.user_id,'per_page':20}))
+        except APIError as exc:
+            if exc.status in (401,403): raise
+            own=[]; warnings.append('Não foi possível carregar suas publicações: '+str(exc))
+        if not current(): return
         combined={str(p['id']):p for p in data+own}
         try:
             liked=[str(i['post_id']) for i in rows(await self._call('GET','/likes'))]
         except APIError as exc:
-            if exc.status != 404:
-                raise
+            if exc.status in (401,403): raise
+            if exc.status!=404: warnings.append('Não foi possível atualizar curtidas: '+str(exc))
             # Older workspaces have no /likes route. Resolve like state only
             # when a user opens a discussion or taps its like button.
             liked=[pid for pid in self.liked_posts if pid in combined]
-        if stamp!=self._route_stamp(): return
+        if not current(): return
+        self.feed_error=''
+        self.feed_warning=' '.join(warnings)
         self.liked_posts=liked; self.posts=[]
         def post_timestamp(post):
             value=post.get('created_at') or 0
@@ -1482,15 +1593,28 @@ class SocialState(SessionState):
     @rx.event
     async def load_feed(self):
         stamp=self._route_stamp()
+        self._feed_generation+=1; generation=self._feed_generation
+        self.feed_loading=True; self.feed_error=''; self.feed_warning=''
+        def current():
+            return stamp==self._route_stamp() and generation==self._feed_generation
         self.close_discussion(); self.post_interaction_errors={}
         self.posts=[]; self.comments=[]; self.notice=''
-        if not await self._require_user(navigation=True): return rx.redirect('/login')
-        if stamp!=self._route_stamp(): return
         try:
-            await self._load_reference()
-            if stamp==self._route_stamp(): await self._refresh_posts()
+            if not await self._require_user(navigation=True): return rx.redirect('/login')
+            if not current(): return
+            reference_warning=''
+            try:
+                await self._load_reference()
+            except APIError as exc:
+                if exc.status in (401,403): raise
+                reference_warning='Alguns dados de autores ou obras não puderam ser carregados: '+str(exc)
+            if current():
+                await self._refresh_posts()
+                if current(): self.feed_warning=' '.join(filter(None,[reference_warning,self.feed_warning]))
         except APIError as exc:
-            if stamp==self._route_stamp(): self._failure(exc)
+            if current(): self.feed_error=str(exc); self._failure(exc)
+        finally:
+            if current(): self.feed_loading=False
 
     @rx.event
     def edit_post(self, pid: str):
@@ -2062,6 +2186,7 @@ class SocialState(SessionState):
 
     @rx.event
     async def open_media_lists(self):
+        if self.list_status_saving: return
         stamp=self._media_stamp()
         if not await self._require_user():
             yield rx.redirect('/login'); return
@@ -2073,6 +2198,7 @@ class SocialState(SessionState):
             found=rows(await self._call('GET','/lists'))
             if stamp!=self._media_stamp() or not self.media_list_open: return
             self.media_list_options=[{'id':str(row['id']),'title':str(row['title']),
+                                      'default_key':str(row.get('default_key') or ''),
                                       'is_public':str(bool(row.get('is_public')))}
                                      for row in found if str(row.get('user_id'))==str(self.user_id)]
             if not self.media_list_options: self.media_list_error='Você ainda não tem listas. Crie uma em Minhas listas.'
@@ -2083,7 +2209,7 @@ class SocialState(SessionState):
 
     @rx.event
     async def add_current_media_to_list(self):
-        if self.list_item_saving: return
+        if self.list_item_saving or self.list_status_saving: return
         lid=self.media_list_target
         if not any(row['id']==lid for row in self.media_list_options):
             self.media_list_error='Escolha uma lista sua.'; return
@@ -2100,6 +2226,13 @@ class SocialState(SessionState):
             if not current(): return
             await self._call('POST',f'/lists/{int(lid)}/items',{'media_id':mid})
             if not current(): return
+            target=next(row for row in self.media_list_options if row['id']==lid)
+            if target.get('default_key') in (f'{owner}:planned',f'{owner}:completed'):
+                await self._load_selected_list_status(mid)
+                if not current(): return
+                if self.list_status_error:
+                    self.media_list_error='Inclusão enviada; não foi possível confirmar o estado. Atualize a ficha.'
+                    return
             self.notice='Obra adicionada à lista.'
             self.media_list_open=False
         except (ValueError,KeyError):

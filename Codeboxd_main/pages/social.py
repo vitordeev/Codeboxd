@@ -339,11 +339,19 @@ def media_page():
                         rx.el.p('Crie uma conta para publicar uma crítica, salvar na biblioteca, criar posts ou seguir pessoas.',class_name='text-sm text-gray-400'),
                         rx.el.a('Criar conta',href='/cadastro',class_name=BUTTON+' inline-block'),class_name=CARD))),
                 rx.el.aside(rx.el.h2('Adicione às suas listas',class_name='section-title'),
+                    rx.cond(S.list_status_loading,rx.el.p('Carregando estado das listas…',role='status')),
+                    rx.cond(S.list_status_error!='',rx.el.p(S.list_status_error,role='alert')),
                     rx.el.div(
-                        rx.el.button('Quero ver / ler',on_click=S.quick_add('planned',0,'Quero ver / ler'),class_name='media-list-link'),
-                        rx.el.button('Já assisti / li',on_click=S.quick_add('completed',0,'Já assisti / li'),class_name='media-list-link'),
+                        rx.el.button('Quero ver / ler',on_click=S.quick_add('planned',0,'Quero ver / ler'),
+                            aria_pressed=S.selected_list_status=='want_to_watch',
+                            disabled=S.list_status_saving | S.list_status_loading | S.list_item_saving,
+                            class_name=rx.cond(S.selected_list_status=='want_to_watch','media-list-link selected','media-list-link')),
+                        rx.el.button('Já assisti / li',on_click=S.quick_add('completed',0,'Já assisti / li'),
+                            aria_pressed=S.selected_list_status=='watched',
+                            disabled=S.list_status_saving | S.list_status_loading | S.list_item_saving,
+                            class_name=rx.cond(S.selected_list_status=='watched','media-list-link selected','media-list-link')),
                         class_name='media-list-grid'),
-                    button('Adicionar a outra lista',S.open_media_lists,disabled=S.list_item_saving),
+                    button('Adicionar a outra lista',S.open_media_lists,disabled=S.list_item_saving | S.list_status_saving),
                     rx.cond(S.media_list_open,rx.el.div(
                         rx.el.h3('Escolha uma lista',class_name='font-semibold'),
                         rx.cond(S.media_list_loading,rx.el.p('Carregando suas listas…',role='status'),rx.fragment()),
@@ -408,7 +416,7 @@ def person(p):
     return rx.el.article(rx.el.a(p['display_name'],href='/perfil/'+p['user_id'],class_name='text-xl font-semibold'),
         rx.el.p('@'+p['username'],class_name='text-[#F5B300]'),rx.el.p(p['bio'],class_name='text-gray-400'),
         rx.cond(S.is_authenticated & (p['user_id']!=S.user_id.to_string()),
-            button(rx.cond(S.following_ids.contains(p['user_id']),'Deixar de seguir','Seguir'),S.follow(p['user_id']))),class_name=CARD)
+            button(rx.cond(S.following_ids.contains(p['user_id']),'Deixar de seguir','Seguir'),S.follow(p['user_id']),disabled=S.following_pending.contains(p['user_id']))),class_name=CARD)
 
 
 def community_page():
@@ -443,7 +451,7 @@ def profile_page():
                     rx.dialog.content(rx.dialog.title('Editar perfil'),rx.dialog.description('Conte um pouco sobre você.'),
                         rx.el.p(S.notice,role='status'),banner_uploader,profile_form,
                         rx.dialog.close(rx.el.button('Fechar',class_name='quiet-button')),class_name='codeboxd-dialog')),
-                    rx.cond(S.is_authenticated,button(rx.cond(S.following_ids.contains(S.profile['user_id']),'Deixar de seguir','Seguir'),S.follow(S.profile['user_id']),disabled=S.profile_people_loading | (S.profile_people_error!='')))),
+                    rx.cond(S.is_authenticated,button(rx.cond(S.following_ids.contains(S.profile['user_id']),'Deixar de seguir','Seguir'),S.follow(S.profile['user_id']),disabled=S.profile_people_loading | (S.profile_people_error!='') | S.following_pending.contains(S.profile['user_id'])))),
                 class_name='profile-summary'),class_name='profile-panel'),
         rx.cond(S.profile['user_id']!=S.user_id.to_string(),button('Denunciar perfil',S.open_report('profile',S.profile['user_id']))),
         rx.el.div(*[rx.el.a(rx.el.strong(count),rx.el.span(label),href=href,class_name='profile-stat') for count,label,href in
@@ -628,8 +636,11 @@ def feed_page():
                     on_submit=S.save_post,key=S.edit_post_id,class_name='editor-form')),
             open=S.post_editor_open,on_open_change=S.set_post_editor_open),
         rx.el.div(rx.el.section(
-            rx.cond(S.posts.length()>0,rx.foreach(S.visible_posts,post),rx.el.div(rx.icon('messages-square',size=36),
-                rx.el.p('Seu feed começa com uma boa história.'),rx.el.a('Encontrar pessoas',href='/comunidade',class_name='brand-yellow'),class_name='empty-state')),
+            rx.cond(S.feed_warning!='',rx.el.p(S.feed_warning,role='status')),
+            rx.cond(S.feed_loading,rx.el.p('Carregando publicações…',role='status'),
+                rx.cond(S.feed_error!='',rx.el.div(rx.el.p(S.feed_error,role='alert'),button('Tentar novamente',S.load_feed)),
+                    rx.cond(S.posts.length()>0,rx.foreach(S.visible_posts,post),rx.el.div(rx.icon('messages-square',size=36),
+                        rx.el.p('Ainda não há publicações no seu feed.'),rx.el.a('Encontrar pessoas',href='/comunidade',class_name='brand-yellow'),class_name='empty-state')))),
             rx.cond(S.posts.length()>S.visible_count,button('Mostrar mais',S.show_more)),
             class_name='feed-stream'),
             rx.el.aside(button('+ Criar publicação',S.new_post),rx.el.h2('Pessoas da comunidade',class_name='section-title'),

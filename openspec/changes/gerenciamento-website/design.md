@@ -22,6 +22,16 @@ Ver `proposal.md` para a motivação e `specs/` para os contratos observáveis. 
 
 ## Decisions
 
+### Retomada local em 03/11/2026 — contexto das confirmações
+
+Nas tarefas 3.2, 4.2, 5.3 e 9.1, fixar token, alvo e campos da confirmação
+antes do primeiro yield dos eventos de suspensão, edição e revisão. Revalidar
+esse contexto após a autorização e após a escrita: cancelar antes do PUT se
+o formulário/sessão mudou e ignorar respostas/erros antigos depois do PUT.
+Não redirecionar, limpar sessão nova, fechar outro editor ou recarregar dados
+por resposta de uma confirmação anterior. Testes com mudanças controladas
+durante os awaits; sem publicação Xano ou conclusão dos critérios remotos.
+
 - **Usar a área `/admin` já existente como ponto de entrada.** Ela já é protegida no carregamento pela sessão Reflex. Cada endpoint administrativo no Xano também verificará o papel, porque ocultar uma rota ou botão no cliente não autoriza a operação. Alternativa considerada: criar um app separado; isso duplicaria autenticação, navegação e configuração sem necessidade atual.
 - **Criar `/admin/login` como entrada visual própria e reaproveitar `SessionState`.** O formulário usa o mesmo provedor, token e validação `/auth/me` do login comum. O evento dedicado rejeita e limpa a sessão quando o papel confirmado não é `admin`; `/admin` redireciona visitantes para `/admin/login` e continua bloqueando membros. Alternativa considerada: duplicar credenciais ou endpoints de login para administradores; isso criaria sessões e regras inconsistentes.
 - **Separar endpoints administrativos por domínio e manter payloads mínimos.** Dashboard, usuários, catálogo e reports terão contratos próprios, retornando apenas dados necessários às telas. Operações administrativas devem obter o ator de `$auth.id`, não de identificadores enviados pelo cliente. Alternativa considerada: um endpoint genérico de administração; foi rejeitada por concentrar autorização e validação difíceis de revisar.

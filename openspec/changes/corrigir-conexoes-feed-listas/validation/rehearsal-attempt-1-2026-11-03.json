@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "check": "fixture_default_identities",
+      "passed": true
+    },
+    {
+      "check": "follow_PUT_True",
+      "passed": true
+    },
+    {
+      "check": "follow_PUT_True",
+      "passed": true
+    },
+    {
+      "check": "follow_DELETE_False",
+      "passed": true
+    },
+    {
+      "check": "follow_DELETE_False",
+      "passed": true
+    },
+    {
+      "check": "follow_PUT_True",
+      "passed": true
+    },
+    {
+      "check": "concurrent_follow_idempotent",
+      "passed": true
+    },
+    {
+      "check": "new_reader_historical_feed_pagination",
+      "passed": true
+    }
+  ],
+  "passed": false
+}

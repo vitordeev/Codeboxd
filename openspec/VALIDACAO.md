@@ -1,5 +1,13 @@
 # Validação documental — 26/10/2026
 
+## Atualização de 30/10/2026
+
+Quatro entregas completas arquivadas, deltas de social-feed consolidados com
+cenários preservados, 19 specs aprovadas e quatro changes funcionais restantes
+validadas. Conferidos 117 links locais afetados, sem ausentes, antes do arquivo
+da consolidação. [Relatório, limites e recursos necessários](RELATORIO_CHANGES_2026-10-30.md).
+Sem novo teste funcional, deploy, acesso Xano ou alteração de conta nesta rodada.
+
 ## Conclusão das listas
 
 Change corrigir-duplicacao-listas-padrao implementada com 11/11 critérios; suíte de 411 testes, compilação/build e recarga normal, publicação/backfill real, 18 checks API e 14 critérios de navegador com duas contas autenticadas comprovados. Limpeza descartável concluída e inventário final confirma 19 listas/8 vínculos originais, zero duplicatas/conflitos. [Mapa de evidências e condições de execução](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Validação estrita da change e diff check aprovados; quatro requisitos sincronizados em duas specs e change arquivada em 26/10/2026, com conferência integral dos blocos e caminhos. As falhas transitórias e 429 anteriores foram preservados nas evidências, sem fechar metas amplas de performance.

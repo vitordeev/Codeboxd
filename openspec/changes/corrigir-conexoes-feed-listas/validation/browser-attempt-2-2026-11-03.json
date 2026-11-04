@@ -1,0 +1,39 @@
+{
+  "layer": "browser_real_xano_paced_proxy",
+  "passed": false,
+  "cases": [],
+  "transport_timeout_seconds": 60,
+  "proxy_min_interval_seconds": 2.4,
+  "normal_server_modified": false,
+  "phase": "profile_follow",
+  "failure_type": "AssertionError",
+  "requests": 5,
+  "rate_limits": 0,
+  "responses": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles/25",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media",
+      "status": 200
+    }
+  ]
+}

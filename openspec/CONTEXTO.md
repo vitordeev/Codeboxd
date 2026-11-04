@@ -1,11 +1,23 @@
 # Contexto técnico e funcional — 27/10/2026
 
+03/11/2026: [entrega e encerramento para Git](changes/corrigir-conexoes-feed-listas/validation/encerramento-2026-11-03.md).
+Contratos de follow/status único publicados; 6 itens padrão migrados para 5
+relações, sem alterar avaliações/personalizadas. Limpeza final aprovada, sem
+rotas ou contas de teste restantes. Change ativa 9/10, aceite visual pendente.
+Os registros anteriores de ausência de implantação descrevem rodadas anteriores.
+
+Atualização de 30/10/2026: [estado e dependências das changes](RELATORIO_CHANGES_2026-10-30.md).
+Auditoria e três entregas de apresentação/interação do feed foram arquivadas
+com seus limites. Conexões/feed/listas segue 6/7 e exige aplicação MANUAL do
+contrato Xano; o Python local já depende desse contrato para o switch padrão.
+As evidências históricas abaixo não comprovam que essa migração foi publicada.
+
 Complemento de 28/10: implementação local do feed usa foto principal, cartão
 compacto da obra e diálogo de comentários. SocialState fixa contexto de
 discussão/sessão, bloqueia mutações concorrentes e replay de comentários, mantém
 rascunho em erro e resolve likes legados sob demanda. Contratos Xano mantidos.
 432 testes e oito cenários com dados fictícios aprovados; instância normal sem
-reinício e sem nova gravação real. [Evidências](changes/corrigir-publicacoes-foto-interacoes/validation.md).
+reinício e sem nova gravação real. [Evidências](changes/archive/2026-10-30-corrigir-publicacoes-foto-interacoes/validation.md).
 
 Busca administrativa em 27/10: GET /admin/users usa modos separados de ID,
 texto e listagem sem termo, includes com escape de curingas e filtros/paginação

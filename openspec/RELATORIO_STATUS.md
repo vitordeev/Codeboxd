@@ -1,5 +1,11 @@
 # Estado do Codeboxd — 27/10/2026
 
+Atualização de 30/10/2026: [relatório das changes](RELATORIO_CHANGES_2026-10-30.md).
+Quatro entregas locais completas arquivadas; conexões/feed/listas 6/7,
+recuperação 8/10, administração 22/34 e performance 14/37 permanecem abertas.
+O relatório distingue validação histórica/local e dependências externas.
+As seções abaixo preservam a reconciliação anterior.
+
 Busca administrativa: tarefa 3.1 concluída após correção e publicação limitada
 ao GET /admin/users. Backup conferido, dry-run posterior sem delta e 79 checks
 reais aprovados em 34 requisições, sem 429. Administração **22/34**; demais

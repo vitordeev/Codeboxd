@@ -9,7 +9,10 @@ Definir o feed social do Codeboxd, permitindo que usuários visualizem e publiqu
 ### Requirement: Create media-related posts
 The system SHALL allow authenticated users to create posts with an optional
 association to a supported media item. A post MAY include written content and
-media interaction information.
+media interaction information. When a user selects a personal photo, the system
+SHALL include that photo with the post or prevent submission until the photo
+upload succeeds; it SHALL NOT silently publish the text and media association
+without the selected photo.
 
 #### Scenario: Creating a media-related post
 - **WHEN** an authenticated user submits valid content associated with a media item
@@ -18,6 +21,14 @@ media interaction information.
 #### Scenario: Creating a post without media
 - **WHEN** an authenticated user submits valid content without selecting media
 - **THEN** the system SHALL create a post without requiring a media reference
+
+#### Scenario: Publishing a selected personal photo
+- **WHEN** an authenticated user selects a valid personal photo and submits the post
+- **THEN** the system SHALL attach the photo to the same post without requiring a separate manual upload action
+
+#### Scenario: Publishing while the selected photo is not ready
+- **WHEN** a selected photo is still uploading or its upload has failed
+- **THEN** the system SHALL prevent the post from being published without that photo and SHALL show the upload state or error
 
 ### Requirement: Display followed user activity
 
@@ -30,12 +41,35 @@ The system SHALL display posts and supported activities created by users followe
 
 ### Requirement: Display post information
 
-The system SHALL display the author, associated media and available publication information for each post.
+The system SHALL display the author, associated media and available publication information for each post. When a post has an associated work, its compact linked card SHALL appear in the post header alongside the author's identity. A personal photo SHALL remain the main image below the header. The work SHALL keep a readable fallback when no cover is available.
 
 #### Scenario: Viewing a post
 
 - **WHEN** a user accesses a post
 - **THEN** the system SHALL display the post author and the associated media information
+
+#### Scenario: Post with associated work
+
+- **WHEN** a post has an associated work
+- **THEN** the system SHALL show the compact linked work card beside the author's identity in the header
+
+#### Scenario: Post with personal photo and associated work
+
+- **WHEN** a post has both a personal photo and an associated work
+- **THEN** the system SHALL show the work card in the header and the personal photo as the main content image below it
+
+#### Scenario: Narrow screen
+
+- **WHEN** the post is shown in a narrow viewport
+- **THEN** the author identity and work card SHALL wrap or shrink without horizontal overflow, while keeping the work link accessible
+
+#### Scenario: Personal photo with an associated work
+- **WHEN** a post has both an attached photo and an associated work
+- **THEN** the system SHALL display the photo prominently and the work as a compact clickable thumbnail
+
+#### Scenario: Work without a photo or cover
+- **WHEN** a post references a work with no photo or no cover
+- **THEN** the work SHALL remain recognizable and clickable without a broken or oversized image
 
 ### Requirement: Like posts
 
@@ -97,3 +131,29 @@ be optional and editable independently of the post identity.
 #### Scenario: Failed edit
 - **WHEN** saving fails without a session rejection
 - **THEN** the system SHALL retain the editable draft and provide an error without creating a replacement post
+
+### Requirement: Contextual post interactions
+The system SHALL provide accessible like controls with visible confirmed state
+and available counts. Comments SHALL open in a dedicated panel for the selected
+post with avatar, author, loading, error, empty state and an editable composer.
+Existing authorship restrictions SHALL remain enforced.
+
+#### Scenario: Opening and closing comments
+- **WHEN** a user opens comments on a post
+- **THEN** its discussion panel SHALL appear without scrolling to the end of the feed and SHALL allow accessible dismissal
+
+#### Scenario: Repeated interaction while pending
+- **WHEN** the same like or comment is submitted repeatedly while pending
+- **THEN** only one mutation SHALL be sent and the interface SHALL show its pending state
+
+#### Scenario: Failed comment submission
+- **WHEN** a comment fails to save
+- **THEN** the composer SHALL retain the draft and display an error without claiming success
+
+#### Scenario: Discussion or account changes during a request
+- **WHEN** an old discussion response arrives after another post is selected, closed or the account changes
+- **THEN** the response SHALL NOT replace the active discussion or send a comment to another post
+
+#### Scenario: Legacy likes endpoint
+- **WHEN** the workspace has no /likes route
+- **THEN** post interactions SHALL remain compatible through discussion without introducing per-post reads during feed loading

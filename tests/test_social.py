@@ -223,7 +223,7 @@ class SocialTests(unittest.IsolatedAsyncioTestCase):
         s=self.state
         with patch('Codeboxd_main.state.social.request',new=AsyncMock()) as request:
             self.assertTrue(s.new_post())
-            await s.follow('2')
+            async for _ in s.follow('2'): pass
             async for _ in s.save_post({'body':'Not public','media_id':'0'}):
                 pass
         request.assert_not_awaited()

@@ -73,9 +73,11 @@ button:disabled { cursor: wait; }
 .rating-value-select { display: flex; align-items: center; gap: 12px; width: fit-content; max-width: 100%; }
 .rating-value-select select { width: 130px; padding: 8px 12px; }
 .status-chip,.media-list-link { border: 1px solid #343438; background: #111112; color: #d8d6db; border-radius: 9px; padding: 12px 14px; text-align: left; font-size: 13px; }
-.status-chip:hover,.status-chip.selected,.media-list-link:hover { border-color: var(--yellow); color: var(--yellow); background: #211e11; }
+.status-chip:hover,.status-chip.selected,.media-list-link:hover,.media-list-link.selected { border-color: var(--yellow); color: var(--yellow); background: #211e11; }
 .media-list-panel { display: flex; flex-direction: column; gap: 9px; padding: 15px; border: 1px solid #303034; border-radius: 16px; }
 .media-list-link::after { content: '+'; float: right; color: var(--yellow); font-size: 18px; line-height: 14px; }
+.media-list-link.selected::after { content: '✓'; }
+.media-list-link:disabled { opacity: .6; cursor: wait; }
 .media-community-reviews { display: grid; gap: 14px; }
 .media-community-review { padding: 18px 20px; border: 1px solid #303034; border-radius: 15px; background: #111112; }
 .review-layout { display: grid; grid-template-columns: minmax(0,2fr) minmax(0,1fr); gap: 32px; margin-top: 32px; }

@@ -30,8 +30,32 @@ precondition ($record.user_id == $auth.id) {
   error_type = "accessdenied"
   error = "Operação não permitida."
 }
+function.run "Lists/default_list_status" {
+ input = {user_id: $record.user_id, default_key: $record.default_key}
+} as $default_status
 db.transaction {
  stack {
+db.get user {
+ field_name = "id"
+ field_value = $auth.id
+ lock = true
+} as $actor_lock
+conditional {
+ if ($default_status != null) {
+  db.query user_media_list_status {
+   where = $db.user_media_list_status.user_id == $auth.id && $db.user_media_list_status.status == $default_status
+   return = {type: "list"}
+  } as $statuses
+  foreach ($statuses) {
+   each as $status_row {
+    db.del user_media_list_status {
+     field_name = "id"
+     field_value = $status_row.id
+    }
+   }
+  }
+ }
+}
 db.query user_list_item {
  where = $db.user_list_item.list_id == $input.id
  return = {type: "list"}

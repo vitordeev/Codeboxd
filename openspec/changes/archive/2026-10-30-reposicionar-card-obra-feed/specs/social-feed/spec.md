@@ -2,7 +2,7 @@
 
 ### Requirement: Display post information
 
-The system SHALL display the author, associated media and available publication information for each post. When a post has an associated work, its compact linked card SHALL appear in the post header alongside the author's identity. A personal photo SHALL remain the main image below the header.
+The system SHALL display the author, associated media and available publication information for each post. When a post has an associated work, its compact linked card SHALL appear in the post header alongside the author's identity. A personal photo SHALL remain the main image below the header. The work SHALL keep a readable fallback when no cover is available.
 
 #### Scenario: Viewing a post
 
@@ -23,3 +23,11 @@ The system SHALL display the author, associated media and available publication 
 
 - **WHEN** the post is shown in a narrow viewport
 - **THEN** the author identity and work card SHALL wrap or shrink without horizontal overflow, while keeping the work link accessible
+
+#### Scenario: Personal photo with an associated work
+- **WHEN** a post has both an attached photo and an associated work
+- **THEN** the system SHALL display the photo prominently and the work as a compact clickable thumbnail
+
+#### Scenario: Work without a photo or cover
+- **WHEN** a post references a work with no photo or no cover
+- **THEN** the work SHALL remain recognizable and clickable without a broken or oversized image

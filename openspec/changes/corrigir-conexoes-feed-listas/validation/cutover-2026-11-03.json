@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "published": true,
+  "statuses_migrated": 5,
+  "legacy_items_migrated": 6,
+  "conflicts_resolved": 1,
+  "candidate_sha256": "41983d2019da959aa2e92026d809d1574f835e14a17481857402f9e185193294",
+  "unrelated_data_preserved": true,
+  "unrelated_contracts_preserved": true
+}

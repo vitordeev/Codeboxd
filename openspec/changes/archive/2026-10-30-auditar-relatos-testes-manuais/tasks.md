@@ -7,7 +7,7 @@
 
 ## Evidências — 29/10/2026
 
-- [Auditoria](../../../docs/planning/codeboxd-auditoria.md): seis registros com observado/esperado, localização e grau de certeza; [backlog](../../../docs/planning/codeboxd-backlog.md): prioridades, dependências e aceite por ID.
+- [Auditoria](../../../../docs/planning/codeboxd-auditoria.md): seis registros com observado/esperado, localização e grau de certeza; [backlog](../../../../docs/planning/codeboxd-backlog.md): prioridades, dependências e aceite por ID.
 - `git status --short` inicial: apenas M reflex.lock/package.json. Final: a mesma alteração preexistente e os diretórios novos docs/planning/ e desta change. Nenhuma ferramenta escreveu no arquivo preexistente. `git branch --show-current`: develop antes/depois; sem troca de branch.
 - `git diff --check`: código 0, com aviso de conversão LF/CRLF no arquivo preexistente. Arquivos documentais novos revisados separadamente, pois ainda não rastreados.
 - `openspec status --change auditar-relatos-testes-manuais --json`: proposal/design/tasks presentes, specs skipped por escopo documental.

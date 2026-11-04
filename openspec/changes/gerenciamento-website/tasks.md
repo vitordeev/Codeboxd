@@ -46,6 +46,17 @@ Revisão em 19/10/2026: endpoints e tabela de reports já existem no workspace 1
 
 ## 3. Gerenciamento de usuários
 
+Retomada de 03/11/2026: incremento local planejado nas tarefas 3.2, 4.2, 5.3
+e 9.1 para vincular confirmações ao token, alvo e formulário originais.
+Adicionar regressões de troca de contexto durante autorização/escrita e
+validar testes, compile seco e OpenSpec; registrar evidências em
+`validation/confirmacoes-contexto-2026-11-03.md`. Critérios remotos permanecem abertos.
+
+Incremento implementado e validado nesta rodada: oito regressões novas,
+47 testes administrativos e 464 na suíte completa aprovados; compile seco e
+OpenSpec aprovados. [Evidências e limites](validation/confirmacoes-contexto-2026-11-03.md).
+Nenhum checkbox remoto encerrado; **22/34** mantido.
+
 Implementado localmente: consulta paginada, alteração de status e registro `event_log` em transação. Falta testar respostas reais, bloqueio da conta suspensa e persistência da auditoria.
 
 - [x] 3.1 Implementar endpoint paginado de busca de usuários por identificador/nome e filtros administrativos; verificar busca sem resultados e ausência de senha, token e dados secretos no payload.

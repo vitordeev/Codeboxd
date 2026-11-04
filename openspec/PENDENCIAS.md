@@ -1,5 +1,33 @@
 # Pendências atuais — 27/10/2026
 
+Encerramento de 03/11/2026 a pedido do usuário: [evidências para Git](changes/corrigir-conexoes-feed-listas/validation/encerramento-2026-11-03.md).
+Conexões/listas **9/10**, backend publicado, migração e limpeza aprovadas.
+3.2 continua aberta pelo aceite visual; HTTP direto de rota dinâmica retornou
+404 no servidor local de produção. Nenhuma correção de roteamento realizada.
+São **38 tarefas funcionais abertas** nesta configuração de checklists.
+As contagens de 40 abaixo são do estado anterior ao corte concluído.
+
+Continuação de 03/11/2026: [contratos implementados e implantação preparada](changes/corrigir-conexoes-feed-listas/validation/implantacao-2026-11-03.md).
+Conexões/listas **7/10**: prévia remota de 15 documentos e 477 testes aprovados;
+backup, plano e pacote de rollback preparados. Sem publicação ou migração.
+Plano gratuito recusou branch/fonte isolada; aguarda escolha de ambiente de
+ensaio. Com três tarefas novas detalhadas e uma concluída, há **40 tarefas
+funcionais abertas**; os registros históricos de 38 são da conferência anterior.
+
+Conferência de 03/11/2026: [relatório remoto/local](changes/auditar-estado-remoto-changes-abertas/report.md).
+Contrato novo de status ainda ausente no workspace, embora default_key histórico
+exista. Flags efetivas de biblioteca paginada e identidade padrão false em
+processo novo. Admin e Resend têm contratos presentes; efeitos reais continuam
+pendentes. O acesso administrativo de leitura funcionou nesta sessão, superando
+a limitação anterior de acesso, sem autorizar implantação. Contagens funcionais
+preservadas; scaffold corrigir-follow-feed-status-filmes falha por falta de planejamento.
+
+Atualização de 30/10/2026: [estado completo das changes](RELATORIO_CHANGES_2026-10-30.md).
+As quatro entregas locais completas foram arquivadas; conexões/feed/listas
+permanece **6/7**, aguardando aplicação manual Xano. Recuperação **8/10** precisa
+de destinatário elegível e caixa controlada; administração **22/34** e performance
+**14/37** mantêm seus critérios. Credenciais não substituem implementação e evidência.
+
 Busca administrativa publicada e validada: tarefa 3.1 concluída, 79 checks reais
 aprovados; administração agora **22/34**. [Entrega e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
@@ -13,6 +41,7 @@ Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
+| [corrigir-conexoes-feed-listas](changes/corrigir-conexoes-feed-listas/tasks.md) | 9/10 | 1 | Aceite visual; roteamento dinâmico local pendente |
 | [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e navegador real |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |

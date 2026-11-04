@@ -58,7 +58,7 @@ class RequiredSubmissionContentTests(unittest.IsolatedAsyncioTestCase):
     async def test_positive_rating_shortcut_cannot_bypass_written_review(self):
         with patch.object(SocialState,'_require_user',new=AsyncMock(return_value=True)), \
              patch.object(SocialState,'_call',new=AsyncMock()) as call:
-            await self.state.quick_add('completed',4.5,'Já assisti / li')
+            async for _ in self.state.quick_add('completed',4.5,'Já assisti / li'): pass
         call.assert_not_awaited()
         self.assertIn('Escreva sua avaliação',self.state.notice)
 
@@ -66,7 +66,10 @@ class RequiredSubmissionContentTests(unittest.IsolatedAsyncioTestCase):
         self.state.quick_lists=[{'id':'1','title':'Quero ver / ler'}]
         with patch.object(SocialState,'_require_user',new=AsyncMock(return_value=True)), \
              patch.object(SocialState,'_ensure_default_lists',new=AsyncMock()), \
-             patch.object(SocialState,'_call',new=AsyncMock(return_value={})) as call:
-            await self.state.quick_add('planned',0,'Quero ver / ler')
+             patch.object(SocialState,'_call',new=AsyncMock(side_effect=[
+                 {'user_id':7,'media_id':9,'status':None},
+                 {'user_id':7,'media_id':9,'status':'want_to_watch'}])) as call:
+            async for _ in self.state.quick_add('planned',0,'Quero ver / ler'): pass
         self.assertEqual(call.await_count,2)
-        self.assertEqual(call.await_args_list[0].args[2]['rating'],0)
+        self.assertEqual(call.await_args_list[1].args,('PUT','/media-list-status/9',{'status':'want_to_watch'}))
+        self.assertEqual(self.state.selected_list_status,'want_to_watch')

@@ -65,6 +65,11 @@ class AdminState(SessionState):
     report_review_decision: str = ''
     report_review_loading: bool = False
 
+    def _action_is_current(self, token: str, fields: dict) -> bool:
+        return token == self._token() and all(
+            getattr(self, name) == value for name, value in fields.items()
+        )
+
     async def _require_admin(self, section: str = 'users'):
         if not self._token():
             return rx.redirect('/admin/login')
@@ -211,6 +216,9 @@ class AdminState(SessionState):
     async def confirm_user_status_change(self):
         if self.user_action_loading or not self.user_action_id or self.user_action_status not in ('active', 'disabled'):
             return
+        token = self._token()
+        fields = {name: getattr(self, name) for name in (
+            'user_action_id', 'user_action_status', 'user_action_reason')}
         self.user_action_loading = True
         self.users_error = ''
         self.users_notice = ''
@@ -218,17 +226,24 @@ class AdminState(SessionState):
         try:
             allowed = await self._require_admin()
             if allowed is not True:
-                if allowed is not False:
+                if allowed is not False and (token == self._token() or not self._token()):
                     yield allowed
                 return
+            if not self._action_is_current(token, fields):
+                return
             await request(
-                'PUT', f'/admin/users/{self.user_action_id}/status', group='social', token=self._token(),
-                data={'account_status': self.user_action_status, 'reason': self.user_action_reason.strip()},
+                'PUT', f'/admin/users/{fields["user_action_id"]}/status', group='social', token=token,
+                data={'account_status': fields['user_action_status'], 'reason': fields['user_action_reason'].strip()},
             )
+            if not self._action_is_current(token, fields):
+                return
             self.users_notice = 'Estado da conta atualizado e ação registrada.'
             self.close_user_status_dialog()
+            fields = {name: getattr(self, name) for name in fields}
             await self._fetch_users()
         except APIError as exc:
+            if not self._action_is_current(token, fields):
+                return
             self.users_error = str(exc)
             if exc.status == 401:
                 self._clear_session()
@@ -388,6 +403,10 @@ class AdminState(SessionState):
     async def save_catalog_edit(self):
         if self.catalog_edit_loading or not self.catalog_edit_id:
             return
+        token = self._token()
+        fields = {name: getattr(self, name) for name in (
+            'catalog_edit_id', 'catalog_edit_title', 'catalog_edit_description',
+            'catalog_edit_cover', 'catalog_edit_year')}
         title = self.catalog_edit_title.strip()
         year = self.catalog_edit_year.strip()
         if not title:
@@ -403,19 +422,26 @@ class AdminState(SessionState):
         try:
             allowed = await self._require_admin('catalog')
             if allowed is not True:
-                if allowed is not False:
+                if allowed is not False and (token == self._token() or not self._token()):
                     yield allowed
                 return
+            if not self._action_is_current(token, fields):
+                return
             await request(
-                'PUT', f'/admin/catalog/{self.catalog_edit_id}', group='social', token=self._token(),
-                data={'title': title, 'description': self.catalog_edit_description.strip() or None,
-                      'cover_url': self.catalog_edit_cover.strip() or None,
+                'PUT', f'/admin/catalog/{fields["catalog_edit_id"]}', group='social', token=token,
+                data={'title': title, 'description': fields['catalog_edit_description'].strip() or None,
+                      'cover_url': fields['catalog_edit_cover'].strip() or None,
                       'year': int(year) if year else None},
             )
+            if not self._action_is_current(token, fields):
+                return
             self.close_catalog_editor()
+            fields = {name: getattr(self, name) for name in fields}
             self.catalog_notice = 'Obra atualizada.'
             await self._fetch_catalog()
         except APIError as exc:
+            if not self._action_is_current(token, fields):
+                return
             self.catalog_error = str(exc)
             if exc.status == 401:
                 self._clear_session()
@@ -588,6 +614,9 @@ class AdminState(SessionState):
     async def save_report_review(self):
         if self.report_review_loading or not self.report_review_id:
             return
+        token = self._token()
+        fields = {name: getattr(self, name) for name in (
+            'report_review_id', 'report_review_status', 'report_review_decision')}
         decision = self.report_review_decision.strip()
         if not decision:
             self.reports_error = 'Registre uma decisão antes de atualizar o report.'
@@ -599,17 +628,24 @@ class AdminState(SessionState):
         try:
             allowed = await self._require_admin('reports')
             if allowed is not True:
-                if allowed is not False:
+                if allowed is not False and (token == self._token() or not self._token()):
                     yield allowed
                 return
+            if not self._action_is_current(token, fields):
+                return
             await request(
-                'PUT', f'/admin/reports/{self.report_review_id}', group='social', token=self._token(),
-                data={'status': self.report_review_status, 'decision': decision},
+                'PUT', f'/admin/reports/{fields["report_review_id"]}', group='social', token=token,
+                data={'status': fields['report_review_status'], 'decision': decision},
             )
+            if not self._action_is_current(token, fields):
+                return
             self.close_report_review()
+            fields = {name: getattr(self, name) for name in fields}
             self.reports_notice = 'Revisão registrada na auditoria.'
             await self._fetch_reports()
         except APIError as exc:
+            if not self._action_is_current(token, fields):
+                return
             self.reports_error = str(exc)
             if exc.status == 401:
                 self._clear_session()

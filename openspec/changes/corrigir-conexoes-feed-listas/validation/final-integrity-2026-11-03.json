@@ -1,0 +1,35 @@
+{
+  "checks": [
+    {
+      "check": "fixture_cleanup_complete",
+      "passed": true
+    },
+    {
+      "check": "temporary_routes_removed",
+      "passed": true
+    },
+    {
+      "check": "final_data_preservation_after_fixture_cleanup",
+      "passed": true
+    },
+    {
+      "check": "final_contract_scope",
+      "passed": true
+    },
+    {
+      "check": "published_candidate_has_zero_delta",
+      "passed": true
+    },
+    {
+      "check": "deleted_fixture_sessions_rejected",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "fixture_users_remaining": 0,
+  "fixture_media_remaining": 0,
+  "original_statuses": 5,
+  "original_data_preserved": true,
+  "candidate_sha256": "41983d2019da959aa2e92026d809d1574f835e14a17481857402f9e185193294",
+  "remote_documents": 85
+}
