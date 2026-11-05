@@ -388,7 +388,7 @@ def admin_users_page() -> rx.Component:
                     on_submit=AdminState.search_users,
                     class_name="admin-users-search",
                 ),
-                _admin_feedback(AdminState.users_error, AdminState.users_notice,
+                _admin_feedback(rx.cond(AdminState.user_action_id == "", AdminState.users_error, ""), AdminState.users_notice,
                     AdminState.users_loading, "Carregando contas…"),
                 rx.cond(
                     AdminState.users.length() > 0,
@@ -436,6 +436,7 @@ def admin_users_page() -> rx.Component:
                         on_change=AdminState.set_user_action_reason,
                         max_length=500, class_name="admin-user-reason",
                     ),
+                    _admin_feedback(AdminState.users_error, "", False, ""),
                     rx.el.div(
                         rx.el.button("Cancelar", type="button", on_click=AdminState.close_user_status_dialog,
                             disabled=AdminState.user_action_loading, class_name="quiet-button"),
@@ -563,7 +564,7 @@ def admin_catalog_page(media_type: str) -> rx.Component:
                     on_submit=AdminState.search_catalog,
                     class_name="admin-users-search",
                 ),
-                _admin_feedback(AdminState.catalog_error, AdminState.catalog_notice,
+                _admin_feedback(rx.cond(AdminState.catalog_edit_id == "", AdminState.catalog_error, ""), AdminState.catalog_notice,
                     AdminState.catalog_loading, "Carregando catálogo…"),
                 rx.cond(
                     AdminState.catalog_items.length() > 0,
@@ -606,6 +607,7 @@ def admin_catalog_page(media_type: str) -> rx.Component:
                         value=AdminState.catalog_edit_year, on_change=AdminState.set_catalog_edit_year,
                         class_name="admin-search-input"),
                     rx.el.p("ID local e identidade externa são preservados.", class_name="admin-dialog-copy"),
+                    _admin_feedback(AdminState.catalog_error, "", False, ""),
                     rx.el.div(
                         rx.el.button("Cancelar", type="button", on_click=AdminState.close_catalog_editor,
                             disabled=AdminState.catalog_edit_loading, class_name="quiet-button"),
@@ -730,7 +732,7 @@ def admin_reports_page() -> rx.Component:
                     on_submit=AdminState.search_reports,
                     class_name="admin-users-search",
                 ),
-                _admin_feedback(AdminState.reports_error, AdminState.reports_notice,
+                _admin_feedback(rx.cond(AdminState.report_review_id == "", AdminState.reports_error, ""), AdminState.reports_notice,
                     AdminState.reports_loading, "Carregando reports…"),
                 rx.cond(
                     AdminState.reports.length() > 0,
@@ -762,6 +764,7 @@ def admin_reports_page() -> rx.Component:
                     rx.el.label("Decisão ou nota de análise", html_for="admin-report-decision", class_name="admin-search-label"),
                     rx.el.textarea(id="admin-report-decision", value=AdminState.report_review_decision,
                         on_change=AdminState.set_report_review_decision, max_length=2000, class_name="admin-user-reason"),
+                    _admin_feedback(AdminState.reports_error, "", False, ""),
                     rx.el.div(
                         rx.el.button("Cancelar", type="button", on_click=AdminState.close_report_review,
                             disabled=AdminState.report_review_loading, class_name="quiet-button"),
