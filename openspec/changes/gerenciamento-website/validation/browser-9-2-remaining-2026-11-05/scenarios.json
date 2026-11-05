@@ -1,0 +1,1116 @@
+{
+  "layer": "browser_stateful_fictional_api",
+  "scenarios": [
+    {
+      "scenario": "users-read-error",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Dados anteriores preservados após falha da seção",
+      "observed": "503 e dados confirmados visíveis",
+      "evidence": "users-read-error-1440.png"
+    },
+    {
+      "scenario": "users-retry",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Retry recupera sem login",
+      "observed": "Alerta limpo; dados carregados",
+      "evidence": "users-retry-1440.png"
+    },
+    {
+      "scenario": "group-3",
+      "width": 1440,
+      "status": "failed",
+      "expected": "Todos os critérios do grupo",
+      "observed": "Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" get_by_text(\"Obra movie 1\", exact=True) with timeout 5000ms\n  - waiting for get_by_text(\"Obra movie 1\", exact=True)\n\nAria snapshot:\n- region \"Notifications alt+T\"\n- banner:\n  - link \"Codeboxd — início\":\n    - /url: /\n    - img\n    - text: codeboxd\n  - text: Administração\n  - button \"Sair\"\n- main:\n  - complementary:\n    - paragraph: GERENCIAMENTO\n    - link \"Dashboard\":\n      - /url: /admin\n    - link \"Usuários\":\n      - /url: /admin/users\n    - link \"Filmes\":\n      - /url: /admin/catalog/movies\n    - link \"Séries\":\n      - /url: /admin/catalog/series\n    - link \"Livros\":\n      - /url: /admin/catalog/books\n    - link \"Animes\":\n      - /url: /admin/catalog/anime\n    - link \"Reports\":\n      - /url: /admin/reports\n    - link \"Voltar ao website\":\n      - /url: /\n  - paragraph: GERENCIAMENTO DO CATÁLOGO\n  - heading \"Filmes\" [level=1]\n  - paragraph: Veja as obras cadastradas nesta seção. Use a busca para encontrar um título específico.\n  - navigation \"Tipo de obra\":\n    - link \"Filmes\":\n      - /url: /admin/catalog/movies\n    - link \"Séries\":\n      - /url: /admin/catalog/series\n    - link \"Livros\":\n      - /url: /admin/catalog/books\n    - link \"Animes\":\n      - /url: /admin/catalog/anime\n  - group: Adicionar obra\n  - text: Pesquisar título\n  - searchbox \"Pesquisar título\"\n  - button \"Pesquisar\"\n  - button \"Ver todas\"\n  - alert:\n    - paragraph: Serviço indisponível. Tente novamente.\n  - paragraph: Ainda não há obras cadastradas nesta seção.\n- link \"Built with Reflex\":\n  - /url: https://reflex.dev\n  - img\n  - text: Built with Reflex",
+      "evidence": "failure-group-3-1440.png"
+    },
+    {
+      "scenario": "group-4",
+      "width": 1440,
+      "status": "failed",
+      "expected": "Todos os critérios do grupo",
+      "observed": "Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" get_by_text(\"Nenhum report corresponde aos filtros.\", exact=True) with timeout 5000ms\n  - waiting for get_by_text(\"Nenhum report corresponde aos filtros.\", exact=True)\n\nAria snapshot:\n- region \"Notifications alt+T\"\n- banner:\n  - link \"Codeboxd — início\":\n    - /url: /\n    - img\n    - text: codeboxd\n  - text: Administração\n  - button \"Sair\"\n- main:\n  - complementary:\n    - paragraph: GERENCIAMENTO\n    - link \"Dashboard\":\n      - /url: /admin\n    - link \"Usuários\":\n      - /url: /admin/users\n    - link \"Filmes\":\n      - /url: /admin/catalog/movies\n    - link \"Séries\":\n      - /url: /admin/catalog/series\n    - link \"Livros\":\n      - /url: /admin/catalog/books\n    - link \"Animes\":\n      - /url: /admin/catalog/anime\n    - link \"Reports\":\n      - /url: /admin/reports\n    - link \"Voltar ao website\":\n      - /url: /\n  - paragraph: MODERAÇÃO\n  - heading \"Reports\" [level=1]\n  - paragraph: Revise o contexto salvo e registre uma decisão explícita. Abrir um report não altera o conteúdo alvo.\n  - combobox:\n    - option \"Pendentes\" [selected]\n    - option \"Em análise\"\n    - option \"Resolvidos\"\n    - option \"Rejeitados\"\n    - option \"Todos os estados\"\n  - combobox:\n    - option \"Todos os tipos\" [selected]\n    - option \"Mensagens\"\n    - option \"Publicações\"\n    - option \"Comentários\"\n    - option \"Perfis\"\n    - option \"Obras\"\n  - combobox:\n    - option \"Todos os motivos\" [selected]\n    - option \"Spam\"\n    - option \"Assédio\"\n    - option \"Conteúdo impróprio\"\n    - option \"Outro\"\n  - button \"Filtrar\"\n  - status: Revisão registrada na auditoria.\n  - paragraph: \"Resultados: 1\"\n  - article:\n    - paragraph: \"Report #302\"\n    - paragraph: \"Alvo: media #902 · Denunciante #101\"\n    - text: pending\n    - paragraph: \"Motivo: spam\"\n    - paragraph: Descrição fictícia\n    - group: Contexto salvo no envio do report\n    - button \"Em análise\"\n    - button \"Resolver\"\n    - button \"Rejeitar\"\n  - navigation \"Paginação dos resultados\":\n    - button \"Anterior\" [disabled]\n    - text: Página 1\n    - button \"Próxima\" [disabled]\n- link \"Built with Reflex\":\n  - /url: https://reflex.dev\n  - img\n  - text: Built with Reflex",
+      "evidence": "failure-group-4-1440.png"
+    },
+    {
+      "scenario": "users-read-error",
+      "width": 390,
+      "status": "approved",
+      "expected": "Dados anteriores preservados após falha da seção",
+      "observed": "503 e dados confirmados visíveis",
+      "evidence": "users-read-error-390.png"
+    },
+    {
+      "scenario": "users-retry",
+      "width": 390,
+      "status": "approved",
+      "expected": "Retry recupera sem login",
+      "observed": "Alerta limpo; dados carregados",
+      "evidence": "users-retry-390.png"
+    },
+    {
+      "scenario": "group-3",
+      "width": 390,
+      "status": "failed",
+      "expected": "Todos os critérios do grupo",
+      "observed": "Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" get_by_text(\"Obra movie 1\", exact=True) with timeout 5000ms\n  - waiting for get_by_text(\"Obra movie 1\", exact=True)\n\nAria snapshot:\n- region \"Notifications alt+T\"\n- banner:\n  - link \"Codeboxd — início\":\n    - /url: /\n    - img\n    - text: codeboxd\n  - button \"Sair\"\n- main:\n  - complementary:\n    - link \"Dashboard\":\n      - /url: /admin\n    - link \"Usuários\":\n      - /url: /admin/users\n    - link \"Filmes\":\n      - /url: /admin/catalog/movies\n    - link \"Séries\":\n      - /url: /admin/catalog/series\n    - link \"Livros\":\n      - /url: /admin/catalog/books\n    - link \"Animes\":\n      - /url: /admin/catalog/anime\n    - link \"Reports\":\n      - /url: /admin/reports\n  - paragraph: GERENCIAMENTO DO CATÁLOGO\n  - heading \"Filmes\" [level=1]\n  - paragraph: Veja as obras cadastradas nesta seção. Use a busca para encontrar um título específico.\n  - navigation \"Tipo de obra\":\n    - link \"Filmes\":\n      - /url: /admin/catalog/movies\n    - link \"Séries\":\n      - /url: /admin/catalog/series\n    - link \"Livros\":\n      - /url: /admin/catalog/books\n    - link \"Animes\":\n      - /url: /admin/catalog/anime\n  - group: Adicionar obra\n  - text: Pesquisar título\n  - searchbox \"Pesquisar título\"\n  - button \"Pesquisar\"\n  - button \"Ver todas\"\n  - alert:\n    - paragraph: Serviço indisponível. Tente novamente.\n  - paragraph: Ainda não há obras cadastradas nesta seção.\n- link:\n  - /url: https://reflex.dev\n  - img",
+      "evidence": "failure-group-3-390.png"
+    },
+    {
+      "scenario": "group-4",
+      "width": 390,
+      "status": "failed",
+      "expected": "Todos os critérios do grupo",
+      "observed": "Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" get_by_text(\"Nenhum report corresponde aos filtros.\", exact=True) with timeout 5000ms\n  - waiting for get_by_text(\"Nenhum report corresponde aos filtros.\", exact=True)\n\nAria snapshot:\n- region \"Notifications alt+T\"\n- banner:\n  - link \"Codeboxd — início\":\n    - /url: /\n    - img\n    - text: codeboxd\n  - button \"Sair\"\n- main:\n  - complementary:\n    - link \"Dashboard\":\n      - /url: /admin\n    - link \"Usuários\":\n      - /url: /admin/users\n    - link \"Filmes\":\n      - /url: /admin/catalog/movies\n    - link \"Séries\":\n      - /url: /admin/catalog/series\n    - link \"Livros\":\n      - /url: /admin/catalog/books\n    - link \"Animes\":\n      - /url: /admin/catalog/anime\n    - link \"Reports\":\n      - /url: /admin/reports\n  - paragraph: MODERAÇÃO\n  - heading \"Reports\" [level=1]\n  - paragraph: Revise o contexto salvo e registre uma decisão explícita. Abrir um report não altera o conteúdo alvo.\n  - combobox:\n    - option \"Pendentes\" [selected]\n    - option \"Em análise\"\n    - option \"Resolvidos\"\n    - option \"Rejeitados\"\n    - option \"Todos os estados\"\n  - combobox:\n    - option \"Todos os tipos\" [selected]\n    - option \"Mensagens\"\n    - option \"Publicações\"\n    - option \"Comentários\"\n    - option \"Perfis\"\n    - option \"Obras\"\n  - combobox:\n    - option \"Todos os motivos\" [selected]\n    - option \"Spam\"\n    - option \"Assédio\"\n    - option \"Conteúdo impróprio\"\n    - option \"Outro\"\n  - button \"Filtrar\"\n  - status: Revisão registrada na auditoria.\n  - paragraph: \"Resultados: 1\"\n  - article:\n    - paragraph: \"Report #302\"\n    - paragraph: \"Alvo: media #902 · Denunciante #101\"\n    - text: pending\n    - paragraph: \"Motivo: spam\"\n    - paragraph: Descrição fictícia\n    - group: Contexto salvo no envio do report\n    - button \"Em análise\"\n    - button \"Resolver\"\n    - button \"Rejeitar\"\n  - navigation \"Paginação dos resultados\":\n    - button \"Anterior\" [disabled]\n    - text: Página 1\n    - button \"Próxima\" [disabled]\n- link:\n  - /url: https://reflex.dev\n  - img",
+      "evidence": "failure-group-4-390.png"
+    }
+  ],
+  "journals": [
+    {
+      "case": 2,
+      "width": 1440,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "active",
+                "created_at": "2026-11-05"
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 503,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "active",
+                "created_at": "2026-11-05"
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        }
+      ],
+      "writes": []
+    },
+    {
+      "case": 3,
+      "width": 1440,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 201,
+                "title": "Obra movie 1",
+                "description": "Descrição inicial",
+                "media_type": "movie",
+                "identity_key": "fixture:movie:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 503,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        }
+      ],
+      "writes": []
+    },
+    {
+      "case": 4,
+      "width": 1440,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "reviewing",
+            "description": "Descrição fictícia",
+            "decision": "Análise fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 302,
+                "target_type": "media",
+                "target_id": 902,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/reports/301",
+          "payload": {
+            "status": "reviewing",
+            "decision": "Análise fictícia"
+          }
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "width": 390,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "active",
+                "created_at": "2026-11-05"
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 503,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "active",
+                "created_at": "2026-11-05"
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        }
+      ],
+      "writes": []
+    },
+    {
+      "case": 3,
+      "width": 390,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 201,
+                "title": "Obra movie 1",
+                "description": "Descrição inicial",
+                "media_type": "movie",
+                "identity_key": "fixture:movie:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 503,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        }
+      ],
+      "writes": []
+    },
+    {
+      "case": 4,
+      "width": 390,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "reviewing",
+            "description": "Descrição fictícia",
+            "decision": "Análise fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 302,
+                "target_type": "media",
+                "target_id": 902,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/reports/301",
+          "payload": {
+            "status": "reviewing",
+            "decision": "Análise fictícia"
+          }
+        }
+      ]
+    }
+  ],
+  "current_responses": [
+    {
+      "endpoint": "/auth/login",
+      "method": "POST",
+      "status": 200,
+      "query": {},
+      "data": {
+        "authToken": "fixture-admin"
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "users_total": 2,
+        "posts_total": 0,
+        "media_total": 8,
+        "reports_pending": 2,
+        "recent_posts": [],
+        "pending_reports": []
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "pending",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "pending",
+            "description": "Descrição fictícia",
+            "decision": "",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 2,
+        "page": 1,
+        "per_page": 1,
+        "next_page": 2
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports/301",
+      "method": "PUT",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 301,
+        "target_type": "message",
+        "target_id": 901,
+        "reporter_user_id": 101,
+        "reason": "spam",
+        "status": "reviewing",
+        "description": "Descrição fictícia",
+        "decision": "Análise fictícia",
+        "target_snapshot": {
+          "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+        }
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "pending",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 302,
+            "target_type": "media",
+            "target_id": 902,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "pending",
+            "description": "Descrição fictícia",
+            "decision": "",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 1,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    }
+  ],
+  "current_writes": [
+    {
+      "endpoint": "/admin/reports/301",
+      "payload": {
+        "status": "reviewing",
+        "decision": "Análise fictícia"
+      }
+    }
+  ]
+}

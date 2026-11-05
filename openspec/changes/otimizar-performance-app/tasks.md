@@ -1,3 +1,13 @@
+05/11/2026: 494 testes locais, 34 etapas reais de navegador desktop/celular,
+persistencia/limpeza aprovadas e remocao na aplicacao atualizada validada.
+1.4/5.3/6.3 concluidas, 17/37. Benchmarks completos continuam abertos.
+[Plano, evidencias e limites](validation/conclusao-2026-11-05.md).
+Gravacoes reais conferidas sem substituir comparacoes de performance.
+
+04/11/2026: cinco novos pares reais da home completos e dentro das metas
+aprovadas para Python/provedores. [Resultados e limites](validation/retomada-2026-11-04.md).
+Checklist 14/37 preservado; nao representa aceite global de performance.
+
 > Estado reconciliado em 26/10/2026: 14/37 tarefas concluídas, 23 abertas. Intervenções incrementais e pools aplicados até 24/10; último registro: 374 testes e leituras reais comparadas. Metas da home aprovadas em 23/10 no cenário Python/provedores. Demais metas e jornadas completas permanecem abertas; não arquivar. Restrições de autorização descritas na proposta original se referem à rodada de criação; aprovações incrementais estão nas evidências e tasks. As seções e rodadas anteriores abaixo preservam o planejamento e sua evolução; o checklist e a evidência datada prevalecem sobre resumos antigos.
 
 # Tasks
@@ -176,7 +186,7 @@ correlação com on_load. Manter 1.3/1.4 abertas.
   remota. [Evidência e limites](validation/inventario-rotas-eventos-2026-10-20.md).
 - [x] 1.2 Propor e obter aprovação para instrumentos de medição, arquivos de evidência, servidor/reinício e dados de teste necessários; verificar registro explícito de escopo autorizado antes de criá-los ou executá-los.
 - [ ] 1.3 Medir jornadas com cache vazio/aquecido, desktop/celular e contas adequadas; verificar pelo menos cinco amostras por cenário, mediana, pior amostra e contagens por serviço, sem segredos nos registros.
-- [ ] 1.4 Identificar origem e escopo do HTTP 429, incluindo chamadas Python aos serviços; verificar endpoint sanitizado, sequência disparadora e Retry-After, distinguindo reprodução real de simulação.
+- [x] 1.4 Identificar origem e escopo do HTTP 429, incluindo chamadas Python aos serviços; verificar endpoint sanitizado, sequência disparadora e Retry-After, distinguindo reprodução real de simulação.
 - [ ] 1.5 Apresentar prioridades e metas numéricas por jornada e obter aprovação antes de registrá-las; verificar tabela com linha de base, orçamento, ambiente e critério de comparação para cada etapa.
 
 ## 2. Login, cadastro, recuperação e sessão
@@ -252,7 +262,7 @@ continuam abertas. [Diagnóstico, decisões, testes e limites](validation/cache-
 
 - [x] 5.1 Diagnosticar fichas internas/externas nos quatro tipos e aprovar separação de dependências principais/complementares; verificar proposta com impacto em tradução, trailers, streaming, relacionados e críticas.
 - [x] 5.2 Aplicar intervenção aprovada com regressões e documentação; verificar ficha utilizável durante complemento lento, identidade externa/Jikan preservada e resposta atrasada de outra obra ignorada.
-- [ ] 5.3 Otimizar caminho de avaliação após aprovação; verificar nota decimal, editar/salvar, envio único, confirmação persistida, rascunho após falha e invalidação da leitura afetada.
+- [x] 5.3 Otimizar caminho de avaliação após aprovação; verificar nota decimal, editar/salvar, envio único, confirmação persistida, rascunho após falha e invalidação da leitura afetada.
 - [ ] 5.4 Comparar carregamento e salvamento em desktop/celular; verificar metas aprovadas, testes pertinentes, compilação e browser autenticado, mantendo separado eventual reparo histórico de avaliações.
 
 Continuação solicitada para concluir o restante: encerradas 2.2/3.4/4.3/5.1/5.2
@@ -305,7 +315,7 @@ abertas por critérios além dessa intervenção.
   não tem continuação; acesso a todas as páginas, isolamento entre contas,
   coleções grandes, quota habitual e listas continuam sem validação real.
   6.2 e 6.4 permanecem abertas. [Evidência](validation/biblioteca-paginada-xano-real-2026-10-20.md).
-- [ ] 6.3 Otimizar atalhos e mutações aprovadas; verificar criar/editar/remover lista, adicionar/remover obra, refletir alteração confirmada e preservar rascunho em falha, sem repetição automática.
+- [x] 6.3 Otimizar atalhos e mutações aprovadas; verificar criar/editar/remover lista, adicionar/remover obra, refletir alteração confirmada e preservar rascunho em falha, sem repetição automática.
 - [ ] 6.4 Comparar biblioteca/listas pequenas e grandes em desktop/celular; verificar metas aprovadas, chamadas sem N+1 e compilação, registrando validação real e simulada separadamente.
 
 ## 7. Perfis, comunidade e feed

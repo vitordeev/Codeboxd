@@ -1,0 +1,17 @@
+{
+  "checks": [
+    {
+      "check": "concurrent_conditional_delete_cannot_erase_other_status",
+      "passed": true
+    },
+    {
+      "check": "real_commit_delayed_response_timeout_reconciled",
+      "passed": true
+    },
+    {
+      "check": "delete_default_preserves_opposite_status",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

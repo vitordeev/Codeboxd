@@ -1,0 +1,668 @@
+{
+  "layer": "real-browser-normal-server",
+  "started_at": "2026-11-05T14:45:04.532027+00:00",
+  "passed": true,
+  "steps": [
+    {
+      "name": "search-and-detail",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 5269.786,
+      "wire": {
+        "sent_frames": 10,
+        "received_frames": 30,
+        "received_bytes": 1041169,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "save-review-4.5",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 2492.47,
+      "wire": {
+        "sent_frames": 3,
+        "received_frames": 4,
+        "received_bytes": 1544,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "edit-review-3.5",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 2422.148,
+      "wire": {
+        "sent_frames": 4,
+        "received_frames": 5,
+        "received_bytes": 1757,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "library",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 1742.597,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 8,
+        "received_bytes": 215263,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "lists-directory",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 3272.409,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 8,
+        "received_bytes": 218750,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "create-list",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 3809.871,
+      "wire": {
+        "sent_frames": 2,
+        "received_frames": 3,
+        "received_bytes": 3115,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "edit-list",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 4090.585,
+      "wire": {
+        "sent_frames": 2,
+        "received_frames": 3,
+        "received_bytes": 2842,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "reopen-work",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 445.578,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 6,
+        "received_bytes": 202703,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "add-work-to-list",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 3473.703,
+      "wire": {
+        "sent_frames": 4,
+        "received_frames": 6,
+        "received_bytes": 2239,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "open-created-list",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 2854.156,
+      "wire": {
+        "sent_frames": 6,
+        "received_frames": 9,
+        "received_bytes": 222354,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "remove-work-from-list",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 5210.75,
+      "wire": {
+        "sent_frames": 2,
+        "received_frames": 2,
+        "received_bytes": 945,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "delete-list",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 4103.87,
+      "wire": {
+        "sent_frames": 1,
+        "received_frames": 2,
+        "received_bytes": 2092,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "feed",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 3419.43,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 8,
+        "received_bytes": 208410,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "create-post",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 3461.048,
+      "wire": {
+        "sent_frames": 3,
+        "received_frames": 4,
+        "received_bytes": 3648,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "edit-post",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 3886.624,
+      "wire": {
+        "sent_frames": 2,
+        "received_frames": 3,
+        "received_bytes": 3522,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "delete-post",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 3168.679,
+      "wire": {
+        "sent_frames": 1,
+        "received_frames": 1,
+        "received_bytes": 1829,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "profile",
+      "width": 1440,
+      "passed": true,
+      "ui_ms": 452.531,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 6,
+        "received_bytes": 209302,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "search-and-detail",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 2939.881,
+      "wire": {
+        "sent_frames": 10,
+        "received_frames": 18,
+        "received_bytes": 253072,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "save-review-4.5",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 2079.006,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 6,
+        "received_bytes": 2814,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "edit-review-3.5",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 2567.459,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 6,
+        "received_bytes": 2814,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "library",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 522.286,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 6,
+        "received_bytes": 207883,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "lists-directory",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 335.019,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 6,
+        "received_bytes": 209700,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "create-list",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 3616.958,
+      "wire": {
+        "sent_frames": 3,
+        "received_frames": 4,
+        "received_bytes": 4168,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "edit-list",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 3451.639,
+      "wire": {
+        "sent_frames": 3,
+        "received_frames": 4,
+        "received_bytes": 3895,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "reopen-work",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 401.502,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 6,
+        "received_bytes": 210518,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "add-work-to-list",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 3722.227,
+      "wire": {
+        "sent_frames": 4,
+        "received_frames": 6,
+        "received_bytes": 4354,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "open-created-list",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 2194.861,
+      "wire": {
+        "sent_frames": 6,
+        "received_frames": 9,
+        "received_bytes": 230955,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "remove-work-from-list",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 4719.187,
+      "wire": {
+        "sent_frames": 2,
+        "received_frames": 2,
+        "received_bytes": 2001,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "delete-list",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 7245.127,
+      "wire": {
+        "sent_frames": 1,
+        "received_frames": 2,
+        "received_bytes": 3150,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "feed",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 3313.071,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 8,
+        "received_bytes": 215967,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "create-post",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 3947.007,
+      "wire": {
+        "sent_frames": 2,
+        "received_frames": 3,
+        "received_bytes": 3645,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "edit-post",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 3198.733,
+      "wire": {
+        "sent_frames": 2,
+        "received_frames": 3,
+        "received_bytes": 3519,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "delete-post",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 3075.274,
+      "wire": {
+        "sent_frames": 1,
+        "received_frames": 1,
+        "received_bytes": 1829,
+        "javascript_errors": 0
+      }
+    },
+    {
+      "name": "profile",
+      "width": 390,
+      "passed": true,
+      "ui_ms": 426.187,
+      "wire": {
+        "sent_frames": 5,
+        "received_frames": 5,
+        "received_bytes": 206196,
+        "javascript_errors": 0
+      }
+    }
+  ],
+  "verification_requests": [
+    {
+      "method": "GET",
+      "endpoint": "/{value}/auth/me",
+      "status": 200,
+      "duration_ms": 742.977
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 890.709
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 273.841
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 224.107
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 246.167
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 250.467
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 910.577
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/interactions",
+      "status": 200,
+      "duration_ms": 583.451
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/interactions",
+      "status": 200,
+      "duration_ms": 518.024
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 879.044
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 687.636
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/lists/{value}/items",
+      "status": 200,
+      "duration_ms": 953.511
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/lists/{value}/items",
+      "status": 200,
+      "duration_ms": 711.284
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 1229.101
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 662.512
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 932.988
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 775.791
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/interactions",
+      "status": 200,
+      "duration_ms": 514.902
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/interactions",
+      "status": 200,
+      "duration_ms": 580.747
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 808.62
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 681.114
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/lists/{value}/items",
+      "status": 200,
+      "duration_ms": 802.722
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/lists/{value}/items",
+      "status": 200,
+      "duration_ms": 817.11
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 1233.231
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 1075.988
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 853.002
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 678.458
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 1801.29
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 260.134
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 780.273
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 224.01
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 339.255
+    },
+    {
+      "method": "DELETE",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 248.366
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 405.876
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 277.661
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 379.154
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 1396.93
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 257.12
+    }
+  ],
+  "cleanup": [
+    {
+      "table": "user_media_interaction",
+      "passed": true
+    }
+  ],
+  "backend_python_requests_measured": false,
+  "screenshots_saved": false,
+  "current_step": "logout",
+  "logout_protected_route_denied": true,
+  "existing_records_unchanged": {
+    "user_list": true,
+    "user_list_item": true,
+    "post": true,
+    "user_media_interaction": true
+  },
+  "cleanup_complete": true,
+  "wire_totals": {
+    "sent_frames": 171,
+    "received_frames": 298,
+    "received_bytes": 4212905,
+    "javascript_errors": 0
+  }
+}

@@ -252,10 +252,11 @@ def login_server(probe, role_label='admin aprovada'):
                 return
             self.reply(200, '''<!doctype html><meta charset="utf-8"><title>Validação Codeboxd</title>
                 <h1>Validação Codeboxd</h1>
-                <p>Use a conta ROLE_LABEL. As consultas não alteram dados.</p>
+                <p>Use a conta ROLE_LABEL. ACTION_NOTICE</p>
                 <form method="post"><label>Email <input name="email" type="email" required></label>
                 <label>Senha <input name="password" type="password" autocomplete="off" required></label>
-                <button>Entrar e validar consultas</button></form>'''.replace('ROLE_LABEL', escape(role_label)))
+                <button>Entrar e validar</button></form>'''.replace('ROLE_LABEL', escape(role_label)).replace(
+                    'ACTION_NOTICE', escape(getattr(probe, 'login_notice', 'As consultas não alteram dados.'))))
 
         def do_POST(self):
             if not self.allowed() or Handler.attempts >= 3 or ready.is_set():

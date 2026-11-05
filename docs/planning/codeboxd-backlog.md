@@ -115,7 +115,7 @@ Executados apenas leitura/busca, git status/branch/rev-parse/log, listagem OpenS
 
 ## Backlog anterior dos relatos manuais (preservado)
 
-Fonte e evidências por ID: [auditoria](codeboxd-auditoria.md). Registro OpenSpec: [auditar-relatos-testes-manuais](../../openspec/changes/auditar-relatos-testes-manuais/tasks.md). Todos os bugs permanecem abertos; nenhum reproduzido tecnicamente nesta sessão. IDs deste lote não substituem os IDs históricos de openspec/PENDENCIAS.md.
+Fonte e evidências por ID: [auditoria](codeboxd-auditoria.md). Registro OpenSpec: [auditar-relatos-testes-manuais](../../openspec/changes/archive/2026-10-30-auditar-relatos-testes-manuais/tasks.md). Todos os bugs permanecem abertos; nenhum reproduzido tecnicamente nesta sessão. IDs deste lote não substituem os IDs históricos de openspec/PENDENCIAS.md.
 
 P1 = alto impacto na jornada; P2 = impacto localizado ou relato que precisa de precisão. Prioridades provisórias, sem P0 comprovado.
 

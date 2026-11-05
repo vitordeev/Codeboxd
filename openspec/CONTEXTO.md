@@ -1,11 +1,34 @@
 # Contexto técnico e funcional — 27/10/2026
 
+05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
+
+04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e
+change [arquivada](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/conclusao-2026-11-04.md).
+Dashboard administrativo publicado e validado: administracao 33/34,
+performance 14/37 e recuperacao 8/10. Restam 26 tarefas funcionais;
+os registros datados anteriores preservam seus respectivos estados.
+Scaffold corrigir-follow-feed-status-filmes arquivado como supersedido,
+sem nova entrega funcional. OpenSpec global: 22/22 validos.
+
+
+03/11/2026: [entrega e encerramento para Git](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/encerramento-2026-11-03.md).
+Contratos de follow/status único publicados; 6 itens padrão migrados para 5
+relações, sem alterar avaliações/personalizadas. Limpeza final aprovada, sem
+rotas ou contas de teste restantes. Change ativa 9/10, aceite visual pendente.
+Os registros anteriores de ausência de implantação descrevem rodadas anteriores.
+
+Atualização de 30/10/2026: [estado e dependências das changes](RELATORIO_CHANGES_2026-10-30.md).
+Auditoria e três entregas de apresentação/interação do feed foram arquivadas
+com seus limites. Conexões/feed/listas segue 6/7 e exige aplicação MANUAL do
+contrato Xano; o Python local já depende desse contrato para o switch padrão.
+As evidências históricas abaixo não comprovam que essa migração foi publicada.
+
 Complemento de 28/10: implementação local do feed usa foto principal, cartão
 compacto da obra e diálogo de comentários. SocialState fixa contexto de
 discussão/sessão, bloqueia mutações concorrentes e replay de comentários, mantém
 rascunho em erro e resolve likes legados sob demanda. Contratos Xano mantidos.
 432 testes e oito cenários com dados fictícios aprovados; instância normal sem
-reinício e sem nova gravação real. [Evidências](changes/corrigir-publicacoes-foto-interacoes/validation.md).
+reinício e sem nova gravação real. [Evidências](changes/archive/2026-10-30-corrigir-publicacoes-foto-interacoes/validation.md).
 
 Busca administrativa em 27/10: GET /admin/users usa modos separados de ID,
 texto e listagem sem termo, includes com escape de curingas e filtros/paginação
@@ -35,8 +58,8 @@ os relatórios arquivados. O scanner permanente de commits não depende dessas p
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e navegador real |
-| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
+| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
 As contagens vêm dos checklists, não medem o percentual global do produto.

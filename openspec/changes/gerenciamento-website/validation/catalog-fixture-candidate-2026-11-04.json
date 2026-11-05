@@ -1,0 +1,147 @@
+{
+  "layer": "synthetic_xano_catalog_interpreter",
+  "published": false,
+  "cases": [
+    {
+      "kind": "movie",
+      "search": "",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "series",
+      "search": "",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "book",
+      "search": "",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "anime",
+      "search": "",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "movie",
+      "search": "Alpha",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "movie",
+      "search": "ALPHA",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "movie",
+      "search": "100%_",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "movie",
+      "search": "100X_",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "movie",
+      "search": "absent-7fa56e31",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "movie",
+      "search": "",
+      "page": 2,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true,
+        "next_page": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

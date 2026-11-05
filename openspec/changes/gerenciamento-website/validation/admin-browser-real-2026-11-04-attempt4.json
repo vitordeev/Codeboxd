@@ -1,0 +1,59 @@
+{
+  "layer": "real_admin_browser_paced_read_only_proxy",
+  "passed": false,
+  "started_at": "2026-11-04T14:03:51.341694+00:00",
+  "checks": [],
+  "requests": [
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "status": 200
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "status": 503
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/users",
+      "status": 200
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200
+    }
+  ],
+  "cases": [],
+  "proxy_min_interval_seconds": 3.1,
+  "normal_server_modified": false,
+  "phase": "Filmes_1440",
+  "injected_failures": 1,
+  "rate_limits": 0,
+  "failure_type": "AssertionError"
+}

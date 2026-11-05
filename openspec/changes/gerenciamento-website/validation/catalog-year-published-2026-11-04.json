@@ -1,0 +1,17 @@
+{
+  "layer": "real_guest_input_and_auth_validation",
+  "data_written": false,
+  "checks": [
+    {
+      "scenario": "omitted_year_reaches_auth_guard",
+      "http_status": 401,
+      "passed": true
+    },
+    {
+      "scenario": "null_year_reaches_auth_guard",
+      "http_status": 401,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

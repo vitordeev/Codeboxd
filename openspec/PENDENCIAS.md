@@ -1,5 +1,70 @@
 # Pendências atuais — 27/10/2026
 
+05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
+
+05/11/2026 — preparação documental da homologação integrada 9.2:
+[plano e autorizações A0–A4](changes/gerenciamento-website/design.md#plano-de-homologação-integrada-da-92--preparado-em-05112026).
+Preferir destino isolado; disponibilidade atual ainda não inventariada. Proposto
+lote próprio com teto de 26 contas member, 104 obras, 30 reports e um post,
+além dos efeitos de signup/auditoria; preservar eventos e referências na limpeza.
+Executores históricos de escrita/limpeza não estão liberados para reuso como
+estão. Nenhum teste integrado ou acesso remoto executado nesta preparação.
+Aprovação de destino, dados, mutações e limpeza/retenção é condição para executar.
+Change mantida em 33/34, sem conclusão ou arquivamento.
+
+05/11/2026 — continuação exclusiva da administração 9.2: executor sincronizado
+com resposta e renderização; Reports com dados reais carregado em 1440/390.
+Feedback de erros encoberto pelos modais foi identificado, documentado e
+corrigido, com regressão local. As modalidades e critérios por cenário estão na
+[continuação do aceite](changes/gerenciamento-website/validation/continuacao-9-2-2026-11-05.md).
+Manter 33/34 enquanto houver critério obrigatório de aceite integrado sem
+evidência; não confundir fixtures com novas mutações no Xano. Registros abaixo
+preservam seus estados históricos.
+
+Resultado da continuação: 68 cenários distintos aprovados com fixtures e dois
+casos reais de renderização de Reports; 44 cenários revalidados após corrigir
+feedback nos modais. [Matriz detalhada](changes/gerenciamento-website/validation/matriz-9-2-2026-11-05.md).
+Falta homologação da UI integrada ao Xano nos fluxos de alteração e na matriz
+completa de permissões, com contas/alvos descartáveis e escrita/limpeza definida.
+Nenhuma mutação remota foi executada; 9.2 continua aberta, administração 33/34.
+
+04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e
+change [arquivada](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/conclusao-2026-11-04.md).
+Dashboard administrativo publicado e validado: administracao 33/34,
+performance 14/37 e recuperacao 8/10. Restam 26 tarefas funcionais;
+os registros datados anteriores preservam seus respectivos estados.
+Scaffold corrigir-follow-feed-status-filmes arquivado como supersedido,
+sem nova entrega funcional. OpenSpec global: 22/22 validos.
+
+
+Encerramento de 03/11/2026 a pedido do usuário: [evidências para Git](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/encerramento-2026-11-03.md).
+Conexões/listas **9/10**, backend publicado, migração e limpeza aprovadas.
+3.2 continua aberta pelo aceite visual; HTTP direto de rota dinâmica retornou
+404 no servidor local de produção. Nenhuma correção de roteamento realizada.
+São **38 tarefas funcionais abertas** nesta configuração de checklists.
+As contagens de 40 abaixo são do estado anterior ao corte concluído.
+
+Continuação de 03/11/2026: [contratos implementados e implantação preparada](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/implantacao-2026-11-03.md).
+Conexões/listas **7/10**: prévia remota de 15 documentos e 477 testes aprovados;
+backup, plano e pacote de rollback preparados. Sem publicação ou migração.
+Plano gratuito recusou branch/fonte isolada; aguarda escolha de ambiente de
+ensaio. Com três tarefas novas detalhadas e uma concluída, há **40 tarefas
+funcionais abertas**; os registros históricos de 38 são da conferência anterior.
+
+Conferência de 03/11/2026: [relatório remoto/local](changes/archive/2026-11-04-auditar-estado-remoto-changes-abertas/report.md).
+Contrato novo de status ainda ausente no workspace, embora default_key histórico
+exista. Flags efetivas de biblioteca paginada e identidade padrão false em
+processo novo. Admin e Resend têm contratos presentes; efeitos reais continuam
+pendentes. O acesso administrativo de leitura funcionou nesta sessão, superando
+a limitação anterior de acesso, sem autorizar implantação. Contagens funcionais
+preservadas; scaffold corrigir-follow-feed-status-filmes falha por falta de planejamento.
+
+Atualização de 30/10/2026: [estado completo das changes](RELATORIO_CHANGES_2026-10-30.md).
+As quatro entregas locais completas foram arquivadas; conexões/feed/listas
+permanece **6/7**, aguardando aplicação manual Xano. Recuperação **8/10** precisa
+de destinatário elegível e caixa controlada; administração **22/34** e performance
+**14/37** mantêm seus critérios. Credenciais não substituem implementação e evidência.
+
 Busca administrativa publicada e validada: tarefa 3.1 concluída, 79 checks reais
 aprovados; administração agora **22/34**. [Entrega e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
@@ -13,8 +78,8 @@ Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e navegador real |
-| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
+| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
 As contagens vêm dos checklists, não medem o percentual global do produto.
@@ -29,7 +94,9 @@ Evidências mais recentes:
 
 ## Critérios administrativos restantes
 
-Os 12 IDs abertos são 2.1–2.3, 3.2–3.3, 4.1–4.2, 5.2–5.4 e 9.1–9.2.
+Registro historico de 27/10: Os 12 IDs abertos são 2.1–2.3, 3.2–3.3, 4.1–4.2, 5.2–5.4 e 9.1–9.2.
+Em 04/11, apos 119 checks reais aprovados, resta somente 9.2.
+[Evidencias atuais](changes/gerenciamento-website/validation/aceite-2026-11-04.md).
 Telas/contratos já existem; falta completar os critérios reais indicados no checklist.
 5.1 e 5.5 estão concluídas; 6.2/6.3 tiveram validação local com fixtures.
 As leituras admin reais de 23/10 eliminam a antiga afirmação de que nunca houve

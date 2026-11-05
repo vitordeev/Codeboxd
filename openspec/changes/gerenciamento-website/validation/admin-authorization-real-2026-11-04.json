@@ -1,0 +1,92 @@
+{
+  "layer": "real_admin_guest_member_authorization",
+  "passed": true,
+  "checks": [
+    {
+      "scenario": "guest_1_GET",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_2_GET",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_3_GET",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_4_GET",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_5_PUT",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_6_PUT",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_7_PUT",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "guest_8_POST",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "member_1_GET",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "member_2_GET",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "member_3_GET",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "member_4_GET",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "member_5_PUT",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "member_6_PUT",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "member_7_PUT",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "member_8_POST",
+      "passed": true,
+      "http_status": 403
+    },
+    {
+      "scenario": "all_original_records_preserved",
+      "passed": true
+    }
+  ],
+  "authorization_passed": true,
+  "cleanup_passed": true
+}

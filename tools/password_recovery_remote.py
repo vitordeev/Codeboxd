@@ -1,4 +1,5 @@
 """Interactive real-mail recovery check; secrets remain only in process memory."""
+import argparse
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -13,9 +14,10 @@ OUTPUT = ROOT / "openspec/changes/recuperar-senha-codigo-6-digitos/validation/em
 
 
 class Probe:
-    def __init__(self, client, base):
+    def __init__(self, client, base, output=None):
         self.client = client
         self.base = base.rstrip("/")
+        self.output = output or OUTPUT
         self.report = {"layer": "real_api_and_user_received_email", "passed": False,
                        "started_at": datetime.now(timezone.utc).isoformat(), "checks": []}
         self.stage = "not_started"
@@ -31,7 +33,7 @@ class Probe:
             raise RuntimeError(name)
 
     def save(self):
-        OUTPUT.write_text(json.dumps(self.report, indent=2) + "\n", encoding="utf-8")
+        self.output.write_text(json.dumps(self.report, indent=2) + "\n", encoding="utf-8")
 
     def login(self, email, password):
         return self.client.post(self.base + "/auth/login", json={"email": email, "password": password})
@@ -97,12 +99,18 @@ class Probe:
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output', required=True, type=Path)
+    args = parser.parse_args()
+    if args.output.exists():
+        parser.error('Preserve previous recovery evidence; choose a new output')
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     import tkinter as tk
     from tkinter import ttk
 
     config = dotenv_values(ROOT / ".env")
     client = httpx.Client(timeout=25, follow_redirects=False)
-    probe = Probe(client, config["XANO_AUTH_URL"])
+    probe = Probe(client, config["XANO_AUTH_URL"], args.output)
     window = tk.Tk()
     window.title("Codeboxd — recuperação de senha com Resend")
     window.geometry("580x550")

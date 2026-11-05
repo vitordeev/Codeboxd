@@ -1,0 +1,9 @@
+{
+  "layer": "real_admin_api_reads",
+  "passed": false,
+  "started_at": "2026-11-04T22:11:53.448435+00:00",
+  "checks": [],
+  "requests": [],
+  "failure_type": "RuntimeError",
+  "request_count": 0
+}

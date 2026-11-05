@@ -1,0 +1,48 @@
+{
+  "layer": "isolated_xano_dashboard_fixture",
+  "published": false,
+  "real_data_validated": false,
+  "cases": [
+    {
+      "scenario": "first",
+      "status": "ok",
+      "checks": {
+        "known_totals": true,
+        "recent_posts": true,
+        "pending_reports": true
+      },
+      "passed": true
+    },
+    {
+      "scenario": "second",
+      "status": "ok",
+      "checks": {
+        "known_totals": true,
+        "recent_posts": true,
+        "pending_reports": true
+      },
+      "passed": true
+    },
+    {
+      "scenario": "third_pending",
+      "status": "ok",
+      "checks": {
+        "known_totals": true,
+        "recent_posts": true,
+        "pending_reports": true
+      },
+      "passed": true
+    },
+    {
+      "scenario": "empty",
+      "status": "ok",
+      "checks": {
+        "known_totals": true,
+        "recent_posts": true,
+        "pending_reports": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}

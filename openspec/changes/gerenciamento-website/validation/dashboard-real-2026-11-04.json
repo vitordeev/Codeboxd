@@ -1,0 +1,172 @@
+{
+  "layer": "real_admin_dashboard_independent_counts",
+  "passed": false,
+  "started_at": "2026-11-04T12:29:36.125329+00:00",
+  "checks": [
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_tables_available",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_user_total",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_post_total",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_media_total",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_report_page",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_total_stable",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_reports_complete",
+      "passed": true
+    },
+    {
+      "scenario": "guest_dashboard_denied",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "dashboard_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "dashboard_no_secrets",
+      "passed": true
+    },
+    {
+      "scenario": "dashboard_counts_match_storage",
+      "passed": true
+    },
+    {
+      "scenario": "recent_posts_pagination_present",
+      "passed": false
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 403,
+      "duration_ms": 1017.832
+    },
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 403,
+      "duration_ms": 1255.482
+    },
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 1339.478
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 558.158
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}",
+      "status": 200,
+      "duration_ms": 589.28
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 479.5
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 230.021
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 291.463
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 781.544
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 401,
+      "duration_ms": 163.558
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 200,
+      "duration_ms": 569.738
+    }
+  ],
+  "failure_type": "RuntimeError",
+  "request_count": 11
+}

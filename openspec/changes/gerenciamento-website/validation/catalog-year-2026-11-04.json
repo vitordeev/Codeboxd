@@ -1,0 +1,91 @@
+{
+  "layer": "synthetic_input_validation_no_tables",
+  "published": false,
+  "cases": [
+    {
+      "variant": "original",
+      "scenario": "omitted",
+      "accepted": false,
+      "expected_accepted": true,
+      "passed": false
+    },
+    {
+      "variant": "original",
+      "scenario": "null",
+      "accepted": false,
+      "expected_accepted": true,
+      "passed": false
+    },
+    {
+      "variant": "original",
+      "scenario": "minimum",
+      "accepted": true,
+      "expected_accepted": true,
+      "passed": true
+    },
+    {
+      "variant": "original",
+      "scenario": "maximum",
+      "accepted": true,
+      "expected_accepted": true,
+      "passed": true
+    },
+    {
+      "variant": "original",
+      "scenario": "below",
+      "accepted": false,
+      "expected_accepted": false,
+      "passed": true
+    },
+    {
+      "variant": "original",
+      "scenario": "above",
+      "accepted": false,
+      "expected_accepted": false,
+      "passed": true
+    },
+    {
+      "variant": "nullable",
+      "scenario": "omitted",
+      "accepted": true,
+      "expected_accepted": true,
+      "passed": true
+    },
+    {
+      "variant": "nullable",
+      "scenario": "null",
+      "accepted": true,
+      "expected_accepted": true,
+      "passed": true
+    },
+    {
+      "variant": "nullable",
+      "scenario": "minimum",
+      "accepted": true,
+      "expected_accepted": true,
+      "passed": true
+    },
+    {
+      "variant": "nullable",
+      "scenario": "maximum",
+      "accepted": true,
+      "expected_accepted": true,
+      "passed": true
+    },
+    {
+      "variant": "nullable",
+      "scenario": "below",
+      "accepted": false,
+      "expected_accepted": false,
+      "passed": true
+    },
+    {
+      "variant": "nullable",
+      "scenario": "above",
+      "accepted": false,
+      "expected_accepted": false,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

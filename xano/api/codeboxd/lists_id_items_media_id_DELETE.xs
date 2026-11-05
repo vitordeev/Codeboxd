@@ -31,6 +31,16 @@ precondition ($record.user_id == $auth.id) {
   error_type = "accessdenied"
   error = "Operação não permitida."
 }
+function.run "Lists/default_list_status" {
+ input = {user_id: $record.user_id, default_key: $record.default_key}
+} as $default_status
+conditional {
+ if ($default_status != null) {
+  function.run "Lists/set_media_list_status" {
+   input = {user_id: $auth.id, media_id: $input.media_id, status: null, conditional_delete: true, expected_status: $default_status}
+  } as $confirmed
+ }
+ else {
 db.query user_list_item {
  where = $db.user_list_item.list_id == $input.id && $db.user_list_item.media_id == $input.media_id
  return = {type: "single"}
@@ -42,6 +52,8 @@ db.del user_list_item {
  field_value = $item.id
 }
 }}
+ }
+}
  }
  response = {success: true}
  guid = "YJYsP1TeL8ejd6ppwdLNagBZV2U"

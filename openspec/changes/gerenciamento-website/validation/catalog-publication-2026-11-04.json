@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "published": true,
+  "documents": 1,
+  "only_endpoint": "GET admin/catalog",
+  "data_written": false,
+  "unrelated_contracts_preserved": true,
+  "zero_delta": true,
+  "candidate_sha256": "4da797236f42f52f2184e377bf414898974e556872d2a426bde3e76adbe15494",
+  "before_sha256": "80fd6cc873bb22b2f21dc784f2349fa2470b2f6cb290621cee80982439435071",
+  "after_sha256": "80629a472a4d4853e798b2402b5d9a698b61d294bd2b3a1ba72f50500e9178ad"
+}

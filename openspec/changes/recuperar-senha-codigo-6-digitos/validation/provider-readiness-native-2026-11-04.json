@@ -1,0 +1,18 @@
+{
+  "layer": "local_resend_key_and_isolated_interpreter_probe",
+  "sent_emails": 0,
+  "provider_resources_created": 0,
+  "published": false,
+  "local_key_domains_http_status": 401,
+  "local_key_inboxes_http_status": 401,
+  "remote_debug_status": "ok",
+  "published_environment_validated": false,
+  "interpreter_environment": {
+    "domains_http_status": 400,
+    "inboxes_http_status": 400,
+    "domain_count": null,
+    "inbox_count": null,
+    "key_present": false,
+    "sender_present": false
+  }
+}

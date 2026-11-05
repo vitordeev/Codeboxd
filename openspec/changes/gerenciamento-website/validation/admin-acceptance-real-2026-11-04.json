@@ -1,0 +1,393 @@
+{
+  "layer": "real_admin_api_disposable_acceptance",
+  "passed": false,
+  "started_at": "2026-11-04T12:42:08.484250+00:00",
+  "checks": [
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_tables_available",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_user_total",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_post_total",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_media_total",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_report_page",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_total_stable",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_reports_complete",
+      "passed": true
+    },
+    {
+      "scenario": "guest_dashboard_denied",
+      "passed": true,
+      "http_status": 401
+    },
+    {
+      "scenario": "dashboard_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "dashboard_no_secrets",
+      "passed": true
+    },
+    {
+      "scenario": "dashboard_counts_match_storage",
+      "passed": true
+    },
+    {
+      "scenario": "recent_posts_pagination_present",
+      "passed": true
+    },
+    {
+      "scenario": "recent_posts_pagination_contract",
+      "passed": true
+    },
+    {
+      "scenario": "pending_reports_pagination_present",
+      "passed": true
+    },
+    {
+      "scenario": "pending_reports_pagination_contract",
+      "passed": true
+    },
+    {
+      "scenario": "activity_total_matches_storage",
+      "passed": true
+    },
+    {
+      "scenario": "pending_total_matches_storage",
+      "passed": true
+    },
+    {
+      "scenario": "activity_minimal_fields",
+      "passed": true
+    },
+    {
+      "scenario": "pending_minimal_fields",
+      "passed": true
+    },
+    {
+      "scenario": "only_pending_reports",
+      "passed": true
+    },
+    {
+      "scenario": "recent_posts_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "recent_posts_next_no_secrets",
+      "passed": true
+    },
+    {
+      "scenario": "recent_posts_pagination_present",
+      "passed": true
+    },
+    {
+      "scenario": "recent_posts_pagination_contract",
+      "passed": true
+    },
+    {
+      "scenario": "recent_posts_continuation",
+      "passed": true
+    },
+    {
+      "scenario": "activity_descending_ids",
+      "passed": true
+    },
+    {
+      "scenario": "pending_reports_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "pending_reports_next_no_secrets",
+      "passed": true
+    },
+    {
+      "scenario": "pending_reports_pagination_present",
+      "passed": true
+    },
+    {
+      "scenario": "pending_reports_pagination_contract",
+      "passed": true
+    },
+    {
+      "scenario": "pending_reports_continuation",
+      "passed": true
+    },
+    {
+      "scenario": "continuation_only_pending",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_user_total",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_post_total",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_media_total",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_read",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "metadata_report_page",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_total_stable",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_report_unique_id",
+      "passed": true
+    },
+    {
+      "scenario": "metadata_reports_complete",
+      "passed": true
+    },
+    {
+      "scenario": "independent_counts_stable",
+      "passed": true
+    },
+    {
+      "scenario": "report_created_post",
+      "passed": true
+    },
+    {
+      "scenario": "report_created_media",
+      "passed": true
+    },
+    {
+      "scenario": "report_created_message",
+      "passed": true
+    },
+    {
+      "scenario": "three_reports_persisted",
+      "passed": true
+    },
+    {
+      "scenario": "guest_denied_GET_admin/dashboard",
+      "passed": true
+    },
+    {
+      "scenario": "guest_denied_GET_admin/users",
+      "passed": true
+    },
+    {
+      "scenario": "guest_denied_GET_admin/catalog",
+      "passed": true
+    },
+    {
+      "scenario": "guest_denied_GET_admin/reports",
+      "passed": true
+    },
+    {
+      "scenario": "guest_denied_PUT_admin/users/30/status",
+      "passed": true
+    },
+    {
+      "scenario": "guest_denied_PUT_admin/catalog/229",
+      "passed": false
+    },
+    {
+      "scenario": "all_original_records_preserved",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 968.286
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 337.808
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}",
+      "status": 200,
+      "duration_ms": 1603.306
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 372.77
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 260.608
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 280.201
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 1356.651
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 401,
+      "duration_ms": 304.947
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 200,
+      "duration_ms": 374.014
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 200,
+      "duration_ms": 455.652
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 200,
+      "duration_ms": 376.313
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 369.543
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 224.719
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 323.246
+    },
+    {
+      "method": "GET",
+      "endpoint": "/{value}/{value}/{value}",
+      "status": 200,
+      "duration_ms": 799.927
+    }
+  ],
+  "pending_nonempty_real": true,
+  "activity_nonempty_real": true,
+  "cleanup_passed": true,
+  "failure_type": "RuntimeError",
+  "request_count": 15
+}

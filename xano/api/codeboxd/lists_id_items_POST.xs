@@ -39,12 +39,28 @@ precondition ($media != null) {
   error_type = "notfound"
   error = "Registro não encontrado."
 }
+function.run "Lists/default_list_status" {
+ input = {user_id: $record.user_id, default_key: $record.default_key}
+} as $default_status
+var $result { value = null }
+conditional {
+ if ($default_status != null) {
+  function.run "Lists/set_media_list_status" {
+   input = {user_id: $auth.id, media_id: $input.media_id, status: $default_status}
+  } as $confirmed
+  api.lambda {
+   code = "return {id: $var.confirmed.item.id, list_id: $var.record.id, media_id: $input.media_id, created_at: $var.confirmed.item.created_at};"
+  } as $result
+ }
+ else {
 var $key { value = $input.id ~ ":" ~ $input.media_id }
 db.add_or_edit user_list_item {
  field_name = "identity_key"
  field_value = $key
  data = {list_id: $input.id, media_id: $input.media_id, identity_key: $key}
 } as $result
+ }
+}
  }
  response = $result
  guid = "hzINFcLoRjjnJNVIeJojah0z-po"

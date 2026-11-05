@@ -1,0 +1,83 @@
+{
+  "passed": true,
+  "published": false,
+  "candidate_sha256": "41983d2019da959aa2e92026d809d1574f835e14a17481857402f9e185193294",
+  "baseline_sha256": "3d88862bc8127ee4514b3d77de63f4e8ec8cf1aa8c4ce05ad1e5576608db40a1",
+  "operations": [
+    {
+      "type": "table",
+      "name": "user_follow",
+      "action": "update"
+    },
+    {
+      "type": "table",
+      "name": "post",
+      "action": "update"
+    },
+    {
+      "type": "table",
+      "name": "user_media_list_status",
+      "action": "create"
+    },
+    {
+      "type": "function",
+      "name": "Lists/set_media_list_status",
+      "action": "create"
+    },
+    {
+      "type": "function",
+      "name": "Lists/default_list_status",
+      "action": "create"
+    },
+    {
+      "type": "query",
+      "name": "media-list-status/{media_id} GET",
+      "action": "create"
+    },
+    {
+      "type": "query",
+      "name": "media-list-status/{media_id} PUT",
+      "action": "create"
+    },
+    {
+      "type": "query",
+      "name": "follows/{user_id} PUT",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "follows/{user_id} DELETE",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "feed GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/{id}/items GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/public/{id}/items GET",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/{id}/items POST",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/{id}/items/{media_id} DELETE",
+      "action": "update"
+    },
+    {
+      "type": "query",
+      "name": "lists/{id} DELETE",
+      "action": "update"
+    }
+  ]
+}

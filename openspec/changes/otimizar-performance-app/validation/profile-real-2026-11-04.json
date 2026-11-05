@@ -1,0 +1,405 @@
+{
+  "layer": "real_python_xano_profile_handlers",
+  "browser_measured": false,
+  "samples": [
+    {
+      "primary_ms": 1949.456,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 2978.327,
+      "total_requests": 4,
+      "rate_limited": 0,
+      "services": {
+        "xano": 4
+      },
+      "statuses": {
+        "200": 4
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "xano",
+          "endpoint": "/{value}/auth/me",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 5.466,
+          "duration_ms": 1650.287
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1688.692,
+          "duration_ms": 253.626
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/media",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1978.271,
+          "duration_ms": 575.115
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1951.388,
+          "duration_ms": 1020.993
+        }
+      ],
+      "index": 1,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 15.692,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 24.014,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 1,
+      "phase": "warm"
+    },
+    {
+      "primary_ms": 1267.751,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 1854.743,
+      "total_requests": 4,
+      "rate_limited": 0,
+      "services": {
+        "xano": 4
+      },
+      "statuses": {
+        "200": 4
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "xano",
+          "endpoint": "/{value}/auth/me",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 21.182,
+          "duration_ms": 817.252
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 883.771,
+          "duration_ms": 379.517
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1269.497,
+          "duration_ms": 270.47
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/media",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1278.611,
+          "duration_ms": 571.565
+        }
+      ],
+      "index": 2,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 5.545,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 9.593,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 2,
+      "phase": "warm"
+    },
+    {
+      "primary_ms": 919.538,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 1497.626,
+      "total_requests": 4,
+      "rate_limited": 0,
+      "services": {
+        "xano": 4
+      },
+      "statuses": {
+        "200": 4
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "xano",
+          "endpoint": "/{value}/auth/me",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 5.748,
+          "duration_ms": 659.171
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 686.09,
+          "duration_ms": 231.834
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/media",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 926.56,
+          "duration_ms": 536.718
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 920.915,
+          "duration_ms": 575.289
+        }
+      ],
+      "index": 3,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 7.421,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 13.778,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 3,
+      "phase": "warm"
+    },
+    {
+      "primary_ms": 1312.121,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 1896.065,
+      "total_requests": 4,
+      "rate_limited": 0,
+      "services": {
+        "xano": 4
+      },
+      "statuses": {
+        "200": 4
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "xano",
+          "endpoint": "/{value}/auth/me",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 4.233,
+          "duration_ms": 956.717
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1026.878,
+          "duration_ms": 279.073
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1315.967,
+          "duration_ms": 344.027
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/media",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1322.403,
+          "duration_ms": 563.818
+        }
+      ],
+      "index": 4,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 12.962,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 31.292,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 4,
+      "phase": "warm"
+    },
+    {
+      "primary_ms": 1019.416,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 1615.882,
+      "total_requests": 4,
+      "rate_limited": 0,
+      "services": {
+        "xano": 4
+      },
+      "statuses": {
+        "200": 4
+      },
+      "dropped_events": 0,
+      "events": [
+        {
+          "service": "xano",
+          "endpoint": "/{value}/auth/me",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 6.575,
+          "duration_ms": 685.311
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles/{value}",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 724.675,
+          "duration_ms": 291.368
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/profiles",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1021.257,
+          "duration_ms": 226.128
+        },
+        {
+          "service": "xano",
+          "endpoint": "/{value}/media",
+          "method": "GET",
+          "status": 200,
+          "outcome": "response",
+          "offset_ms": 1037.91,
+          "duration_ms": 574.692
+        }
+      ],
+      "index": 5,
+      "phase": "cold"
+    },
+    {
+      "primary_ms": 5.448,
+      "complete": true,
+      "activity_count": 1,
+      "schema_version": 1,
+      "scope": "isolated-process-httpx",
+      "elapsed_ms": 10.614,
+      "total_requests": 0,
+      "rate_limited": 0,
+      "services": {},
+      "statuses": {},
+      "dropped_events": 0,
+      "events": [],
+      "index": 5,
+      "phase": "warm"
+    }
+  ],
+  "complete": true,
+  "between_pair_pause_seconds": 22,
+  "summary": {
+    "cold": {
+      "primary_ms": {
+        "median": 1267.751,
+        "worst": 1949.456
+      },
+      "elapsed_ms": {
+        "median": 1854.743,
+        "worst": 2978.327
+      },
+      "total_requests": {
+        "median": 4,
+        "worst": 4
+      }
+    },
+    "warm": {
+      "primary_ms": {
+        "median": 7.421,
+        "worst": 15.692
+      },
+      "elapsed_ms": {
+        "median": 13.778,
+        "worst": 31.292
+      },
+      "total_requests": {
+        "median": 0,
+        "worst": 0
+      }
+    }
+  },
+  "data_mutation_requests": 0,
+  "authentication_audit_events_retained": true
+}

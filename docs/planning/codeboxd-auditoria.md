@@ -64,7 +64,7 @@ Preservados os seis IDs CB-MT e suas análises abaixo; a classificação global 
 
 ## Auditoria anterior dos seis relatos (preservada)
 
-Registro central: [change documental](../../openspec/changes/auditar-relatos-testes-manuais/proposal.md). Correções não autorizadas nesta rodada. [Backlog e aceite](codeboxd-backlog.md).
+Registro central: [change documental](../../openspec/changes/archive/2026-10-30-auditar-relatos-testes-manuais/proposal.md). Correções não autorizadas nesta rodada. [Backlog e aceite](codeboxd-backlog.md).
 
 ## Método e limites
 

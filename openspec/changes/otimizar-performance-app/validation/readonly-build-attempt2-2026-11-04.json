@@ -1,0 +1,24 @@
+{
+  "layer": "real-browser-isolated-read-only-proxy",
+  "passed": false,
+  "steps": [],
+  "summary": [],
+  "failure_type": "RuntimeError",
+  "samples_requested": 5,
+  "cache_controlled": false,
+  "normal_server_modified": false,
+  "provider_python_requests_measured": false,
+  "screenshots_saved": false,
+  "proxy": {
+    "total_outbound_requests": 0,
+    "stop_reason": "",
+    "statuses": {},
+    "events": []
+  },
+  "wire": {
+    "sent_frames": 0,
+    "received_frames": 0,
+    "received_bytes": 0,
+    "javascript_errors": 0
+  }
+}

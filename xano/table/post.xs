@@ -14,6 +14,7 @@ table post {
     {type: "primary", field: [{name: "id"}]}
     {type: "btree", field: [{name: "user_id", op: "asc"}]}
     {type: "btree", field: [{name: "media_id", op: "asc"}]}
+    {type: "btree", field: [{name: "user_id", op: "asc"}, {name: "id", op: "desc"}]}
   ]
   guid = "yj4R8prcVHksFpDqZrhTa7L6j3g"
 }

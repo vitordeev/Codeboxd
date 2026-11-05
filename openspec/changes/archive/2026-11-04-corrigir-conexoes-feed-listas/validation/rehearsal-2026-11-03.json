@@ -1,0 +1,183 @@
+{
+  "checks": [
+    {
+      "check": "fixture_default_identities",
+      "passed": true
+    },
+    {
+      "check": "follow_PUT_True",
+      "passed": true
+    },
+    {
+      "check": "follow_PUT_True",
+      "passed": true
+    },
+    {
+      "check": "follow_DELETE_False",
+      "passed": true
+    },
+    {
+      "check": "follow_DELETE_False",
+      "passed": true
+    },
+    {
+      "check": "follow_PUT_True",
+      "passed": true
+    },
+    {
+      "check": "concurrent_follow_idempotent",
+      "passed": true
+    },
+    {
+      "check": "new_reader_historical_feed_pagination",
+      "passed": true
+    },
+    {
+      "check": "unfollow_removes_feed",
+      "passed": true
+    },
+    {
+      "check": "self_follow_rejected",
+      "passed": true
+    },
+    {
+      "check": "guest_follow_rejected",
+      "passed": true
+    },
+    {
+      "check": "status_confirmed_None",
+      "passed": true
+    },
+    {
+      "check": "status_reloaded_None",
+      "passed": true
+    },
+    {
+      "check": "projection_want_to_watch_None",
+      "passed": true
+    },
+    {
+      "check": "projection_watched_None",
+      "passed": true
+    },
+    {
+      "check": "status_confirmed_want_to_watch",
+      "passed": true
+    },
+    {
+      "check": "status_reloaded_want_to_watch",
+      "passed": true
+    },
+    {
+      "check": "projection_want_to_watch_want_to_watch",
+      "passed": true
+    },
+    {
+      "check": "projection_watched_want_to_watch",
+      "passed": true
+    },
+    {
+      "check": "status_confirmed_watched",
+      "passed": true
+    },
+    {
+      "check": "status_reloaded_watched",
+      "passed": true
+    },
+    {
+      "check": "projection_want_to_watch_watched",
+      "passed": true
+    },
+    {
+      "check": "projection_watched_watched",
+      "passed": true
+    },
+    {
+      "check": "status_confirmed_watched",
+      "passed": true
+    },
+    {
+      "check": "status_reloaded_watched",
+      "passed": true
+    },
+    {
+      "check": "projection_want_to_watch_watched",
+      "passed": true
+    },
+    {
+      "check": "projection_watched_watched",
+      "passed": true
+    },
+    {
+      "check": "status_confirmed_None",
+      "passed": true
+    },
+    {
+      "check": "status_reloaded_None",
+      "passed": true
+    },
+    {
+      "check": "projection_want_to_watch_None",
+      "passed": true
+    },
+    {
+      "check": "projection_watched_None",
+      "passed": true
+    },
+    {
+      "check": "review_rating_spoiler_preserved",
+      "passed": true
+    },
+    {
+      "check": "missing_status_rejected",
+      "passed": true
+    },
+    {
+      "check": "invalid_status_rejected",
+      "passed": true
+    },
+    {
+      "check": "late_conditional_delete_preserves_other_status",
+      "passed": true
+    },
+    {
+      "check": "opposing_writes_unique",
+      "passed": true
+    },
+    {
+      "check": "other_account_status_empty",
+      "passed": true
+    },
+    {
+      "check": "other_account_write_denied",
+      "passed": true
+    },
+    {
+      "check": "custom_homonym_independent",
+      "passed": true
+    },
+    {
+      "check": "private_custom_not_public",
+      "passed": true
+    },
+    {
+      "check": "private_default_not_public",
+      "passed": true
+    },
+    {
+      "check": "more_than_100_items_real_pagination",
+      "passed": true
+    },
+    {
+      "check": "delete_default_clears_only_status",
+      "passed": true
+    },
+    {
+      "check": "rollback_fixture_exact_id_and_fields",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "final_contracts": false,
+  "candidate_sha256": "41983d2019da959aa2e92026d809d1574f835e14a17481857402f9e185193294"
+}

@@ -1,5 +1,22 @@
 # Estado do Codeboxd — 27/10/2026
 
+05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
+
+04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e
+change [arquivada](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/conclusao-2026-11-04.md).
+Dashboard administrativo publicado e validado: administracao 33/34,
+performance 14/37 e recuperacao 8/10. Restam 26 tarefas funcionais;
+os registros datados anteriores preservam seus respectivos estados.
+Scaffold corrigir-follow-feed-status-filmes arquivado como supersedido,
+sem nova entrega funcional. OpenSpec global: 22/22 validos.
+
+
+Atualização de 30/10/2026: [relatório das changes](RELATORIO_CHANGES_2026-10-30.md).
+Quatro entregas locais completas arquivadas; conexões/feed/listas 6/7,
+recuperação 8/10, administração 22/34 e performance 14/37 permanecem abertas.
+O relatório distingue validação histórica/local e dependências externas.
+As seções abaixo preservam a reconciliação anterior.
+
 Busca administrativa: tarefa 3.1 concluída após correção e publicação limitada
 ao GET /admin/users. Backup conferido, dry-run posterior sem delta e 79 checks
 reais aprovados em 34 requisições, sem 429. Administração **22/34**; demais
@@ -30,8 +47,8 @@ garante disponibilidade contínua dos provedores ou funcionamento atual de todas
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e navegador real |
-| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
+| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
 As contagens vêm dos checklists, não medem o percentual global do produto.

@@ -25,12 +25,32 @@ query "admin/catalog" verb=GET {
       error = "Acesso administrativo não permitido."
     }
 
-    db.query media {
-      where = $db.media.media_type == $input.media_type && ($input.search == "" || $db.media.title ~ $input.search)
-      sort = {media.title: "asc"}
-      output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.identity_key", "items.external_source", "items.external_id", "items.media_type", "items.title", "items.description", "items.cover_url", "items.year"]
-      return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
-    } as $catalog
+    var $catalog { value = null }
+
+    api.lambda {
+      code = "return $input.search.replace(/[\\\\%_]/g, '\\\\$&');"
+    } as $search_literal
+
+    conditional {
+      if ($input.search == "") {
+        db.query media {
+          where = $db.media.media_type == $input.media_type
+          sort = {media.title: "asc", media.id: "asc"}
+          output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.identity_key", "items.external_source", "items.external_id", "items.media_type", "items.title", "items.description", "items.cover_url", "items.year"]
+          return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
+        } as $unfiltered
+        var.update $catalog { value = $unfiltered }
+      }
+      else {
+        db.query media {
+          where = $db.media.media_type == $input.media_type && $db.media.title includes $search_literal
+          sort = {media.title: "asc", media.id: "asc"}
+          output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.identity_key", "items.external_source", "items.external_id", "items.media_type", "items.title", "items.description", "items.cover_url", "items.year"]
+          return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
+        } as $filtered
+        var.update $catalog { value = $filtered }
+      }
+    }
   }
 
   response = {
