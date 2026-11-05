@@ -18,14 +18,39 @@ from playwright.async_api import async_playwright, expect
 from tools.admin_reads_remote import Probe, main
 from tools.real_login_measurement import stop_process_tree
 from tools.performance_probe import safe_endpoint
+from tools.admin_browser_sync import section_ready, capture_ready
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
+async def ready_list(page, responses, cursor, endpoint, label):
+    from tools.admin_browser_sync import response_since
+    row = await response_since(responses, cursor, endpoint)
+    if label == 'Reports':
+        selector, empty, loading, button = ('.admin-report-card', 'Nenhum report corresponde aos filtros.',
+            'Carregando reports…', 'Filtrar')
+    else:
+        selector, empty, loading, button = ('.admin-catalog-row', 'Nenhuma obra cadastrada nesta seção.',
+            'Carregando catálogo…', 'Pesquisar')
+
+    async def rendered():
+        await expect(page.get_by_role('heading', name=label, exact=True)).to_be_visible()
+        await expect(page.locator(selector)).to_have_count(row['items_count'])
+        if row['items_count']:
+            await expect(page.locator('.admin-users-count')).to_have_text(f'Resultados: {row["total"]}')
+        elif label == 'Reports':
+            await expect(page.get_by_text(empty, exact=True)).to_be_visible()
+        else:
+            await expect(page.locator('.admin-activity-empty')).to_be_visible()
+
+    return await section_ready(page, responses, cursor, endpoint, result=rendered, loading=loading,
+        control=page.get_by_role('button', name=button, exact=True))
+
+
 async def validate(probe):
     expect.set_options(timeout=90000)
-    private = ROOT / '.local/admin-browser-20261104'
-    private.mkdir(exist_ok=True)
+    private = probe.private_dir
+    private.mkdir(parents=True, exist_ok=False)
     config = dotenv_values(ROOT / '.env')
     with socket.socket() as sock:
         sock.bind(('127.0.0.1', 3035))
@@ -62,19 +87,24 @@ async def validate(probe):
                         response = client.get(base + path, headers={'Authorization': 'Bearer ' + probe.token})
                     status, content = response.status_code, response.content
                     stats['rate_limits'] += status == 429
-                stats['requests'].append({'endpoint': safe_endpoint(path), 'status': status})
             self.send_response(status)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Content-Length', str(len(content)))
             self.end_headers()
             try:
                 self.wfile.write(content)
+                self.wfile.flush()
+                row = {'endpoint': safe_endpoint(path), 'status': status}
+                if status == 200 and path.split('?')[0] in ('/admin/reports', '/admin/catalog', '/admin/users'):
+                    data = json.loads(content)
+                    row.update(items_count=len(data['items']), total=data['total'])
+                stats['requests'].append(row)
             except OSError:
                 pass
 
     proxy = ThreadingHTTPServer(('127.0.0.1', 0), Proxy)
     threading.Thread(target=proxy.serve_forever, daemon=True).start()
-    frontend = ROOT / '.local/frontends/status-real-15580'
+    frontend = probe.frontend_workdir
     env = dict(os.environ, XANO_AUTH_URL=f'http://127.0.0.1:{proxy.server_port}/auth',
                XANO_SOCIAL_URL=f'http://127.0.0.1:{proxy.server_port}/social',
                REFLEX_WEB_WORKDIR=str(frontend), REFLEX_USE_NPM='true',
@@ -114,6 +144,18 @@ async def validate(probe):
                             page = await context.new_page()
                             errors = []
                             page.on('pageerror', lambda error: errors.append(type(error).__name__))
+                            if probe.reports_only:
+                                cursor = len(stats['requests'])
+                                await page.goto('http://localhost:3035/admin/reports/')
+                                row = await ready_list(page, stats['requests'], cursor, '/admin/reports', 'Reports')
+                                if errors:
+                                    raise AssertionError('JavaScript errors')
+                                await capture_ready(page, private / f'reports-ready-{width}.png')
+                                probe.report['cases'].append({'width': width, 'passed': True,
+                                    'scope': 'reports_only', 'rows_rendered': row['items_count'],
+                                    'total': row['total'], 'loading_finished': True})
+                                probe.save()
+                                continue
                             await page.goto('http://localhost:3035/admin/')
                             await expect(page.get_by_role('heading', name='Dashboard', exact=True)).to_be_visible()
                             await expect(page.locator('.admin-metric-value').first).to_have_text(__import__('re').compile(r'\d+'))
@@ -128,28 +170,37 @@ async def validate(probe):
                                                    ('Animes', 'Carregando catálogo…'), ('Reports', 'Carregando reports…')]:
                                 probe.report['phase'] = label + '_' + str(width)
                                 probe.save()
+                                cursor = len(stats['requests'])
                                 await page.locator('.admin-sidebar').get_by_role('link', name=label, exact=True).click()
                                 await expect(page.get_by_role('heading', name=label, exact=True)).to_be_visible()
                                 if label in ('Filmes', 'Séries', 'Livros', 'Animes'):
-                                    search_button = page.get_by_role('button', name='Pesquisar', exact=True)
-                                    await expect(search_button).to_be_disabled()
-                                    await expect(search_button).to_be_enabled()
+                                    await ready_list(page, stats['requests'], cursor, '/admin/catalog', label)
                                 if label == 'Usuários':
                                     search = page.get_by_label('Buscar por nome, usuário ou ID')
                                     await search.fill('cb_absent_20261104_7fa56e31')
+                                    cursor = len(stats['requests'])
                                     await page.get_by_role('button', name='Pesquisar', exact=True).click()
-                                    await expect(page.get_by_text('Nenhuma conta encontrada para esta pesquisa.', exact=True)).to_be_visible()
+                                    async def users_empty():
+                                        await expect(page.get_by_text('Nenhuma conta encontrada para esta pesquisa.', exact=True)).to_be_visible()
+                                    await section_ready(page, stats['requests'], cursor, '/admin/users',
+                                        result=users_empty, loading='Carregando contas…',
+                                        control=page.get_by_role('button', name='Pesquisar', exact=True))
                                 elif label in ('Filmes', 'Séries', 'Livros', 'Animes'):
                                     await page.get_by_label('Pesquisar título').fill('cb_absent_20261104_7fa56e31')
+                                    cursor = len(stats['requests'])
                                     await page.get_by_role('button', name='Pesquisar', exact=True).click()
-                                    await expect(page.get_by_text('Nenhuma obra encontrada para esta pesquisa.', exact=True)).to_be_visible()
+                                    async def catalog_empty():
+                                        await expect(page.get_by_text('Nenhuma obra encontrada para esta pesquisa.', exact=True)).to_be_visible()
+                                    await section_ready(page, stats['requests'], cursor, '/admin/catalog',
+                                        result=catalog_empty, loading=loading,
+                                        control=page.get_by_role('button', name='Pesquisar', exact=True))
                                 else:
-                                    await expect(page.get_by_text(loading, exact=True)).not_to_be_visible()
+                                    await ready_list(page, stats['requests'], cursor, '/admin/reports', label)
                                 if await page.evaluate('document.documentElement.scrollWidth > innerWidth'):
                                     raise AssertionError('Horizontal overflow')
                             if errors:
                                 raise AssertionError('JavaScript errors')
-                            await page.screenshot(path=str(private / f'admin-{width}.png'), full_page=True)
+                            await capture_ready(page, private / f'admin-{width}.png')
                             probe.report['cases'].append({'width': width, 'passed': True,
                                 'sections': 7, 'empty_searches': 5, 'injected_dashboard_error_preserved_values': True})
                             probe.save()
@@ -178,12 +229,23 @@ class BrowserProbe(Probe):
     login_notice = 'Valida a interface administrativa real em desktop/celular. Somente leituras; falha de dashboard injetada localmente.'
 
     def run(self):
-        self.paged('reports_queue', '/admin/reports')
+        if not self.reports_only:
+            self.paged('reports_queue', '/admin/reports')
         asyncio.run(validate(self))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--frontend-workdir', required=True, type=Path)
+    parser.add_argument('--private-dir', required=True, type=Path)
+    parser.add_argument('--reports-only', action='store_true', help='Only repeat the unproven Reports rendering')
     args = parser.parse_args()
+    frontend, private = args.frontend_workdir.resolve(), args.private_dir.resolve()
+    if not frontend.is_relative_to(ROOT / '.local/frontends') or not frontend.is_dir():
+        parser.error('Use an existing isolated frontend under .local/frontends')
+    if not private.is_relative_to(ROOT / '.local') or private.exists():
+        parser.error('Use a new private directory under .local')
+    BrowserProbe.frontend_workdir, BrowserProbe.private_dir = frontend, private
+    BrowserProbe.reports_only = args.reports_only
     raise SystemExit(asyncio.run(main(args.output, probe_type=BrowserProbe)))

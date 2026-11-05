@@ -2,6 +2,32 @@
 
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
+05/11/2026 — preparação documental da homologação integrada 9.2:
+[plano e autorizações A0–A4](changes/gerenciamento-website/design.md#plano-de-homologação-integrada-da-92--preparado-em-05112026).
+Preferir destino isolado; disponibilidade atual ainda não inventariada. Proposto
+lote próprio com teto de 26 contas member, 104 obras, 30 reports e um post,
+além dos efeitos de signup/auditoria; preservar eventos e referências na limpeza.
+Executores históricos de escrita/limpeza não estão liberados para reuso como
+estão. Nenhum teste integrado ou acesso remoto executado nesta preparação.
+Aprovação de destino, dados, mutações e limpeza/retenção é condição para executar.
+Change mantida em 33/34, sem conclusão ou arquivamento.
+
+05/11/2026 — continuação exclusiva da administração 9.2: executor sincronizado
+com resposta e renderização; Reports com dados reais carregado em 1440/390.
+Feedback de erros encoberto pelos modais foi identificado, documentado e
+corrigido, com regressão local. As modalidades e critérios por cenário estão na
+[continuação do aceite](changes/gerenciamento-website/validation/continuacao-9-2-2026-11-05.md).
+Manter 33/34 enquanto houver critério obrigatório de aceite integrado sem
+evidência; não confundir fixtures com novas mutações no Xano. Registros abaixo
+preservam seus estados históricos.
+
+Resultado da continuação: 68 cenários distintos aprovados com fixtures e dois
+casos reais de renderização de Reports; 44 cenários revalidados após corrigir
+feedback nos modais. [Matriz detalhada](changes/gerenciamento-website/validation/matriz-9-2-2026-11-05.md).
+Falta homologação da UI integrada ao Xano nos fluxos de alteração e na matriz
+completa de permissões, com contas/alvos descartáveis e escrita/limpeza definida.
+Nenhuma mutação remota foi executada; 9.2 continua aberta, administração 33/34.
+
 04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e
 change [arquivada](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/conclusao-2026-11-04.md).
 Dashboard administrativo publicado e validado: administracao 33/34,

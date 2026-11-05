@@ -1,0 +1,1381 @@
+{
+  "layer": "browser_stateful_fictional_api",
+  "scenarios": [
+    {
+      "scenario": "catalog-read-error",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Dados anteriores preservados após falha da seção",
+      "observed": "503 e dados confirmados visíveis",
+      "evidence": "catalog-read-error-1440.png"
+    },
+    {
+      "scenario": "catalog-retry",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Retry recupera sem login",
+      "observed": "Alerta limpo; dados carregados",
+      "evidence": "catalog-retry-1440.png"
+    },
+    {
+      "scenario": "report-reviewing",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Estado/decisão atualizados sem alterar snapshot",
+      "observed": "reviewing; uma gravação por confirmação",
+      "evidence": "report-reviewing-1440.png"
+    },
+    {
+      "scenario": "report-rejected",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Estado/decisão atualizados sem alterar snapshot",
+      "observed": "rejected; uma gravação por confirmação",
+      "evidence": "report-rejected-1440.png"
+    },
+    {
+      "scenario": "catalog-read-error",
+      "width": 390,
+      "status": "approved",
+      "expected": "Dados anteriores preservados após falha da seção",
+      "observed": "503 e dados confirmados visíveis",
+      "evidence": "catalog-read-error-390.png"
+    },
+    {
+      "scenario": "catalog-retry",
+      "width": 390,
+      "status": "approved",
+      "expected": "Retry recupera sem login",
+      "observed": "Alerta limpo; dados carregados",
+      "evidence": "catalog-retry-390.png"
+    },
+    {
+      "scenario": "report-reviewing",
+      "width": 390,
+      "status": "approved",
+      "expected": "Estado/decisão atualizados sem alterar snapshot",
+      "observed": "reviewing; uma gravação por confirmação",
+      "evidence": "report-reviewing-390.png"
+    },
+    {
+      "scenario": "report-rejected",
+      "width": 390,
+      "status": "approved",
+      "expected": "Estado/decisão atualizados sem alterar snapshot",
+      "observed": "rejected; uma gravação por confirmação",
+      "evidence": "report-rejected-390.png"
+    }
+  ],
+  "journals": [
+    {
+      "case": 3,
+      "width": 1440,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 201,
+                "title": "Obra movie 1",
+                "description": "Descrição inicial",
+                "media_type": "movie",
+                "identity_key": "fixture:movie:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 503,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 201,
+                "title": "Obra movie 1",
+                "description": "Descrição inicial",
+                "media_type": "movie",
+                "identity_key": "fixture:movie:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        }
+      ],
+      "writes": []
+    },
+    {
+      "case": 4,
+      "width": 1440,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "reviewing",
+            "description": "Descrição fictícia",
+            "decision": "Análise fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [],
+            "total": 0,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "reviewing",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "reviewing",
+                "description": "Descrição fictícia",
+                "decision": "Análise fictícia",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "rejected",
+            "description": "Descrição fictícia",
+            "decision": "Rejeição fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "reviewing",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [],
+            "total": 0,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "rejected",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "rejected",
+                "description": "Descrição fictícia",
+                "decision": "Rejeição fictícia",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/reports/301",
+          "payload": {
+            "status": "reviewing",
+            "decision": "Análise fictícia"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "payload": {
+            "status": "rejected",
+            "decision": "Rejeição fictícia"
+          }
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "width": 390,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 201,
+                "title": "Obra movie 1",
+                "description": "Descrição inicial",
+                "media_type": "movie",
+                "identity_key": "fixture:movie:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 503,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 201,
+                "title": "Obra movie 1",
+                "description": "Descrição inicial",
+                "media_type": "movie",
+                "identity_key": "fixture:movie:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        }
+      ],
+      "writes": []
+    },
+    {
+      "case": 4,
+      "width": 390,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "reviewing",
+            "description": "Descrição fictícia",
+            "decision": "Análise fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [],
+            "total": 0,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "reviewing",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "reviewing",
+                "description": "Descrição fictícia",
+                "decision": "Análise fictícia",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "rejected",
+            "description": "Descrição fictícia",
+            "decision": "Rejeição fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "reviewing",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [],
+            "total": 0,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "rejected",
+            "target_type": "message",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "rejected",
+                "description": "Descrição fictícia",
+                "decision": "Rejeição fictícia",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/reports/301",
+          "payload": {
+            "status": "reviewing",
+            "decision": "Análise fictícia"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "payload": {
+            "status": "rejected",
+            "decision": "Rejeição fictícia"
+          }
+        }
+      ]
+    }
+  ],
+  "current_responses": [
+    {
+      "endpoint": "/auth/login",
+      "method": "POST",
+      "status": 200,
+      "query": {},
+      "data": {
+        "authToken": "fixture-admin"
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "users_total": 2,
+        "posts_total": 0,
+        "media_total": 8,
+        "reports_pending": 2,
+        "recent_posts": [],
+        "pending_reports": []
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "pending",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "pending",
+            "description": "Descrição fictícia",
+            "decision": "",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 2,
+        "page": 1,
+        "per_page": 1,
+        "next_page": 2
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "pending",
+        "target_type": "message",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "pending",
+            "description": "Descrição fictícia",
+            "decision": "",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 1,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports/301",
+      "method": "PUT",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 301,
+        "target_type": "message",
+        "target_id": 901,
+        "reporter_user_id": 101,
+        "reason": "spam",
+        "status": "reviewing",
+        "description": "Descrição fictícia",
+        "decision": "Análise fictícia",
+        "target_snapshot": {
+          "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+        }
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "pending",
+        "target_type": "message",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [],
+        "total": 0,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "reviewing",
+        "target_type": "message",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "reviewing",
+            "description": "Descrição fictícia",
+            "decision": "Análise fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 1,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports/301",
+      "method": "PUT",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 301,
+        "target_type": "message",
+        "target_id": 901,
+        "reporter_user_id": 101,
+        "reason": "spam",
+        "status": "rejected",
+        "description": "Descrição fictícia",
+        "decision": "Rejeição fictícia",
+        "target_snapshot": {
+          "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+        }
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "reviewing",
+        "target_type": "message",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [],
+        "total": 0,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "rejected",
+        "target_type": "message",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "rejected",
+            "description": "Descrição fictícia",
+            "decision": "Rejeição fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 1,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    }
+  ],
+  "current_writes": [
+    {
+      "endpoint": "/admin/reports/301",
+      "payload": {
+        "status": "reviewing",
+        "decision": "Análise fictícia"
+      }
+    },
+    {
+      "endpoint": "/admin/reports/301",
+      "payload": {
+        "status": "rejected",
+        "decision": "Rejeição fictícia"
+      }
+    }
+  ]
+}

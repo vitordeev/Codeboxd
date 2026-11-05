@@ -1,0 +1,51 @@
+{
+  "layer": "real_admin_browser_paced_read_only_proxy",
+  "passed": true,
+  "started_at": "2026-11-05T22:21:35.673629+00:00",
+  "checks": [],
+  "requests": [
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "items_count": 4,
+      "total": 4
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "items_count": 4,
+      "total": 4
+    }
+  ],
+  "cases": [
+    {
+      "width": 1440,
+      "passed": true,
+      "scope": "reports_only",
+      "rows_rendered": 4,
+      "total": 4,
+      "loading_finished": true
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "scope": "reports_only",
+      "rows_rendered": 4,
+      "total": 4,
+      "loading_finished": true
+    }
+  ],
+  "proxy_min_interval_seconds": 3.1,
+  "normal_server_modified": false,
+  "injected_failures": 0,
+  "rate_limits": 0,
+  "request_count": 2
+}

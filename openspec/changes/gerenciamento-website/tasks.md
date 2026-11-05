@@ -126,6 +126,28 @@ Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte co
 
 - [x] 9.1 Adicionar testes de unidade e integração para autorização, paginação, filtros, transições, snapshots e auditoria; verificar cenários de admin, membro, visitante e dados inválidos.
 - [ ] 9.2 Validar a interface completa com dados reais de desenvolvimento, estados vazios, erros parciais e tamanhos móveis; registrar resultados e defeitos encontrados.
+
+  Retomada exclusiva em 05/11/2026: [plano de aceite](validation/plano-9-2-2026-11-05.md)
+  e [resultados/limites](validation/aceite-9-2-2026-11-05.md). Testes locais e
+  navegador com APIs fictícias são evidências de apoio; manter aberta até a
+  comprovação integral dos critérios de interface com dados reais. Nenhuma
+  alteração corretiva de código da aplicação aplicada nesta rodada.
+
+  Continuação posterior em 05/11: [evidências complementares](validation/continuacao-9-2-2026-11-05.md).
+  Executor corrigido permanentemente e Reports real renderizado em 1440/390;
+  feedback encoberto por modais corrigido após causa/proposta documentadas.
+  Distinguir aceite com APIs fictícias de integração real antes de fechar 9.2.
+  Resultado final: 68 cenários distintos com fixtures, 44 revalidados após a
+  correção dos modais, três regressões do sincronismo e dois casos reais de
+  Reports. [Matriz e limites](validation/matriz-9-2-2026-11-05.md). Manter 9.2
+  aberta pelo aceite integrado dos fluxos de alteração/permissões ainda não
+  comprovado, sem mutações remotas nesta rodada.
+
+  Preparação posterior, somente documental: [plano de homologação integrada](design.md#plano-de-homologação-integrada-da-92--preparado-em-05112026),
+  com contas/lote, matriz de métodos e efeitos, isolamento, guardas, retenção de
+  auditoria, limpeza limitada e autorizações A0–A4. Nenhuma autenticação,
+  consulta de inventário ou escrita Xano nesta preparação; execução aguarda
+  aprovação explícita do escopo. 9.2 permanece aberta, 33/34.
 - [x] 9.3 Compilar a aplicação Reflex e validar os contratos/endpoints Xano em dry-run; verificar que não há alterações remotas publicadas automaticamente nem credenciais expostas no cliente.
 - [x] 9.4 Documentar as migrações, os novos endpoints, a concessão manual do papel admin e o procedimento de rollback; verificar que outra pessoa consegue seguir as instruções em ambiente de desenvolvimento.
 
