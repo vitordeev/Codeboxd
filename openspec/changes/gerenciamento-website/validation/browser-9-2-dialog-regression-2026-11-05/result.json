@@ -1,0 +1,56 @@
+{
+  "layer": "browser_local_fictional_backend",
+  "expected": 8,
+  "completed": [
+    {
+      "case": 1,
+      "width": 1440,
+      "skipped": true,
+      "reason": "Reusing previous evidence"
+    },
+    {
+      "case": 2,
+      "width": 1440,
+      "passed": true,
+      "scenarios": 6
+    },
+    {
+      "case": 3,
+      "width": 1440,
+      "passed": true,
+      "scenarios": 4
+    },
+    {
+      "case": 4,
+      "width": 1440,
+      "passed": true,
+      "scenarios": 12
+    },
+    {
+      "case": 1,
+      "width": 390,
+      "skipped": true,
+      "reason": "Reusing previous evidence"
+    },
+    {
+      "case": 2,
+      "width": 390,
+      "passed": true,
+      "scenarios": 6
+    },
+    {
+      "case": 3,
+      "width": 390,
+      "passed": true,
+      "scenarios": 4
+    },
+    {
+      "case": 4,
+      "width": 390,
+      "passed": true,
+      "scenarios": 12
+    }
+  ],
+  "failure": "",
+  "normal_server_modified": false
+}

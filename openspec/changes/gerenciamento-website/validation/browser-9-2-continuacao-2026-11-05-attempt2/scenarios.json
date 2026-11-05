@@ -1,0 +1,3074 @@
+{
+  "layer": "browser_stateful_fictional_api",
+  "scenarios": [
+    {
+      "scenario": "auth-guest",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Visitante redirecionado sem consulta restrita",
+      "observed": "Login visível; zero GET admin",
+      "evidence": "auth-guest-1440.png"
+    },
+    {
+      "scenario": "auth-invalid",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Erro sem perder formulário",
+      "observed": "Alerta e formulário disponíveis",
+      "evidence": "auth-invalid-1440.png"
+    },
+    {
+      "scenario": "auth-member-login",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Membro não recebe acesso admin",
+      "observed": "Negado antes de GET admin",
+      "evidence": "auth-member-login-1440.png"
+    },
+    {
+      "scenario": "auth-member-direct",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Membro redirecionado para início",
+      "observed": "Rota inicial; zero GET admin",
+      "evidence": "auth-member-direct-1440.png"
+    },
+    {
+      "scenario": "auth-admin",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Admin acessa dashboard renderizado",
+      "observed": "Dashboard carregado",
+      "evidence": "auth-admin-1440.png"
+    },
+    {
+      "scenario": "auth-existing",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Sessão admin dispensa novo login",
+      "observed": "Redirecionado ao dashboard",
+      "evidence": "auth-existing-1440.png"
+    },
+    {
+      "scenario": "user-details",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Detalhes permitidos visíveis",
+      "observed": "ID/papel/status exibidos",
+      "evidence": "user-details-1440.png"
+    },
+    {
+      "scenario": "user-dialog",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Confirmação legível",
+      "observed": "Diálogo aberto",
+      "evidence": "user-dialog-1440.png"
+    },
+    {
+      "scenario": "user-cancel",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Cancelar sem PUT",
+      "observed": "Zero gravações; conta ativa",
+      "evidence": "user-cancel-1440.png"
+    },
+    {
+      "scenario": "user-write-error",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Erro preserva confirmação e conta",
+      "observed": "503; nenhuma gravação",
+      "evidence": "user-write-error-1440.png"
+    },
+    {
+      "scenario": "user-confirm",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Confirmar grava uma vez e atualiza UI",
+      "observed": "Conta suspensa e feedback",
+      "evidence": "user-confirm-1440.png"
+    },
+    {
+      "scenario": "user-reactivate",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Reativação refletida",
+      "observed": "Conta ativa",
+      "evidence": "user-reactivate-1440.png"
+    },
+    {
+      "scenario": "catalog-cancel",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Cancelar preserva obra",
+      "observed": "Nenhum PUT",
+      "evidence": "catalog-cancel-1440.png"
+    },
+    {
+      "scenario": "catalog-invalid",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Ano inválido sem PUT e rascunho preservado",
+      "observed": "Erro exibido; ano 1700 mantido",
+      "evidence": "catalog-invalid-1440.png"
+    },
+    {
+      "scenario": "catalog-write-error",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Falha mantém editor e rascunho",
+      "observed": "503; título preservado",
+      "evidence": "catalog-write-error-1440.png"
+    },
+    {
+      "scenario": "catalog-save",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Edição refletida com identidade preservada",
+      "observed": "Novo título/ano; um PUT",
+      "evidence": "catalog-save-1440.png"
+    },
+    {
+      "scenario": "reports-ready-snapshot",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Fila carregada; snapshot escapado sem alvo ao vivo",
+      "observed": "Uma linha; loading encerrado; script não executado",
+      "evidence": "reports-ready-snapshot-1440.png"
+    },
+    {
+      "scenario": "reports-pagination",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Página seguinte sem duplicação",
+      "observed": "Report 302; próxima desabilitada",
+      "evidence": "reports-pagination-1440.png"
+    },
+    {
+      "scenario": "reports-filter",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Tipo/motivo selecionam somente mensagem spam",
+      "observed": "Report 301",
+      "evidence": "reports-filter-1440.png"
+    },
+    {
+      "scenario": "report-cancel",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Cancelar não altera report/alvo",
+      "observed": "Zero PUT",
+      "evidence": "report-cancel-1440.png"
+    },
+    {
+      "scenario": "report-required-decision",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Decisão obrigatória",
+      "observed": "Sem PUT; diálogo preservado",
+      "evidence": "report-required-decision-1440.png"
+    },
+    {
+      "scenario": "report-write-error",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Falha preserva decisão",
+      "observed": "503; sem mutação",
+      "evidence": "report-write-error-1440.png"
+    },
+    {
+      "scenario": "report-decision",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Confirmar atualiza estado e preserva snapshot",
+      "observed": "Um PUT; resolvido; fila pendente vazia",
+      "evidence": "report-decision-1440.png"
+    },
+    {
+      "scenario": "report-decision-filter",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Filtro resolvido exibe decisão",
+      "observed": "Decisão persistida na fixture",
+      "evidence": "report-decision-filter-1440.png"
+    },
+    {
+      "scenario": "reports-read-error",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Falha preserva dados carregados",
+      "observed": "Alerta e decisão anterior visíveis",
+      "evidence": "reports-read-error-1440.png"
+    },
+    {
+      "scenario": "reports-retry",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Nova tentativa recupera sem novo login",
+      "observed": "Alerta limpo; dados renderizados",
+      "evidence": "reports-retry-1440.png"
+    },
+    {
+      "scenario": "dashboard-partial",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Falha de seção não descarta indicadores válidos",
+      "observed": "Payload parcial sintético; métricas preservadas",
+      "evidence": "dashboard-partial-1440.png"
+    },
+    {
+      "scenario": "dashboard-retry",
+      "width": 1440,
+      "status": "approved",
+      "expected": "Recuperação da seção",
+      "observed": "Alerta limpo; sessão preservada",
+      "evidence": "dashboard-retry-1440.png"
+    },
+    {
+      "scenario": "auth-guest",
+      "width": 390,
+      "status": "approved",
+      "expected": "Visitante redirecionado sem consulta restrita",
+      "observed": "Login visível; zero GET admin",
+      "evidence": "auth-guest-390.png"
+    },
+    {
+      "scenario": "auth-invalid",
+      "width": 390,
+      "status": "approved",
+      "expected": "Erro sem perder formulário",
+      "observed": "Alerta e formulário disponíveis",
+      "evidence": "auth-invalid-390.png"
+    },
+    {
+      "scenario": "auth-member-login",
+      "width": 390,
+      "status": "approved",
+      "expected": "Membro não recebe acesso admin",
+      "observed": "Negado antes de GET admin",
+      "evidence": "auth-member-login-390.png"
+    },
+    {
+      "scenario": "auth-member-direct",
+      "width": 390,
+      "status": "approved",
+      "expected": "Membro redirecionado para início",
+      "observed": "Rota inicial; zero GET admin",
+      "evidence": "auth-member-direct-390.png"
+    },
+    {
+      "scenario": "auth-admin",
+      "width": 390,
+      "status": "approved",
+      "expected": "Admin acessa dashboard renderizado",
+      "observed": "Dashboard carregado",
+      "evidence": "auth-admin-390.png"
+    },
+    {
+      "scenario": "auth-existing",
+      "width": 390,
+      "status": "approved",
+      "expected": "Sessão admin dispensa novo login",
+      "observed": "Redirecionado ao dashboard",
+      "evidence": "auth-existing-390.png"
+    },
+    {
+      "scenario": "user-details",
+      "width": 390,
+      "status": "approved",
+      "expected": "Detalhes permitidos visíveis",
+      "observed": "ID/papel/status exibidos",
+      "evidence": "user-details-390.png"
+    },
+    {
+      "scenario": "user-dialog",
+      "width": 390,
+      "status": "approved",
+      "expected": "Confirmação legível",
+      "observed": "Diálogo aberto",
+      "evidence": "user-dialog-390.png"
+    },
+    {
+      "scenario": "user-cancel",
+      "width": 390,
+      "status": "approved",
+      "expected": "Cancelar sem PUT",
+      "observed": "Zero gravações; conta ativa",
+      "evidence": "user-cancel-390.png"
+    },
+    {
+      "scenario": "user-write-error",
+      "width": 390,
+      "status": "approved",
+      "expected": "Erro preserva confirmação e conta",
+      "observed": "503; nenhuma gravação",
+      "evidence": "user-write-error-390.png"
+    },
+    {
+      "scenario": "user-confirm",
+      "width": 390,
+      "status": "approved",
+      "expected": "Confirmar grava uma vez e atualiza UI",
+      "observed": "Conta suspensa e feedback",
+      "evidence": "user-confirm-390.png"
+    },
+    {
+      "scenario": "user-reactivate",
+      "width": 390,
+      "status": "approved",
+      "expected": "Reativação refletida",
+      "observed": "Conta ativa",
+      "evidence": "user-reactivate-390.png"
+    },
+    {
+      "scenario": "catalog-cancel",
+      "width": 390,
+      "status": "approved",
+      "expected": "Cancelar preserva obra",
+      "observed": "Nenhum PUT",
+      "evidence": "catalog-cancel-390.png"
+    },
+    {
+      "scenario": "catalog-invalid",
+      "width": 390,
+      "status": "approved",
+      "expected": "Ano inválido sem PUT e rascunho preservado",
+      "observed": "Erro exibido; ano 1700 mantido",
+      "evidence": "catalog-invalid-390.png"
+    },
+    {
+      "scenario": "catalog-write-error",
+      "width": 390,
+      "status": "approved",
+      "expected": "Falha mantém editor e rascunho",
+      "observed": "503; título preservado",
+      "evidence": "catalog-write-error-390.png"
+    },
+    {
+      "scenario": "catalog-save",
+      "width": 390,
+      "status": "approved",
+      "expected": "Edição refletida com identidade preservada",
+      "observed": "Novo título/ano; um PUT",
+      "evidence": "catalog-save-390.png"
+    },
+    {
+      "scenario": "reports-ready-snapshot",
+      "width": 390,
+      "status": "approved",
+      "expected": "Fila carregada; snapshot escapado sem alvo ao vivo",
+      "observed": "Uma linha; loading encerrado; script não executado",
+      "evidence": "reports-ready-snapshot-390.png"
+    },
+    {
+      "scenario": "reports-pagination",
+      "width": 390,
+      "status": "approved",
+      "expected": "Página seguinte sem duplicação",
+      "observed": "Report 302; próxima desabilitada",
+      "evidence": "reports-pagination-390.png"
+    },
+    {
+      "scenario": "reports-filter",
+      "width": 390,
+      "status": "approved",
+      "expected": "Tipo/motivo selecionam somente mensagem spam",
+      "observed": "Report 301",
+      "evidence": "reports-filter-390.png"
+    },
+    {
+      "scenario": "report-cancel",
+      "width": 390,
+      "status": "approved",
+      "expected": "Cancelar não altera report/alvo",
+      "observed": "Zero PUT",
+      "evidence": "report-cancel-390.png"
+    },
+    {
+      "scenario": "report-required-decision",
+      "width": 390,
+      "status": "approved",
+      "expected": "Decisão obrigatória",
+      "observed": "Sem PUT; diálogo preservado",
+      "evidence": "report-required-decision-390.png"
+    },
+    {
+      "scenario": "report-write-error",
+      "width": 390,
+      "status": "approved",
+      "expected": "Falha preserva decisão",
+      "observed": "503; sem mutação",
+      "evidence": "report-write-error-390.png"
+    },
+    {
+      "scenario": "report-decision",
+      "width": 390,
+      "status": "approved",
+      "expected": "Confirmar atualiza estado e preserva snapshot",
+      "observed": "Um PUT; resolvido; fila pendente vazia",
+      "evidence": "report-decision-390.png"
+    },
+    {
+      "scenario": "report-decision-filter",
+      "width": 390,
+      "status": "approved",
+      "expected": "Filtro resolvido exibe decisão",
+      "observed": "Decisão persistida na fixture",
+      "evidence": "report-decision-filter-390.png"
+    },
+    {
+      "scenario": "reports-read-error",
+      "width": 390,
+      "status": "approved",
+      "expected": "Falha preserva dados carregados",
+      "observed": "Alerta e decisão anterior visíveis",
+      "evidence": "reports-read-error-390.png"
+    },
+    {
+      "scenario": "reports-retry",
+      "width": 390,
+      "status": "approved",
+      "expected": "Nova tentativa recupera sem novo login",
+      "observed": "Alerta limpo; dados renderizados",
+      "evidence": "reports-retry-390.png"
+    },
+    {
+      "scenario": "dashboard-partial",
+      "width": 390,
+      "status": "approved",
+      "expected": "Falha de seção não descarta indicadores válidos",
+      "observed": "Payload parcial sintético; métricas preservadas",
+      "evidence": "dashboard-partial-390.png"
+    },
+    {
+      "scenario": "dashboard-retry",
+      "width": 390,
+      "status": "approved",
+      "expected": "Recuperação da seção",
+      "observed": "Alerta limpo; sessão preservada",
+      "evidence": "dashboard-retry-390.png"
+    }
+  ],
+  "journals": [
+    {
+      "case": 1,
+      "width": 1440,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 401,
+          "query": {},
+          "data": {
+            "message": "Credenciais inválidas."
+          }
+        },
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-member"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "member",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "member",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/media",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "per_page": "20"
+          },
+          "data": {}
+        },
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        }
+      ],
+      "writes": []
+    },
+    {
+      "case": 2,
+      "width": 1440,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "active",
+                "created_at": "2026-11-05"
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users/101/status",
+          "method": "PUT",
+          "status": 503,
+          "query": {},
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users/101/status",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 101,
+            "name": "Pessoa 1",
+            "username": "pessoa1",
+            "role": "member",
+            "account_status": "disabled",
+            "created_at": "2026-11-05",
+            "reason": ""
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "disabled",
+                "created_at": "2026-11-05",
+                "reason": ""
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users/101/status",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 101,
+            "name": "Pessoa 1",
+            "username": "pessoa1",
+            "role": "member",
+            "account_status": "active",
+            "created_at": "2026-11-05",
+            "reason": ""
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "active",
+                "created_at": "2026-11-05",
+                "reason": ""
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/users/101/status",
+          "payload": {
+            "account_status": "disabled",
+            "reason": ""
+          }
+        },
+        {
+          "endpoint": "/admin/users/101/status",
+          "payload": {
+            "account_status": "active",
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "width": 1440,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 201,
+                "title": "Obra movie 1",
+                "description": "Descrição inicial",
+                "media_type": "movie",
+                "identity_key": "fixture:movie:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "series",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 203,
+                "title": "Obra series 1",
+                "description": "Descrição inicial",
+                "media_type": "series",
+                "identity_key": "fixture:series:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "book",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 205,
+                "title": "Obra book 1",
+                "description": "Descrição inicial",
+                "media_type": "book",
+                "identity_key": "fixture:book:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "anime",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 207,
+                "title": "Obra anime 1",
+                "description": "Descrição inicial",
+                "media_type": "anime",
+                "identity_key": "fixture:anime:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog/207",
+          "method": "PUT",
+          "status": 503,
+          "query": {},
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog/207",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 207,
+            "title": "Obra corrigida",
+            "description": "Descrição inicial",
+            "media_type": "anime",
+            "identity_key": "fixture:anime:1",
+            "external_source": "fixture",
+            "external_id": "1",
+            "cover_url": null,
+            "year": 2021
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "anime",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 207,
+                "title": "Obra corrigida",
+                "description": "Descrição inicial",
+                "media_type": "anime",
+                "identity_key": "fixture:anime:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": null,
+                "year": 2021
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/catalog/207",
+          "payload": {
+            "title": "Obra corrigida",
+            "description": "Descrição inicial",
+            "cover_url": null,
+            "year": 2021
+          }
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "width": 1440,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "2",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 302,
+                "target_type": "media",
+                "target_id": 902,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 2,
+            "page": 2,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 503,
+          "query": {},
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "resolved",
+            "description": "Descrição fictícia",
+            "decision": "Decisão fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [],
+            "total": 0,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "resolved",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "resolved",
+                "description": "Descrição fictícia",
+                "decision": "Decisão fictícia",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 503,
+          "query": {
+            "status": "resolved",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "resolved",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "resolved",
+                "description": "Descrição fictícia",
+                "decision": "Decisão fictícia",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": "invalid-section"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/reports/301",
+          "payload": {
+            "status": "resolved",
+            "decision": "Decisão fictícia"
+          }
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "width": 390,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 401,
+          "query": {},
+          "data": {
+            "message": "Credenciais inválidas."
+          }
+        },
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-member"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "member",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "member",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/media",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "per_page": "20"
+          },
+          "data": {}
+        },
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        }
+      ],
+      "writes": []
+    },
+    {
+      "case": 2,
+      "width": 390,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "active",
+                "created_at": "2026-11-05"
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users/101/status",
+          "method": "PUT",
+          "status": 503,
+          "query": {},
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users/101/status",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 101,
+            "name": "Pessoa 1",
+            "username": "pessoa1",
+            "role": "member",
+            "account_status": "disabled",
+            "created_at": "2026-11-05",
+            "reason": ""
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "disabled",
+                "created_at": "2026-11-05",
+                "reason": ""
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/users/101/status",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 101,
+            "name": "Pessoa 1",
+            "username": "pessoa1",
+            "role": "member",
+            "account_status": "active",
+            "created_at": "2026-11-05",
+            "reason": ""
+          }
+        },
+        {
+          "endpoint": "/admin/users",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "search": "101",
+            "page": "1",
+            "per_page": "25",
+            "user_id": "101"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 101,
+                "name": "Pessoa 1",
+                "username": "pessoa1",
+                "role": "member",
+                "account_status": "active",
+                "created_at": "2026-11-05",
+                "reason": ""
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/users/101/status",
+          "payload": {
+            "account_status": "disabled",
+            "reason": ""
+          }
+        },
+        {
+          "endpoint": "/admin/users/101/status",
+          "payload": {
+            "account_status": "active",
+            "reason": ""
+          }
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "width": 390,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "movie",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 201,
+                "title": "Obra movie 1",
+                "description": "Descrição inicial",
+                "media_type": "movie",
+                "identity_key": "fixture:movie:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "series",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 203,
+                "title": "Obra series 1",
+                "description": "Descrição inicial",
+                "media_type": "series",
+                "identity_key": "fixture:series:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "book",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 205,
+                "title": "Obra book 1",
+                "description": "Descrição inicial",
+                "media_type": "book",
+                "identity_key": "fixture:book:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "anime",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 207,
+                "title": "Obra anime 1",
+                "description": "Descrição inicial",
+                "media_type": "anime",
+                "identity_key": "fixture:anime:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": "",
+                "year": 2020
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog/207",
+          "method": "PUT",
+          "status": 503,
+          "query": {},
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/catalog/207",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 207,
+            "title": "Obra corrigida",
+            "description": "Descrição inicial",
+            "media_type": "anime",
+            "identity_key": "fixture:anime:1",
+            "external_source": "fixture",
+            "external_id": "1",
+            "cover_url": null,
+            "year": 2021
+          }
+        },
+        {
+          "endpoint": "/admin/catalog",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "media_type": "anime",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 207,
+                "title": "Obra corrigida",
+                "description": "Descrição inicial",
+                "media_type": "anime",
+                "identity_key": "fixture:anime:1",
+                "external_source": "fixture",
+                "external_id": "1",
+                "cover_url": null,
+                "year": 2021
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/catalog/207",
+          "payload": {
+            "title": "Obra corrigida",
+            "description": "Descrição inicial",
+            "cover_url": null,
+            "year": 2021
+          }
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "width": 390,
+      "responses": [
+        {
+          "endpoint": "/auth/login",
+          "method": "POST",
+          "status": 200,
+          "query": {},
+          "data": {
+            "authToken": "fixture-admin"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 2,
+            "page": 1,
+            "per_page": 1,
+            "next_page": 2
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "page": "2",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 302,
+                "target_type": "media",
+                "target_id": 902,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 2,
+            "page": 2,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "pending",
+                "description": "Descrição fictícia",
+                "decision": "",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 503,
+          "query": {},
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports/301",
+          "method": "PUT",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "resolved",
+            "description": "Descrição fictícia",
+            "decision": "Decisão fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "pending",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [],
+            "total": 0,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "resolved",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "resolved",
+                "description": "Descrição fictícia",
+                "decision": "Decisão fictícia",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 503,
+          "query": {
+            "status": "resolved",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "message": "Falha controlada da seção."
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/reports",
+          "method": "GET",
+          "status": 200,
+          "query": {
+            "status": "resolved",
+            "target_type": "message",
+            "reason": "spam",
+            "page": "1",
+            "per_page": "25"
+          },
+          "data": {
+            "items": [
+              {
+                "id": 301,
+                "target_type": "message",
+                "target_id": 901,
+                "reporter_user_id": 101,
+                "reason": "spam",
+                "status": "resolved",
+                "description": "Descrição fictícia",
+                "decision": "Decisão fictícia",
+                "target_snapshot": {
+                  "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+                }
+              }
+            ],
+            "total": 1,
+            "page": 1,
+            "per_page": 1,
+            "next_page": null
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": "invalid-section"
+          }
+        },
+        {
+          "endpoint": "/auth/me",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "id": 7,
+            "role": "admin",
+            "account_status": "active"
+          }
+        },
+        {
+          "endpoint": "/admin/dashboard",
+          "method": "GET",
+          "status": 200,
+          "query": {},
+          "data": {
+            "users_total": 2,
+            "posts_total": 0,
+            "media_total": 8,
+            "reports_pending": 2,
+            "recent_posts": [],
+            "pending_reports": []
+          }
+        }
+      ],
+      "writes": [
+        {
+          "endpoint": "/admin/reports/301",
+          "payload": {
+            "status": "resolved",
+            "decision": "Decisão fictícia"
+          }
+        }
+      ]
+    }
+  ],
+  "current_responses": [
+    {
+      "endpoint": "/auth/login",
+      "method": "POST",
+      "status": 200,
+      "query": {},
+      "data": {
+        "authToken": "fixture-admin"
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "users_total": 2,
+        "posts_total": 0,
+        "media_total": 8,
+        "reports_pending": 2,
+        "recent_posts": [],
+        "pending_reports": []
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "pending",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "pending",
+            "description": "Descrição fictícia",
+            "decision": "",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 2,
+        "page": 1,
+        "per_page": 1,
+        "next_page": 2
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "pending",
+        "page": "2",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 302,
+            "target_type": "media",
+            "target_id": 902,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "pending",
+            "description": "Descrição fictícia",
+            "decision": "",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 2,
+        "page": 2,
+        "per_page": 1,
+        "next_page": null
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "pending",
+        "target_type": "message",
+        "reason": "spam",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "pending",
+            "description": "Descrição fictícia",
+            "decision": "",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 1,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports/301",
+      "method": "PUT",
+      "status": 503,
+      "query": {},
+      "data": {
+        "message": "Falha controlada da seção."
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports/301",
+      "method": "PUT",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 301,
+        "target_type": "message",
+        "target_id": 901,
+        "reporter_user_id": 101,
+        "reason": "spam",
+        "status": "resolved",
+        "description": "Descrição fictícia",
+        "decision": "Decisão fictícia",
+        "target_snapshot": {
+          "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+        }
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "pending",
+        "target_type": "message",
+        "reason": "spam",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [],
+        "total": 0,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "resolved",
+        "target_type": "message",
+        "reason": "spam",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "resolved",
+            "description": "Descrição fictícia",
+            "decision": "Decisão fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 1,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 503,
+      "query": {
+        "status": "resolved",
+        "target_type": "message",
+        "reason": "spam",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "message": "Falha controlada da seção."
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/reports",
+      "method": "GET",
+      "status": 200,
+      "query": {
+        "status": "resolved",
+        "target_type": "message",
+        "reason": "spam",
+        "page": "1",
+        "per_page": "25"
+      },
+      "data": {
+        "items": [
+          {
+            "id": 301,
+            "target_type": "message",
+            "target_id": 901,
+            "reporter_user_id": 101,
+            "reason": "spam",
+            "status": "resolved",
+            "description": "Descrição fictícia",
+            "decision": "Decisão fictícia",
+            "target_snapshot": {
+              "body": "<script>window.fixture_xss=true</script> Contexto preservado"
+            }
+          }
+        ],
+        "total": 1,
+        "page": 1,
+        "per_page": 1,
+        "next_page": null
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "users_total": 2,
+        "posts_total": 0,
+        "media_total": 8,
+        "reports_pending": 2,
+        "recent_posts": [],
+        "pending_reports": "invalid-section"
+      }
+    },
+    {
+      "endpoint": "/auth/me",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "id": 7,
+        "role": "admin",
+        "account_status": "active"
+      }
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "method": "GET",
+      "status": 200,
+      "query": {},
+      "data": {
+        "users_total": 2,
+        "posts_total": 0,
+        "media_total": 8,
+        "reports_pending": 2,
+        "recent_posts": [],
+        "pending_reports": []
+      }
+    }
+  ],
+  "current_writes": [
+    {
+      "endpoint": "/admin/reports/301",
+      "payload": {
+        "status": "resolved",
+        "decision": "Decisão fictícia"
+      }
+    }
+  ]
+}
