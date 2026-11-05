@@ -1,0 +1,627 @@
+{
+  "layer": "browser_actual_css_fictional_markup",
+  "remote_requests": 0,
+  "cases": [
+    {
+      "width": 320,
+      "kind": "book",
+      "passed": true,
+      "cover": {
+        "x": 95.65625,
+        "y": 47,
+        "right": 224.34375,
+        "bottom": 240.03125,
+        "width": 128.6875,
+        "height": 193.03125
+      },
+      "title": {
+        "x": 39,
+        "y": 294.25,
+        "right": 281,
+        "bottom": 514.5625,
+        "width": 242,
+        "height": 220.3125
+      },
+      "description": {
+        "x": 39,
+        "y": 542.78125,
+        "right": 281,
+        "bottom": 937.921875,
+        "width": 242,
+        "height": 395.140625
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "kind": "movie",
+      "passed": true,
+      "cover": {
+        "x": 95.65625,
+        "y": 47,
+        "right": 224.34375,
+        "bottom": 240.03125,
+        "width": 128.6875,
+        "height": 193.03125
+      },
+      "title": {
+        "x": 39,
+        "y": 294.25,
+        "right": 281,
+        "bottom": 514.5625,
+        "width": 242,
+        "height": 220.3125
+      },
+      "description": {
+        "x": 39,
+        "y": 542.78125,
+        "right": 281,
+        "bottom": 937.921875,
+        "width": 242,
+        "height": 395.140625
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "kind": "series",
+      "passed": true,
+      "cover": {
+        "x": 95.65625,
+        "y": 47,
+        "right": 224.34375,
+        "bottom": 240.03125,
+        "width": 128.6875,
+        "height": 193.03125
+      },
+      "title": {
+        "x": 39,
+        "y": 294.25,
+        "right": 281,
+        "bottom": 514.5625,
+        "width": 242,
+        "height": 220.3125
+      },
+      "description": {
+        "x": 39,
+        "y": 542.78125,
+        "right": 281,
+        "bottom": 937.921875,
+        "width": 242,
+        "height": 395.140625
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "kind": "anime",
+      "passed": true,
+      "cover": {
+        "x": 95.65625,
+        "y": 47,
+        "right": 224.34375,
+        "bottom": 240.03125,
+        "width": 128.6875,
+        "height": 193.03125
+      },
+      "title": {
+        "x": 39,
+        "y": 294.25,
+        "right": 281,
+        "bottom": 514.5625,
+        "width": 242,
+        "height": 220.3125
+      },
+      "description": {
+        "x": 39,
+        "y": 542.78125,
+        "right": 281,
+        "bottom": 937.921875,
+        "width": 242,
+        "height": 395.140625
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "kind": "missing-cover",
+      "passed": true,
+      "cover": {
+        "x": 95.65625,
+        "y": 47,
+        "right": 224.34375,
+        "bottom": 240.03125,
+        "width": 128.6875,
+        "height": 193.03125
+      },
+      "title": {
+        "x": 39,
+        "y": 294.25,
+        "right": 281,
+        "bottom": 551.28125,
+        "width": 242,
+        "height": 257.03125
+      },
+      "description": {
+        "x": 39,
+        "y": 579.5,
+        "right": 281,
+        "bottom": 974.640625,
+        "width": 242,
+        "height": 395.140625
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "kind": "book",
+      "passed": true,
+      "cover": {
+        "x": 116.46875,
+        "y": 47,
+        "right": 273.515625,
+        "bottom": 282.5625,
+        "width": 157.046875,
+        "height": 235.5625
+      },
+      "title": {
+        "x": 42.5,
+        "y": 336.78125,
+        "right": 347.5,
+        "bottom": 557.09375,
+        "width": 305,
+        "height": 220.3125
+      },
+      "description": {
+        "x": 42.5,
+        "y": 585.3125,
+        "right": 347.5,
+        "bottom": 918.0625,
+        "width": 305,
+        "height": 332.75
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "kind": "movie",
+      "passed": true,
+      "cover": {
+        "x": 116.46875,
+        "y": 47,
+        "right": 273.515625,
+        "bottom": 282.5625,
+        "width": 157.046875,
+        "height": 235.5625
+      },
+      "title": {
+        "x": 42.5,
+        "y": 336.78125,
+        "right": 347.5,
+        "bottom": 557.09375,
+        "width": 305,
+        "height": 220.3125
+      },
+      "description": {
+        "x": 42.5,
+        "y": 585.3125,
+        "right": 347.5,
+        "bottom": 918.0625,
+        "width": 305,
+        "height": 332.75
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "kind": "series",
+      "passed": true,
+      "cover": {
+        "x": 116.46875,
+        "y": 47,
+        "right": 273.515625,
+        "bottom": 282.5625,
+        "width": 157.046875,
+        "height": 235.5625
+      },
+      "title": {
+        "x": 42.5,
+        "y": 336.78125,
+        "right": 347.5,
+        "bottom": 557.09375,
+        "width": 305,
+        "height": 220.3125
+      },
+      "description": {
+        "x": 42.5,
+        "y": 585.3125,
+        "right": 347.5,
+        "bottom": 918.0625,
+        "width": 305,
+        "height": 332.75
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "kind": "anime",
+      "passed": true,
+      "cover": {
+        "x": 116.46875,
+        "y": 47,
+        "right": 273.515625,
+        "bottom": 282.5625,
+        "width": 157.046875,
+        "height": 235.5625
+      },
+      "title": {
+        "x": 42.5,
+        "y": 336.78125,
+        "right": 347.5,
+        "bottom": 557.09375,
+        "width": 305,
+        "height": 220.3125
+      },
+      "description": {
+        "x": 42.5,
+        "y": 585.3125,
+        "right": 347.5,
+        "bottom": 918.0625,
+        "width": 305,
+        "height": 332.75
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "kind": "missing-cover",
+      "passed": true,
+      "cover": {
+        "x": 116.46875,
+        "y": 47,
+        "right": 273.515625,
+        "bottom": 282.5625,
+        "width": 157.046875,
+        "height": 235.5625
+      },
+      "title": {
+        "x": 42.5,
+        "y": 336.78125,
+        "right": 347.5,
+        "bottom": 557.09375,
+        "width": 305,
+        "height": 220.3125
+      },
+      "description": {
+        "x": 42.5,
+        "y": 585.3125,
+        "right": 347.5,
+        "bottom": 918.0625,
+        "width": 305,
+        "height": 332.75
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "kind": "book",
+      "passed": true,
+      "cover": {
+        "x": 235,
+        "y": 47,
+        "right": 405,
+        "bottom": 302,
+        "width": 170,
+        "height": 255
+      },
+      "title": {
+        "x": 55,
+        "y": 356.21875,
+        "right": 585,
+        "bottom": 466.375,
+        "width": 530,
+        "height": 110.15625
+      },
+      "description": {
+        "x": 55,
+        "y": 494.59375,
+        "right": 585,
+        "bottom": 660.96875,
+        "width": 530,
+        "height": 166.375
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "kind": "movie",
+      "passed": true,
+      "cover": {
+        "x": 235,
+        "y": 47,
+        "right": 405,
+        "bottom": 302,
+        "width": 170,
+        "height": 255
+      },
+      "title": {
+        "x": 55,
+        "y": 356.21875,
+        "right": 585,
+        "bottom": 466.375,
+        "width": 530,
+        "height": 110.15625
+      },
+      "description": {
+        "x": 55,
+        "y": 494.59375,
+        "right": 585,
+        "bottom": 660.96875,
+        "width": 530,
+        "height": 166.375
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "kind": "series",
+      "passed": true,
+      "cover": {
+        "x": 235,
+        "y": 47,
+        "right": 405,
+        "bottom": 302,
+        "width": 170,
+        "height": 255
+      },
+      "title": {
+        "x": 55,
+        "y": 356.21875,
+        "right": 585,
+        "bottom": 466.375,
+        "width": 530,
+        "height": 110.15625
+      },
+      "description": {
+        "x": 55,
+        "y": 494.59375,
+        "right": 585,
+        "bottom": 660.96875,
+        "width": 530,
+        "height": 166.375
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "kind": "anime",
+      "passed": true,
+      "cover": {
+        "x": 235,
+        "y": 47,
+        "right": 405,
+        "bottom": 302,
+        "width": 170,
+        "height": 255
+      },
+      "title": {
+        "x": 55,
+        "y": 356.21875,
+        "right": 585,
+        "bottom": 466.375,
+        "width": 530,
+        "height": 110.15625
+      },
+      "description": {
+        "x": 55,
+        "y": 494.59375,
+        "right": 585,
+        "bottom": 660.96875,
+        "width": 530,
+        "height": 166.375
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "kind": "missing-cover",
+      "passed": true,
+      "cover": {
+        "x": 235,
+        "y": 47,
+        "right": 405,
+        "bottom": 302,
+        "width": 170,
+        "height": 255
+      },
+      "title": {
+        "x": 55,
+        "y": 356.21875,
+        "right": 585,
+        "bottom": 466.375,
+        "width": 530,
+        "height": 110.15625
+      },
+      "description": {
+        "x": 55,
+        "y": 494.59375,
+        "right": 585,
+        "bottom": 660.96875,
+        "width": 530,
+        "height": 166.375
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "kind": "book",
+      "passed": true,
+      "cover": {
+        "x": 1032.03125,
+        "y": 92.5,
+        "right": 1302.03125,
+        "bottom": 558.078125,
+        "width": 270,
+        "height": 465.578125
+      },
+      "title": {
+        "x": 100.59375,
+        "y": 117.46875,
+        "right": 850.59375,
+        "bottom": 298.875,
+        "width": 750,
+        "height": 181.40625
+      },
+      "description": {
+        "x": 100.59375,
+        "y": 345.34375,
+        "right": 790.59375,
+        "bottom": 502.078125,
+        "width": 690,
+        "height": 156.734375
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "kind": "movie",
+      "passed": true,
+      "cover": {
+        "x": 1032.03125,
+        "y": 92.5,
+        "right": 1302.03125,
+        "bottom": 558.078125,
+        "width": 270,
+        "height": 465.578125
+      },
+      "title": {
+        "x": 100.59375,
+        "y": 117.46875,
+        "right": 850.59375,
+        "bottom": 298.875,
+        "width": 750,
+        "height": 181.40625
+      },
+      "description": {
+        "x": 100.59375,
+        "y": 345.34375,
+        "right": 790.59375,
+        "bottom": 502.078125,
+        "width": 690,
+        "height": 156.734375
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "kind": "series",
+      "passed": true,
+      "cover": {
+        "x": 1032.03125,
+        "y": 92.5,
+        "right": 1302.03125,
+        "bottom": 558.078125,
+        "width": 270,
+        "height": 465.578125
+      },
+      "title": {
+        "x": 100.59375,
+        "y": 117.46875,
+        "right": 850.59375,
+        "bottom": 298.875,
+        "width": 750,
+        "height": 181.40625
+      },
+      "description": {
+        "x": 100.59375,
+        "y": 345.34375,
+        "right": 790.59375,
+        "bottom": 502.078125,
+        "width": 690,
+        "height": 156.734375
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "kind": "anime",
+      "passed": true,
+      "cover": {
+        "x": 1032.03125,
+        "y": 92.5,
+        "right": 1302.03125,
+        "bottom": 558.078125,
+        "width": 270,
+        "height": 465.578125
+      },
+      "title": {
+        "x": 100.59375,
+        "y": 117.46875,
+        "right": 850.59375,
+        "bottom": 298.875,
+        "width": 750,
+        "height": 181.40625
+      },
+      "description": {
+        "x": 100.59375,
+        "y": 345.34375,
+        "right": 790.59375,
+        "bottom": 502.078125,
+        "width": 690,
+        "height": 156.734375
+      },
+      "overlap": false,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "kind": "missing-cover",
+      "passed": true,
+      "cover": {
+        "x": 1032.03125,
+        "y": 99.75,
+        "right": 1302.03125,
+        "bottom": 618.546875,
+        "width": 270,
+        "height": 518.796875
+      },
+      "title": {
+        "x": 100.59375,
+        "y": 117.46875,
+        "right": 850.59375,
+        "bottom": 359.34375,
+        "width": 750,
+        "height": 241.875
+      },
+      "description": {
+        "x": 100.59375,
+        "y": 405.8125,
+        "right": 790.59375,
+        "bottom": 562.546875,
+        "width": 690,
+        "height": 156.734375
+      },
+      "overlap": false,
+      "overflow": false
+    }
+  ],
+  "passed": true
+}

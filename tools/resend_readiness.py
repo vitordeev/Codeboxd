@@ -9,6 +9,22 @@ from tools.list_status_live import PacedClient
 from tools.session_revocation import metadata_config
 
 ROOT = Path(__file__).resolve().parents[1]
+SAFE_ERRORS = frozenset({'restricted_api_key', 'invalid_api_key', 'missing_api_key',
+                         'validation_error', 'rate_limit_exceeded', 'access_denied'})
+
+
+def provider_error(response):
+    """Return only documented error names; never retain messages or payloads."""
+    if response.is_success:
+        return None
+    try:
+        body = response.json()
+    except ValueError:
+        return 'unclassified'
+    name = body.get('name') if isinstance(body, dict) else None
+    return name if isinstance(name, str) and name in SAFE_ERRORS else 'unclassified'
+
+
 SCRIPT = '''function "cb_resend_readiness" {
  input {}
  stack {
@@ -64,6 +80,7 @@ def main():
             response = client.get('https://api.resend.com/' + route,
                                   headers={'Authorization': 'Bearer ' + config.get('RESEND_API_KEY', '')})
             report['local_key_' + route + '_http_status'] = response.status_code
+            report['local_key_' + route + '_error'] = provider_error(response)
         response = client.post(base + '/multidoc/debug',
             headers={**headers, 'Content-Type': 'text/x-xanoscript'},
             params={'entry_obj_type': 'function', 'entry_obj_name': 'cb_resend_readiness', 'input': '{}'}, content=SCRIPT)

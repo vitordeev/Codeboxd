@@ -30,7 +30,8 @@ class ReadOnlyJourneyTests(unittest.TestCase):
     def test_allowlist_accepts_reads_and_only_login_post(self):
         for path in ('/auth/auth/me', '/social/library?after_id=0', '/social/feed?per_page=20',
                      '/social/media/9', '/social/profiles/7', '/social/lists/public',
-                     '/social/lists/12/items', '/social/interactions', '/social/likes'):
+                     '/social/lists/12/items', '/social/lists/public/12/items',
+                     '/social/media-list-status/9', '/social/interactions', '/social/likes'):
             self.assertTrue(allowed_read('GET', path), path)
         self.assertTrue(allowed_read('POST', '/auth/auth/login'))
         for method, path in (('GET', '/auth/reset/request-reset-link'),
@@ -38,7 +39,10 @@ class ReadOnlyJourneyTests(unittest.TestCase):
                              ('DELETE', '/social/posts/1'), ('PATCH', '/social/profile'),
                              ('GET', 'https://other.test/social/feed'), ('GET', '//other.test/social/feed'),
                              ('GET', '/social/feed?private=secret'), ('GET', '/social/../feed'),
-                             ('POST', '/auth/auth/login?retry=1')):
+                             ('POST', '/auth/auth/login?retry=1'),
+                             ('PUT', '/social/media-list-status/9'),
+                             ('DELETE', '/social/media-list-status/9'),
+                             ('GET', '/social/media-list-status/not-an-id')):
             self.assertFalse(allowed_read(method, path), (method, path))
 
     def test_preflight_refuses_admin_missing_or_legacy_lists_and_requires_existing_movie(self):

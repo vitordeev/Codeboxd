@@ -55,7 +55,7 @@ def allowed_read(method, path):
         return parsed.path == '/auth/auth/login' and not parsed.query
     if method != 'GET' or not re.fullmatch(
             r'/(auth/auth/me|social/(media(?:/[0-9]+)?|profiles(?:/[0-9]+)?|library|'
-            r'interactions|lists(?:/public|/[0-9]+/items)?|feed|posts|likes))', parsed.path):
+            r'interactions|media-list-status/[0-9]+|lists(?:/public(?:/[0-9]+/items)?|/[0-9]+/items)?|feed|posts|likes))', parsed.path):
         return False
     for key, value in parse_qsl(parsed.query, keep_blank_values=True):
         if key == 'identity_key':

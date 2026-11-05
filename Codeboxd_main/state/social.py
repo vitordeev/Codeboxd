@@ -2244,8 +2244,33 @@ class SocialState(SessionState):
 
     @rx.event
     async def remove_list_item(self, mid: str):
-        if not await self._require_user(): return rx.redirect('/login')
+        if self.list_item_saving or self.list_saving: return
+        if not self.owns_list:
+            self.notice='Escolha uma lista sua.'
+            return
+        stamp=self._route_stamp(); lid=self.selected_list.get('id',''); owner=self.user_id
+        generation=self._list_search_generation
+        def current():
+            return (stamp==self._route_stamp() and owner==self.user_id
+                    and generation==self._list_search_generation and self.selected_list.get('id','')==lid)
         try:
-            lid=str(int(self.selected_list['id']))
-            await self._call('DELETE',f'/lists/{lid}/items/{int(mid)}'); await self.open_list(lid)
-        except APIError as exc: self._failure(exc)
+            list_id,media_id=int(lid),int(mid)
+            if list_id<=0 or media_id<=0: raise ValueError('Invalid item')
+        except (ValueError,TypeError):
+            self.notice='Escolha uma lista e uma obra válidas.'
+            return
+        self.list_item_saving=True
+        try:
+            yield
+            if not await self._require_user():
+                if current() or (not self._token() and self._route_stamp()[:3]==stamp[:3]):
+                    yield rx.redirect('/login')
+                return
+            if not current(): return
+            await self._call('DELETE',f'/lists/{list_id}/items/{media_id}')
+            if not current(): return
+            await self.open_list(lid)
+        except APIError as exc:
+            if current(): self._failure(exc)
+        finally:
+            self.list_item_saving=False

@@ -1,0 +1,19 @@
+{
+  "layer": "real_browser_updated_app",
+  "passed": true,
+  "checks": [
+    {
+      "check": "updated_removal_completed_in_real_mobile_ui",
+      "passed": true
+    },
+    {
+      "check": "confirmed_empty_in_real_backend",
+      "passed": true
+    },
+    {
+      "check": "updated_mobile_css_real_dom_no_overlap",
+      "passed": true
+    }
+  ],
+  "cleanup_passed": true
+}

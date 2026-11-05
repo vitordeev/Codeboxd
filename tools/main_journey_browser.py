@@ -21,6 +21,7 @@ from playwright.async_api import async_playwright, expect
 
 from Codeboxd_main.services.api import retry_after_seconds
 from tools.performance_probe import safe_endpoint
+from tools.read_only_journey_browser import fixture_credentials
 
 ROOT = Path(__file__).resolve().parents[1]
 TABLES = ('user_list', 'user_list_item', 'post', 'user_media_interaction')
@@ -390,7 +391,8 @@ async def journey(page, audit, width, report, wire, base, pause):
     await step('profile', profile)
 
 
-async def main(output, base):
+async def main(output, base, fixture_journal=None, headless=False):
+    fixture = fixture_credentials(fixture_journal) if fixture_journal else None
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open('x', encoding='utf-8'): pass
     report = dict(layer='real-browser-normal-server', started_at=datetime.now(timezone.utc).isoformat(),
@@ -412,7 +414,7 @@ async def main(output, base):
         with httpx.Client(timeout=25, follow_redirects=False) as client:
             audit = Audit(client, auth, social, meta, meta_token, report)
             async with async_playwright() as pw:
-                browser = await pw.chromium.launch(channel='msedge', headless=False)
+                browser = await pw.chromium.launch(channel='msedge', headless=headless)
                 context = await browser.new_context(viewport={'width': 1440, 'height': 900})
                 page = await context.new_page()
                 page.on('pageerror', lambda _: wire.update(javascript_errors=wire['javascript_errors']+1))
@@ -421,9 +423,14 @@ async def main(output, base):
                     ws.on('framesent', lambda _: wire.update(sent_frames=wire['sent_frames']+1))
                 page.on('websocket', socket)
                 await page.goto(base+'/login')
-                print('READY_FOR_MEMBER_LOGIN: entre na janela Edge. Nao envie a senha pelo chat.', flush=True)
-                report['current_step'] = 'manual-login'
-                await page.wait_for_url('**/conta', timeout=600000)
+                report['current_step'] = 'fixture-login' if fixture else 'manual-login'
+                if fixture:
+                    await page.locator('input[name=email]').fill(fixture['email'])
+                    await page.locator('input[name=password]').fill(fixture['password'])
+                    await page.get_by_role('button', name='Entrar', exact=True).click()
+                else:
+                    print('READY_FOR_MEMBER_LOGIN: entre na janela Edge. Nao envie a senha pelo chat.', flush=True)
+                await page.wait_for_url('**/conta*', timeout=120000 if fixture else 600000)
                 await expect(page.locator('.profile-identity h2')).to_be_visible(timeout=60000)
                 # Read only this browser's real session; never persist its token.
                 token = await page.evaluate("sessionStorage.getItem('codeboxd_session')")
@@ -477,7 +484,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--base', default='http://127.0.0.1:3030')
+    parser.add_argument('--fixture-journal', type=Path)
+    parser.add_argument('--headless', action='store_true')
     args = parser.parse_args()
     if args.base not in ('http://127.0.0.1:3030', 'http://localhost:3030'):
         parser.error('Only the normal loopback server on port 3030 is supported')
-    raise SystemExit(asyncio.run(main(args.output, args.base.rstrip('/'))))
+    if args.headless and not args.fixture_journal:
+        parser.error('Headless mode requires a disposable fixture journal')
+    raise SystemExit(asyncio.run(main(args.output, args.base.rstrip('/'), args.fixture_journal, args.headless)))

@@ -666,7 +666,8 @@ def public_list_group(group):
 
 
 def list_item(m):
-    return rx.el.article(media_card(m),rx.cond(S.owns_list,confirm('Remover obra',S.remove_list_item(m['id']))),class_name='list-media-item')
+    return rx.el.article(media_card(m),rx.cond(S.owns_list,
+        confirm('Remover obra',S.remove_list_item(m['id']),disabled=S.list_item_saving | S.list_saving)),class_name='list-media-item')
 
 
 def list_media_search():

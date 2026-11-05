@@ -1,3 +1,9 @@
+05/11/2026: ambiente publicado conferido diretamente: chave presente, consulta
+de dominios Resend com essa chave retornou 401 restricted_api_key (permissao
+restrita, nao prova chave invalida); remetente de testes permanece.
+[Evidencia e limites](validation/configuracao-publicada-2026-11-05.md).
+Sem envio/troca reais; 3.2/3.4 continuam abertas, 8/10.
+
 04/11/2026: executor preparado com destino de evidencia explicito, sem sobrescrever
 historico. [Retomada e dependencia de caixa controlada](validation/retomada-2026-11-04.md).
 7 testes locais passaram; nenhum envio ou troca real nesta rodada. 8/10 mantido.

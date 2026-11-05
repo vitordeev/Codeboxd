@@ -1,0 +1,491 @@
+{
+  "layer": "real-browser-isolated-read-only-proxy",
+  "passed": false,
+  "steps": [
+    {
+      "step": "home",
+      "width": 1440,
+      "sample": 1,
+      "primary_ms": 1694.113,
+      "finished_ms": 4481,
+      "xano_calls": 2,
+      "warning_visible": false
+    },
+    {
+      "step": "search",
+      "width": 1440,
+      "sample": 1,
+      "primary_ms": 1399.941,
+      "finished_ms": 1005,
+      "xano_calls": 0,
+      "warning_visible": false
+    },
+    {
+      "step": "detail",
+      "width": 1440,
+      "sample": 1,
+      "primary_ms": 2626.624,
+      "finished_ms": 3139,
+      "xano_calls": 4,
+      "warning_visible": false
+    },
+    {
+      "step": "profile",
+      "width": 1440,
+      "sample": 1,
+      "primary_ms": 628.642,
+      "finished_ms": 1476,
+      "xano_calls": 4,
+      "warning_visible": false
+    },
+    {
+      "step": "library",
+      "width": 1440,
+      "sample": 1,
+      "primary_ms": 524.877,
+      "finished_ms": 401,
+      "xano_calls": 0,
+      "warning_visible": false
+    },
+    {
+      "step": "lists",
+      "width": 1440,
+      "sample": 1,
+      "primary_ms": 481.581,
+      "finished_ms": 379,
+      "xano_calls": 0,
+      "warning_visible": false
+    },
+    {
+      "step": "feed",
+      "width": 1440,
+      "sample": 1,
+      "primary_ms": 1601.431,
+      "finished_ms": 1547,
+      "xano_calls": 3,
+      "warning_visible": false
+    },
+    {
+      "step": "community",
+      "width": 1440,
+      "sample": 1,
+      "primary_ms": 692.245,
+      "finished_ms": 1508,
+      "xano_calls": 3,
+      "warning_visible": false
+    },
+    {
+      "step": "home",
+      "width": 1440,
+      "sample": 2,
+      "primary_ms": 1084.024,
+      "finished_ms": 869,
+      "xano_calls": 1,
+      "warning_visible": false
+    },
+    {
+      "step": "search",
+      "width": 1440,
+      "sample": 2,
+      "primary_ms": 556.185,
+      "finished_ms": 476,
+      "xano_calls": 0,
+      "warning_visible": false
+    },
+    {
+      "step": "detail",
+      "width": 1440,
+      "sample": 2,
+      "primary_ms": 1021.59,
+      "finished_ms": 3085,
+      "xano_calls": 4,
+      "warning_visible": false
+    }
+  ],
+  "samples_requested": 5,
+  "cache_controlled": false,
+  "normal_server_modified": false,
+  "provider_python_requests_measured": false,
+  "screenshots_saved": false,
+  "current_step": "profile",
+  "failure_type": "RuntimeError",
+  "proxy": {
+    "total_outbound_requests": 33,
+    "stop_reason": "remote-429",
+    "statuses": {
+      "200": 30,
+      "404": 1,
+      "429": 1
+    },
+    "events": [
+      {
+        "method": "POST",
+        "service": "xano",
+        "endpoint": "/auth/auth/login",
+        "status": 200,
+        "offset_ms": 103790.693,
+        "duration_ms": 847.427,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 104693.508,
+        "duration_ms": 1717.587,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles/{value}",
+        "status": 200,
+        "offset_ms": 107613.983,
+        "duration_ms": 236.138,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles",
+        "status": 200,
+        "offset_ms": 107887.167,
+        "duration_ms": 184.765,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 107894.947,
+        "duration_ms": 714.724,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 111109.089,
+        "duration_ms": 286.867,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/lists",
+        "status": 200,
+        "offset_ms": 114433.133,
+        "duration_ms": 248.844,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 117701.227,
+        "duration_ms": 205.931,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 121645.335,
+        "duration_ms": 228.679,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 121646.302,
+        "duration_ms": 748.154,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media/{value}",
+        "status": 200,
+        "offset_ms": 134911.045,
+        "duration_ms": 1028.792,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/interactions",
+        "status": 200,
+        "offset_ms": 135982.658,
+        "duration_ms": 215.711,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/{value}/{value}",
+        "status": 200,
+        "offset_ms": 136219.255,
+        "duration_ms": 255.208,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/lists",
+        "status": 200,
+        "offset_ms": 135993.686,
+        "duration_ms": 619.535,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 140586.762,
+        "duration_ms": 281.317,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles/{value}",
+        "status": 200,
+        "offset_ms": 140887.393,
+        "duration_ms": 332.368,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles",
+        "status": 200,
+        "offset_ms": 141254.995,
+        "duration_ms": 267.818,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 141256.825,
+        "duration_ms": 267.146,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/feed",
+        "status": 200,
+        "offset_ms": 152122.708,
+        "duration_ms": 696.493,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/posts",
+        "status": 200,
+        "offset_ms": 152830.642,
+        "duration_ms": 252.972,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/likes",
+        "status": 404,
+        "offset_ms": 153091.339,
+        "duration_ms": 196.965,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 156878.266,
+        "duration_ms": 558.474,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles",
+        "status": 200,
+        "offset_ms": 157461.428,
+        "duration_ms": 185.36,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles/{value}",
+        "status": 200,
+        "offset_ms": 157650.962,
+        "duration_ms": 224.255,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 161454.086,
+        "duration_ms": 242.267,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media/{value}",
+        "status": 200,
+        "offset_ms": 170577.758,
+        "duration_ms": 1452.452,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/interactions",
+        "status": 200,
+        "offset_ms": 172165.983,
+        "duration_ms": 224.463,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/{value}/{value}",
+        "status": 200,
+        "offset_ms": 172395.953,
+        "duration_ms": 252.155,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/lists",
+        "status": 200,
+        "offset_ms": 172184.769,
+        "duration_ms": 522.29,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 176295.291,
+        "duration_ms": 348.851,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles/{value}",
+        "status": 200,
+        "offset_ms": 176662.055,
+        "duration_ms": 282.723,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 429,
+        "offset_ms": 176978.358,
+        "duration_ms": 185.982,
+        "retry_after_seconds": 20
+      }
+    ]
+  },
+  "wire": {
+    "sent_frames": 62,
+    "received_frames": 133,
+    "received_bytes": 2827699,
+    "javascript_errors": 0
+  },
+  "summary": [
+    {
+      "width": 1440,
+      "step": "home",
+      "samples": 2,
+      "median_primary_ms": 1389.0684999999999,
+      "median_finished_ms": 2675.0,
+      "worst_finished_ms": 4481,
+      "warnings": 0
+    },
+    {
+      "width": 1440,
+      "step": "search",
+      "samples": 2,
+      "median_primary_ms": 978.063,
+      "median_finished_ms": 740.5,
+      "worst_finished_ms": 1005,
+      "warnings": 0
+    },
+    {
+      "width": 1440,
+      "step": "detail",
+      "samples": 2,
+      "median_primary_ms": 1824.107,
+      "median_finished_ms": 3112.0,
+      "worst_finished_ms": 3139,
+      "warnings": 0
+    },
+    {
+      "width": 1440,
+      "step": "profile",
+      "samples": 1,
+      "median_primary_ms": 628.642,
+      "median_finished_ms": 1476,
+      "worst_finished_ms": 1476,
+      "warnings": 0
+    },
+    {
+      "width": 1440,
+      "step": "library",
+      "samples": 1,
+      "median_primary_ms": 524.877,
+      "median_finished_ms": 401,
+      "worst_finished_ms": 401,
+      "warnings": 0
+    },
+    {
+      "width": 1440,
+      "step": "lists",
+      "samples": 1,
+      "median_primary_ms": 481.581,
+      "median_finished_ms": 379,
+      "worst_finished_ms": 379,
+      "warnings": 0
+    },
+    {
+      "width": 1440,
+      "step": "feed",
+      "samples": 1,
+      "median_primary_ms": 1601.431,
+      "median_finished_ms": 1547,
+      "worst_finished_ms": 1547,
+      "warnings": 0
+    },
+    {
+      "width": 1440,
+      "step": "community",
+      "samples": 1,
+      "median_primary_ms": 692.245,
+      "median_finished_ms": 1508,
+      "worst_finished_ms": 1508,
+      "warnings": 0
+    }
+  ]
+}
