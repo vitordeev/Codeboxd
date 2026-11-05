@@ -1,6 +1,15 @@
 # Contexto técnico e funcional — 27/10/2026
 
-03/11/2026: [entrega e encerramento para Git](changes/corrigir-conexoes-feed-listas/validation/encerramento-2026-11-03.md).
+04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e
+change [arquivada](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/conclusao-2026-11-04.md).
+Dashboard administrativo publicado e validado: administracao 33/34,
+performance 14/37 e recuperacao 8/10. Restam 26 tarefas funcionais;
+os registros datados anteriores preservam seus respectivos estados.
+Scaffold corrigir-follow-feed-status-filmes arquivado como supersedido,
+sem nova entrega funcional. OpenSpec global: 22/22 validos.
+
+
+03/11/2026: [entrega e encerramento para Git](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/encerramento-2026-11-03.md).
 Contratos de follow/status único publicados; 6 itens padrão migrados para 5
 relações, sem alterar avaliações/personalizadas. Limpeza final aprovada, sem
 rotas ou contas de teste restantes. Change ativa 9/10, aceite visual pendente.
@@ -47,7 +56,7 @@ os relatórios arquivados. O scanner permanente de commits não depende dessas p
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e navegador real |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 

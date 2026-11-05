@@ -1,0 +1,16 @@
+{
+  "layer": "real_admin_api_reads",
+  "passed": false,
+  "started_at": "2026-11-04T12:54:58.589805+00:00",
+  "checks": [],
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 403,
+      "duration_ms": 807.546
+    }
+  ],
+  "failure_type": "RuntimeError",
+  "request_count": 1
+}

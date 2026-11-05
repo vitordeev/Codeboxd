@@ -1,18 +1,27 @@
 # OpenSpec do Codeboxd
 
-03/11/2026 — [encerramento no estado atual para Git](changes/corrigir-conexoes-feed-listas/validation/encerramento-2026-11-03.md):
+04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e
+change [arquivada](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/conclusao-2026-11-04.md).
+Dashboard administrativo publicado e validado: administracao 33/34,
+performance 14/37 e recuperacao 8/10. Restam 26 tarefas funcionais;
+os registros datados anteriores preservam seus respectivos estados.
+Scaffold corrigir-follow-feed-status-filmes arquivado como supersedido,
+sem nova entrega funcional. OpenSpec global: 22/22 validos.
+
+
+03/11/2026 — [encerramento no estado atual para Git](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/encerramento-2026-11-03.md):
 conexões/listas **9/10**, contratos publicados e seis itens migrados para cinco
 relações. API e integridade aprovadas, fixtures/rotas temporárias removidas.
 Aceite visual continua aberto; rota dinâmica direta retornou 404 no servidor
 local. Sem novas implementações após o pedido de encerrar, sem arquivo ou commit.
 
 03/11/2026 — implementação de contratos de conexões/listas autorizada e pronta
-localmente: [15 documentos em prévia aprovada, 477 testes e backup/rollback](changes/corrigir-conexoes-feed-listas/validation/implantacao-2026-11-03.md).
+localmente: [15 documentos em prévia aprovada, 477 testes e backup/rollback](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation/implantacao-2026-11-03.md).
 Change agora **7/10** após detalhar a implantação autorizada. Branch e fonte de
 teste recusadas pelo plano gratuito; publicação ainda não executada. A escolha
 do ambiente de ensaio está pendente. Avaliações e dados remotos não alterados.
 
-03/11/2026 — [conferência das changes e do Xano](changes/auditar-estado-remoto-changes-abertas/report.md):
+03/11/2026 — [conferência das changes e do Xano](changes/archive/2026-11-04-auditar-estado-remoto-changes-abertas/report.md):
 acesso administrativo de leitura validado; tabela/função/rotas do novo status
 de listas ausentes, feed direto presente e contratos admin/Resend inspecionados.
 Flags locais de biblioteca paginada e identidade padrão estão desativadas em
@@ -28,11 +37,11 @@ recuperação de senha (2 pendentes) são as próximas prioridades; o relatório
 detalha aplicação manual Xano, contas e caixa de e-mail necessárias.
 
 29/10/2026 — correções locais de seguir, feed e switch das listas padrão na
-[change corrigir-conexoes-feed-listas](changes/corrigir-conexoes-feed-listas/proposal.md).
+[change corrigir-conexoes-feed-listas](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/proposal.md).
 O backend Xano **não foi alterado**: roteiro de migração/contratos e verificações
-em [xano-changes.md](changes/corrigir-conexoes-feed-listas/xano-changes.md).
+em [xano-changes.md](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/xano-changes.md).
 O switch depende da aplicação manual desse contrato. Aceite remoto permanece
-aberto; [evidências locais](changes/corrigir-conexoes-feed-listas/validation.md).
+aberto; [evidências locais](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/validation.md).
 
 28/10/2026 — feed corrigido localmente: foto principal e obra em miniatura,
 curtidas com estado/pending e comentários em diálogo contextual. Change
@@ -65,8 +74,7 @@ suas pendências ou contagens.
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [corrigir-conexoes-feed-listas](changes/corrigir-conexoes-feed-listas/tasks.md) | 9/10 | 1 | Aceite visual das jornadas; investigar roteamento dinâmico local |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e navegador real |
+| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 

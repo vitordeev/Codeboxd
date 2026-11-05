@@ -1,0 +1,98 @@
+{
+  "layer": "synthetic_xano_catalog_interpreter",
+  "published": false,
+  "cases": [
+    {
+      "kind": "movie",
+      "search": "",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": false,
+        "titles": false,
+        "type": true,
+        "page": true
+      },
+      "passed": false
+    },
+    {
+      "kind": "series",
+      "search": "",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": false,
+        "titles": false,
+        "type": true,
+        "page": true
+      },
+      "passed": false
+    },
+    {
+      "kind": "book",
+      "search": "",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": false,
+        "titles": false,
+        "type": true,
+        "page": true
+      },
+      "passed": false
+    },
+    {
+      "kind": "anime",
+      "search": "",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": false,
+        "titles": false,
+        "type": true,
+        "page": true
+      },
+      "passed": false
+    },
+    {
+      "kind": "movie",
+      "search": "Alpha",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": false,
+        "titles": false,
+        "type": true,
+        "page": true
+      },
+      "passed": false
+    },
+    {
+      "kind": "movie",
+      "search": "absent-7fa56e31",
+      "page": 1,
+      "status": "ok",
+      "checks": {
+        "total": true,
+        "titles": true,
+        "type": true,
+        "page": true
+      },
+      "passed": true
+    },
+    {
+      "kind": "movie",
+      "search": "",
+      "page": 2,
+      "status": "ok",
+      "checks": {
+        "total": false,
+        "titles": false,
+        "type": true,
+        "page": true
+      },
+      "passed": false
+    }
+  ],
+  "passed": false
+}

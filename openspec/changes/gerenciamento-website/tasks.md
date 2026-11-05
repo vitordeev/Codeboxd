@@ -1,3 +1,7 @@
+Aceite real em 04/11/2026: **33/34**, 119 checks e limpeza aprovados.
+[Evidencias por criterio](validation/aceite-2026-11-04.md). Resta 9.2.
+Os registros datados abaixo preservam rodadas anteriores.
+
 > Estado reconciliado em 26/10/2026: 21/34 tarefas concluídas, 13 abertas. Tabela report e endpoints publicados em 13–19/10; interface com fixtures em 22/10. Leituras admin reais de 23/10 constam na change de performance. Faltam critérios completos de autorização, mutações, auditoria e browser real; não arquivar. As seções e rodadas anteriores abaixo preservam o planejamento e sua evolução; o checklist e a evidência datada prevalecem sobre resumos antigos.
 
 # Tarefas da administração
@@ -40,9 +44,9 @@ Os sete itens históricos H.1–H.7 foram transferidos para [HISTORICO.md](../..
 
 Revisão em 19/10/2026: endpoints e tabela de reports já existem no workspace 147717. Leituras reais rejeitam visitante e membro; 18 testes locais passaram. Correções locais e prévia restrita de dois endpoints revisadas, sem publicação. Faltam conta de teste admin e validação das operações autorizadas. Detalhes em [validation/backend-review-2026-10-19.md](validation/backend-review-2026-10-19.md); os checkboxes abaixo permanecem abertos até a validação completa.
 
-- [ ] 2.1 Implementar verificações de papel admin nos endpoints de leitura e mutação administrativos no Xano, derivando o ator de `$auth.id`; verificar que visitante e membro recebem rejeição também ao chamar os endpoints diretamente.
-- [ ] 2.2 Implementar endpoints de totais e atividade recente com paginação e consultas agregadas; verificar as respostas contra contagens conhecidas do ambiente de desenvolvimento.
-- [ ] 2.3 Implementar consultas de reports pendentes para alimentar o painel; verificar contagens, paginação e tratamento de lista vazia.
+- [x] 2.1 Implementar verificações de papel admin nos endpoints de leitura e mutação administrativos no Xano, derivando o ator de `$auth.id`; verificar que visitante e membro recebem rejeição também ao chamar os endpoints diretamente.
+- [x] 2.2 Implementar endpoints de totais e atividade recente com paginação e consultas agregadas; verificar as respostas contra contagens conhecidas do ambiente de desenvolvimento.
+- [x] 2.3 Implementar consultas de reports pendentes para alimentar o painel; verificar contagens, paginação e tratamento de lista vazia.
 
 ## 3. Gerenciamento de usuários
 
@@ -60,15 +64,20 @@ Nenhum checkbox remoto encerrado; **22/34** mantido.
 Implementado localmente: consulta paginada, alteração de status e registro `event_log` em transação. Falta testar respostas reais, bloqueio da conta suspensa e persistência da auditoria.
 
 - [x] 3.1 Implementar endpoint paginado de busca de usuários por identificador/nome e filtros administrativos; verificar busca sem resultados e ausência de senha, token e dados secretos no payload.
-- [ ] 3.2 Implementar suspensão e reativação usando os estados `disabled` e `active`, com ator administrativo obtido da sessão; verificar que uma sessão suspensa não pode continuar usando operações protegidas.
-- [ ] 3.3 Persistir auditoria das mudanças de conta com ator, ação, horário e motivo opcional; verificar que o histórico identifica a conta e a ação sem aceitar o ator do payload como fonte de verdade.
+- [x] 3.2 Implementar suspensão e reativação usando os estados `disabled` e `active`, com ator administrativo obtido da sessão; verificar que uma sessão suspensa não pode continuar usando operações protegidas.
+- [x] 3.3 Persistir auditoria das mudanças de conta com ator, ação, horário e motivo opcional; verificar que o histórico identifica a conta e a ação sem aceitar o ator do payload como fonte de verdade.
 
 ## 4. Gerenciamento do catálogo
 
 Implementado localmente: GET/POST/PUT de catálogo administrativo. Tarefa 4.3 possui teste simulado de reutilização de identidade; 4.1–4.2 aguardam comprovação remota de filtros, paginação e integridade.
 
-- [ ] 4.1 Implementar endpoints paginados de catálogo com filtros por filme, série, livro e anime, consulta e busca; verificar que cada filtro retorna apenas seu tipo e que resultados podem ser paginados.
-- [ ] 4.2 Implementar correção dos campos administrativos identificados na tarefa 1 sem alterar IDs locais ou referências externas; verificar validação de dados e preservação do registro em caso de erro.
+- [x] 4.1 Implementar endpoints paginados de catálogo com filtros por filme, série, livro e anime, consulta e busca; verificar que cada filtro retorna apenas seu tipo e que resultados podem ser paginados.
+- [x] 4.2 Implementar correção dos campos administrativos identificados na tarefa 1 sem alterar IDs locais ou referências externas; verificar validação de dados e preservação do registro em caso de erro.
+
+  Continuacao 04/11: ano opcional corrigido e publicado no PUT; seis casos
+  candidatos e duas chamadas reais de visitante aprovados, 47 testes locais.
+  Manter aberto ate edicao/integridade com admin. Ver
+  [retomada](validation/retomada-2026-11-04.md#continuacao---ano-opcional-do-catalogo).
 - [x] 4.3 Implementar prevenção de duplicatas pela identidade externa e tipo de obra antes da criação administrativa; verificar que uma identidade existente direciona ao registro atual em vez de criar outro.
 
 ## 5. Reports e auditoria de moderação
@@ -76,9 +85,9 @@ Implementado localmente: GET/POST/PUT de catálogo administrativo. Tarefa 4.3 po
 Implementado localmente: tabela `report`, criação pública autenticada e endpoints administrativos, snapshots e auditoria. Falta validar persistência, autorização direta e política de transições no Xano real; arquivo local não equivale a tabela publicada.
 
 - [x] 5.1 Criar estrutura persistente para reports com tipo/ID do alvo, snapshot contextual, motivo, denunciante, status e timestamps; verificar inserção válida e rejeição de campos obrigatórios ausentes.
-- [ ] 5.2 Implementar fila paginada e filtros por status, tipo e motivo, protegidos pelo papel admin; verificar acesso negado por chamada direta sem papel autorizado.
-- [ ] 5.3 Implementar transições pendente, em análise, resolvido e rejeitado com decisão e trilha de auditoria; verificar que cada transição guarda o ator autenticado e o estado anterior.
-- [ ] 5.4 Garantir que criar ou revisar um report não apague nem altere automaticamente o conteúdo alvo; verificar a integridade do conteúdo após o fluxo de denúncia.
+- [x] 5.2 Implementar fila paginada e filtros por status, tipo e motivo, protegidos pelo papel admin; verificar acesso negado por chamada direta sem papel autorizado.
+- [x] 5.3 Implementar transições pendente, em análise, resolvido e rejeitado com decisão e trilha de auditoria; verificar que cada transição guarda o ator autenticado e o estado anterior.
+- [x] 5.4 Garantir que criar ou revisar um report não apague nem altere automaticamente o conteúdo alvo; verificar a integridade do conteúdo após o fluxo de denúncia.
 - [x] 5.5 Aceitar reports do tipo mensagem usando snapshot mesmo sem criar mensageria; verificar exibição do snapshot quando o alvo ao vivo não estiver disponível.
 
 ## 6. Estrutura da área administrativa
@@ -115,7 +124,7 @@ real pendente; [evidência](validation/catalogo-inicial-2026-10-20.md).
 
 Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte completa tem 106 testes aprovados na reanálise. 9.1 segue aberta porque testes simulados não verificam auditoria e autorização do Xano real. A validação 9.3 inclui dry-run histórico de setembro e compilação atual, não publicação administrativa atual.
 
-- [ ] 9.1 Adicionar testes de unidade e integração para autorização, paginação, filtros, transições, snapshots e auditoria; verificar cenários de admin, membro, visitante e dados inválidos.
+- [x] 9.1 Adicionar testes de unidade e integração para autorização, paginação, filtros, transições, snapshots e auditoria; verificar cenários de admin, membro, visitante e dados inválidos.
 - [ ] 9.2 Validar a interface completa com dados reais de desenvolvimento, estados vazios, erros parciais e tamanhos móveis; registrar resultados e defeitos encontrados.
 - [x] 9.3 Compilar a aplicação Reflex e validar os contratos/endpoints Xano em dry-run; verificar que não há alterações remotas publicadas automaticamente nem credenciais expostas no cliente.
 - [x] 9.4 Documentar as migrações, os novos endpoints, a concessão manual do papel admin e o procedimento de rollback; verificar que outra pessoa consegue seguir as instruções em ambiente de desenvolvimento.

@@ -23,13 +23,17 @@ from tools.real_login_measurement import stop_process_tree
 ROOT = Path(__file__).resolve().parents[1]
 
 
-async def main(frontend_workdir=None):
+async def main(frontend_workdir=None, private_dir=None, output=None):
+    expect.set_options(timeout=120000)
+    private = private_dir.resolve() if private_dir else PRIVATE
+    if not private.is_relative_to((ROOT / '.local').resolve()):
+        raise ValueError('Private artifacts must stay under .local')
     with socket.socket() as port_check:
         port_check.bind(('127.0.0.1', 3035))
     config = dotenv_values(ROOT / '.env')
-    journal = json.loads((PRIVATE / 'live-journal.json').read_text(encoding='utf-8'))
+    journal = json.loads((private / 'live-journal.json').read_text(encoding='utf-8'))
     users = journal['test_users']
-    if len(users) != 2 or not journal.get('real-final_passed'):
+    if len(users) != 2 or not (journal.get('real-final_passed') or journal.get('browser_fixture_ready')):
         raise ValueError('Final API acceptance and two disposable sessions required')
     a, b = users
     mid = journal['fixture_media_ids'][0]
@@ -99,9 +103,11 @@ async def main(frontend_workdir=None):
     report = {'layer': 'browser_real_xano_paced_proxy', 'passed': False, 'cases': [],
               'transport_timeout_seconds': 60, 'proxy_min_interval_seconds': 2.4,
               'normal_server_modified': False}
-    output = ROOT / 'openspec/changes/corrigir-conexoes-feed-listas/validation/browser-real-2026-11-03.json'
+    output = output or ROOT / 'openspec/changes/corrigir-conexoes-feed-listas/validation/browser-real-2026-11-03.json'
+    if output.exists():
+        raise FileExistsError('Preserve previous browser evidence; choose a new output')
     process = None
-    with (PRIVATE / 'browser-server.log').open('w', encoding='utf-8') as log:
+    with (private / 'browser-server.log').open('w', encoding='utf-8') as log:
         try:
             process = subprocess.Popen([sys.executable, '-m', 'reflex', 'run', '--env', 'prod', '--single-port',
                 '--frontend-port', '3035', '--backend-port', '3035'], cwd=ROOT, env=env,
@@ -177,15 +183,15 @@ async def main(frontend_workdir=None):
                         if await page.evaluate('document.documentElement.scrollWidth > innerWidth'):
                             raise AssertionError('Horizontal overflow')
                         if errors: raise AssertionError('Browser JavaScript error')
-                        await page.screenshot(path=str(PRIVATE / f'browser-status-{width}.png'), full_page=True)
+                        await page.screenshot(path=str(private / f'browser-status-{width}.png'), full_page=True)
                         report['cases'].append({'case': 'exclusive_toggle_static_reload_and_revisit', 'width': width, 'passed': True})
                         print(json.dumps(report['cases'][-1]), flush=True)
                         await context.close()
                 except Exception:
                     try:
-                        await page.screenshot(path=str(PRIVATE/'browser-failure.png'),full_page=True)
-                        (PRIVATE/'browser-failure.txt').write_text(await page.locator('body').inner_text(),encoding='utf-8')
-                        (PRIVATE/'browser-diagnostics.json').write_text(json.dumps({'page_errors':error_messages,'responses':local_failures,'url_path':urlsplit(page.url).path}),encoding='utf-8')
+                        await page.screenshot(path=str(private/'browser-failure.png'),full_page=True)
+                        (private/'browser-failure.txt').write_text(await page.locator('body').inner_text(),encoding='utf-8')
+                        (private/'browser-diagnostics.json').write_text(json.dumps({'page_errors':error_messages,'responses':local_failures,'url_path':urlsplit(page.url).path}),encoding='utf-8')
                     except Exception: pass
                     raise
                 finally: await browser.close()
@@ -205,5 +211,7 @@ async def main(frontend_workdir=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--frontend-workdir',type=Path)
+    parser.add_argument('--private-dir', type=Path)
+    parser.add_argument('--output', type=Path)
     args = parser.parse_args()
-    raise SystemExit(asyncio.run(main(args.frontend_workdir)))
+    raise SystemExit(asyncio.run(main(args.frontend_workdir, args.private_dir, args.output)))

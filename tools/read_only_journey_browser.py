@@ -164,7 +164,25 @@ def summarize(rows):
             for (width, step), values in groups.items()]
 
 
-async def run(output, frontend, samples=5):
+def fixture_credentials(path):
+    path = path.resolve()
+    if not path.is_relative_to((ROOT / '.local').resolve()):
+        raise ValueError('Fixture journal must stay under .local')
+    journal = json.loads(path.read_text(encoding='utf-8'))
+    marker = journal.get('fixture_marker', '')
+    users = journal.get('test_users', [])
+    if not re.fullmatch(r'cbst_[0-9a-f]{12}', marker) or len(users) != 2 or not journal.get('browser_fixture_ready'):
+        raise ValueError('Prepared disposable fixture journal required')
+    user = users[0]
+    if (user.get('username') != marker + '_a' or user.get('email') != marker + '_a@example.invalid'
+            or type(user.get('id')) is not int or user['id'] <= 0
+            or not isinstance(user.get('password'), str) or not user['password']):
+        raise ValueError('Only the generated disposable reader may log in automatically')
+    return user
+
+
+async def run(output, frontend, samples=5, fixture_journal=None):
+    fixture = fixture_credentials(fixture_journal) if fixture_journal else None
     if not 1 <= samples <= 5:
         raise ValueError('Use one to five samples')
     require_free_port()
@@ -231,9 +249,19 @@ async def run(output, frontend, samples=5):
                         page.on('websocket', socket)
                         base = 'http://127.0.0.1:3031'
                         await page.goto(base+'/login')
-                        report['current_step'] = 'manual-member-login'
-                        print('READY_FOR_MEMBER_LOGIN: use a conta de membro na janela de teste.', flush=True)
-                        await page.wait_for_url('**/conta*', timeout=600000)
+                        report['current_step'] = 'fixture-member-login' if fixture else 'manual-member-login'
+                        if fixture:
+                            await page.locator('input[name=email]').fill(fixture['email'])
+                            await page.locator('input[name=password]').fill(fixture['password'])
+                            await page.get_by_role('button', name='Entrar', exact=True).click()
+                            deadline = time.monotonic() + 120
+                            while '/conta' not in urlsplit(page.url).path:
+                                if measurement.stop_reason or time.monotonic() > deadline:
+                                    raise RuntimeError('fixture_login_incomplete')
+                                await asyncio.sleep(.2)
+                        else:
+                            print('READY_FOR_MEMBER_LOGIN: use a conta de membro na janela de teste.', flush=True)
+                            await page.wait_for_url('**/conta*', timeout=600000)
                         await expect(page.locator('.profile-identity h2')).to_be_visible(timeout=60000)
                         token = await page.evaluate("sessionStorage.getItem('codeboxd_session')")
                         if not token:
@@ -344,6 +372,7 @@ if __name__ == '__main__':
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--samples', type=int, choices=range(1, 6), default=5)
     parser.add_argument('--frontend-workdir', type=Path)
+    parser.add_argument('--fixture-journal', type=Path)
     args = parser.parse_args()
     frontend = args.frontend_workdir or prepare_frontend('read-only-'+str(os.getpid()))
     frontend = frontend.resolve()
@@ -352,4 +381,4 @@ if __name__ == '__main__':
     # Current normal frontend is explicitly reserved in CONTEXTO.md.
     if frontend.name == 'xano-pool-20261024':
         parser.error('The normal server frontend cannot be reused')
-    raise SystemExit(asyncio.run(run(args.output, frontend, args.samples)))
+    raise SystemExit(asyncio.run(run(args.output, frontend, args.samples, args.fixture_journal)))

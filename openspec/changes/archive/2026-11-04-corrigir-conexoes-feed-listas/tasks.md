@@ -1,3 +1,7 @@
+Conclusao em 04/11/2026: **10/10**, apos aceite real desktop/celular e limpeza
+restrita dos registros descartaveis. Ver [evidencias finais](validation/conclusao-2026-11-04.md).
+Os registros datados abaixo preservam o estado de cada rodada anterior.
+
 ## 1. Diagnóstico e contrato
 
 Encerramento desta rodada a pedido do usuário, em 03/11/2026, para preparar
@@ -18,7 +22,7 @@ Sem arquivamento, sincronização de specs ou commit nesta rodada.
 ## 3. Validação
 
 - [x] 3.1 Executar testes existentes e novos, compile seco e openspec validate; registrar comandos, resultados e limitações em validation.md.
-- [ ] 3.2 Aplicar os passos Xano e validar as três jornadas reais, incluindo usuário novo, concorrência e limpeza. Execução pelo agente autorizada em 03/11/2026, substituindo a dependência manual anterior; manter aberto até aceite comprovado.
+- [x] 3.2 Aplicar os passos Xano e validar as três jornadas reais, incluindo usuário novo, concorrência e limpeza. Execução pelo agente autorizada em 03/11/2026, substituindo a dependência manual anterior; manter aberto até aceite comprovado.
 
 ## 4. Continuação autorizada em 03/11/2026
 

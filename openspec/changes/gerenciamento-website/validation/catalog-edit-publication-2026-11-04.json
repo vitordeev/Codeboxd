@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "published": true,
+  "documents": 1,
+  "only_endpoint": "PUT admin/catalog/{id}",
+  "data_written": false,
+  "unrelated_contracts_preserved": true,
+  "zero_delta": true,
+  "candidate_sha256": "d1ea7beae9d284239474bbff62a22391f22701008e3873ed8621503a6bb68b97",
+  "before_sha256": "310662a85aec5e30e78894e3414f5566f9929626a5070cf458c7d3cea93f05f5",
+  "after_sha256": "c4e5ffce94f3706a32be93b7711766680a7d056f8b348fa89b04e6a2cc0fa63b"
+}

@@ -1,0 +1,344 @@
+{
+  "layer": "browser_real_xano_paced_proxy",
+  "passed": true,
+  "cases": [
+    {
+      "case": "new_reader_follow_and_feed",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "case": "exclusive_toggle_static_reload_and_revisit",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "case": "exclusive_toggle_static_reload_and_revisit",
+      "width": 390,
+      "passed": true
+    }
+  ],
+  "transport_timeout_seconds": 60,
+  "proxy_min_interval_seconds": 2.4,
+  "normal_server_modified": false,
+  "phase": "reload_390",
+  "requests": 63,
+  "rate_limits": 0,
+  "responses": [
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles/27",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles/28",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/follows/28",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/feed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/posts",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/likes",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles/27",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/interactions",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/lists",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles/27",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media/228",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/interactions",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/lists",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles/27",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/interactions",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/lists",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/media-list-status/228",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles/27",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/profiles",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/media",
+      "status": 200
+    }
+  ]
+}

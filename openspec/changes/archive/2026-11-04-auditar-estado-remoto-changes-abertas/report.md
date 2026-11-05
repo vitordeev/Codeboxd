@@ -66,7 +66,7 @@ Confirmado no schema e nas listagens:
   da migração nova, que ainda falta.
 
 **Próximo passo:** seguir backup, ensaio, migração e corte coordenado de
-`../corrigir-conexoes-feed-listas/xano-changes.md`. O pedido de conferência
+`../../corrigir-conexoes-feed-listas/xano-changes.md`. O pedido de conferência
 autoriza esta inspeção de leitura; não altera a aplicação manual prevista na
 change nem autoriza migração automática. Tarefa 3.2 segue aberta até testes
 autenticados de usuário sem posts, seguir/deixar de seguir, exclusividade,
@@ -158,7 +158,7 @@ Corpos de usuários, perfis, listas e obras não foram impressos ou persistidos.
 - Evidência anterior desta mesma sessão, com código inalterado desde então:
   **464 testes OK**, incluindo 47 administrativos; compile seco aprovado em
   21,625 s. Não executados novamente só para esta documentação.
-  Referência: `../gerenciamento-website/validation/confirmacoes-contexto-2026-11-03.md`.
+  Referência: `../../gerenciamento-website/validation/confirmacoes-contexto-2026-11-03.md`.
 - Após a consolidação: `openspec validate auditar-estado-remoto-changes-abertas
   --type change` → válida. Validação global → **24/25 válidos**, 19/19 specs e
   5/6 changes, incluindo esta auditoria. A única falha continua sendo o scaffold
@@ -176,3 +176,10 @@ integridade de todos os registros ou teste de todas as jornadas. Não houve
 navegador autenticado, leitura de caixa de e-mail ou teste com papéis de membro,
 admin e suspenso nesta rodada. Nenhum critério funcional foi marcado concluído.
 Sem alterações no produto, nas flags ou no Xano; sem Docker ou reinício.
+
+## Arquivamento - 04/11/2026
+
+Auditoria completa (3/3), arquivada a pedido do usuário. Nova validação
+`openspec validate auditar-estado-remoto-changes-abertas --type change` aprovada.
+Planejamento completo; sem delta de specs. Sem novos ensaios funcionais ou
+remotos. Limites anteriores e tarefas funcionais preservados.

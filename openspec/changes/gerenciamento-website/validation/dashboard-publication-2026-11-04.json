@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "published": true,
+  "documents": 1,
+  "only_endpoint": "GET admin/dashboard",
+  "data_written": false,
+  "unrelated_contracts_preserved": true,
+  "zero_delta": true,
+  "candidate_sha256": "9756f603d374fe205a93ba5398ddc2597d1f9a302dc67fb365af2077b7e776cd",
+  "before_sha256": "290c8683a78d4c5621209e1a0a2b90fdce1f983e6d762f562cb4e040b21ad49e",
+  "after_sha256": "740286b1baf714cde8b2fb70e7baa7612edd88f4a7fb3237a6cb3e9684d084d6"
+}

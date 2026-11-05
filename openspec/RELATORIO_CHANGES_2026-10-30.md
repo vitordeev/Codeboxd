@@ -25,7 +25,7 @@ continuam documentados nos arquivos de validação arquivados e abaixo.
 
 | Change | Concluídas | Pendentes | Estado atual e próximo passo |
 | --- | ---: | ---: | --- |
-| [corrigir-conexoes-feed-listas](changes/corrigir-conexoes-feed-listas/tasks.md) | 6/7 | 1 | Python e mocks concluídos; aplicar migração/contratos Xano e validar jornadas reais (3.2) |
+| [corrigir-conexoes-feed-listas](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/tasks.md) | 6/7 | 1 | Python e mocks concluídos; aplicar migração/contratos Xano e validar jornadas reais (3.2) |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Integração publicada historicamente; envio aceito e recebimento/ciclo de recuperação ainda sem evidência (3.4/3.2) |
 | [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e browser real ainda pendentes |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Baselines/metas, comparações das jornadas, browser e mutações reais; não é apenas falta de credencial |
@@ -45,7 +45,7 @@ explicitamente descartá-lo. Não inventar requisitos nem arquivar como concluí
 
 Não tenho acesso direto ao workspace e a restrição anterior de aplicação manual
 continua válida. É necessário aplicar e conferir o
-[roteiro completo](changes/corrigir-conexoes-feed-listas/xano-changes.md):
+[roteiro completo](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/xano-changes.md):
 
 - Backup, limpeza de follows e índice único composto.
 - Stacks idempotentes PUT/DELETE de follow e feed consultando posts dos seguidos.

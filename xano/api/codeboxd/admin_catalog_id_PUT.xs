@@ -7,7 +7,7 @@ query "admin/catalog/{id}" verb=PUT {
     text title filters=trim|min:1|max:500
     text description? filters=max:20000
     text cover_url? filters=trim|max:1000
-    int year? filters=min:1800|max:2200
+    int? year? filters=min:1800|max:2200
   }
 
   stack {
