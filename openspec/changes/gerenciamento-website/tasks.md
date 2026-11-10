@@ -148,6 +148,31 @@ Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte co
   auditoria, limpeza limitada e autorizações A0–A4. Nenhuma autenticação,
   consulta de inventário ou escrita Xano nesta preparação; execução aguarda
   aprovação explícita do escopo. 9.2 permanece aberta, 33/34.
+
+  09/11/2026 — usuário autorizou somente leitura A0. [Inventário executado](validation/pre-voo-a0-2026-11-09.md):
+  sete GET 200, workspace confirmado, branch v1/live e fonte live, sem destino
+  isolado observado ou fixtures liberadas para reuso. Zero mutações; A1–A4
+  permanecem pendentes. Contratos/cascatas/quota ainda precisam de conferência
+  antes de escrever. Manter 9.2 aberta e não usar executores antigos de limpeza.
+
+  Continuação em 09/11: usuário autorizou login manual e leituras de A1.
+  [Sessão/acesso confirmados](validation/login-e-leituras-a1-2026-11-09.md):
+  dez checks, sete HTTP 200 (um POST de login e seis GET), sem escrita
+  administrativa. Não comprova o formulário/fluxo UI integrado. A2–A4 ainda
+  pendentes; preparar guardas locais e definir destino antes de criar fixtures.
+
+  Preparação local posterior em 09/11: [política de prévias e limites](validation/guardas-locais-2026-11-09.md)
+  implementada sem transporte HTTP. 26 testes offline aprovados para destino,
+  aprovação, manifesto, identidade/hash, payload e cancelamento. Somente prévias
+  dos três PUTs; setup/deduplicação/limpeza, integração do transporte e A2–A4
+  continuam pendentes. Sem novas chamadas Xano; não conclui o aceite 9.2.
+
+  Continuação local seguinte em 09/11: [executor de ensaio](validation/executor-local-2026-11-09.md)
+  conectado às guardas somente com MockTransport/.invalid, journal, orçamento,
+  espaçamento e releitura independente. 48 testes aprovados (22 novos + 26 de
+  dependência), sem rede real. [Relatório do projeto](validation/relatorio-projeto-2026-11-09.md).
+  Setup/deduplicação/limpeza, browser integrado e A2–A4 continuam pendentes;
+  execução real não é habilitada por esse ensaio. Manter 33/34.
 - [x] 9.3 Compilar a aplicação Reflex e validar os contratos/endpoints Xano em dry-run; verificar que não há alterações remotas publicadas automaticamente nem credenciais expostas no cliente.
 - [x] 9.4 Documentar as migrações, os novos endpoints, a concessão manual do papel admin e o procedimento de rollback; verificar que outra pessoa consegue seguir as instruções em ambiente de desenvolvimento.
 

@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "published": true,
+  "emails_delivered_by_validation": 0,
+  "preview_http_status": 200,
+  "operations": [
+    {
+      "type": "query",
+      "name": "reset/request-reset-link GET",
+      "action": "update"
+    }
+  ],
+  "push_http_status": 200,
+  "only_recovery_endpoint_changed": true
+}

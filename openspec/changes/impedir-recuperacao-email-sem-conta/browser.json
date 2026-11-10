@@ -1,0 +1,10 @@
+{
+  "layer": "real_browser_and_published_api",
+  "email_step_visible": true,
+  "visible_fields": 1,
+  "code_field_visible": false,
+  "active_account_error_shown": true,
+  "address_preserved": true,
+  "submit_enabled": true,
+  "passed": true
+}

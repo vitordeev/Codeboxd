@@ -8,8 +8,10 @@ dígitos recebido no e-mail cadastrado, com prazo e uso controlados.
 ### Requirement: Código de seis dígitos por e-mail
 O sistema MUST gerar e enviar ao e-mail cadastrado de uma conta ativa um código
 de exatamente seis dígitos ASCII, sem incluí-lo na resposta pública ou nos logs.
-O sistema MUST apresentar resposta genérica para solicitações de contas
-inexistentes/desativadas e guardar o código somente como hash no banco.
+O sistema MUST rejeitar solicitações de contas inexistentes/inativas antes de gerar
+ou enviar código e guardar o código somente como hash no banco. Regra de elegibilidade
+atualizada a pedido do usuário em 10/11/2026 na change impedir-recuperacao-email-sem-conta;
+a resposta genérica anterior permanece somente como histórico de implementação.
 
 #### Scenario: Conta ativa solicita recuperação
 - **WHEN** a pessoa informa o e-mail de sua conta ativa
@@ -17,7 +19,7 @@ inexistentes/desativadas e guardar o código somente como hash no banco.
 
 #### Scenario: E-mail sem conta ativa
 - **WHEN** o e-mail informado não pertence a uma conta ativa
-- **THEN** a resposta pública mantém a mensagem genérica e nenhum código é emitido
+- **THEN** o backend rejeita a solicitação com 404, nenhum código é emitido e a interface permanece na etapa de e-mail
 
 ### Requirement: Expiração e proteção de tentativas
 O código MUST expirar em 15 minutos, ser consumido uma única vez e permitir no
@@ -46,6 +48,12 @@ O formulário MUST aceitar apenas seis dígitos e senha/confirmação válidas a
 enviar a validação. Após a troca, o sistema MUST orientar novo login sem persistir
 a credencial temporária de recuperação como sessão normal no navegador.
 
+Evolução de 10/11/2026 na change reforcar-restricoes-redefinicao-senha: senha de 8 a
+128 caracteres, com letra ASCII e dígito ASCII, confirmação idêntica e diferente da
+atual. Endpoint final exige credencial de recuperação com versão vigente e conta
+ativa, rejeitando sessão comum. Comparação da senha atual ocorre sob lock, antes da
+gravação/incremento da versão; feedback diferencia rejeição da senha de erro do código.
+
 #### Scenario: Formato incorreto
 - **WHEN** a pessoa informa letras, UUID, menos ou mais de seis dígitos
 - **THEN** o formulário pede exatamente seis dígitos e não envia a validação
@@ -53,3 +61,11 @@ a credencial temporária de recuperação como sessão normal no navegador.
 #### Scenario: Senha redefinida
 - **WHEN** o código válido é confirmado e as novas senhas atendem às regras
 - **THEN** a nova senha funciona no login e a anterior deixa de funcionar
+
+#### Scenario: Repetição após conclusão
+- **WHEN** a troca já foi confirmada nessa jornada e o formulário recebe novo submit
+- **THEN** a interface mantém a confirmação e o caminho para entrar, sem reenviar o código consumido; um novo pedido explícito inicia outra jornada
+
+#### Scenario: Senha atual ou sessão sem prova de recuperação
+- **WHEN** a senha proposta é igual à atual ou a autorização é uma sessão comum
+- **THEN** o endpoint final rejeita a alteração sem salvar senha ou incrementar versão

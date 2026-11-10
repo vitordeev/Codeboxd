@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "layer": "published_api_disposable_member",
+  "emails_sent": 0,
+  "real_accounts_modified": 0,
+  "fixture_removed": true,
+  "fixture_relations_removed": true,
+  "checks": [
+    {
+      "scenario": "disposable_member_created",
+      "http_status": 200,
+      "passed": true
+    },
+    {
+      "scenario": "private_generator_without_email",
+      "http_status": 200,
+      "passed": true
+    },
+    {
+      "scenario": "recovery_credential_issued",
+      "http_status": 200,
+      "passed": true
+    },
+    {
+      "scenario": "missing_credential",
+      "http_status": 401,
+      "passed": true
+    },
+    {
+      "scenario": "corrupt_credential",
+      "http_status": 401,
+      "passed": true
+    },
+    {
+      "scenario": "normal_session_denied",
+      "http_status": 401,
+      "passed": true
+    },
+    {
+      "scenario": "short",
+      "http_status": 400,
+      "passed": true
+    },
+    {
+      "scenario": "letters_only",
+      "http_status": 400,
+      "passed": true
+    },
+    {
+      "scenario": "digits_only",
+      "http_status": 400,
+      "passed": true
+    },
+    {
+      "scenario": "over_128",
+      "http_status": 400,
+      "passed": true
+    },
+    {
+      "scenario": "non_ascii_digit_only",
+      "http_status": 400,
+      "passed": true
+    },
+    {
+      "scenario": "confirmation_mismatch",
+      "http_status": 400,
+      "passed": true
+    },
+    {
+      "scenario": "current_password_reuse",
+      "http_status": 400,
+      "passed": true
+    },
+    {
+      "scenario": "failed_attempts_preserve_version",
+      "http_status": 200,
+      "passed": true
+    },
+    {
+      "scenario": "valid_max_length_unicode_password",
+      "http_status": 200,
+      "passed": true
+    },
+    {
+      "scenario": "reset_credential_replay_denied",
+      "http_status": 401,
+      "passed": true
+    },
+    {
+      "scenario": "old_session_revoked",
+      "http_status": 401,
+      "passed": true
+    },
+    {
+      "scenario": "new_password_login",
+      "http_status": 200,
+      "passed": true
+    },
+    {
+      "scenario": "old_password_denied",
+      "http_status": 403,
+      "passed": true
+    },
+    {
+      "scenario": "last_character_not_truncated",
+      "http_status": 403,
+      "passed": true
+    }
+  ]
+}

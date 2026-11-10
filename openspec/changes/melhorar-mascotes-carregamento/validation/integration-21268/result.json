@@ -1,0 +1,62 @@
+{
+  "layer": "real_reflex_production_local_fictional_backend",
+  "cases": [
+    {
+      "route": "/login",
+      "width": 360,
+      "scene": "onboarding",
+      "passed": true
+    },
+    {
+      "route": "/login",
+      "width": 1440,
+      "scene": "onboarding",
+      "passed": true
+    },
+    {
+      "route": "/cadastro",
+      "width": 360,
+      "scene": "onboarding",
+      "passed": true
+    },
+    {
+      "route": "/cadastro",
+      "width": 1440,
+      "scene": "onboarding",
+      "passed": true
+    },
+    {
+      "route": "/",
+      "state": "search-no-results",
+      "passed": true
+    },
+    {
+      "route": "/biblioteca",
+      "width": 360,
+      "scene": "empty",
+      "passed": true
+    },
+    {
+      "route": "/biblioteca",
+      "width": 1440,
+      "scene": "empty",
+      "passed": true
+    },
+    {
+      "route": "/feed",
+      "width": 360,
+      "scene": "empty",
+      "passed": true
+    },
+    {
+      "route": "/feed",
+      "width": 1440,
+      "scene": "empty",
+      "passed": true
+    }
+  ],
+  "javascript_errors": [],
+  "failure": "",
+  "passed": true,
+  "normal_server_modified": false
+}

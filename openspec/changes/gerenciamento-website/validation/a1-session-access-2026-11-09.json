@@ -1,0 +1,98 @@
+{
+  "layer": "A1_manual_login_real_admin_read_only",
+  "passed": true,
+  "started_at": "2026-11-09T19:24:41.824578+00:00",
+  "checks": [
+    {
+      "scenario": "authorized_active_admin_session",
+      "passed": true
+    },
+    {
+      "scenario": "dashboard_access_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "dashboard_minimal_contract",
+      "passed": true
+    },
+    {
+      "scenario": "users_access_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "users_page_contract",
+      "passed": true
+    },
+    {
+      "scenario": "catalog_access_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "catalog_page_contract",
+      "passed": true
+    },
+    {
+      "scenario": "reports_access_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reports_page_contract",
+      "passed": true
+    },
+    {
+      "scenario": "session_remains_active_admin",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/auth/login",
+      "status": 200,
+      "duration_ms": 818.741
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 307.216
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/dashboard",
+      "status": 200,
+      "duration_ms": 841.223
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/users",
+      "status": 200,
+      "duration_ms": 5887.804
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "duration_ms": 287.445
+    },
+    {
+      "method": "GET",
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "duration_ms": 240.986
+    },
+    {
+      "method": "GET",
+      "endpoint": "/auth/me",
+      "status": 200,
+      "duration_ms": 249.387
+    }
+  ],
+  "mutations": 0,
+  "scope": "Login + reads only; no A2-A4 authorization",
+  "request_count": 7
+}

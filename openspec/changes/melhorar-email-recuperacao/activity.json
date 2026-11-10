@@ -1,0 +1,51 @@
+{
+  "layer": "existing_sendgrid_events_read_only",
+  "new_emails_sent": 0,
+  "messages": [
+    {
+      "status": "processing",
+      "deferrals": 7,
+      "delivery_seconds": null,
+      "reason_markers": [
+        "rate",
+        "spf",
+        "dkim",
+        "dmarc"
+      ],
+      "smtp_codes": [
+        "4.7.32",
+        "421"
+      ]
+    },
+    {
+      "status": "delivered",
+      "deferrals": 1,
+      "delivery_seconds": 27.0,
+      "reason_markers": [
+        "rate",
+        "spf",
+        "dkim",
+        "dmarc"
+      ],
+      "smtp_codes": [
+        "4.7.32",
+        "421"
+      ]
+    },
+    {
+      "status": "delivered",
+      "deferrals": 2,
+      "delivery_seconds": 70.0,
+      "reason_markers": [
+        "rate",
+        "spf",
+        "dkim",
+        "dmarc"
+      ],
+      "smtp_codes": [
+        "4.7.32",
+        "421"
+      ]
+    }
+  ]
+}

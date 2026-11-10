@@ -1,0 +1,66 @@
+{
+  "approved_character": "Lume",
+  "optimizer": "SVGO 4.0.0",
+  "assets": [
+    {
+      "file": "assets/illustrations/lume/empty.svg",
+      "bytes": 2854,
+      "sha256": "fa13f32127eca1d72f67d25552b6efacf97820bed38304899c4b8130912911ac",
+      "palette_valid": true,
+      "stroke_px": 2
+    },
+    {
+      "file": "assets/illustrations/lume/error.svg",
+      "bytes": 3178,
+      "sha256": "5064dfe9f31c09f07ab6758c78dd926a93964f9ad41db8465aaf2d3a2db87285",
+      "palette_valid": true,
+      "stroke_px": 2
+    },
+    {
+      "file": "assets/illustrations/lume/loading.svg",
+      "bytes": 3432,
+      "sha256": "d43a92ee5be2cfe8bf8231e9c8a31c15828336e641ddb6c44dc13d237ae27de7",
+      "palette_valid": true,
+      "stroke_px": 2
+    },
+    {
+      "file": "assets/illustrations/lume/no-results.svg",
+      "bytes": 3017,
+      "sha256": "b5f161c30237b770cab0ed70601084be39787b82994db0e29633efacbdab3180",
+      "palette_valid": true,
+      "stroke_px": 2
+    },
+    {
+      "file": "assets/illustrations/lume/not-found.svg",
+      "bytes": 2796,
+      "sha256": "04e660ab494b37f58280b47982c60b730b8ce022455f21b26d171e2c1ef9ec7d",
+      "palette_valid": true,
+      "stroke_px": 2
+    },
+    {
+      "file": "assets/illustrations/lume/offline.svg",
+      "bytes": 2844,
+      "sha256": "4fbdfd2b78bd77c0fc7ee3d39f279f6fd3d6de4f40fc82e18c21d904e3a86e7e",
+      "palette_valid": true,
+      "stroke_px": 2
+    },
+    {
+      "file": "assets/illustrations/lume/onboarding.svg",
+      "bytes": 2988,
+      "sha256": "b2b6dba4b2abdad172d2de32a99e07c75309a1265e87a794cc88d388f5afea2c",
+      "palette_valid": true,
+      "stroke_px": 2
+    },
+    {
+      "file": "assets/illustrations/lume/success.svg",
+      "bytes": 2754,
+      "sha256": "557eaaee17c2098a206eb21207502ba6ca5ef992227626d8691671131b3f89bd",
+      "palette_valid": true,
+      "stroke_px": 2
+    }
+  ],
+  "total_bytes": 23863,
+  "largest_bytes": 3432,
+  "all_under_30kb": true,
+  "third_party_artwork": false
+}

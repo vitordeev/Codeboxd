@@ -1,0 +1,88 @@
+{
+  "layer": "real_browser_local_asset_and_actual_css_fixture_markup",
+  "cases": [
+    {
+      "viewport_width": 360,
+      "variant": "social",
+      "passed": true,
+      "loaded": true,
+      "width": 34,
+      "height": 38,
+      "fit": "contain",
+      "decorative": true
+    },
+    {
+      "viewport_width": 360,
+      "variant": "admin",
+      "passed": true,
+      "loaded": true,
+      "width": 34,
+      "height": 38,
+      "fit": "contain",
+      "decorative": true
+    },
+    {
+      "viewport_width": 360,
+      "variant": "recovery",
+      "passed": true,
+      "loaded": true,
+      "width": 34,
+      "height": 38,
+      "fit": "contain",
+      "decorative": true
+    },
+    {
+      "viewport_width": 360,
+      "variant": "login",
+      "passed": true,
+      "loaded": true,
+      "width": 40,
+      "height": 40,
+      "fit": "contain",
+      "decorative": true
+    },
+    {
+      "viewport_width": 1440,
+      "variant": "social",
+      "passed": true,
+      "loaded": true,
+      "width": 46,
+      "height": 50,
+      "fit": "contain",
+      "decorative": true
+    },
+    {
+      "viewport_width": 1440,
+      "variant": "admin",
+      "passed": true,
+      "loaded": true,
+      "width": 38,
+      "height": 42,
+      "fit": "contain",
+      "decorative": true
+    },
+    {
+      "viewport_width": 1440,
+      "variant": "recovery",
+      "passed": true,
+      "loaded": true,
+      "width": 46,
+      "height": 50,
+      "fit": "contain",
+      "decorative": true
+    },
+    {
+      "viewport_width": 1440,
+      "variant": "login",
+      "passed": true,
+      "loaded": true,
+      "width": 40,
+      "height": 40,
+      "fit": "contain",
+      "decorative": true
+    }
+  ],
+  "passed": true,
+  "javascript_errors": [],
+  "remote_access": false
+}
