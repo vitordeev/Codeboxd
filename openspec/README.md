@@ -1,5 +1,19 @@
 # OpenSpec do Codeboxd
 
+10/11/2026 — [Ambiente Cloudinary preparado](changes/hospedar-imagens-publicacoes-cloudinary/validation.md): variáveis privadas com flag false, adaptador de upload assinado e 11 testes locais aprovados; dependências existentes íntegras. Conta/credenciais, integração de posts/URL no Xano e validação real ainda pendentes. Fluxo atual de anexos preservado até ativação validada.
+
+10/11/2026 — [Restrições de redefinição reforçadas](changes/reforcar-restricoes-redefinicao-senha/validation.md): endpoint final exige credencial exclusiva de recuperação, política 8..128/confirmação e senha diferente da atual sob lock. Feedback por etapa e limpeza seletiva da sessão local. Publicado um endpoint; 511 testes locais e 20 checks reais passaram, fixture removida sem envio de e-mail. Limites e inventário documentados.
+
+10/11/2026 — [Recuperação exige conta ativa](changes/impedir-recuperacao-email-sem-conta/validation.md): por solicitação do usuário, endereço sem cadastro/inativo retorna 404 e permanece na primeira etapa. Publicado um endpoint com backup; 16 testes e compilação aprovados, API e navegador real confirmaram rejeição sem envio. Decisão anterior de avanço genérico substituída; falha de envio também não gera sucesso falso.
+
+10/11/2026 — [E-mail de recuperação redesenhado e atraso diagnosticado](changes/melhorar-email-recuperacao/validation.md): HTML/texto publicados no endpoint, 14 testes e sandbox aprovados, feedback imediato e cooldown local. SendGrid revela adiamentos Gmail 421 4.7.32 por alinhamento SPF/DKIM; entregas existentes em 27s/70s e outra pendente. Corrigir causa depende de domínio próprio autenticado; redução real de entrega não comprovada.
+
+10/11/2026 — [Página de recuperação simplificada](changes/simplificar-pagina-recuperacao/validation.md): uma etapa por vez, sem e-mail duplicado, cartão compacto e confirmação final com login. Doze testes e compilação aprovados; etapa inicial conferida no navegador em 390/1440px sem overflow. Sem novos envios ou alterações remotas.
+
+10/11/2026 — [SendGrid para recuperação](changes/integrar-sendgrid-recuperacao/validation.md): remetente verificado e integração publicada no Xano após backup/prévia de um endpoint. Chave/remetente privados conferidos e demais variáveis preservadas; sete testes locais passaram. Aceitação de envio, recebimento e ciclo completo ainda pendentes; histórico Resend preservado.
+
+08/11/2026 — [Mascotes Lume e carregamento revertidos](changes/melhorar-mascotes-carregamento/validation.md) a pedido do usuário. Bonecos e carregamento anteriores restaurados; integração da logo preservada. A entrega e suas evidências são históricas, sem aplicação atual.
+
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
 04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e

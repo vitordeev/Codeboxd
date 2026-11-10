@@ -17,6 +17,8 @@ historico. [Retomada e dependencia de caixa controlada](validation/retomada-2026
 
 ## 2. Interface e testes locais
 
+- [x] 2.5 Preservar confirmação após troca concluída e bloquear submits posteriores do código consumido; testar repetição sem chamadas HTTP, novo pedido e compilar Reflex. Registrar validação local e limite da instância em execução. [Evidência](validation/repeticao-apos-sucesso-2026-11-10.md).
+
 - [x] 2.1 Ajustar campo e mensagens para seis dígitos e bloquear entradas inválidas sem requisição; verificar testes de formato, troca, falhas e não persistência do token.
 - [x] 2.2 Verificar formulário em desktop/celular e código inválido no navegador, preservando a senha; registrar screenshots privados e resumo sem segredos.
 - [x] 2.3 Executar suíte, compilação e validação estrita OpenSpec, atualizar P.6/contexto/evidências e registrar os limites das verificações.

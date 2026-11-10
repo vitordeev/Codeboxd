@@ -1,0 +1,20 @@
+{
+  "layer": "browser_html_preview_not_email_client",
+  "cases": [
+    {
+      "width": 320,
+      "overflow": false,
+      "code_visible": true
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "code_visible": true
+    },
+    {
+      "width": 700,
+      "overflow": false,
+      "code_visible": true
+    }
+  ]
+}

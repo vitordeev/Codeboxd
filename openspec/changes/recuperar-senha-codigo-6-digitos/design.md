@@ -14,6 +14,12 @@ entrega verificável. **Non-Goals:** alterar login comum, papéis, hospedagem ou
 
 ## Decisions
 
+- Reforço posterior em 10/11/2026, na change reforcar-restricoes-redefinicao-senha: endpoint final exige purpose=password_reset, conta ativa e versão vigente; senha de 8 a 128 caracteres com letra/número e diferente da atual sob lock. Sessão comum não é prova de recuperação. Feedback distingue falha após consumo do código; sessão local da mesma conta é limpa após sucesso. Ferramentas históricas de restauração com sessão comum são incompatíveis e não podem ser reutilizadas sem adaptação.
+
+- Decisão atualizada em 10/11/2026, por solicitação explícita do usuário: conta inexistente/inativa deve retornar 404 e não avançar no formulário. A change impedir-recuperacao-email-sem-conta substitui o tratamento genérico dessas contas descrito nos registros anteriores abaixo. Cooldown continua sem novo envio e a segurança do código não muda. A existência de conta torna-se perceptível pelo fluxo; esse trade-off foi comunicado.
+
+- Ajuste de 10/11/2026: após confirmação da troca, manter estado explícito de recuperação concluída, impedir novo submit no servidor e desabilitar o botão com indicação de conclusão. Nova solicitação válida de código inicia outro fluxo. Histórico real mostrou troca 200 seguida de três reutilizações rejeitadas do mesmo código; não flexibilizar uso único no backend.
+
 - Atualização autorizada em 22/10: substituir o serviço nativo indisponível por
   POST https://api.resend.com/emails a partir do Xano. Ler RESEND_API_KEY e
   RESEND_FROM somente do ambiente privado do backend; nunca embutir a chave

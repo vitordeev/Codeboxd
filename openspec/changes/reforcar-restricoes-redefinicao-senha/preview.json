@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "published": false,
+  "emails_delivered_by_validation": 0,
+  "preview_http_status": 200,
+  "operations": [
+    {
+      "type": "query",
+      "name": "reset/update_password POST",
+      "action": "update"
+    }
+  ]
+}

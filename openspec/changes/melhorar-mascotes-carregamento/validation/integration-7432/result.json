@@ -1,0 +1,8 @@
+{
+  "layer": "real_reflex_production_local_fictional_backend",
+  "cases": [],
+  "javascript_errors": [],
+  "failure": "RuntimeError: Preview stopped; inspect server.log",
+  "passed": false,
+  "normal_server_modified": false
+}

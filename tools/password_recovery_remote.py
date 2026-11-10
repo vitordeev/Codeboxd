@@ -102,6 +102,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True, type=Path)
     args = parser.parse_args()
+    parser.error(
+        'Historical checker disabled: it restores passwords with a normal session, '
+        'which the reset-only endpoint now rejects. Adapt restoration before reuse; '
+        'tools.validate_reset_restrictions tests a disposable account safely.'
+    )
     if args.output.exists():
         parser.error('Preserve previous recovery evidence; choose a new output')
     args.output.parent.mkdir(parents=True, exist_ok=True)

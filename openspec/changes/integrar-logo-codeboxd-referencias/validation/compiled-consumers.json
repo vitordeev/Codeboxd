@@ -1,0 +1,28 @@
+{
+  "asset_bytes": 394,
+  "document_has_favicon": true,
+  "compiled_consumers": {
+    "app\\_document.js": 1,
+    "app\\routes\\[admin].[catalog].[anime]._index.jsx": 1,
+    "app\\routes\\[admin].[catalog].[books]._index.jsx": 1,
+    "app\\routes\\[admin].[catalog].[movies]._index.jsx": 1,
+    "app\\routes\\[admin].[catalog].[series]._index.jsx": 1,
+    "app\\routes\\[admin].[demo]._index.jsx": 1,
+    "app\\routes\\[admin].[login]._index.jsx": 1,
+    "app\\routes\\[admin].[reports]._index.jsx": 1,
+    "app\\routes\\[admin].[users]._index.jsx": 1,
+    "app\\routes\\[admin]._index.jsx": 1,
+    "app\\routes\\[biblioteca]._index.jsx": 1,
+    "app\\routes\\[cadastro]._index.jsx": 1,
+    "app\\routes\\[comunidade]._index.jsx": 1,
+    "app\\routes\\[conta]._index.jsx": 1,
+    "app\\routes\\[feed]._index.jsx": 1,
+    "app\\routes\\[listas]._index.jsx": 1,
+    "app\\routes\\[login]._index.jsx": 1,
+    "app\\routes\\[obra].$[media_id]._index.jsx": 1,
+    "app\\routes\\[obra]._index.jsx": 1,
+    "app\\routes\\[perfil].$[profile_id]._index.jsx": 1,
+    "app\\routes\\[redefinir-senha]._index.jsx": 1,
+    "app\\routes\\_index.jsx": 1
+  }
+}

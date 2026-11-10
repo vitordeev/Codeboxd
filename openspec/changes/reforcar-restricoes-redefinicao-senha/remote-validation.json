@@ -1,0 +1,10 @@
+{
+  "passed": false,
+  "layer": "published_api_disposable_member",
+  "emails_sent": 0,
+  "real_accounts_modified": 0,
+  "fixture_removed": false,
+  "checks": [],
+  "failure_type": "RuntimeError",
+  "cleanup_failure_type": "RuntimeError"
+}
