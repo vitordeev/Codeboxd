@@ -1,5 +1,44 @@
 # Pendências atuais — 27/10/2026
 
+10/11/2026 - Auditoria Git e branch de integracao publicada; PR ainda aguarda criacao autenticada. [Registro e link do PR](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md). `origin/develop` em 4a7cabe; administracao 33/34 e performance 17/37 preservadas. Branch `pedro` mantida por conter documentacao historica obsoleta; P0 movel ainda sem evidencia suficiente. Nenhuma tarefa foi fechada.
+
+09/11/2026 — [relatório consolidado do projeto](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
+administração 33/34, performance 17/37 e recuperação 8/10, 23 tarefas abertas.
+Executor administrativo ensaiado somente em memória: 22 testes novos e 26
+regressões aprovados, journal e releitura após PUT simulados. Nenhum acesso Xano
+nesta rodada. Homologação integrada continua pendente de destino, preparação de
+setup/limpeza e autorização específica A2–A4; nenhuma tarefa encerrada.
+
+09/11/2026 — continuação local da administração: [guardas de prévia offline](changes/gerenciamento-website/validation/guardas-locais-2026-11-09.md)
+com 26 testes aprovados. Bloqueiam destino/ator/ID divergentes, alterações não
+aprovadas, cancelamento e métodos fora do escopo. Sem transporte ou chamadas
+Xano; setup/limpeza e integração das guardas ainda não executados. Definir destino
+e obter A2–A4 antes de escrita; nenhuma fixture real aprovada. 9.2 segue 33/34.
+
+09/11/2026 — após autorização de login/leitura A1, a conta admin existente foi
+autenticada e acessou dashboard, usuários, catálogo e reports pela API:
+[dez checks aprovados](changes/gerenciamento-website/validation/login-e-leituras-a1-2026-11-09.md),
+sete respostas 200 (um POST de autenticação e seis GET). Sem mutações
+administrativas. Isso não equivale ao aceite do fluxo completo da UI; 9.2
+continua aberta, 33/34. A2–A4 permanecem sem autorização. As pendências de A1
+registradas abaixo descrevem o estado anterior ao login desta continuação.
+
+09/11/2026 — retomada administrativa posterior à atualização de contexto:
+[inventário A0 autorizado e executado](changes/gerenciamento-website/validation/pre-voo-a0-2026-11-09.md).
+Sete GET 200 no workspace 147717, zero mutações. Branch v1/live e fonte live;
+nenhum isolamento existente ou candidato a fixture confirmado para reuso.
+Há oito contas ativas (uma admin), 23 obras e cinco reports, todos somente lidos.
+A1–A4 continuam pendentes, assim como contratos/cascatas/quota para escrever.
+Administração segue 33/34. O registro anterior de contexto descreve sua própria
+rodada, quando não houve acesso Xano; o inventário administrativo foi posterior.
+
+09/11/2026 — estado conferido no GitHub: [PR #28](https://github.com/vitordeev/Codeboxd/pull/28)
+foi integrado a develop em 05/11, merge a21c806. Administração continua **33/34**:
+merge não conclui 9.2 nem autoriza A0–A4. Performance **17/37**, com 20 tarefas
+abertas; iniciar por baseline/metas (1.3/1.5), antes de novas otimizações.
+[Comparação Git, preservação e plano de retomada](changes/otimizar-performance-app/validation/retomada-2026-11-09.md).
+Nenhum commit, teste integrado ou acesso Xano nesta atualização.
+
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
 05/11/2026 — preparação documental da homologação integrada 9.2:
