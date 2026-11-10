@@ -1,3 +1,8 @@
+09/11/2026 — [retomada após merge do PR #28](validation/retomada-2026-11-09.md):
+17/37 mantido; vinte tarefas abertas. Próximos IDs: 1.3 e 1.5 (baseline e metas).
+Somente atualização documental, sem medição/implementação ou novo checkbox.
+Administração 9.2 continua aberta; merge não autoriza sua homologação integrada.
+
 05/11/2026: 494 testes locais, 34 etapas reais de navegador desktop/celular,
 persistencia/limpeza aprovadas e remocao na aplicacao atualizada validada.
 1.4/5.3/6.3 concluidas, 17/37. Benchmarks completos continuam abertos.

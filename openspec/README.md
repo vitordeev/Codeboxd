@@ -1,5 +1,28 @@
 # OpenSpec do Codeboxd
 
+10/11/2026 — [ponto de retomada após integração da PR #31](changes/otimizar-performance-app/validation/retomada-2026-11-10.md):
+`develop` sincronizada em `29d0456`; mudanças locais de administração/performance
+preservadas em worktrees separadas. Administração 33/34 e performance 17/37.
+Retomar no diretório e branch descritos no registro; nenhuma homologação remota
+foi executada nesta etapa.
+
+09/11/2026 — [relatório consolidado após o ensaio administrativo local](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
+48 testes aprovados (22 do executor novo + 26 guardas), sem acesso Xano ou
+alteração funcional. Permanecem administração 33/34, performance 17/37 e
+recuperação 8/10. Destino e A2–A4 ainda precisam de decisão específica.
+
+09/11/2026 — retomada administrativa posterior ao registro de contexto abaixo:
+A0 de inventário e login/leitura limitada A1 autorizados e executados; preparação
+de [guardas locais](changes/gerenciamento-website/validation/guardas-locais-2026-11-09.md)
+com 26 testes offline aprovados. A2–A4 continuam sem autorização, sem escrita
+administrativa; 9.2 permanece aberta, 33/34. O registro de contexto a seguir
+preserva o estado de sua própria rodada anterior à autorização de A0/A1.
+
+09/11/2026 — [contexto atualizado e plano de performance](changes/otimizar-performance-app/validation/retomada-2026-11-09.md):
+PR #28 integrado em develop (a21c806), sem concluir o aceite administrativo 9.2.
+Administração 33/34, performance 17/37 e recuperação 8/10. Próxima preparação:
+baseline/metas de performance 1.3/1.5; A0–A4 permanecem sem execução autorizada.
+
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
 04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e
