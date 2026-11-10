@@ -30,6 +30,6 @@ These checks validate the updated base and included local administrative work. T
 
 ## Publication status
 
-Branch `integration/sync-develop-20261110` was pushed to `origin` on 2026-11-10. Its commits are `a605c0e` (administrative rehearsal safeguards/tests/evidence) and `4c14938` (OpenSpec reconciliation/audit). The push returned this GitHub PR creation link: https://github.com/vitordeev/Codeboxd/pull/new/integration/sync-develop-20261110
+Branch `integration/sync-develop-20261110` was pushed to `origin` on 2026-11-10. The included administrative work is in `a605c0e` and the audit reconciliation in `4c14938`; publication status was recorded in follow-up commit `8ff7392`. The push returned this GitHub PR creation link: https://github.com/vitordeev/Codeboxd/pull/new/integration/sync-develop-20261110
 
 A pull request was not created in this session: GitHub CLI is unavailable and no GitHub API token is configured. `develop` remains unchanged; no merge was performed. The compare/create link above is ready for an authenticated GitHub session. `main` remains out of scope.
