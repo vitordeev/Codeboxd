@@ -1,5 +1,7 @@
 # OpenSpec do Codeboxd
 
+10/11/2026 - [Auditoria de branches e integracao](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md): base `origin/develop` 4a7cabe, trabalho administrativo local preparado para PR e validacoes aprovadas. Sem merge em main; administracao 33/34 e performance 17/37 mantidas. P0 movel e publicacao ainda pendentes.
+
 10/11/2026 — [Ambiente Cloudinary preparado](changes/hospedar-imagens-publicacoes-cloudinary/validation.md): variáveis privadas com flag false, adaptador de upload assinado e 11 testes locais aprovados; dependências existentes íntegras. Conta/credenciais, integração de posts/URL no Xano e validação real ainda pendentes. Fluxo atual de anexos preservado até ativação validada.
 
 10/11/2026 — [Restrições de redefinição reforçadas](changes/reforcar-restricoes-redefinicao-senha/validation.md): endpoint final exige credencial exclusiva de recuperação, política 8..128/confirmação e senha diferente da atual sob lock. Feedback por etapa e limpeza seletiva da sessão local. Publicado um endpoint; 511 testes locais e 20 checks reais passaram, fixture removida sem envio de e-mail. Limites e inventário documentados.
@@ -13,6 +15,23 @@
 10/11/2026 — [SendGrid para recuperação](changes/integrar-sendgrid-recuperacao/validation.md): remetente verificado e integração publicada no Xano após backup/prévia de um endpoint. Chave/remetente privados conferidos e demais variáveis preservadas; sete testes locais passaram. Aceitação de envio, recebimento e ciclo completo ainda pendentes; histórico Resend preservado.
 
 08/11/2026 — [Mascotes Lume e carregamento revertidos](changes/melhorar-mascotes-carregamento/validation.md) a pedido do usuário. Bonecos e carregamento anteriores restaurados; integração da logo preservada. A entrega e suas evidências são históricas, sem aplicação atual.
+
+09/11/2026 — [relatório consolidado após o ensaio administrativo local](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
+48 testes aprovados (22 do executor novo + 26 guardas), sem acesso Xano ou
+alteração funcional. Permanecem administração 33/34, performance 17/37 e
+recuperação 8/10. Destino e A2–A4 ainda precisam de decisão específica.
+
+09/11/2026 — retomada administrativa posterior ao registro de contexto abaixo:
+A0 de inventário e login/leitura limitada A1 autorizados e executados; preparação
+de [guardas locais](changes/gerenciamento-website/validation/guardas-locais-2026-11-09.md)
+com 26 testes offline aprovados. A2–A4 continuam sem autorização, sem escrita
+administrativa; 9.2 permanece aberta, 33/34. O registro de contexto a seguir
+preserva o estado de sua própria rodada anterior à autorização de A0/A1.
+
+09/11/2026 — [contexto atualizado e plano de performance](changes/otimizar-performance-app/validation/retomada-2026-11-09.md):
+PR #28 integrado em develop (a21c806), sem concluir o aceite administrativo 9.2.
+Administração 33/34, performance 17/37 e recuperação 8/10. Próxima preparação:
+baseline/metas de performance 1.3/1.5; A0–A4 permanecem sem execução autorizada.
 
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
