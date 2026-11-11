@@ -1,24 +1,25 @@
 # Tasks
 
-Todos os itens abaixo são futuros e permanecem abertos nesta rodada documental.
-A aprovação do planejamento não é autorização de publicação Xano, mutações
+O planejamento foi aprovado pelo pedido posterior de prosseguimento do usuário.
+O primeiro lote local concluiu 1.1, 2.1 e 3.1: **3/26 tarefas**. A aprovação
+do planejamento não é autorização de publicação Xano, mutações
 reais ou merge. Referências e diagnóstico estão em design.md; critérios de
 comportamento estão em specs/. Cada lote deve incluir seus testes e evidências.
 
 ## 1. Recorte aprovado e baseline
 
-- [ ] 1.1 Após aprovação das duas changes, registrar baseline atual das páginas e componentes afetados em 320/390/768/1024/1440px com dados controlados e inventário de ações/rotas; identificar fonte/viewport/estado de cada captura e preservar a worktree de performance.
+- [x] 1.1 Após aprovação das duas changes, registrar baseline atual das páginas e componentes afetados em 320/390/768/1024/1440px com dados controlados e inventário de ações/rotas; identificar fonte/viewport/estado de cada captura e preservar a worktree de performance.
 - [ ] 1.2 Revisar com o usuário a proposta de shell, densidade e ações a condensar, usando somente referências locais; registrar decisões de manter/mover/condensar e provar alternativa funcional/acessível antes de qualquer retirada.
 
 ## 2. Fundamentos e navegação — sem mudança de negócio
 
-- [ ] 2.1 Consolidar tokens de cores, tipografia, espaços e raios a partir da identidade ativa, com uma página piloto; medir contraste nos fundos reais, verificar Inter/fallback e preservar logo/mascotes, registrando antes/depois sem introduzir arte ou fontes novas.
+- [x] 2.1 Consolidar tokens de cores, tipografia, espaços e raios a partir da identidade ativa, com uma página piloto; medir contraste nos fundos reais, verificar Inter/fallback e preservar logo/mascotes, registrando antes/depois sem introduzir arte ou fontes novas.
 - [ ] 2.2 Modernizar variantes reutilizáveis de botão/campo/feedback/vazio/diálogo, mantendo mensagens e dados recuperáveis; verificar nomes acessíveis, foco/retorno, colagem, loading/erro/vazio/falha parcial e registrar regressões da família piloto.
 - [ ] 2.3 Reorganizar shell e acesso a Buscar/Biblioteca/conta/listas/comunidade mantendo rotas antigas e guards; testar teclado, menu sem hover, foco não encoberto e navegação desktop/celular, documentando o mapa atual→novo e que não há chamadas extras por apresentação.
 
 ## 3. Coleções horizontais reutilizáveis
 
-- [ ] 3.1 Evoluir a prateleira existente com arrasto primário por intenção/limiar, supressão só do clique pós-arrasto e cancelamento/cleanup; testar clique normal, seleção, saída de trilho, rerender e ausência de listeners duplicados, documentando parâmetros.
+- [x] 3.1 Evoluir a prateleira existente com arrasto primário por intenção/limiar, supressão só do clique pós-arrasto e cancelamento/cleanup; testar clique normal, seleção, saída de trilho, rerender e ausência de listeners duplicados, documentando parâmetros.
 - [ ] 3.2 Integrar toque/trackpad nativos, setas e teclado no mesmo componente; validar swipe horizontal, scroll vertical, zoom, Home/End, Tab/Enter, extremos e movimento reduzido em desktop e dispositivo touch, registrando evidência e zero chamadas por gesto.
 - [ ] 3.3 Aplicar o componente à Home e recomendações sem mudar paginação/identidade/caches; testar carregar mais separado de scroll, foco em card oculto, falha de capa e layouts 320/390/768/1440, comparando DOM/requests com o baseline da mesma coleção.
 
@@ -54,6 +55,8 @@ comportamento estão em specs/. Cada lote deve incluir seus testes e evidências
 
 ## Workflow follow-up
 
-- Só iniciar aplicação após aprovação das duas changes e pedido de implementação.
-- Planejamento completo não significa nenhum item funcional acima concluído.
+- Aprovação de planejamento e prosseguimento recebida; o primeiro lote foi implementado apenas localmente, em branch/worktree própria.
+- Evidências do lote: [fundamentos e carrosséis, 11/11/2026](validation/fundamentos-carrosseis-2026-11-11.md), baseline de 15 capturas, 20 cenários de navegador e cinco verificações adicionais da Inter existente. A suíte local e o compile estão discriminados nesse relatório.
+- 3.2 segue aberta: toque emulado não substitui dispositivo físico. 3.3 tem o componente aplicado, mas ainda exige aceite de carregar mais/falha de capa e comparação específica de carregamento. 2.2/2.3 e os demais itens não foram concluídos por este lote.
+- Planejamento completo e testes do piloto não significam aceite de toda a interface.
 - Não sincronizar specs nem arquivar sem critérios e autorização próprios.

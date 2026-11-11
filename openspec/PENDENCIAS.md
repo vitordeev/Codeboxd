@@ -1,5 +1,16 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — [UI/UX: primeiro lote local após aprovação](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
+3/26 tarefas, com baseline Home/login/ficha, tokens e piloto de contraste,
+carrossel comum de mouse/teclado/toque nativo na Home e recomendações. Toque
+validado por emulação, não por aparelho físico; carregar mais/falha de capa,
+shell, busca/listas, outras famílias e aceite transversal seguem abertos.
+Cloudinary permanece separado, sem ativação ou escrita remota nesta continuação.
+Não transferir os 632 testes da branch Cloudinary para este lote: a base desta
+branch de UI tem sua própria suíte e evidências no relatório. Sem push/merge.
+
+Registro histórico da etapa de planejamento, anterior à aprovação e ao lote acima:
+
 11/11/2026 — [Duas frentes planejadas para aprovação](planning/cloudinary-uiux-2026-11-11.md):
 Cloudinary mantém 2.1/2.2 abertas, com reserva durável, persistência e limpeza
 supervisionada especificadas (marcos originais 3/5, checkpoints 3/17). UI/UX nova

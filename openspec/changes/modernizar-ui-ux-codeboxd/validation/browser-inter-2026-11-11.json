@@ -1,0 +1,186 @@
+{
+  "phase": "existing-font",
+  "passed": true,
+  "cases": [
+    {
+      "width": 320,
+      "loaded_inter": [
+        {
+          "family": "Inter",
+          "weight": "400"
+        },
+        {
+          "family": "Inter",
+          "weight": "500"
+        },
+        {
+          "family": "Inter",
+          "weight": "700"
+        }
+      ],
+      "accessibility": {
+        "minimum_text_contrast": 8.130029388764367,
+        "input_border_contrast": 3.5471390095263184,
+        "font_family": "Inter, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+        "all_actions": [
+          {
+            "href": "/cadastro",
+            "height": 44
+          },
+          {
+            "href": "/redefinir-senha",
+            "height": 44
+          },
+          {
+            "href": "/admin/login",
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "loaded_inter": [
+        {
+          "family": "Inter",
+          "weight": "400"
+        },
+        {
+          "family": "Inter",
+          "weight": "500"
+        },
+        {
+          "family": "Inter",
+          "weight": "700"
+        }
+      ],
+      "accessibility": {
+        "minimum_text_contrast": 8.130029388764367,
+        "input_border_contrast": 3.5471390095263184,
+        "font_family": "Inter, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+        "all_actions": [
+          {
+            "href": "/cadastro",
+            "height": 44
+          },
+          {
+            "href": "/redefinir-senha",
+            "height": 44
+          },
+          {
+            "href": "/admin/login",
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "width": 768,
+      "loaded_inter": [
+        {
+          "family": "Inter",
+          "weight": "400"
+        },
+        {
+          "family": "Inter",
+          "weight": "500"
+        },
+        {
+          "family": "Inter",
+          "weight": "700"
+        }
+      ],
+      "accessibility": {
+        "minimum_text_contrast": 8.130029388764367,
+        "input_border_contrast": 3.5471390095263184,
+        "font_family": "Inter, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+        "all_actions": [
+          {
+            "href": "/cadastro",
+            "height": 44
+          },
+          {
+            "href": "/redefinir-senha",
+            "height": 44
+          },
+          {
+            "href": "/admin/login",
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "width": 1024,
+      "loaded_inter": [
+        {
+          "family": "Inter",
+          "weight": "400"
+        },
+        {
+          "family": "Inter",
+          "weight": "500"
+        },
+        {
+          "family": "Inter",
+          "weight": "700"
+        }
+      ],
+      "accessibility": {
+        "minimum_text_contrast": 8.130029388764367,
+        "input_border_contrast": 3.5471390095263184,
+        "font_family": "Inter, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+        "all_actions": [
+          {
+            "href": "/cadastro",
+            "height": 44
+          },
+          {
+            "href": "/redefinir-senha",
+            "height": 44
+          },
+          {
+            "href": "/admin/login",
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "width": 1440,
+      "loaded_inter": [
+        {
+          "family": "Inter",
+          "weight": "400"
+        },
+        {
+          "family": "Inter",
+          "weight": "500"
+        },
+        {
+          "family": "Inter",
+          "weight": "700"
+        }
+      ],
+      "accessibility": {
+        "minimum_text_contrast": 8.130029388764367,
+        "input_border_contrast": 3.5471390095263184,
+        "font_family": "Inter, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+        "all_actions": [
+          {
+            "href": "/cadastro",
+            "height": 44
+          },
+          {
+            "href": "/redefinir-senha",
+            "height": 44
+          },
+          {
+            "href": "/admin/login",
+            "height": 44
+          }
+        ]
+      }
+    }
+  ]
+}

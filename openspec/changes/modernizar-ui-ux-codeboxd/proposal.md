@@ -32,4 +32,6 @@ Futura implementação em páginas/estados Reflex existentes, CSS e componentes 
 
 UI de anexos depende do contrato da change Cloudinary, mas a modernização visual e os carrosséis podem avançar independentemente dela. Medições/metas e otimizações de transporte permanecem em `otimizar-performance-app`; aceite de mutações administrativas permanece em `gerenciamento-website`.
 
-**Rodada atual: análise e planejamento apenas.** Nenhuma funcionalidade implementada, imagem gerada, referência externa de inspiração, publicação, ativação, push ou merge. Os artefatos ficam propostos para aprovação do usuário antes de iniciar qualquer implementação. Changes históricas canceladas/revertidas não são retomadas automaticamente.
+**Rodada de planejamento de 11/11/2026:** foi exclusivamente documental, sem funcionalidade implementada, imagem gerada, referência externa de inspiração, publicação, ativação, push ou merge. Changes históricas canceladas/revertidas não são retomadas automaticamente.
+
+**Continuação após aprovação:** primeiro lote local de fundamentos visuais e carrosséis na branch `task/ui-foundations-20261111`. Evidências e limites em [validation/fundamentos-carrosseis-2026-11-11.md](validation/fundamentos-carrosseis-2026-11-11.md). A implementação integral da change, a integração Cloudinary e a publicação de contratos Xano continuam pendentes; não houve liberação remota.

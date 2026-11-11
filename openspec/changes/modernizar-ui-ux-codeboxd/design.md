@@ -296,3 +296,34 @@ Somente documentação técnica externa foi consultada, sem inspiração visual:
 `reflex_components_radix/themes/components/scroll_area.py`. A URL de documentação
 ScrollArea tentada não ficou acessível; o comportamento descrito foi conferido no
 wrapper instalado, sem pressupor suporte a drag que ele não declara.
+
+## Primeiro lote local após aprovação — 11/11/2026
+
+O piloto conserva a composição do login, logo, robôs ativos e fonte Inter já
+declarada. Tokens `--cb-*` centralizam cores semânticas, fallback tipográfico,
+espaços e raios; o login recebe contraste/contornos e alvos maiores. Essa entrega
+não reorganiza o shell nem remove destinos ou ações. A validação com fontes
+bloqueadas verifica o fallback; outra rodada carrega somente a Inter existente
+pelos hosts que o aplicativo já utilizava, sem inspiração ou fonte novas.
+
+`horizontal_collection.py` compõe regiões e controles nativos reutilizados pela
+Home e recomendações. O asset JavaScript tem um registro global idempotente,
+eventos delegados e observação de dimensões/entrada/saída de regiões; não instala
+um handler Python por gesto. Parâmetros: intenção horizontal a partir de 8 CSS px,
+cancelamento se a intenção vertical prevalecer, captura somente após o limiar,
+avanço de 85% da largura visível e supressão por até 350ms somente do clique do
+mesmo ponteiro/trilho após arrasto. Novo pointerdown e clique de teclado não são
+suprimidos. Cancelamento, perda de captura, blur, documento oculto e desmontagem
+restauram o estado transitório.
+
+Toque/trackpad mantêm rolagem nativa e `touch-action:auto`; setas e Home/End ficam
+locais ao trilho focado. O foco em card oculto ajusta apenas seu scroll horizontal.
+As setas têm 44×44px e estados de extremo/sem overflow. `scroll-padding-inline`
+preserva os 2px de respiro do trilho existente: sem isso, o snap do primeiro card
+produzia scrollLeft=2 e deixava a seta anterior habilitada indevidamente.
+Recomendações vazias não exibem controles sem alvo.
+
+Não houve alteração de SocialState, caches, paginação, contratos de autenticação
+ou serviços. A evidência em [validation/fundamentos-carrosseis-2026-11-11.md](validation/fundamentos-carrosseis-2026-11-11.md)
+delimita testes reais de navegador com backend fictício, cancelamento sintético,
+toque emulado e verificações ainda abertas. O restante do plano permanece válido.

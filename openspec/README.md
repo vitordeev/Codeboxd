@@ -1,5 +1,15 @@
 # OpenSpec do Codeboxd
 
+11/11/2026 — **Continuação local UI/UX após aprovação:** primeiro lote em
+`task/ui-foundations-20261111`, base `faa655f`, worktree
+`.local/worktrees/ui-foundations-20261111`. [Fundamentos e carrosséis](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
+baseline, tokens/piloto de login e arrasto reutilizável, **3/26 tarefas**.
+Aceite de toda a UI, Cloudinary, Xano e publicação continuam pendentes. Os
+registros de passagem abaixo são históricos; este lote está local e não foi
+enviado para outra máquina. Trabalho anterior preservado em suas worktrees.
+
+Registro histórico da etapa de planejamento, anterior à aprovação e ao lote acima:
+
 11/11/2026 — **Planejamento Cloudinary + UI/UX, aguardando aprovação:**
 [relatório da rodada](planning/cloudinary-uiux-2026-11-11.md).
 Cloudinary existente detalhada sem duplicação: marcos originais 3/5 preservados,

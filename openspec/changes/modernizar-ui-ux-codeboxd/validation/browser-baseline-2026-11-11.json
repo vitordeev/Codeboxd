@@ -1,0 +1,315 @@
+{
+  "layer": "real_reflex_ui_fictional_backend",
+  "phase": "baseline",
+  "cases": [
+    {
+      "width": 320,
+      "page": "home",
+      "overflow": false,
+      "title": "Sua pr\u00f3xima hist\u00f3ria come\u00e7a aqui.",
+      "rail_count": 14,
+      "rail_cards": 168,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/#home-filmes",
+        "/#home-filmes",
+        "/#home-series",
+        "/#home-livros",
+        "/#home-animes",
+        "/biblioteca",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 320,
+      "page": "login",
+      "overflow": false,
+      "title": "Suas hist\u00f3rias.Sua comunidade.CodeBoxd.",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/cadastro",
+        "/redefinir-senha",
+        "/admin/login",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 320,
+      "page": "media",
+      "overflow": false,
+      "title": "Detalhes da obra",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/",
+        "/cadastro",
+        "/listas",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 390,
+      "page": "home",
+      "overflow": false,
+      "title": "Sua pr\u00f3xima hist\u00f3ria come\u00e7a aqui.",
+      "rail_count": 14,
+      "rail_cards": 168,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/#home-filmes",
+        "/#home-filmes",
+        "/#home-series",
+        "/#home-livros",
+        "/#home-animes",
+        "/biblioteca",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 390,
+      "page": "login",
+      "overflow": false,
+      "title": "Suas hist\u00f3rias.Sua comunidade.CodeBoxd.",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/cadastro",
+        "/redefinir-senha",
+        "/admin/login",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 390,
+      "page": "media",
+      "overflow": false,
+      "title": "Detalhes da obra",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/",
+        "/cadastro",
+        "/listas",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 768,
+      "page": "home",
+      "overflow": false,
+      "title": "Sua pr\u00f3xima hist\u00f3ria come\u00e7a aqui.",
+      "rail_count": 14,
+      "rail_cards": 168,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/#home-filmes",
+        "/#home-filmes",
+        "/#home-series",
+        "/#home-livros",
+        "/#home-animes",
+        "/biblioteca",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 768,
+      "page": "login",
+      "overflow": false,
+      "title": "Suas hist\u00f3rias.Sua comunidade.CodeBoxd.",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/cadastro",
+        "/redefinir-senha",
+        "/admin/login",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 768,
+      "page": "media",
+      "overflow": false,
+      "title": "Detalhes da obra",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/",
+        "/cadastro",
+        "/listas",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 1024,
+      "page": "home",
+      "overflow": false,
+      "title": "Sua pr\u00f3xima hist\u00f3ria come\u00e7a aqui.",
+      "rail_count": 14,
+      "rail_cards": 168,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/#home-filmes",
+        "/#home-filmes",
+        "/#home-series",
+        "/#home-livros",
+        "/#home-animes",
+        "/biblioteca",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 1024,
+      "page": "login",
+      "overflow": false,
+      "title": "Suas hist\u00f3rias.Sua comunidade.CodeBoxd.",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/cadastro",
+        "/redefinir-senha",
+        "/admin/login",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 1024,
+      "page": "media",
+      "overflow": false,
+      "title": "Detalhes da obra",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/",
+        "/cadastro",
+        "/listas",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 1440,
+      "page": "home",
+      "overflow": false,
+      "title": "Sua pr\u00f3xima hist\u00f3ria come\u00e7a aqui.",
+      "rail_count": 14,
+      "rail_cards": 168,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/#home-filmes",
+        "/#home-filmes",
+        "/#home-series",
+        "/#home-livros",
+        "/#home-animes",
+        "/biblioteca",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 1440,
+      "page": "login",
+      "overflow": false,
+      "title": "Suas hist\u00f3rias.Sua comunidade.CodeBoxd.",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/cadastro",
+        "/redefinir-senha",
+        "/admin/login",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 1440,
+      "page": "media",
+      "overflow": false,
+      "title": "Detalhes da obra",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/",
+        "/cadastro",
+        "/listas",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    }
+  ],
+  "passed": true,
+  "blocked_external": 15,
+  "css_sha256": "9f01c4e3b9af65e5348ad468a189344c0e0b780fb6d937f2309b2c915985b3e5",
+  "javascript_errors": []
+}

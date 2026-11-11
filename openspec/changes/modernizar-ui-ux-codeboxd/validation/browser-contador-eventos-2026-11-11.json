@@ -1,0 +1,123 @@
+{
+  "layer": "real_reflex_ui_fictional_backend",
+  "phase": "acceptance",
+  "cases": [
+    {
+      "width": 390,
+      "page": "home",
+      "overflow": false,
+      "title": "Sua pr\u00f3xima hist\u00f3ria come\u00e7a aqui.",
+      "rail_count": 14,
+      "rail_cards": 168,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/#home-filmes",
+        "/#home-filmes",
+        "/#home-series",
+        "/#home-livros",
+        "/#home-animes",
+        "/biblioteca",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "width": 390,
+      "page": "login",
+      "overflow": false,
+      "title": "Suas hist\u00f3rias.Sua comunidade.CodeBoxd.",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/cadastro",
+        "/redefinir-senha",
+        "/admin/login",
+        "https://reflex.dev"
+      ],
+      "accessibility": {
+        "minimum_text_contrast": 8.130029388764367,
+        "input_border_contrast": 3.5471390095263184,
+        "font_family": "Inter, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+        "all_actions": [
+          {
+            "href": "/cadastro",
+            "height": 44
+          },
+          {
+            "href": "/redefinir-senha",
+            "height": 44
+          },
+          {
+            "href": "/admin/login",
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "page": "media",
+      "overflow": false,
+      "title": "Detalhes da obra",
+      "rail_count": 0,
+      "rail_cards": 0,
+      "links": [
+        "/",
+        "/",
+        "/feed",
+        "/listas",
+        "/conta",
+        "/login",
+        "/",
+        "/cadastro",
+        "/listas",
+        "/biblioteca",
+        "/comunidade",
+        "https://reflex.dev"
+      ]
+    },
+    {
+      "page": "rail-interactions",
+      "width": 390,
+      "passed": true,
+      "drag_opened_card": false,
+      "cancel_restored": true,
+      "keyboard_and_arrows": true,
+      "duplicate_script_safe": true,
+      "focus_revealed_item": true,
+      "unexpected_gesture_requests": 0,
+      "reflex_gesture_events": 0,
+      "normal_click_navigates": true,
+      "enter_opens_recommendation": true,
+      "activation_frames_positive_control": 2,
+      "recommendation_drag": true,
+      "native_horizontal_wheel": true,
+      "recommendation_gesture_requests": 0,
+      "recommendation_gesture_events": 0,
+      "lifecycle": {
+        "subthreshold_click": true,
+        "vertical_intention": true,
+        "pointer_capture_outside": true,
+        "selection_cleared_after_intent": true,
+        "unmount_cleanup": true,
+        "nonoverflow_controls_disabled": true,
+        "tab_reaches_card": true,
+        "replacement_controls_work": true
+      },
+      "touch_emulated": true,
+      "horizontal_swipe": true,
+      "vertical_scroll": true,
+      "zoom_allowed": true
+    }
+  ],
+  "passed": true,
+  "blocked_external": 4,
+  "css_sha256": "414e3fb5d75c419d76e84ca57d3303c9bbe18e24cd01d6693074762a50fce076",
+  "javascript_errors": []
+}
