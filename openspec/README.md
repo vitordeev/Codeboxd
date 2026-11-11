@@ -1,5 +1,12 @@
 # OpenSpec do Codeboxd
 
+11/11/2026 — **Planejamento Cloudinary + UI/UX, aguardando aprovação:**
+[relatório da rodada](planning/cloudinary-uiux-2026-11-11.md).
+Cloudinary existente detalhada sem duplicação: marcos originais 3/5 preservados,
+checklist desdobrado 3/17. Nova `modernizar-ui-ux-codeboxd`: 0/26, identidade
+preta/amarela e mascotes ativos preservados; Lume segue revertido. Apenas
+documentação, sem implementação/ativação/publicação. Histórico abaixo mantido.
+
 11/11/2026 — **Passagem para outra máquina:** usar a branch
 `handoff/retomada-20261111` e ler [instruções de continuação](changes/preparar-homologacao-xano-admin/passagem-equipe-2026-11-11.md).
 Conjunto desta sessão consolidado sem merge em develop/main; performance
