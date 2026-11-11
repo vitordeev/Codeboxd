@@ -1,0 +1,39 @@
+{
+  "checked_at": "2026-11-11T13:57:08.758924+00:00",
+  "remote_writes": 0,
+  "emails_sent": 0,
+  "passwords_changed": 0,
+  "delivery_proven": false,
+  "configuration": {
+    "SENDGRID_API_KEY_present": true,
+    "SENDGRID_FROM_present": true,
+    "CLOUDINARY_CLOUD_NAME_present": false,
+    "CLOUDINARY_API_KEY_present": false,
+    "CLOUDINARY_API_SECRET_present": false
+  },
+  "cloudinary_enabled": false,
+  "sender_uses_consumer_domain": true,
+  "verified_senders": {
+    "http_status": 200,
+    "entries": 1,
+    "configured_sender_verified": true
+  },
+  "authenticated_domains": {
+    "http_status": 200,
+    "entries": 0,
+    "valid_domains": 0,
+    "sender_domain_authenticated": false
+  },
+  "xano_structure": {
+    "read_success": true,
+    "request_uses_sendgrid": true,
+    "request_requires_202": true,
+    "consume_checks_expiration": true,
+    "consume_checks_attempt_limit": true,
+    "consume_marks_used": true,
+    "update_checks_reset_purpose": true,
+    "update_increments_session_version": true,
+    "post_has_external_asset_fields": false,
+    "note": "Structural inspection only; no functional execution or records read."
+  }
+}

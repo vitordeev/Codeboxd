@@ -23,6 +23,14 @@ from tools.admin_browser_sync import section_ready, capture_ready
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def record_proxy_stats(probe, stats):
+    """Keep authentication evidence separate from proxy and local failures."""
+    probe.report.update(proxy_requests=stats['requests'],
+                        proxy_upstream_requests=stats['upstream_requests'],
+                        injected_failures=stats['injected_failures'],
+                        rate_limits=stats['rate_limits'])
+
+
 async def ready_list(page, responses, cursor, endpoint, label):
     from tools.admin_browser_sync import response_since
     row = await response_since(responses, cursor, endpoint)
@@ -51,10 +59,10 @@ async def validate(probe):
     expect.set_options(timeout=90000)
     private = probe.private_dir
     private.mkdir(parents=True, exist_ok=False)
-    config = dotenv_values(ROOT / '.env')
+    config = dotenv_values(getattr(probe, 'config_path', ROOT / '.env'))
     with socket.socket() as sock:
         sock.bind(('127.0.0.1', 3035))
-    stats = {'requests': [], 'injected_failures': 0, 'rate_limits': 0}
+    stats = {'requests': [], 'upstream_requests': 0, 'injected_failures': 0, 'rate_limits': 0}
     fault = [False]
     slot, last = threading.Lock(), [0.0]
 
@@ -83,6 +91,7 @@ async def validate(probe):
                     status, content = 503, b'{"message":"Servico indisponivel no ensaio controlado."}'
                 else:
                     base = config['XANO_AUTH_URL' if group == 'auth' else 'XANO_SOCIAL_URL'].rstrip('/')
+                    stats['upstream_requests'] += 1
                     with httpx.Client(timeout=30, follow_redirects=False) as client:
                         response = client.get(base + path, headers={'Authorization': 'Bearer ' + probe.token})
                     status, content = response.status_code, response.content
@@ -221,7 +230,7 @@ async def validate(probe):
             stop_process_tree(process)
         proxy.shutdown()
         proxy.server_close()
-        probe.report.update(stats)
+        record_proxy_stats(probe, stats)
         probe.save()
 
 
@@ -240,6 +249,7 @@ if __name__ == '__main__':
     parser.add_argument('--frontend-workdir', required=True, type=Path)
     parser.add_argument('--private-dir', required=True, type=Path)
     parser.add_argument('--reports-only', action='store_true', help='Only repeat the unproven Reports rendering')
+    parser.add_argument('--config', type=Path, default=ROOT / '.env')
     args = parser.parse_args()
     frontend, private = args.frontend_workdir.resolve(), args.private_dir.resolve()
     if not frontend.is_relative_to(ROOT / '.local/frontends') or not frontend.is_dir():
@@ -248,4 +258,4 @@ if __name__ == '__main__':
         parser.error('Use a new private directory under .local')
     BrowserProbe.frontend_workdir, BrowserProbe.private_dir = frontend, private
     BrowserProbe.reports_only = args.reports_only
-    raise SystemExit(asyncio.run(main(args.output, probe_type=BrowserProbe)))
+    raise SystemExit(asyncio.run(main(args.output, probe_type=BrowserProbe, config_path=args.config)))

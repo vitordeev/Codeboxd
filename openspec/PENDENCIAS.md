@@ -1,5 +1,56 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — [Homologação preparada localmente, obtenção remota recusada](changes/preparar-homologacao-xano-admin/validation.md):
+4/8, pacote 32 documentos/573 testes. Sandbox HTTP 500; criação de workspace vazio
+HTTP 403/ERROR_CODE_ACCESS_DENIED, nome ausente após tentativa. A conta/credencial
+atual não permite a obtenção; motivo plano/permissão não confirmado. Proprietário
+deve verificar painel/permissões ou disponibilizar instância isolada. Sem compras,
+publicação de contratos, alteração da origem ou piloto administrativo executado.
+
+11/11/2026 — Usuário escolheu homologação para o piloto administrativo.
+[Descoberta atual e limite de acesso](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+um perfil configurado, somente workspace 147717 acessível; destino isolado não
+identificado. Solicitar identificação/configuração de homologação ou planejar
+criação vazia em escopo próprio antes de qualquer provisão. Não usar live como
+fallback. Administração 33/34; nenhuma escrita executada.
+
+11/11/2026 — [Piloto administrativo preparado offline](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+25 registros propostos, retenção de 16 e nove candidatos próprios à limpeza;
+583 testes locais passaram. Pré-voo atual: uma branch live e uma fonte, sem
+isolamento adicional demonstrado; exclusões/cascatas ainda não confirmadas.
+Decidir destino e verificar limpeza antes de seed; nenhum registro criado,
+alterado ou excluído. 9.2 preservada em 33/34; plano completo de 239 não reduzido.
+
+11/11/2026 — [Leituras administrativas integradas aprovadas](changes/gerenciamento-website/validation/resultado-leituras-2026-11-11.md)
+em desktop/celular, sem alterações remotas administrativas. A tarefa 9.2 continua
+33/34 por exigir mutações, auditoria e permissões integradas sobre fixtures
+controladas; A2–A4 continuam sem autorização específica. Não repetir os cenários
+de leitura aprovados sem regressão ou nova necessidade.
+
+11/11/2026 — [Confirmação manual posterior](changes/recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md):
+usuário recebeu código, trocou senha e entrou com a nova. Essa confirmação supera
+a falta de recebimento inicial; não fecha replay/restauração, comparação de
+latência ou alinhamento do remetente. Checklists funcionais preservados.
+
+11/11/2026 — [Bloqueio de entrega confirmado no ensaio atual](changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md):
+SendGrid processing, cinco adiamentos 421/4.7.32, sem delivered. Usuário sem
+código; nenhuma troca de senha até o diagnóstico. Aguardar domínio próprio/DNS
+e autorização de configuração, sem reenviar para contornar a causa. Changes de
+e-mail/recuperação continuam abertas; nenhuma entrega ou comparação comprovada.
+
+11/11/2026 — Preparação do executor de dois códigos concluída localmente:
+[testes, limites e escopo do ensaio](changes/recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md).
+O bloqueio técnico da restauração por sessão comum foi removido do executor;
+faltam autorização específica, conta/caixa controlada e aceite real. Recuperação
+mantida 9/11 e SendGrid 4/5. Sem envio ou alteração remota.
+
+11/11/2026 — [Critérios de aceite e sequência recomendada](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
+SendGrid 4/5, experiência do e-mail 4/5 e recuperação 9/11. Remetente verificado,
+zero domínios autenticados confirmados por GET. Falta ciclo na caixa controlada,
+restauração compatível com credencial exclusiva e comparação real de entrega.
+3.4 Resend requer reconciliação com SendGrid, preservando histórico/ID. develop
+remota `29d0456`, main remota `42ff4dd`; PRs #31/#32 já integradas. Nada fechado.
+
 10/11/2026 - Auditoria Git e branch de integracao publicada; PR ainda aguarda criacao autenticada. [Registro e link do PR](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md). `origin/develop` em 4a7cabe; administracao 33/34 e performance 17/37 preservadas. Branch `pedro` mantida por conter documentacao historica obsoleta; P0 movel ainda sem evidencia suficiente. Nenhuma tarefa foi fechada.
 
 09/11/2026 — [relatório consolidado do projeto](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
