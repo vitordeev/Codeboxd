@@ -1,5 +1,15 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — [Duas frentes planejadas para aprovação](planning/cloudinary-uiux-2026-11-11.md):
+Cloudinary mantém 2.1/2.2 abertas, com reserva durável, persistência e limpeza
+supervisionada especificadas (marcos originais 3/5, checkpoints 3/17). UI/UX nova
+0/26: tokens/contraste/navegação, prateleiras arrastáveis e busca por Obras,
+Pessoas e Listas públicas, com privacidade no servidor. Atividade de lista no
+feed não reproduzida no código local, sem remoção proposta por suposição.
+Aguardar aprovação das duas changes antes de implementar. Xano, limpeza real
+e ativação exigem autorizações específicas posteriores. Nenhum aceite funcional
+novo, commit, push, merge ou mudança no trabalho local de performance.
+
 11/11/2026 — [Homologação preparada localmente, obtenção remota recusada](changes/preparar-homologacao-xano-admin/validation.md):
 4/8, pacote 32 documentos/573 testes. Sandbox HTTP 500; criação de workspace vazio
 HTTP 403/ERROR_CODE_ACCESS_DENIED, nome ausente após tentativa. A conta/credencial
