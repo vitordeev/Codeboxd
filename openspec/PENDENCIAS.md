@@ -1,5 +1,29 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — [Confirmação manual posterior](changes/recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md):
+usuário recebeu código, trocou senha e entrou com a nova. Essa confirmação supera
+a falta de recebimento inicial; não fecha replay/restauração, comparação de
+latência ou alinhamento do remetente. Checklists funcionais preservados.
+
+11/11/2026 — [Bloqueio de entrega confirmado no ensaio atual](changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md):
+SendGrid processing, cinco adiamentos 421/4.7.32, sem delivered. Usuário sem
+código; nenhuma troca de senha até o diagnóstico. Aguardar domínio próprio/DNS
+e autorização de configuração, sem reenviar para contornar a causa. Changes de
+e-mail/recuperação continuam abertas; nenhuma entrega ou comparação comprovada.
+
+11/11/2026 — Preparação do executor de dois códigos concluída localmente:
+[testes, limites e escopo do ensaio](changes/recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md).
+O bloqueio técnico da restauração por sessão comum foi removido do executor;
+faltam autorização específica, conta/caixa controlada e aceite real. Recuperação
+mantida 9/11 e SendGrid 4/5. Sem envio ou alteração remota.
+
+11/11/2026 — [Critérios de aceite e sequência recomendada](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
+SendGrid 4/5, experiência do e-mail 4/5 e recuperação 9/11. Remetente verificado,
+zero domínios autenticados confirmados por GET. Falta ciclo na caixa controlada,
+restauração compatível com credencial exclusiva e comparação real de entrega.
+3.4 Resend requer reconciliação com SendGrid, preservando histórico/ID. develop
+remota `29d0456`, main remota `42ff4dd`; PRs #31/#32 já integradas. Nada fechado.
+
 10/11/2026 - Auditoria Git e branch de integracao publicada; PR ainda aguarda criacao autenticada. [Registro e link do PR](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md). `origin/develop` em 4a7cabe; administracao 33/34 e performance 17/37 preservadas. Branch `pedro` mantida por conter documentacao historica obsoleta; P0 movel ainda sem evidencia suficiente. Nenhuma tarefa foi fechada.
 
 09/11/2026 — [relatório consolidado do projeto](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):

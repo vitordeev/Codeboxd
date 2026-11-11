@@ -1,5 +1,15 @@
 ## 1. Mensagem e experiência
 
+11/11/2026, ensaio real: usuário sem código; mensagem correspondente em
+processing com cinco adiamentos SMTP 421/4.7.32 e zero delivered.
+[Diagnóstico de entrega atual](diagnostico-entrega-2026-11-11.md).
+Sem reenvio ou alteração DNS; 2.3 continua aberta por dependência de domínio e
+comparação real. Não confundir aceitação do provedor com chegada.
+
+11/11/2026: [revisão conjunta de aceite](../integrar-sendgrid-recuperacao/aceite-2026-11-11.md).
+Zero domínios autenticados na conta SendGrid confirmado por leitura. Sem nova
+medição de chegada ou comparação antes/depois; 2.3 continua aberta, 4/5.
+
 - [x] 1.1 Preparar HTML/texto com identidade visual e payload sem rastreamento, validar sandbox SendGrid e preview desktop/mobile sem entrega real.
 - [x] 1.2 Implementar feedback imediato e cooldown de reenvio, testar ordem de eventos, ausência de requisições redundantes e compilar Reflex.
 

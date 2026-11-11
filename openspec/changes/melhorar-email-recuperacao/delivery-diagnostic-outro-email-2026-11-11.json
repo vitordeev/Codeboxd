@@ -1,0 +1,36 @@
+{
+  "checked_at": "2026-11-11T14:34:46.236959+00:00",
+  "mode": "read_only_delivery_diagnostic",
+  "new_emails_sent": 0,
+  "passwords_changed": 0,
+  "messages": [
+    {
+      "detail_http_status": 200,
+      "status": "delivered",
+      "events": {
+        "processed": 1,
+        "deferred": 5,
+        "delivered": 1
+      },
+      "reason_markers": [
+        "spf",
+        "dkim",
+        "dmarc",
+        "rate",
+        "alignment"
+      ],
+      "smtp_codes": [
+        "4.7.32",
+        "421"
+      ],
+      "last_event_time": "2026-11-11T14:29:42Z"
+    }
+  ],
+  "history_http_status": 200,
+  "latest_request_http_status": 200,
+  "destination_available_for_in_memory_match": true,
+  "messages_http_status": 200,
+  "correlation_to_second_attempt_confirmed": false,
+  "latest_history_request_created_at": "2026-11-11 14:23:11+0000",
+  "limitation": "History request predates second attempt at 14:32 UTC; message belongs to earlier destination. Do not attribute delivered to second attempt or inbox receipt."
+}
