@@ -1,0 +1,30 @@
+{
+  "verified_at_utc": "2026-11-11T23:22:16.931422+00:00",
+  "method": "git ls-remote --heads origin; independent read after atomic push",
+  "product_commit_published": "620ceb419574d6480814897380d3b4c0d89dda6a",
+  "refs": {
+    "refs/heads/develop": "620ceb419574d6480814897380d3b4c0d89dda6a",
+    "refs/heads/integration/salvar-develop-20261111": "620ceb419574d6480814897380d3b4c0d89dda6a",
+    "refs/heads/main": "faa655f823b2783e30effe115fc169a88b0203f2",
+    "refs/heads/task/admin-readiness-20261111": "b94a1a46255f8eade57bb4d752f8620efc185583",
+    "refs/heads/task/cloudinary-limites-20261111": "a7676fa39944d8a32f7306101665e7fae82d1444",
+    "refs/heads/task/email-acceptance-20261111": "785c696fe08a20669fdb82208e4df07ca5e8edf4",
+    "refs/heads/task/homologacao-xano-20261111": "18bc1d7e2acffbf12cc659854b72be2fe5c2b826",
+    "refs/heads/task/ui-foundations-20261111": "f80110df0af5de573a3afb07200ea84884746933"
+  },
+  "develop_fast_forward": true,
+  "main_unchanged": true,
+  "force_push": false,
+  "passed": true,
+  "local_develop": {
+    "head_verified": "620ceb419574d6480814897380d3b4c0d89dda6a",
+    "clean": true,
+    "updated_by": "git merge --ff-only origin/develop"
+  },
+  "source_working_files": {
+    "checked": 121,
+    "bytes_preserved": true
+  },
+  "confirmation_collected_at_utc": "2026-11-11T23:24:09.292922+00:00",
+  "scope": "First publication of tested product commit; subsequent receipt commits contain documentation only"
+}

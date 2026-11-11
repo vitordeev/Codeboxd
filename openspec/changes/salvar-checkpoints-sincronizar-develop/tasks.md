@@ -14,7 +14,8 @@ privado dos 121 arquivos alterados de 12 worktrees; 67 conteúdos encontrados no
 histórico origin (normalizando EOL quando pertinente) e 54 versões ainda não
 encontradas. Cinco commits criados, todos com scanner permanente e comparação
 adicional contra segredos configurados aprovados. Bytes das cópias de trabalho
-preservados; performance já coberta no histórico remoto. Publicação ainda pendente.
+preservados; performance já coberta no histórico remoto. Naquela etapa a
+publicação ainda estava pendente; o recibo posterior abaixo confirma o envio.
 
 ## 2. Integração e validação
 
@@ -30,8 +31,16 @@ tem três itens com avisos estilísticos anteriores, sem delta nesta integraçã
 
 ## 3. Publicação autorizada
 
-- [ ] 3.1 Enviar checkpoints/integração e avançar origin/develop sem force; verificar refs por leitura independente, ancestralidade e correspondência do conteúdo com os commits revisados.
-- [ ] 3.2 Atualizar a worktree develop limpa por fast-forward, publicar registro de continuação e confirmar o estado remoto final; registrar hashes/branches e comandos de atualização para o colaborador, sem descartar mudanças de outras worktrees.
+- [x] 3.1 Enviar checkpoints/integração e avançar origin/develop sem force; verificar refs por leitura independente, ancestralidade e correspondência do conteúdo com os commits revisados.
+- [x] 3.2 Atualizar a worktree develop limpa por fast-forward, publicar registro de continuação e confirmar o estado remoto final; registrar hashes/branches e comandos de atualização para o colaborador, sem descartar mudanças de outras worktrees.
+
+Evidência: [recibo de publicação e conferência local](publicacao-2026-11-11.json).
+Push atômico aprovado em sete refs, leitura independente de oito refs (incluindo
+main inalterada), produto publicado em `620ceb4` e develop local limpa nesse
+commit após fast-forward. Checkpoints remotos conferidos; 121 arquivos originais
+com bytes preservados. Este registro final acrescenta somente documentação e
+será acompanhado de novo push normal e conferência das duas refs finais.
+**6/6 tarefas da operação Git**, sem encerrar as changes funcionais.
 
 ## Workflow follow-up
 

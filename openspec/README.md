@@ -1,11 +1,11 @@
 # OpenSpec do Codeboxd
 
-11/11/2026 — **Integração para develop solicitada pelo usuário:**
+11/11/2026 — **develop sincronizada no origin por solicitação do usuário:**
 [ponto de continuação, commits e validação](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md).
-Cloudinary e primeiro lote UI reunidos na branch `integration/salvar-develop-20261111`;
+Cloudinary e primeiro lote UI integrados por `integration/salvar-develop-20261111`;
 632 testes, compile e OpenSpec padrão 34/34 aprovados. As cópias históricas têm
-checkpoints próprios; performance preservada. O recibo de publicação na mesma
-change distingue preparação local de confirmação remota. Registros abaixo
+checkpoints próprios; performance preservada. [Recibo de publicação](changes/salvar-checkpoints-sincronizar-develop/publicacao-2026-11-11.json)
+confirma o push sem force e develop local limpa por fast-forward. Registros abaixo
 descrevem suas etapas anteriores; UI 3/26 e Cloudinary 3/17 continuam abertas.
 
 11/11/2026 — **Continuação local UI/UX após aprovação:** primeiro lote em
