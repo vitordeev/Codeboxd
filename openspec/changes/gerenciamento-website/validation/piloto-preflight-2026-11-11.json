@@ -1,0 +1,92 @@
+{
+  "mode": "read_only_destination_preflight",
+  "checked_at": "2026-11-11T15:30:16.758486+00:00",
+  "writes": 0,
+  "calls": [
+    {
+      "endpoint": "/",
+      "status": 200
+    },
+    {
+      "endpoint": "/branch",
+      "status": 200
+    },
+    {
+      "endpoint": "/datasource",
+      "status": 200
+    },
+    {
+      "endpoint": "/table",
+      "status": 200
+    },
+    {
+      "endpoint": "/table/881681",
+      "status": 200
+    },
+    {
+      "endpoint": "/table/895413",
+      "status": 200
+    },
+    {
+      "endpoint": "/table/895415",
+      "status": 200
+    },
+    {
+      "endpoint": "/table/895410",
+      "status": 200
+    },
+    {
+      "endpoint": "/table/895411",
+      "status": 200
+    },
+    {
+      "endpoint": "/table/907160",
+      "status": 200
+    },
+    {
+      "endpoint": "/table/881682",
+      "status": 200
+    }
+  ],
+  "cascade_behavior_confirmed": false,
+  "workspace_confirmed": true,
+  "branches": [
+    {
+      "live": true
+    }
+  ],
+  "data_sources": [
+    {}
+  ],
+  "table_policy_evidence": {
+    "user": {
+      "schema_read": true,
+      "explicit_policy_keys_found": []
+    },
+    "profile": {
+      "schema_read": true,
+      "explicit_policy_keys_found": []
+    },
+    "user_list": {
+      "schema_read": true,
+      "explicit_policy_keys_found": []
+    },
+    "media": {
+      "schema_read": true,
+      "explicit_policy_keys_found": []
+    },
+    "post": {
+      "schema_read": true,
+      "explicit_policy_keys_found": []
+    },
+    "report": {
+      "schema_read": true,
+      "explicit_policy_keys_found": []
+    },
+    "event_log": {
+      "schema_read": true,
+      "explicit_policy_keys_found": []
+    }
+  },
+  "limitation": "Schema reads alone do not prove effective delete/cascade behavior. No deletion or fixture creation tested."
+}

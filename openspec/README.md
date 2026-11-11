@@ -1,5 +1,11 @@
 # OpenSpec do Codeboxd
 
+11/11/2026 — [Homologação administrativa de leitura](changes/gerenciamento-website/validation/resultado-leituras-2026-11-11.md):
+navegador real aprovado em 1440/390px para sete áreas e estados vazios; falhas de
+dashboard injetadas só localmente. 53 chamadas remotas observadas, zero 429,
+sem mutações administrativas. 9.2 segue aberta, 33/34; ensaio não autoriza A2–A4.
+Branch própria task/admin-readiness-20261111, sem push/merge/arquivo.
+
 10/11/2026 - [Auditoria de branches e integracao](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md): branch publicada; PR aguarda criacao em sessao autenticada. Base `origin/develop` 4a7cabe. Administracao 33/34 e performance 17/37; sem merge em main. P0 movel continua pendente.
 
 10/11/2026 — [Ambiente Cloudinary preparado](changes/hospedar-imagens-publicacoes-cloudinary/validation.md): variáveis privadas com flag false, adaptador de upload assinado e 11 testes locais aprovados; dependências existentes íntegras. Conta/credenciais, integração de posts/URL no Xano e validação real ainda pendentes. Fluxo atual de anexos preservado até ativação validada.

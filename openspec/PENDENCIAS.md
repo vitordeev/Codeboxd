@@ -1,5 +1,25 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — Usuário escolheu homologação para o piloto administrativo.
+[Descoberta atual e limite de acesso](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+um perfil configurado, somente workspace 147717 acessível; destino isolado não
+identificado. Solicitar identificação/configuração de homologação ou planejar
+criação vazia em escopo próprio antes de qualquer provisão. Não usar live como
+fallback. Administração 33/34; nenhuma escrita executada.
+
+11/11/2026 — [Piloto administrativo preparado offline](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+25 registros propostos, retenção de 16 e nove candidatos próprios à limpeza;
+583 testes locais passaram. Pré-voo atual: uma branch live e uma fonte, sem
+isolamento adicional demonstrado; exclusões/cascatas ainda não confirmadas.
+Decidir destino e verificar limpeza antes de seed; nenhum registro criado,
+alterado ou excluído. 9.2 preservada em 33/34; plano completo de 239 não reduzido.
+
+11/11/2026 — [Leituras administrativas integradas aprovadas](changes/gerenciamento-website/validation/resultado-leituras-2026-11-11.md)
+em desktop/celular, sem alterações remotas administrativas. A tarefa 9.2 continua
+33/34 por exigir mutações, auditoria e permissões integradas sobre fixtures
+controladas; A2–A4 continuam sem autorização específica. Não repetir os cenários
+de leitura aprovados sem regressão ou nova necessidade.
+
 10/11/2026 - Auditoria Git e branch de integracao publicada; PR ainda aguarda criacao autenticada. [Registro e link do PR](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md). `origin/develop` em 4a7cabe; administracao 33/34 e performance 17/37 preservadas. Branch `pedro` mantida por conter documentacao historica obsoleta; P0 movel ainda sem evidencia suficiente. Nenhuma tarefa foi fechada.
 
 09/11/2026 — [relatório consolidado do projeto](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):

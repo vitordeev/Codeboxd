@@ -6,6 +6,27 @@ Os registros datados abaixo preservam rodadas anteriores.
 
 # Tarefas da administração
 
+11/11/2026 — Preparação incremental de 9.2:
+[piloto de mutações e limpeza](validation/piloto-mutacoes-2026-11-11.md).
+Primeiro subconjunto de 25 registros, preservando o plano completo de 239;
+planejador/guardas offline antes de qualquer escrita. A2–A4 ainda não executadas.
+
+Resultado: 12 testes de ciclo de vida e duas regressões de timestamp novas;
+583 na suíte completa aprovados. Pré-voo Metadata de 11 GET aprovado, sem
+escritas. Destino/isolamento e cascatas efetivas precisam ser resolvidos antes de
+provisionar; helper offline não é executor remoto pronto. 33/34 mantido.
+
+11/11/2026 — [Leituras reais de desktop/celular aprovadas](validation/resultado-leituras-2026-11-11.md):
+sete áreas, cinco buscas vazias por largura e preservação de métricas em 503 local.
+53 chamadas remotas observadas, zero 429, nenhuma mutação administrativa.
+Tarefa 9.2 continua aberta (33/34): A2–A4 e aceite integrado das alterações não
+executados. Capturas privadas; lockfiles regenerados pelo build reconciliados.
+
+11/11/2026: [preparação de leituras isoladas](validation/preparacao-leituras-2026-11-11.md)
+na branch task/admin-readiness-20261111, após aceite manual parcial da recuperação
+registrado em outra branch. Parametrizar configuração privada e preparar frontend
+sem tocar app normal. Nenhuma mutação administrativa autorizada; 33/34 preservado.
+
 Atualização em 27/10/2026: **22/34 concluídas, 12 abertas**. Tarefa 3.1 encerrada
 após publicação restrita do GET /admin/users, dry-run sem delta e validação real
 com login admin: 79 checks aprovados em 34 requisições, sem 429. Buscas por

@@ -1,0 +1,275 @@
+{
+  "mode": "offline_plan",
+  "remote_execution": false,
+  "run_id": "cbh9_356504df3d29",
+  "records": [
+    {
+      "symbol": "R",
+      "table": "user",
+      "identity": {
+        "username": "cbh9_356504df3d29_r"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "R_profile",
+      "table": "profile",
+      "identity": {
+        "user_id": "$R",
+        "username": "cbh9_356504df3d29_r"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "R_planned",
+      "table": "user_list",
+      "identity": {
+        "user_id": "$R",
+        "default_key": "$R:planned"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "R_completed",
+      "table": "user_list",
+      "identity": {
+        "user_id": "$R",
+        "default_key": "$R:completed"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "B",
+      "table": "user",
+      "identity": {
+        "username": "cbh9_356504df3d29_b"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "B_profile",
+      "table": "profile",
+      "identity": {
+        "user_id": "$B",
+        "username": "cbh9_356504df3d29_b"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "B_planned",
+      "table": "user_list",
+      "identity": {
+        "user_id": "$B",
+        "default_key": "$B:planned"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "B_completed",
+      "table": "user_list",
+      "identity": {
+        "user_id": "$B",
+        "default_key": "$B:completed"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "M_movie_1",
+      "table": "media",
+      "identity": {
+        "identity_key": "cbh9_356504df3d29:movie:1",
+        "external_source": "test",
+        "external_id": "cbh9_356504df3d29:movie:1",
+        "media_type": "movie"
+      },
+      "retain": false
+    },
+    {
+      "symbol": "M_movie_2",
+      "table": "media",
+      "identity": {
+        "identity_key": "cbh9_356504df3d29:movie:2",
+        "external_source": "test",
+        "external_id": "cbh9_356504df3d29:movie:2",
+        "media_type": "movie"
+      },
+      "retain": false
+    },
+    {
+      "symbol": "M_series_1",
+      "table": "media",
+      "identity": {
+        "identity_key": "cbh9_356504df3d29:series:1",
+        "external_source": "test",
+        "external_id": "cbh9_356504df3d29:series:1",
+        "media_type": "series"
+      },
+      "retain": false
+    },
+    {
+      "symbol": "M_series_2",
+      "table": "media",
+      "identity": {
+        "identity_key": "cbh9_356504df3d29:series:2",
+        "external_source": "test",
+        "external_id": "cbh9_356504df3d29:series:2",
+        "media_type": "series"
+      },
+      "retain": false
+    },
+    {
+      "symbol": "M_book_1",
+      "table": "media",
+      "identity": {
+        "identity_key": "cbh9_356504df3d29:book:1",
+        "external_source": "test",
+        "external_id": "cbh9_356504df3d29:book:1",
+        "media_type": "book"
+      },
+      "retain": false
+    },
+    {
+      "symbol": "M_book_2",
+      "table": "media",
+      "identity": {
+        "identity_key": "cbh9_356504df3d29:book:2",
+        "external_source": "test",
+        "external_id": "cbh9_356504df3d29:book:2",
+        "media_type": "book"
+      },
+      "retain": false
+    },
+    {
+      "symbol": "M_anime_1",
+      "table": "media",
+      "identity": {
+        "identity_key": "cbh9_356504df3d29:anime:1",
+        "external_source": "test",
+        "external_id": "cbh9_356504df3d29:anime:1",
+        "media_type": "anime"
+      },
+      "retain": false
+    },
+    {
+      "symbol": "M_anime_2",
+      "table": "media",
+      "identity": {
+        "identity_key": "cbh9_356504df3d29:anime:2",
+        "external_source": "test",
+        "external_id": "cbh9_356504df3d29:anime:2",
+        "media_type": "anime"
+      },
+      "retain": false
+    },
+    {
+      "symbol": "P",
+      "table": "post",
+      "identity": {
+        "user_id": "$R",
+        "body": "cbh9_356504df3d29 disposable post"
+      },
+      "retain": false
+    },
+    {
+      "symbol": "Q1",
+      "table": "report",
+      "identity": {
+        "reporter_user_id": "$R",
+        "target_type": "message",
+        "target_id": "cbh9_356504df3d29:message:1",
+        "description": "cbh9_356504df3d29 report 1"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "Q2",
+      "table": "report",
+      "identity": {
+        "reporter_user_id": "$R",
+        "target_type": "message",
+        "target_id": "cbh9_356504df3d29:message:2",
+        "description": "cbh9_356504df3d29 report 2"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "Q3",
+      "table": "report",
+      "identity": {
+        "reporter_user_id": "$R",
+        "target_type": "message",
+        "target_id": "cbh9_356504df3d29:message:3",
+        "description": "cbh9_356504df3d29 report 3"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "Q4",
+      "table": "report",
+      "identity": {
+        "reporter_user_id": "$R",
+        "target_type": "message",
+        "target_id": "cbh9_356504df3d29:message:4",
+        "description": "cbh9_356504df3d29 report 4"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "Q5",
+      "table": "report",
+      "identity": {
+        "reporter_user_id": "$R",
+        "target_type": "post",
+        "target_id": "$P",
+        "description": "cbh9_356504df3d29 report 5"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "Q6",
+      "table": "report",
+      "identity": {
+        "reporter_user_id": "$R",
+        "target_type": "post",
+        "target_id": "$P",
+        "description": "cbh9_356504df3d29 report 6"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "Q7",
+      "table": "report",
+      "identity": {
+        "reporter_user_id": "$R",
+        "target_type": "media",
+        "target_id": "$M_movie_1",
+        "description": "cbh9_356504df3d29 report 7"
+      },
+      "retain": true
+    },
+    {
+      "symbol": "Q8",
+      "table": "report",
+      "identity": {
+        "reporter_user_id": "$R",
+        "target_type": "media",
+        "target_id": "$M_movie_2",
+        "description": "cbh9_356504df3d29 report 8"
+      },
+      "retain": true
+    }
+  ],
+  "domain_records": 25,
+  "expected_retained_records": 16,
+  "expected_deleted_records": 9,
+  "audit_policy": "retain_all",
+  "counts": {
+    "user": 2,
+    "profile": 2,
+    "user_list": 4,
+    "media": 8,
+    "post": 1,
+    "report": 8
+  },
+  "final_acceptance_complete": false
+}
