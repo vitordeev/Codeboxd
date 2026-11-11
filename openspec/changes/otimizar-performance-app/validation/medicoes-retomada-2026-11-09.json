@@ -1,0 +1,2577 @@
+{
+  "recorded_utc": "2026-11-09T22:17:34.955938+00:00",
+  "scope": "real_read_only_member_mobile_resume",
+  "execution_finished": true,
+  "full_performance_acceptance_complete": false,
+  "preserved_browser_samples": 28,
+  "new_browser_samples": 8,
+  "total_unique_browser_samples": 36,
+  "prior_evidence_sha256": "fd42ba685b15d71432063e54be98bcd04c75572839fcf573920e6526d18d06a8",
+  "new_samples": [
+    {
+      "sample": "library-390-1-first",
+      "journey": "library",
+      "width": 390,
+      "index": 1,
+      "phase": "first",
+      "primary_ms": 882.684,
+      "finished_ms": 2492.11,
+      "wire": {
+        "frames": 8,
+        "bytes": 39933,
+        "js_errors": 0,
+        "socket_port": 3032,
+        "socket_open": true
+      },
+      "browser": {
+        "navigation": [
+          {
+            "ttfb": 77.90000000037253,
+            "dom": 571.5
+          }
+        ],
+        "resources": [
+          {
+            "type": "other",
+            "duration": 51.69999999925494,
+            "transfer": 2144,
+            "encoded": 1844
+          },
+          {
+            "type": "other",
+            "duration": 80.09999999962747,
+            "transfer": 57269,
+            "encoded": 56969
+          },
+          {
+            "type": "other",
+            "duration": 76.20000000111759,
+            "transfer": 28200,
+            "encoded": 27900
+          },
+          {
+            "type": "other",
+            "duration": 78.40000000037253,
+            "transfer": 1636,
+            "encoded": 1336
+          },
+          {
+            "type": "other",
+            "duration": 83.19999999925494,
+            "transfer": 11876,
+            "encoded": 11576
+          },
+          {
+            "type": "other",
+            "duration": 91.70000000111759,
+            "transfer": 60316,
+            "encoded": 60016
+          },
+          {
+            "type": "other",
+            "duration": 88.59999999962747,
+            "transfer": 5145,
+            "encoded": 4845
+          },
+          {
+            "type": "other",
+            "duration": 102.09999999962747,
+            "transfer": 34778,
+            "encoded": 34478
+          },
+          {
+            "type": "other",
+            "duration": 116.79999999888241,
+            "transfer": 501,
+            "encoded": 201
+          },
+          {
+            "type": "other",
+            "duration": 117.5,
+            "transfer": 8355,
+            "encoded": 8055
+          },
+          {
+            "type": "other",
+            "duration": 122.80000000074506,
+            "transfer": 3828,
+            "encoded": 3528
+          },
+          {
+            "type": "other",
+            "duration": 127.30000000074506,
+            "transfer": 28320,
+            "encoded": 28020
+          },
+          {
+            "type": "other",
+            "duration": 124.40000000037253,
+            "transfer": 632,
+            "encoded": 332
+          },
+          {
+            "type": "other",
+            "duration": 124.5,
+            "transfer": 653,
+            "encoded": 353
+          },
+          {
+            "type": "other",
+            "duration": 150.39999999850988,
+            "transfer": 1498,
+            "encoded": 1198
+          },
+          {
+            "type": "other",
+            "duration": 131.7000000011176,
+            "transfer": 32304,
+            "encoded": 32004
+          },
+          {
+            "type": "other",
+            "duration": 136,
+            "transfer": 623,
+            "encoded": 323
+          },
+          {
+            "type": "other",
+            "duration": 141.5,
+            "transfer": 609,
+            "encoded": 309
+          },
+          {
+            "type": "other",
+            "duration": 142.69999999925494,
+            "transfer": 580,
+            "encoded": 280
+          },
+          {
+            "type": "other",
+            "duration": 148,
+            "transfer": 536,
+            "encoded": 236
+          },
+          {
+            "type": "other",
+            "duration": 149.40000000037253,
+            "transfer": 519,
+            "encoded": 219
+          },
+          {
+            "type": "other",
+            "duration": 150,
+            "transfer": 575,
+            "encoded": 275
+          },
+          {
+            "type": "other",
+            "duration": 150,
+            "transfer": 572,
+            "encoded": 272
+          },
+          {
+            "type": "other",
+            "duration": 152.90000000037253,
+            "transfer": 577,
+            "encoded": 277
+          },
+          {
+            "type": "link",
+            "duration": 152.40000000037253,
+            "transfer": 11333,
+            "encoded": 11033
+          },
+          {
+            "type": "link",
+            "duration": 406.09999999962747,
+            "transfer": 1079,
+            "encoded": 779
+          },
+          {
+            "type": "link",
+            "duration": 154.30000000074506,
+            "transfer": 86209,
+            "encoded": 85909
+          },
+          {
+            "type": "other",
+            "duration": 6.899999998509884,
+            "transfer": 4586,
+            "encoded": 4286
+          },
+          {
+            "type": "img",
+            "duration": 186.5,
+            "transfer": 0,
+            "encoded": 0
+          }
+        ],
+        "images": [
+          {
+            "visible": true,
+            "complete": true,
+            "width": 225,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 225
+          },
+          {
+            "visible": true,
+            "complete": false,
+            "width": 0,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 0
+          },
+          {
+            "visible": true,
+            "complete": false,
+            "width": 0,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 0
+          },
+          {
+            "visible": true,
+            "complete": false,
+            "width": 0,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 0
+          }
+        ],
+        "overflow": false
+      },
+      "search_enabled_at_primary": null,
+      "unavailable_sections": 0,
+      "rendered_counts": {
+        "library_cards": 4,
+        "list_rows": 0,
+        "feed_posts": 0
+      },
+      "ui_alert_count": 0,
+      "observed_python_http_requests": 3,
+      "private_cache_controlled": false
+    },
+    {
+      "sample": "library-390-1-repeat",
+      "journey": "library",
+      "width": 390,
+      "index": 1,
+      "phase": "repeat",
+      "primary_ms": 394.044,
+      "finished_ms": 394.058,
+      "wire": {
+        "frames": 8,
+        "bytes": 66511,
+        "js_errors": 0,
+        "socket_port": 3032,
+        "socket_open": true
+      },
+      "browser": {
+        "navigation": [
+          {
+            "ttfb": 35.09999999962747,
+            "dom": 121.29999999888241
+          }
+        ],
+        "resources": [
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 1844
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 56969
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 27900
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 1336
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 11576
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 60016
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 4845
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 34478
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 201
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 8055
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 3528
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 28020
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 332
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 353
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 1198
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 32004
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 323
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 309
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 280
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 236
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 219
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 275
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 272
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 277
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 11033
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 779
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 85909
+          },
+          {
+            "type": "other",
+            "duration": 1.400000000372529,
+            "transfer": 0,
+            "encoded": 4286
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          }
+        ],
+        "images": [
+          {
+            "visible": true,
+            "complete": true,
+            "width": 225,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 225
+          },
+          {
+            "visible": true,
+            "complete": false,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 500
+          },
+          {
+            "visible": true,
+            "complete": false,
+            "width": 0,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 0
+          },
+          {
+            "visible": true,
+            "complete": false,
+            "width": 0,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 0
+          }
+        ],
+        "overflow": false
+      },
+      "search_enabled_at_primary": null,
+      "unavailable_sections": 0,
+      "rendered_counts": {
+        "library_cards": 4,
+        "list_rows": 0,
+        "feed_posts": 0
+      },
+      "ui_alert_count": 0,
+      "observed_python_http_requests": 0,
+      "private_cache_controlled": false
+    },
+    {
+      "sample": "lists-390-1-first",
+      "journey": "lists",
+      "width": 390,
+      "index": 1,
+      "phase": "first",
+      "primary_ms": 426.432,
+      "finished_ms": 1552.125,
+      "wire": {
+        "frames": 8,
+        "bytes": 58958,
+        "js_errors": 0,
+        "socket_port": 3032,
+        "socket_open": true
+      },
+      "browser": {
+        "navigation": [
+          {
+            "ttfb": 90.90000000037253,
+            "dom": 270.7000000011176
+          }
+        ],
+        "resources": [
+          {
+            "type": "other",
+            "duration": 45.30000000074506,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 63.40000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 52.40000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 65.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 68.19999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 69.19999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 66,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 67.90000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 75.19999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 77.40000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 80,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 80.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 81.29999999888241,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 81.40000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 95.80000000074506,
+            "transfer": 2251,
+            "encoded": 1951
+          },
+          {
+            "type": "other",
+            "duration": 83.70000000111759,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 87.30000000074506,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 85.20000000111759,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 92.39999999850988,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 88.39999999850988,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 102.59999999962747,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 99.09999999962747,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 101.70000000111759,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 101.69999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 91,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 779
+          },
+          {
+            "type": "link",
+            "duration": 93.60000000149012,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 2.300000000745058,
+            "transfer": 0,
+            "encoded": 4286
+          }
+        ],
+        "images": [],
+        "overflow": false
+      },
+      "search_enabled_at_primary": null,
+      "unavailable_sections": 0,
+      "rendered_counts": {
+        "library_cards": 0,
+        "list_rows": 2,
+        "feed_posts": 0
+      },
+      "ui_alert_count": 0,
+      "observed_python_http_requests": 3,
+      "private_cache_controlled": false
+    },
+    {
+      "sample": "lists-390-1-repeat",
+      "journey": "lists",
+      "width": 390,
+      "index": 1,
+      "phase": "repeat",
+      "primary_ms": 249.987,
+      "finished_ms": 250.013,
+      "wire": {
+        "frames": 8,
+        "bytes": 59935,
+        "js_errors": 0,
+        "socket_port": 3032,
+        "socket_open": true
+      },
+      "browser": {
+        "navigation": [
+          {
+            "ttfb": 27.199999999254942,
+            "dom": 49.19999999925494
+          }
+        ],
+        "resources": [
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 1951
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 779
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 1.200000001117587,
+            "transfer": 0,
+            "encoded": 4286
+          }
+        ],
+        "images": [],
+        "overflow": false
+      },
+      "search_enabled_at_primary": null,
+      "unavailable_sections": 0,
+      "rendered_counts": {
+        "library_cards": 0,
+        "list_rows": 2,
+        "feed_posts": 0
+      },
+      "ui_alert_count": 0,
+      "observed_python_http_requests": 0,
+      "private_cache_controlled": false
+    },
+    {
+      "sample": "profile-390-1-first",
+      "journey": "profile",
+      "width": 390,
+      "index": 1,
+      "phase": "first",
+      "primary_ms": 2086.156,
+      "finished_ms": 2680.265,
+      "wire": {
+        "frames": 11,
+        "bytes": 49457,
+        "js_errors": 0,
+        "socket_port": 3032,
+        "socket_open": true
+      },
+      "browser": {
+        "navigation": [
+          {
+            "ttfb": 90,
+            "dom": 298
+          }
+        ],
+        "resources": [
+          {
+            "type": "other",
+            "duration": 38.80000000074506,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 43.09999999962747,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 46.79999999888241,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 49.30000000074506,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 58.20000000111759,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 61.899999998509884,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 65.90000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 72.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 76.90000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 82.69999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 86.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 90,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 92.09999999962747,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 95.09999999962747,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 94.70000000111759,
+            "transfer": 2677,
+            "encoded": 2377
+          },
+          {
+            "type": "other",
+            "duration": 94.69999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 94.79999999888241,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 100.70000000111759,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 98.40000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 104,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 110.10000000149012,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 107.90000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 105,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 112.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 109,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 779
+          },
+          {
+            "type": "link",
+            "duration": 110,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 1.1000000014901161,
+            "transfer": 0,
+            "encoded": 4286
+          },
+          {
+            "type": "img",
+            "duration": 157.60000000149012,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 5.700000001117587,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 8.300000000745058,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 12.5,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 12.900000000372529,
+            "transfer": 0,
+            "encoded": 0
+          }
+        ],
+        "images": [
+          {
+            "visible": true,
+            "complete": true,
+            "width": 0,
+            "loading": "auto",
+            "displayWidth": 349,
+            "naturalWidth": 0
+          },
+          {
+            "visible": true,
+            "complete": true,
+            "width": 447,
+            "loading": "auto",
+            "displayWidth": 60,
+            "naturalWidth": 447
+          },
+          {
+            "visible": true,
+            "complete": true,
+            "width": 225,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 225
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 500
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 500
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 500
+          }
+        ],
+        "overflow": false
+      },
+      "search_enabled_at_primary": null,
+      "unavailable_sections": 0,
+      "rendered_counts": {
+        "library_cards": 4,
+        "list_rows": 0,
+        "feed_posts": 0
+      },
+      "ui_alert_count": 0,
+      "observed_python_http_requests": 4,
+      "private_cache_controlled": false
+    },
+    {
+      "sample": "profile-390-1-repeat",
+      "journey": "profile",
+      "width": 390,
+      "index": 1,
+      "phase": "repeat",
+      "primary_ms": 338.159,
+      "finished_ms": 338.172,
+      "wire": {
+        "frames": 10,
+        "bytes": 54157,
+        "js_errors": 0,
+        "socket_port": 3032,
+        "socket_open": true
+      },
+      "browser": {
+        "navigation": [
+          {
+            "ttfb": 18.800000000745058,
+            "dom": 124.30000000074506
+          }
+        ],
+        "resources": [
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 2377
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 779
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 1.700000001117587,
+            "transfer": 0,
+            "encoded": 4286
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          }
+        ],
+        "images": [
+          {
+            "visible": true,
+            "complete": true,
+            "width": 0,
+            "loading": "auto",
+            "displayWidth": 349,
+            "naturalWidth": 0
+          },
+          {
+            "visible": true,
+            "complete": true,
+            "width": 447,
+            "loading": "auto",
+            "displayWidth": 60,
+            "naturalWidth": 447
+          },
+          {
+            "visible": true,
+            "complete": true,
+            "width": 225,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 225
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 500
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 500
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 80,
+            "naturalWidth": 500
+          }
+        ],
+        "overflow": false
+      },
+      "search_enabled_at_primary": null,
+      "unavailable_sections": 0,
+      "rendered_counts": {
+        "library_cards": 4,
+        "list_rows": 0,
+        "feed_posts": 0
+      },
+      "ui_alert_count": 0,
+      "observed_python_http_requests": 0,
+      "private_cache_controlled": false
+    },
+    {
+      "sample": "feed-390-1-first",
+      "journey": "feed",
+      "width": 390,
+      "index": 1,
+      "phase": "first",
+      "primary_ms": 448.471,
+      "finished_ms": 2616.037,
+      "wire": {
+        "frames": 8,
+        "bytes": 56542,
+        "js_errors": 0,
+        "socket_port": 3032,
+        "socket_open": true
+      },
+      "browser": {
+        "navigation": [
+          {
+            "ttfb": 83.40000000037253,
+            "dom": 248.69999999925494
+          }
+        ],
+        "resources": [
+          {
+            "type": "other",
+            "duration": 28.199999999254942,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 48.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 46.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 49.100000001490116,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 50.20000000111759,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 51.69999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 53.29999999888241,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 60.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 58.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 61.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 62.30000000074506,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 63.90000000037253,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 67.89999999850988,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 71.70000000111759,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 93.59999999962747,
+            "transfer": 3004,
+            "encoded": 2704
+          },
+          {
+            "type": "other",
+            "duration": 77.19999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 81.89999999850988,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 92.40000000037253,
+            "transfer": 612,
+            "encoded": 312
+          },
+          {
+            "type": "other",
+            "duration": 109.59999999962747,
+            "transfer": 543,
+            "encoded": 243
+          },
+          {
+            "type": "other",
+            "duration": 83.69999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 86.79999999888241,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 107.30000000074506,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 113.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 112.10000000149012,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 113.70000000111759,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 114.19999999925494,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 65.5,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 779
+          },
+          {
+            "type": "link",
+            "duration": 69.30000000074506,
+            "transfer": 300,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 1.400000000372529,
+            "transfer": 0,
+            "encoded": 4286
+          },
+          {
+            "type": "img",
+            "duration": 5,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 146.10000000149012,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 178.40000000037253,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 184.30000000074506,
+            "transfer": 0,
+            "encoded": 0
+          }
+        ],
+        "images": [
+          {
+            "visible": true,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 44,
+            "naturalWidth": 500
+          },
+          {
+            "visible": true,
+            "complete": false,
+            "width": 0,
+            "loading": "lazy",
+            "displayWidth": 321,
+            "naturalWidth": 0
+          },
+          {
+            "visible": true,
+            "complete": true,
+            "width": 447,
+            "loading": "auto",
+            "displayWidth": 44,
+            "naturalWidth": 447
+          },
+          {
+            "visible": true,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 44,
+            "naturalWidth": 500
+          },
+          {
+            "visible": false,
+            "complete": false,
+            "width": 0,
+            "loading": "lazy",
+            "displayWidth": 321,
+            "naturalWidth": 0
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 447,
+            "loading": "auto",
+            "displayWidth": 44,
+            "naturalWidth": 447
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 44,
+            "naturalWidth": 500
+          },
+          {
+            "visible": false,
+            "complete": false,
+            "width": 0,
+            "loading": "auto",
+            "displayWidth": 0,
+            "naturalWidth": 0
+          }
+        ],
+        "overflow": false
+      },
+      "search_enabled_at_primary": null,
+      "unavailable_sections": 0,
+      "rendered_counts": {
+        "library_cards": 0,
+        "list_rows": 0,
+        "feed_posts": 4
+      },
+      "ui_alert_count": 0,
+      "observed_python_http_requests": 6,
+      "private_cache_controlled": false
+    },
+    {
+      "sample": "feed-390-1-repeat",
+      "journey": "feed",
+      "width": 390,
+      "index": 1,
+      "phase": "repeat",
+      "primary_ms": 386.111,
+      "finished_ms": 516.651,
+      "wire": {
+        "frames": 8,
+        "bytes": 67485,
+        "js_errors": 0,
+        "socket_port": 3032,
+        "socket_open": true
+      },
+      "browser": {
+        "navigation": [
+          {
+            "ttfb": 41.79999999888241,
+            "dom": 171.89999999850988
+          }
+        ],
+        "resources": [
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 2704
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 312
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 243
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 779
+          },
+          {
+            "type": "link",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "other",
+            "duration": 1.5,
+            "transfer": 0,
+            "encoded": 4286
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          },
+          {
+            "type": "img",
+            "duration": 0,
+            "transfer": 0,
+            "encoded": 0
+          }
+        ],
+        "images": [
+          {
+            "visible": true,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 44,
+            "naturalWidth": 500
+          },
+          {
+            "visible": true,
+            "complete": false,
+            "width": 736,
+            "loading": "lazy",
+            "displayWidth": 321,
+            "naturalWidth": 736
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 447,
+            "loading": "auto",
+            "displayWidth": 44,
+            "naturalWidth": 447
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 44,
+            "naturalWidth": 500
+          },
+          {
+            "visible": false,
+            "complete": false,
+            "width": 0,
+            "loading": "lazy",
+            "displayWidth": 321,
+            "naturalWidth": 0
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 447,
+            "loading": "auto",
+            "displayWidth": 44,
+            "naturalWidth": 447
+          },
+          {
+            "visible": false,
+            "complete": true,
+            "width": 500,
+            "loading": "lazy",
+            "displayWidth": 44,
+            "naturalWidth": 500
+          },
+          {
+            "visible": false,
+            "complete": false,
+            "width": 0,
+            "loading": "auto",
+            "displayWidth": 0,
+            "naturalWidth": 0
+          }
+        ],
+        "overflow": false
+      },
+      "search_enabled_at_primary": null,
+      "unavailable_sections": 0,
+      "rendered_counts": {
+        "library_cards": 0,
+        "list_rows": 0,
+        "feed_posts": 4
+      },
+      "ui_alert_count": 0,
+      "observed_python_http_requests": 1,
+      "private_cache_controlled": false
+    }
+  ],
+  "xano_proxy": {
+    "total_outbound_requests": 23,
+    "stop_reason": "",
+    "statuses": {
+      "200": 21,
+      "404": 2
+    },
+    "events": [
+      {
+        "method": "POST",
+        "service": "xano",
+        "endpoint": "/auth/auth/login",
+        "status": 200,
+        "offset_ms": 122284.853,
+        "duration_ms": 778.337,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 123097.813,
+        "duration_ms": 360.453,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles/{value}",
+        "status": 200,
+        "offset_ms": 123608.504,
+        "duration_ms": 292.285,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles",
+        "status": 200,
+        "offset_ms": 123930.099,
+        "duration_ms": 186.771,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 123937.415,
+        "duration_ms": 534.76,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 124732.89,
+        "duration_ms": 410.074,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 150118.189,
+        "duration_ms": 708.73,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 150859.726,
+        "duration_ms": 627.691,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/interactions",
+        "status": 200,
+        "offset_ms": 151527.546,
+        "duration_ms": 266.339,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 175800.642,
+        "duration_ms": 608.547,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 176455.376,
+        "duration_ms": 217.34,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/lists",
+        "status": 200,
+        "offset_ms": 176711.797,
+        "duration_ms": 222.331,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 201381.233,
+        "duration_ms": 677.215,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles/{value}",
+        "status": 200,
+        "offset_ms": 202096.401,
+        "duration_ms": 249.01,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles",
+        "status": 200,
+        "offset_ms": 202401.505,
+        "duration_ms": 188.573,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 202416.464,
+        "duration_ms": 531.919,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/auth/auth/me",
+        "status": 200,
+        "offset_ms": 226888.023,
+        "duration_ms": 673.631,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/media",
+        "status": 200,
+        "offset_ms": 227609.658,
+        "duration_ms": 214.161,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/profiles",
+        "status": 200,
+        "offset_ms": 227617.276,
+        "duration_ms": 556.405,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/feed",
+        "status": 200,
+        "offset_ms": 228191.342,
+        "duration_ms": 229.569,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/posts",
+        "status": 200,
+        "offset_ms": 228447.595,
+        "duration_ms": 200.274,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/likes",
+        "status": 404,
+        "offset_ms": 228660.979,
+        "duration_ms": 419.764,
+        "retry_after_seconds": 0
+      },
+      {
+        "method": "GET",
+        "service": "xano",
+        "endpoint": "/{value}/likes",
+        "status": 404,
+        "offset_ms": 229976.432,
+        "duration_ms": 151.719,
+        "retry_after_seconds": 0
+      }
+    ]
+  },
+  "sanitized_python_http_events": [
+    {
+      "method": "POST",
+      "service": "other",
+      "endpoint": "/auth/auth/login",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 808.268,
+      "pid": 3048,
+      "timestamp": 1794262362.3564365,
+      "sample": "member-login"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 385.824,
+      "pid": 3048,
+      "timestamp": 1794262362.752966,
+      "sample": "member-login"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/profiles/{value}",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 300.539,
+      "pid": 3048,
+      "timestamp": 1794262363.1878793,
+      "sample": "member-login"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/profiles",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 212.364,
+      "pid": 3048,
+      "timestamp": 1794262363.4082925,
+      "sample": "member-login"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/media",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 557.732,
+      "pid": 3048,
+      "timestamp": 1794262363.7577698,
+      "sample": "member-login"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 724.178,
+      "pid": 3048,
+      "timestamp": 1794262390.1145742,
+      "sample": "library-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/media",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 644.102,
+      "pid": 3048,
+      "timestamp": 1794262390.7808146,
+      "sample": "library-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/interactions",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 288.113,
+      "pid": 3048,
+      "timestamp": 1794262391.0859735,
+      "sample": "library-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 629.444,
+      "pid": 3048,
+      "timestamp": 1794262415.7030666,
+      "sample": "lists-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/media",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 240.769,
+      "pid": 3048,
+      "timestamp": 1794262415.9667702,
+      "sample": "lists-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/lists",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 247.538,
+      "pid": 3048,
+      "timestamp": 1794262416.2261066,
+      "sample": "lists-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 714.815,
+      "pid": 3048,
+      "timestamp": 1794262441.3507724,
+      "sample": "profile-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/profiles/{value}",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 273.585,
+      "pid": 3048,
+      "timestamp": 1794262441.6384554,
+      "sample": "profile-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/profiles",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 235.535,
+      "pid": 3048,
+      "timestamp": 1794262441.8851829,
+      "sample": "profile-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/media",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 582.689,
+      "pid": 3048,
+      "timestamp": 1794262442.2409644,
+      "sample": "profile-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/auth/auth/me",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 694.867,
+      "pid": 3048,
+      "timestamp": 1794262466.8521426,
+      "sample": "feed-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/media",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 248.127,
+      "pid": 3048,
+      "timestamp": 1794262467.114413,
+      "sample": "feed-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/profiles",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 588.132,
+      "pid": 3048,
+      "timestamp": 1794262467.461841,
+      "sample": "feed-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/feed",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 244.619,
+      "pid": 3048,
+      "timestamp": 1794262467.7127776,
+      "sample": "feed-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/posts",
+      "status": 200,
+      "outcome": "response",
+      "duration_ms": 216.061,
+      "pid": 3048,
+      "timestamp": 1794262467.9351268,
+      "sample": "feed-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/likes",
+      "status": 404,
+      "outcome": "response",
+      "duration_ms": 434.912,
+      "pid": 3048,
+      "timestamp": 1794262468.3732867,
+      "sample": "feed-390-1-first"
+    },
+    {
+      "method": "GET",
+      "service": "other",
+      "endpoint": "/{value}/likes",
+      "status": 404,
+      "outcome": "response",
+      "duration_ms": 169.7,
+      "pid": 3048,
+      "timestamp": 1794262469.4236076,
+      "sample": "feed-390-1-repeat"
+    }
+  ],
+  "browser_version": "157.0.4341.42",
+  "browser_channel": "msedge",
+  "browser_mode": "headless",
+  "member_role_and_active_status_verified": true,
+  "account_identity_same_as_desktop_proven": false,
+  "guard_validation": {
+    "layer": "offline_policy_only",
+    "passed": true,
+    "cases": 9,
+    "remote_requests": 0
+  },
+  "processes_stopped": true,
+  "locks_preserved": true,
+  "instrument_hashes": {
+    "run.py": "06c6e89a4173c5420751dbfdd21d47ec06f2ae4c4e92b89755a499a132be04b1",
+    "measurement_hooks.py": "9bd966e75d4d7a87c4e907d7794dc05c8248834325c31ff4b361cb9488683669",
+    "sitecustomize.py": "cbef2514d15dc57a533716219f97ff245ab440334beb8d49e835fbe465b77ab5"
+  }
+}

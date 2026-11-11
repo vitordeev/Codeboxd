@@ -154,7 +154,7 @@ def popular_section(title, items, kind):
         'Os títulos em alta no TMDB. Encontre o seu próximo favorito.',items,kind,'popular-'+kind,
         footer=rx.cond(~S.popular_exhausted.contains(kind),
             rx.el.button('Carregar mais filmes' if kind=='movie' else 'Carregar mais séries',
-                on_click=S.more_popular(kind),type='button',disabled=S.busy,class_name='shelf-more'))))
+                on_click=S.more_popular(kind),type='button',disabled=S.busy | S.home_loading,class_name='shelf-more'))))
 
 
 def collection_section(key):
@@ -168,7 +168,7 @@ def collection_section(key):
                 rx.el.div(rx.el.p(rx.cond(S.home_collection_errors.contains(key),
                     'Esta seleção está indisponível no momento.', 'Ainda não há títulos nesta seleção.')),
                     rx.el.button('Tentar novamente',on_click=S.retry_home_collections,
-                        type='button',disabled=S.busy,class_name='quiet-button'),class_name='shelf-empty')),
+                        type='button',disabled=S.busy | S.home_loading,class_name='quiet-button'),class_name='shelf-empty')),
             class_name='catalog-shelf'))
 
 
@@ -181,6 +181,8 @@ def catalog_group(anchor, label, description, icon, *shelves):
 
 def discovery_page():
     return shell('Sua próxima história começa aqui.','Explore, registre e compartilhe o que faz parte do seu mundo.',
+        rx.cond(~S.search_active & (S.home_notice != ''),
+            rx.el.p(S.home_notice,role='status',class_name='rounded-xl border border-amber-400/25 bg-amber-400/10 p-4')),
         rx.el.form(
             rx.el.div(rx.icon('search', size=24),
                 rx.el.input(name='query',placeholder='Pesquisar filmes, séries, animes e livros',aria_label='Buscar título',max_length=200,value=S.search_term,on_change=S.update_search_term),

@@ -1,5 +1,10 @@
 # OpenSpec do Codeboxd
 
+09/11/2026 — análise retomada e consolidada, sem otimizações: [diagnóstico e plano técnico para revisão](changes/otimizar-performance-app/validation/diagnostico-plano-performance-2026-11-09.md). 36 navegações reais preservadas (20 Home +16 leituras de membro); oito novas em 390 px. Metas propostas, não aprovadas; performance 17/37, administração 33/34. Processos de medição encerrados.
+
+
+09/11/2026 — análise de performance pausada por solicitação do usuário. [Contexto, 28 amostras reais e retomada](changes/otimizar-performance-app/validation/pausa-analise-2026-11-09.md). Home em 1440/390 e leituras desktop de membro; critérios incompletos preservados. Processos de medição encerrados, sem otimizações ou escritas administrativas. Performance 17/37; administração 33/34.
+
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
 04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e
