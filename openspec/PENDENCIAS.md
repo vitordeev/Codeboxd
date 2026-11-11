@@ -1,5 +1,12 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — [Homologação preparada localmente, obtenção remota recusada](changes/preparar-homologacao-xano-admin/validation.md):
+4/8, pacote 32 documentos/573 testes. Sandbox HTTP 500; criação de workspace vazio
+HTTP 403/ERROR_CODE_ACCESS_DENIED, nome ausente após tentativa. A conta/credencial
+atual não permite a obtenção; motivo plano/permissão não confirmado. Proprietário
+deve verificar painel/permissões ou disponibilizar instância isolada. Sem compras,
+publicação de contratos, alteração da origem ou piloto administrativo executado.
+
 10/11/2026 - Auditoria Git e branch de integracao publicada; PR ainda aguarda criacao autenticada. [Registro e link do PR](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md). `origin/develop` em 4a7cabe; administracao 33/34 e performance 17/37 preservadas. Branch `pedro` mantida por conter documentacao historica obsoleta; P0 movel ainda sem evidencia suficiente. Nenhuma tarefa foi fechada.
 
 09/11/2026 — [relatório consolidado do projeto](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):

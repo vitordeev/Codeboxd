@@ -1,5 +1,17 @@
 # OpenSpec do Codeboxd
 
+11/11/2026 — [Ponto de retomada salvo a pedido do usuário](changes/preparar-homologacao-xano-admin/retomada-2026-11-11.md):
+diretórios/branches, evidências, testes e bloqueio Xano consolidados. Continuar
+na worktree homologacao-xano-20261111; trabalhos de e-mail, admin, Cloudinary e
+performance permanecem separados e não commitados. Checkpoint privado indicado
+no ponto de retomada. Aguardar retorno do usuário, sem novas operações remotas.
+
+11/11/2026 — [Preparação de homologação Xano](changes/preparar-homologacao-xano-admin/validation.md):
+pacote local com 32 contratos e configuração separada, sete testes específicos e
+573 na suíte aprovados. Obtenção remota bloqueada: sandbox 500, novo workspace
+403/ACCESS_DENIED e ausência confirmada após tentativa. Change 4/8; sem ambiente
+isolado disponível, publicação ou cópia de dados. Não usar live como fallback.
+
 10/11/2026 - [Auditoria de branches e integracao](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md): branch publicada; PR aguarda criacao em sessao autenticada. Base `origin/develop` 4a7cabe. Administracao 33/34 e performance 17/37; sem merge em main. P0 movel continua pendente.
 
 10/11/2026 — [Ambiente Cloudinary preparado](changes/hospedar-imagens-publicacoes-cloudinary/validation.md): variáveis privadas com flag false, adaptador de upload assinado e 11 testes locais aprovados; dependências existentes íntegras. Conta/credenciais, integração de posts/URL no Xano e validação real ainda pendentes. Fluxo atual de anexos preservado até ativação validada.
