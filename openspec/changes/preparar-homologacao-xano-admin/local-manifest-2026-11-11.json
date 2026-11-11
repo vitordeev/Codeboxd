@@ -1,0 +1,209 @@
+{
+  "mode": "local_contract_preparation",
+  "published": false,
+  "records_included": false,
+  "environment_included": false,
+  "mail_routes_included": false,
+  "document_count": 32,
+  "counts": {
+    "table": 13,
+    "function": 3,
+    "api_group": 2,
+    "query": 14
+  },
+  "bundle_sha256": "393b21ce667f42d613100e544cd9ce3a0520217f21d998b03f9523cb0cd940f4",
+  "documents": [
+    {
+      "source": "xano/table/user.xs",
+      "type": "table",
+      "source_sha256": "9f4e5a3f92740347ad7329adb7dd9afab509d487f59defb0b454b2b013e2273e",
+      "prepared_sha256": "157d37f76ea63f491a10acbb0f42a0cb4166c8ea74e1a648d69f7415fb14742e"
+    },
+    {
+      "source": "xano/table/profile.xs",
+      "type": "table",
+      "source_sha256": "cd901d70b02ce09862ff5c8f2dc440e67fd059dcac3bfdeb3c8acea2e73665bc",
+      "prepared_sha256": "e6a09aecfdc1060249a24fa6b1e2a3b27de510f4293eed9fff936226d0665145"
+    },
+    {
+      "source": "xano/table/media.xs",
+      "type": "table",
+      "source_sha256": "b1faf7068e76a15744fa80f16121f7a84cdb08164c71bf325946178be51d38e3",
+      "prepared_sha256": "4bba6050dfe2065142de5ac7fb12d9534039065e60d236e9bc36808ccb63c1d1"
+    },
+    {
+      "source": "xano/table/post.xs",
+      "type": "table",
+      "source_sha256": "6b9753fe2710f6b3008b43ac1ed0de05ee6738e52f9b3dd0074ca69c2c944d79",
+      "prepared_sha256": "41f5d4d1cb766da0b5deca00c4c2985761b8d959f2ede98c2d52d6e75d28aa50"
+    },
+    {
+      "source": "xano/table/comment.xs",
+      "type": "table",
+      "source_sha256": "76dbfbdfd13063177af44929fcd4c093c6ff9dc15495f874649da8e5bf91ee61",
+      "prepared_sha256": "17651ce6c1cfae2dfa72dda6a8b3283814fa2962a896dd9495f4b4a212619f4a"
+    },
+    {
+      "source": "xano/table/post_like.xs",
+      "type": "table",
+      "source_sha256": "6953623e2d221481fc438c99ecbd5962e28768c7586005403384baa4d5df73ec",
+      "prepared_sha256": "16e846148b842bbe7bc044513ac0a479a5a995f9d85b36905b188c84df4b1f5c"
+    },
+    {
+      "source": "xano/table/report.xs",
+      "type": "table",
+      "source_sha256": "a4ca6bf018f955c993da9b371b1874b653c5a5ceb06378c6b359027bb7afc25c",
+      "prepared_sha256": "8b5d79564c6abe4bcf84aa11e74becd3a4b263b0f5415d0b425c57f058b01c28"
+    },
+    {
+      "source": "xano/table/event_log.xs",
+      "type": "table",
+      "source_sha256": "f9173ee472cdbb24158d1b4a9768302f2ad7acd0d4e67f153e171b40ce996165",
+      "prepared_sha256": "41ba92124301786dbce75533c8b045ff94dc57dc8e1ea8e1cca667de7fe450eb"
+    },
+    {
+      "source": "xano/table/user_follow.xs",
+      "type": "table",
+      "source_sha256": "62cc5c4c4cce637b02fc182ea6a12e21a22c6b036156bf8b5fd9fd2ae74a804e",
+      "prepared_sha256": "ab86c9caa062b63ab3655ec0d13886fd2fe641864a2497921bfd7e11788f5a8d"
+    },
+    {
+      "source": "xano/table/user_list.xs",
+      "type": "table",
+      "source_sha256": "2c73b4a8b66e01de811114c5e963dcd3340d7470aae7509a5f4a3b917f7a7cce",
+      "prepared_sha256": "12a1e2eff0362f5513040089dbe69a6c819ca04e5ef3e55660960b48e3a437d7"
+    },
+    {
+      "source": "xano/table/user_list_item.xs",
+      "type": "table",
+      "source_sha256": "77537ba5bafbd9588b10696897eeed64076dfa70794e05c02659d10fa4e19473",
+      "prepared_sha256": "219a431bbe3614408259b3422550f3b64287f32cbb3f1d051b3ae12f919ec6bc"
+    },
+    {
+      "source": "xano/table/user_media_interaction.xs",
+      "type": "table",
+      "source_sha256": "d980bb601f72808caa2353997bba1722964872adbd8e7d9a1c60e8ea4a2542f5",
+      "prepared_sha256": "fcb72776c9901e0621388619e3cb2dd9afd4580b74c4498f7b7154384ddf4ce1"
+    },
+    {
+      "source": "xano/table/user_media_list_status.xs",
+      "type": "table",
+      "source_sha256": "f12e3e6878b81658c56d63a1311dc82bb57361a9944f095d5f7c82ba06b7ce5a",
+      "prepared_sha256": "f7c24693b2a9d689c8761f94d2d5cb492ca31c0d2092d7dbbc1408924aef74b8"
+    },
+    {
+      "source": "xano/function/security/require_current_session.xs",
+      "type": "function",
+      "source_sha256": "afee879f5a6d16c7fb9054ce554c3c977113bde63681a5516e98407c87890eb9",
+      "prepared_sha256": "649fcff32ee42df030780a05f1a4a97352f6c8a3d5bde5a7474da39c44ec60c9"
+    },
+    {
+      "source": "xano/function/Lists/ensure_default_list.xs",
+      "type": "function",
+      "source_sha256": "1f6fa609bcc52aecbabf9638235d57cf019e38032dbc7cc547cdb24d029a9f3f",
+      "prepared_sha256": "99edf7bac44a19a0942f3df8b379125f66888a939626240389d0a2e3c3dd3721"
+    },
+    {
+      "source": "xano/function/quick_start/log_event.xs",
+      "type": "function",
+      "source_sha256": "10fd09806fe26c2b830241f42bae18a2038233e3ca060f46021cbb94495de334",
+      "prepared_sha256": "432ae5364ab8012c08b9a1dcece3f47dbe347f9415160949aaf1715ee6c65468"
+    },
+    {
+      "source": "xano/api/authentication/authentication.xs",
+      "type": "api_group",
+      "source_sha256": "5b37a145b375ae0dadc8ec6aa9e7bd07440db27e589a28260009014fb2e64ce3",
+      "prepared_sha256": "b1f8ed4c4a4c98d618ab1b8e456d7fff87b437ad0a835e235db69b54d6d0ac7f"
+    },
+    {
+      "source": "xano/api/codeboxd/codeboxd.xs",
+      "type": "api_group",
+      "source_sha256": "96b9d2dc68cd36b4d8d310118f6bc292c1844f6f304836165d1bc46bcb0ca95c",
+      "prepared_sha256": "2fa6b95e5a8c84532672d505066aecedb61cdfe3f405b12a1a2c9372ccdee19c"
+    },
+    {
+      "source": "xano/api/authentication/auth/signup_POST.xs",
+      "type": "query",
+      "source_sha256": "3e7d3b9997b11e556feca47139b018e27b2cf95edfa4769cb583f9fd0e12c406",
+      "prepared_sha256": "2b9b6ab9acb4466ac823773a3a01aa4ae745e39e3bf4f84d95a7c6d359fa8cb8"
+    },
+    {
+      "source": "xano/api/authentication/auth/login_POST.xs",
+      "type": "query",
+      "source_sha256": "dc22942300c4e98637cf70e1c6233be36a6a07331cea5ed8975a23ae35a78feb",
+      "prepared_sha256": "982ba9b7fbabf647d0460ffe165ecd9f2b50572f313d013a3d13b2185a1e20cb"
+    },
+    {
+      "source": "xano/api/authentication/auth/me_GET.xs",
+      "type": "query",
+      "source_sha256": "90ecfdd07388cf27228e36c2d3ffa2e93c8fc64883b5819b6acb244aa9455690",
+      "prepared_sha256": "89969b65e77f56a4194ceb2118567755c492ab0acddd8193e476aa4b02218cfd"
+    },
+    {
+      "source": "xano/api/codeboxd/admin_catalog_GET.xs",
+      "type": "query",
+      "source_sha256": "f40981b23b0003b4f790cb4a07aa9f76a46faa95f91ea368b5e6c1da0158e40b",
+      "prepared_sha256": "acdae7009160a547b3de2f1f1d323ec9b42e9bc1ed46a3462e3bb027e71e6906"
+    },
+    {
+      "source": "xano/api/codeboxd/admin_catalog_POST.xs",
+      "type": "query",
+      "source_sha256": "e095ab015b60a32f0e3bb7ef238fc95c0aaad39367e98145bc6bf2f703b30d02",
+      "prepared_sha256": "33c5a9f7abb4ef105952b4ca9bafe2951df267a1042adcac25854d31ea4cbe31"
+    },
+    {
+      "source": "xano/api/codeboxd/admin_catalog_id_PUT.xs",
+      "type": "query",
+      "source_sha256": "8234bc7c1a5b7ece52ae4abf26d287a0a7a2db043ef3db6d578281d189ae505d",
+      "prepared_sha256": "52fdc4a7f03c2a7091c52ff29596bb3f4cb91efcf042ab4207ac0383a8e19ddd"
+    },
+    {
+      "source": "xano/api/codeboxd/admin_dashboard_GET.xs",
+      "type": "query",
+      "source_sha256": "922634c1b10f21b2c58882595e13d38d3135abd00793d8674becbf214447348c",
+      "prepared_sha256": "5748ca20cb54102ef3f7a2417be4b6de65d0364e2ebd6320df9ea08981059a84"
+    },
+    {
+      "source": "xano/api/codeboxd/admin_users_GET.xs",
+      "type": "query",
+      "source_sha256": "73ad1b91cf57faadfc2dc738787c084565c0db0b7f9f2ce30223eb0a31dcbbc3",
+      "prepared_sha256": "919ce949fc5c547b40d499007b4f2f7173b19a7cada1114940276c71d0aa6829"
+    },
+    {
+      "source": "xano/api/codeboxd/admin_users_id_status_PUT.xs",
+      "type": "query",
+      "source_sha256": "1c1b0c97d97009abe1957812172d82649395c7a4401c482c5b58a73b5fe106dd",
+      "prepared_sha256": "62a877ada36a2286a37aba18312d2ff6eeeb423a086cf5a8afbc94fc893e5896"
+    },
+    {
+      "source": "xano/api/codeboxd/admin_reports_GET.xs",
+      "type": "query",
+      "source_sha256": "38a85ff930ce0e8099302169f18a50ea2b2b3c6e00b36b672b9990cff88e0b35",
+      "prepared_sha256": "7e0b3808a50227a3a8d0a832d1282ad913b8ee72d1fa5b08b44d83e5214a5268"
+    },
+    {
+      "source": "xano/api/codeboxd/admin_reports_id_PUT.xs",
+      "type": "query",
+      "source_sha256": "5279911cc72c801956dadb35740e6dcbbc6cf1ae079d5a483ac7c0d8a274e36e",
+      "prepared_sha256": "164286b65e04e6592b1437f0ea64a17ecbad908cc54eed0f8083f31f6d3abd00"
+    },
+    {
+      "source": "xano/api/codeboxd/posts_POST.xs",
+      "type": "query",
+      "source_sha256": "48b391e0b943354f85ad0e9122ecb220b8230273d285ccd50405271b66aa3bf7",
+      "prepared_sha256": "eb707f03c50e91e6225667248f23ce2625e1ea34899f38c36649ee4addccad93"
+    },
+    {
+      "source": "xano/api/codeboxd/reports_POST.xs",
+      "type": "query",
+      "source_sha256": "2c0139584da271612087251c946f3d18cc3a99cdb415c5fe9e4945b06418f778",
+      "prepared_sha256": "96a88d3fc1ae5bc341b0e952c126af05f4f9630d3fe3d4d23a25ab111eca766d"
+    },
+    {
+      "source": "xano/api/codeboxd/interactions_GET.xs",
+      "type": "query",
+      "source_sha256": "8de19e09d955ebb9bf065883482e450a31e49d6b2581bc7a90122c1c9f1ddd3a",
+      "prepared_sha256": "58b40cde949cf60c1f367c16403d6118472ebe85ac36c0c3c10c8867f066f89f"
+    }
+  ]
+}

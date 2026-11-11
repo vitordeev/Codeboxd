@@ -160,6 +160,14 @@ class RehearsalExecutor:
         if any(after.get(key) != value for key, value in persisted.items()):
             raise GuardRejected('persistence_mismatch')
         allowed = set(persisted)
+        if table == 'user' and after.get('updated_at') != before.get('updated_at'):
+            previous = before.get('updated_at')
+            stamp = after.get('updated_at')
+            if (type(stamp) not in (int, float) or not 0 < stamp < 10**15
+                    or previous is not None and (type(previous) not in (int, float)
+                                                or not 0 <= previous <= stamp)):
+                raise GuardRejected('invalid_account_update_timestamp')
+            allowed.add('updated_at')
         if table == 'report':
             allowed.update({'reviewer_user_id', 'reviewed_at'})
             if after.get('reviewer_user_id') != self.approval.admin_id:

@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-11-11T15:52:19.209631+00:00",
+  "operation": "create_empty_isolated_workspace",
+  "protected_workspace": 147717,
+  "contracts_published": false,
+  "records_copied": false,
+  "environment_copied": false,
+  "billing_change_requested": false,
+  "create_attempts": 1,
+  "matching_workspace_before": 0,
+  "create_http_status": 403,
+  "refusal_markers": [
+    "access"
+  ],
+  "provider_error_code": "ERROR_CODE_ACCESS_DENIED",
+  "result": "provider_refused_workspace",
+  "matching_workspace_after": 0
+}

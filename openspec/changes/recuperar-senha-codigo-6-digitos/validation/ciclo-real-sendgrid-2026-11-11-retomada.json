@@ -1,0 +1,19 @@
+{
+  "layer": "supervised_real_api",
+  "started_at": "2026-11-11T14:27:06.248321+00:00",
+  "approval_reference_sha256": "a5326bb96d33294f561da823e3653daf188381e06f1a0a76608a1feb51faf58c",
+  "passed": false,
+  "restoration_needed": false,
+  "checks": [
+    {
+      "scenario": "controlled_account_login",
+      "passed": true
+    }
+  ],
+  "resumed_evidence_sha256": "0c43e42e3613784ba469f1bc14f915ba2eaf127e192b9734e6c7ec48104a6034",
+  "operator_observation_unavailable_on_resume": true,
+  "phase": "awaiting_first_code",
+  "mail_requests_attempted": 1,
+  "requests_attempted": 3,
+  "last_http_status": 200
+}

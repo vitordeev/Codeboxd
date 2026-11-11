@@ -1,0 +1,289 @@
+{
+  "layer": "real_admin_browser_paced_read_only_proxy",
+  "passed": true,
+  "started_at": "2026-11-11T15:07:18.286487+00:00",
+  "checks": [
+    {
+      "scenario": "reports_queue_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reports_queue_page",
+      "passed": true
+    },
+    {
+      "scenario": "reports_queue_next_http",
+      "passed": true,
+      "http_status": 200
+    },
+    {
+      "scenario": "reports_queue_continuation",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "status": 200
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "status": 503
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/users",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 18,
+      "total": 18
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 3,
+      "total": 3
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 1,
+      "total": 1
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 1,
+      "total": 1
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "items_count": 4,
+      "total": 4
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "status": 200
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/dashboard",
+      "status": 503
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/users",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 18,
+      "total": 18
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 3,
+      "total": 3
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 1,
+      "total": 1
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 1,
+      "total": 1
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/catalog",
+      "status": 200,
+      "items_count": 0,
+      "total": 0
+    },
+    {
+      "endpoint": "/auth/me",
+      "status": 200
+    },
+    {
+      "endpoint": "/admin/reports",
+      "status": 200,
+      "items_count": 4,
+      "total": 4
+    }
+  ],
+  "cases": [
+    {
+      "width": 1440,
+      "passed": true,
+      "sections": 7,
+      "empty_searches": 5,
+      "injected_dashboard_error_preserved_values": true
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "sections": 7,
+      "empty_searches": 5,
+      "injected_dashboard_error_preserved_values": true
+    }
+  ],
+  "proxy_min_interval_seconds": 3.1,
+  "normal_server_modified": false,
+  "phase": "Reports_390",
+  "injected_failures": 2,
+  "rate_limits": 0,
+  "request_count": 5
+}

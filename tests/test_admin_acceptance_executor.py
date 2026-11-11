@@ -97,6 +97,30 @@ class RehearsalExecutorTests(unittest.TestCase):
         self.assertEqual(executor.calls, 12)
         self.assertEqual(sum(row['event'] == 'verified' for row in self.journal()), 3)
 
+    def test_account_status_allows_valid_server_timestamp_with_identity_preserved(self):
+        def handler(request):
+            response = self.handler(request)
+            if request.method == 'PUT':
+                self.state['user']['updated_at'] = 1700000000000
+            return response
+        executor = self.executor(handler)
+        result = self.update(executor)
+        self.assertEqual(result['mode'], 'simulated_verified')
+        self.assertEqual(self.state['user']['role'], 'member')
+        self.assertEqual(len([r for r in self.calls if r.method == 'PUT']), 1)
+
+    def test_invalid_server_timestamp_stops_without_repeating_account_write(self):
+        def handler(request):
+            response = self.handler(request)
+            if request.method == 'PUT':
+                self.state['user']['updated_at'] = True
+            return response
+        executor = self.executor(handler)
+        with self.assertRaisesRegex(GuardRejected, 'write_requires_reconciliation'):
+            self.update(executor)
+        self.assertTrue(executor.halted)
+        self.assertEqual(len([r for r in self.calls if r.method == 'PUT']), 1)
+
     def test_non_mock_and_non_synthetic_destinations_are_rejected(self):
         with self.assertRaisesRegex(GuardRejected, 'mock_transport_required'):
             self.executor(transport=object())

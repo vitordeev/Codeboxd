@@ -1,0 +1,24 @@
+{
+  "layer": "supervised_real_api",
+  "started_at": "2026-11-11T14:21:03.303452+00:00",
+  "approval_reference_sha256": "a5326bb96d33294f561da823e3653daf188381e06f1a0a76608a1feb51faf58c",
+  "passed": false,
+  "restoration_needed": false,
+  "checks": [
+    {
+      "scenario": "controlled_account_login",
+      "passed": true
+    },
+    {
+      "scenario": "request_accepted_not_delivery_proof",
+      "passed": true
+    }
+  ],
+  "phase": "awaiting_first_code",
+  "mail_requests_attempted": 1,
+  "requests_attempted": 2,
+  "last_http_status": 200,
+  "interrupted": true,
+  "failure_type": "CheckStopped",
+  "failure_reason": "operation_not_available"
+}

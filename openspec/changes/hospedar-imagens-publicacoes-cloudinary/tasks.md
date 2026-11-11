@@ -1,5 +1,9 @@
 ## 1. Preparação autorizada
 
+11/11/2026: [revisão de prontidão e testes](aceite-2026-11-11.md). Credenciais
+locais ausentes, flag false e contrato externo de post ainda incompleto.
+22 testes locais passaram; nenhum asset real acessado ou alterado. Mantido 3/5.
+
 - [x] 1.1 Preparar variáveis privadas ausentes, exemplos sem valores e flag desativada, verificar presença/ignore sem expor segredos e pip check na .venv.
 - [x] 1.2 Implementar adaptador assinado com guardas e erros sanitizados; verificar configuração, assinatura/transporte, limites e respostas com testes simulados sem rede real.
 - [x] 1.3 Registrar uso e limites, validar OpenSpec e git diff --check.

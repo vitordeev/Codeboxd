@@ -1,0 +1,20 @@
+{
+  "mode": "read_only_signup_persistence",
+  "checked_at": "2026-11-11T14:49:24.756560+00:00",
+  "writes": 0,
+  "workspace": 147717,
+  "data_source": "live",
+  "signup_created_at": "2026-11-11 14:42:06+0000",
+  "signup_branch": "v1",
+  "signup_workspace_matches": true,
+  "matching_user_records": 1,
+  "account_active": true,
+  "matching_profile_records": 1,
+  "matching_list_records": 2,
+  "same_account_recovery_requests": [
+    {
+      "created_at": "2026-11-11 14:43:04+0000",
+      "http_status": 200
+    }
+  ]
+}

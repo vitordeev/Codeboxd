@@ -1,5 +1,48 @@
 # OpenSpec do Codeboxd
 
+11/11/2026 — **Passagem para outra máquina:** usar a branch
+`handoff/retomada-20261111` e ler [instruções de continuação](changes/preparar-homologacao-xano-admin/passagem-equipe-2026-11-11.md).
+Conjunto desta sessão consolidado sem merge em develop/main; performance
+pré-existente preservada à parte em `wip/performance-preservada-20261111`.
+Configurações privadas, credenciais, ZIPs e capturas reais não são publicados.
+
+11/11/2026 — [Ponto de retomada salvo a pedido do usuário](changes/preparar-homologacao-xano-admin/retomada-2026-11-11.md):
+diretórios/branches, evidências, testes e bloqueio Xano consolidados. Continuar
+na worktree homologacao-xano-20261111; trabalhos de e-mail, admin, Cloudinary e
+performance permanecem separados e não commitados. Checkpoint privado indicado
+no ponto de retomada. Aguardar retorno do usuário, sem novas operações remotas.
+
+11/11/2026 — [Preparação de homologação Xano](changes/preparar-homologacao-xano-admin/validation.md):
+pacote local com 32 contratos e configuração separada, sete testes específicos e
+573 na suíte aprovados. Obtenção remota bloqueada: sandbox 500, novo workspace
+403/ACCESS_DENIED e ausência confirmada após tentativa. Change 4/8; sem ambiente
+isolado disponível, publicação ou cópia de dados. Não usar live como fallback.
+
+11/11/2026 — [Homologação administrativa de leitura](changes/gerenciamento-website/validation/resultado-leituras-2026-11-11.md):
+navegador real aprovado em 1440/390px para sete áreas e estados vazios; falhas de
+dashboard injetadas só localmente. 53 chamadas remotas observadas, zero 429,
+sem mutações administrativas. 9.2 segue aberta, 33/34; ensaio não autoriza A2–A4.
+Branch própria task/admin-readiness-20261111, sem push/merge/arquivo.
+
+11/11/2026 — [Recebimento, troca e novo login confirmados pelo usuário](changes/recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md).
+Persistência do cadastro conferida; sem medição comparativa de entrega nem
+correção do alinhamento SPF/DKIM. Critérios restantes do ciclo preservados;
+recuperação 9/11, SendGrid 4/5 e experiência do e-mail 4/5. Retomada administrativa
+preparada separadamente, sem autorização de mutações remotas.
+
+11/11/2026 — [Executor de recuperação adaptado](changes/recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md):
+restauração por segundo código e credencial exclusiva, sem retry de escrita.
+14 testes simulados aprovados; ensaio real aguarda autorização específica e
+conta/caixa controlada. Nenhuma tarefa funcional encerrada por preparação local.
+
+11/11/2026 — [Revisão de aceite de e-mail e recuperação](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
+fetch e leitura confirmam develop em `29d0456`, main remota em `42ff4dd`, com PRs
+#31/#32 integradas. Os registros de 10/11 sobre PR ainda não criada são históricos.
+SendGrid 4/5, experiência do e-mail 4/5 e recuperação 9/11, sem fechamento por
+simulação. Remetente verificado, zero domínios autenticados; ciclo controlado e
+comparação de entrega pendentes. Trabalho isolado em branch própria, sem escrita
+remota, push ou arquivo. A tabela antiga de recuperação 8/10 abaixo é histórica.
+
 10/11/2026 - [Auditoria de branches e integracao](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md): branch publicada; PR aguarda criacao em sessao autenticada. Base `origin/develop` 4a7cabe. Administracao 33/34 e performance 17/37; sem merge em main. P0 movel continua pendente.
 
 10/11/2026 — [Ambiente Cloudinary preparado](changes/hospedar-imagens-publicacoes-cloudinary/validation.md): variáveis privadas com flag false, adaptador de upload assinado e 11 testes locais aprovados; dependências existentes íntegras. Conta/credenciais, integração de posts/URL no Xano e validação real ainda pendentes. Fluxo atual de anexos preservado até ativação validada.

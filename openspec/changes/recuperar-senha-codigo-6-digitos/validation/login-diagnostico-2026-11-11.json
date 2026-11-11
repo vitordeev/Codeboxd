@@ -1,0 +1,25 @@
+{
+  "mode": "read_only_login_history",
+  "password_changes": 0,
+  "emails_sent": 0,
+  "history_http_status": 200,
+  "login_entries": [
+    {
+      "status": 403,
+      "duration": 0.041
+    },
+    {
+      "status": 403,
+      "duration": 0.03
+    },
+    {
+      "status": 403,
+      "duration": 0.024
+    },
+    {
+      "status": 200,
+      "duration": 0.141
+    }
+  ],
+  "history_entries_found": 100
+}
