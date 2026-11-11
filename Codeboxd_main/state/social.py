@@ -79,9 +79,79 @@ def present_media(m: dict) -> dict[str,str]:
             if k not in {'Kitsu ID', 'MyAnimeList ID', 'YouTube ID'}) if isinstance(details,dict) else '').items()}
 
 
+# This buffer is local to a background task, never stored in Reflex state.
+# Reusing the catalog loader preserves provider limits, ordering and fallbacks.
+_HOME_CATALOG_FIELDS = (
+    'featured_items', 'popular_movies', 'popular_series', 'home_collections',
+    'home_collection_errors', 'home_loaded', 'popular_exhausted',
+    '_popular_pages', '_popular_loaded',
+)
+
+
+class _HomeCatalogBuffer:
+    def __init__(self, state, stamp):
+        for name in _HOME_CATALOG_FIELDS:
+            setattr(self, name, deepcopy(getattr(state, name)))
+        self._media = deepcopy(state._media)
+        self._stamp = stamp
+        self.notice = ''
+        self.catalog_items = deepcopy(state.catalog_items)
+        self._credential = state._token()
+        self._navigation_scope = state._navigation_scope
+        self._navigation_generation = state._navigation_generation
+        self.navigation_generation = state._navigation_generation
+        self._navigation_reads = deepcopy(state._navigation_reads)
+        self.cache_before = deepcopy(self._navigation_reads)
+        self.media_done = False
+        self.media_error = None
+
+    def _token(self):
+        return self._credential
+
+    def _forget_navigation_validation(self):
+        # Live authorization failures are applied only under the owning lock.
+        pass
+
+    def _invalidate_navigation_reads(self):
+        SocialState._invalidate_navigation_reads(self)
+
+    async def _call(self, *args, **kwargs):
+        return await SocialState._call(self, *args, **kwargs)
+
+    async def _request_pages(self, *args, **kwargs):
+        return await SocialState._request_pages(self, *args, **kwargs)
+
+    def _failure(self, exc):
+        self.notice = str(exc)
+
+    def _route_stamp(self):
+        return self._stamp
+
+    async def _validate_navigation_session(self):
+        # Authentication already ran foreground; this buffer cannot authorize actions.
+        return None
+
+    async def _load_media(self, **kwargs):
+        try:
+            await SocialState._load_media(self, **kwargs)
+        except APIError as exc:
+            self.media_error = exc
+            raise
+        finally:
+            self.media_done = True
+
+    async def _load_home_collections(self):
+        await SocialState._load_home_collections(self)
+
+
 class SocialState(SessionState):
     notice: str = ''
     busy: bool = False
+    home_loading: bool = False
+    home_notice: str = ''
+    _home_request_id: int = 0
+    _home_running_id: int = 0
+    _home_media_pending: bool = False
     media_details_loading: bool = False
     media_interaction_loading: bool = False
     media_details_error: str = ''
@@ -478,8 +548,9 @@ class SocialState(SessionState):
         yield
         try:
             if section == 'home':
-                async for _ in self._home_updates():
-                    yield
+                event = await self._prepare_home_background()
+                if event is not None:
+                    yield event
                 return
             if section == 'profile':
                 async for event in self._profile_updates():
@@ -672,6 +743,67 @@ class SocialState(SessionState):
             rating=str(i.get('rating') or 'Sem nota').replace('.',','),review=str(i.get('review') or ''),spoiler=str(bool(i.get('spoiler'))))
         return result
 
+    async def _prepare_home_background(self):
+        stamp = self._route_stamp()
+        await self._validate_navigation_session()
+        if stamp != self._route_stamp():
+            return None
+        if not self._navigation_scope:
+            self._navigation_scope = uuid.uuid4().hex
+        self._home_media_pending = True
+        self._home_request_id += 1
+        self.home_loading = True
+        self.home_notice = ''
+        return SocialState.load_home_background(self._home_request_id, self._visit_generation)
+
+    @rx.event(background=True)
+    async def load_home_background(self, request_id: int, generation: int):
+        async with self:
+            if (request_id != self._home_request_id or generation != self._visit_generation
+                    or self.router.url.path.rstrip('/') != ''
+                    or self._home_running_id == request_id or not self.home_loading):
+                return
+            stamp = self._route_stamp()
+            self._home_running_id = request_id
+            buffer = _HomeCatalogBuffer(self, stamp)
+        updates = SocialState._home_updates(buffer)
+        try:
+            async for _ in updates:
+                async with self:
+                    if request_id != self._home_request_id or stamp != self._route_stamp():
+                        return
+                    if buffer.media_done and self._home_media_pending:
+                        self._home_media_pending = False
+                        if buffer.media_error is not None:
+                            if buffer.media_error.status in (401, 403):
+                                self._invalidate_navigation_reads()
+                                self._forget_navigation_validation()
+                            if buffer.media_error.status == 401:
+                                self.home_loading = False
+                                self._failure(buffer.media_error)
+                                return
+                        elif buffer.navigation_generation == self._navigation_generation:
+                            self._media = deepcopy(buffer._media)
+                            self.catalog_items = deepcopy(buffer.catalog_items)
+                            for key, value in buffer._navigation_reads.items():
+                                if value != buffer.cache_before.get(key) and value[0] > time.monotonic():
+                                    if key not in self._navigation_reads and len(self._navigation_reads) >= 32:
+                                        self._navigation_reads.pop(next(iter(self._navigation_reads)))
+                                    self._navigation_reads[key] = deepcopy(value)
+                    for name in _HOME_CATALOG_FIELDS:
+                        value = getattr(buffer, name)
+                        if value != getattr(self, name):
+                            setattr(self, name, deepcopy(value))
+                    if self.home_notice != buffer.notice:
+                        self.home_notice = buffer.notice
+        finally:
+            await updates.aclose()
+            async with self:
+                if self._home_running_id == request_id:
+                    self._home_running_id = 0
+                if request_id == self._home_request_id and stamp == self._route_stamp():
+                    self.home_loading = False
+
     @rx.event
     async def load_home(self):
         async for _ in self._home_updates():
@@ -750,14 +882,17 @@ class SocialState(SessionState):
 
     @rx.event
     async def retry_home_collections(self):
-        if self.busy: return
+        if self.busy or self.home_loading: return
         self.busy=True
+        generation = self._visit_generation
         yield
         try:
-            async for _ in self._home_updates():
-                yield
+            event = await self._prepare_home_background()
+            if event is not None:
+                yield event
         finally:
-            self.busy=False
+            if generation == self._visit_generation:
+                self.busy=False
 
     @rx.event
     def show_home_catalog(self):
@@ -768,7 +903,7 @@ class SocialState(SessionState):
 
     @rx.event
     async def more_popular(self, kind: str):
-        if self.busy or kind not in ('movie', 'series') or kind in self.popular_exhausted: return
+        if self.busy or self.home_loading or kind not in ('movie', 'series') or kind in self.popular_exhausted: return
         self.busy=True
         yield
         try:
@@ -817,8 +952,20 @@ class SocialState(SessionState):
         self._results={}; self.search_results=[]
         stamp=self._search_stamp()
         yield
+        query_task = None
         try:
-            found,errors=await catalog.search(self.search_term,self.search_type)
+            # Search providers and saved references can load together. Joining the
+            # existing navigation read keeps saved works without a duplicate GET.
+            query_task = asyncio.create_task(catalog.search(self.search_term,self.search_type))
+            if self._home_media_pending and self.router.url.path.rstrip('/') == '':
+                try:
+                    await self._load_media(per_page=20)
+                except APIError as exc:
+                    if stamp == self._search_stamp():
+                        self._failure(exc)
+                if stamp != self._search_stamp(): return
+                self._home_media_pending = False
+            found,errors=await query_task
             if stamp!=self._search_stamp(): return
             if errors:
                 try:
@@ -838,6 +985,9 @@ class SocialState(SessionState):
             self.has_more_results=bool(found) or bool(errors)
             self.notice=' '.join(errors) or ('Nenhum resultado encontrado.' if not self.search_results else '')
         finally:
+            if query_task is not None and not query_task.done():
+                query_task.cancel()
+                await asyncio.gather(query_task, return_exceptions=True)
             if stamp==self._search_stamp(): self.busy=False
 
     @rx.event

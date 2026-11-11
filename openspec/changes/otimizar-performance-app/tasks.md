@@ -5,6 +5,12 @@
 Somente atualização documental, sem medição/implementação ou novo checkbox.
 Administração 9.2 continua aberta; merge não autoriza sua homologação integrada.
 
+09/11/2026 — P0 Home autorizado: [plano e validação](validation/home-p0-2026-11-09.md). Implementar busca independente dos complementos com guardas e comparação 1440/390. Manter critérios amplos abertos.
+
+09/11/2026 — [diagnóstico, 36 amostras e plano técnico](validation/diagnostico-plano-performance-2026-11-09.md) consolidados após retomada. Metas propostas aguardam revisão; 1.3/1.5 parciais e 17/37 mantido. Nenhuma otimização ou teste administrativo remoto.
+
+09/11/2026 — pausa solicitada pelo usuário: [medições parciais e contexto de retomada](validation/pausa-analise-2026-11-09.md). 28 amostras reais preservadas, sem otimizações; 1.3/1.5 ainda abertas e 17/37 mantido. Processos encerrados.
+
 05/11/2026: 494 testes locais, 34 etapas reais de navegador desktop/celular,
 persistencia/limpeza aprovadas e remocao na aplicacao atualizada validada.
 1.4/5.3/6.3 concluidas, 17/37. Benchmarks completos continuam abertos.
@@ -349,3 +355,7 @@ abertas por critérios além dessa intervenção.
 
 - Após critérios atendidos e aprovação documental, sincronizar specs e arquivar pela skill apropriada.
 - Não arquivar nem declarar performance integralmente resolvida enquanto metas ou validações obrigatórias permanecerem abertas.
+
+## Integração da PR #33
+
+- [x] Reconciliar os três conflitos documentais com main preservando os registros de ambos os lados e os critérios de performance abertos; executar suíte local, OpenSpec, revisão do diff e verificação de segredos antes de atualizar a branch da PR. [Evidência](validation/resolucao-pr33-2026-11-11.md).
