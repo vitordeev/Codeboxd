@@ -89,6 +89,7 @@ body {
 HEAD_COMPONENTS = [
     rx.el.link(rel="icon", type="image/svg+xml", href=rx.asset("codeboxd-logo.svg")),
     rx.el.link(rel="stylesheet", href="/codeboxd.css"),
+    rx.el.script(src="/horizontal-collections.js", defer=True),
     rx.el.link(rel="preconnect", href="https://fonts.googleapis.com"),
     rx.el.link(rel="preconnect", href="https://fonts.gstatic.com", cross_origin=""),
     rx.el.link(
@@ -188,7 +189,7 @@ def login_page() -> rx.Component:
                 rx.el.div(
                     rx.el.div(
                         _logo_icon(),
-                        rx.el.span("codeboxd", class_name="text-2xl font-bold tracking-tight text-[#F5B300] font-sans"),
+                        rx.el.span("codeboxd", class_name="text-2xl font-bold tracking-tight ui-brand-accent font-sans"),
                         class_name="flex items-center gap-3 mb-12 sm:mb-16",
                     ),
                     rx.el.h1(
@@ -200,7 +201,7 @@ def login_page() -> rx.Component:
                     rx.el.p(
                         "Um lugar para quem ama filmes, séries, animes e livros. "
                         "Descubra, registre e compartilhe suas próximas histórias.",
-                        class_name="text-[13px] sm:text-[14px] leading-relaxed text-[#7e7e7e] max-w-[420px] font-normal",
+                        class_name="text-[13px] sm:text-[14px] leading-relaxed ui-login-copy max-w-[420px] font-normal",
                     ),
                 ),
                 rx.el.div(_mascots_svg(), class_name="mt-8 pt-4 flex items-end"),
@@ -241,16 +242,16 @@ def login_page() -> rx.Component:
                             rx.el.input(type="checkbox", name="remember", default_checked=True, class_name="custom-checkbox"),
                             class_name="flex items-center gap-2.5 cursor-pointer select-none text-[#808080] font-normal hover:text-gray-300",
                         ),
-                        rx.el.a("Criar conta", href="/cadastro", class_name="text-[#F5B300] hover:underline font-medium"),
+                        rx.el.a("Criar conta", href="/cadastro", class_name="ui-login-link font-medium"),
                         class_name="flex items-center justify-between text-xs sm:text-[13px] pt-1",
                     ),
                     rx.el.a("Esqueci minha senha", href="/redefinir-senha",
-                            class_name="block text-xs sm:text-[13px] text-[#F5B300] hover:underline"),
+                            class_name="ui-login-link text-xs sm:text-[13px]"),
                     rx.el.a("Acesso administrativo", href="/admin/login",
-                            class_name="block text-xs sm:text-[13px] text-[#9b8b50] hover:text-[#F5B300] hover:underline"),
+                            class_name="ui-login-link secondary text-xs sm:text-[13px]"),
                     rx.cond(
                         AuthState.error_message != "",
-                        rx.el.p(AuthState.error_message, class_name="text-[13px] text-red-500 pt-1"),
+                        rx.el.p(AuthState.error_message, role="alert", class_name="ui-form-error text-[13px] pt-1"),
                     ),
                     rx.el.div(
                         rx.el.button(
@@ -266,7 +267,7 @@ def login_page() -> rx.Component:
                             rx.el.span(rx.cond(AuthState.is_loading, "Entrando...", "Entrar")),
                             type="submit",
                             disabled=AuthState.is_loading,
-                            class_name="w-full h-12 bg-[#F5B300] hover:bg-[#e0a400] text-black font-semibold text-[14px] rounded-xl flex items-center justify-center gap-2 transition-colors duration-150 active:scale-[0.99] shadow-sm",
+                            class_name="action-button ui-login-primary w-full h-12 font-semibold text-[14px] rounded-xl flex items-center justify-center gap-2",
                         ),
                         class_name="pt-3",
                     ),
@@ -274,7 +275,7 @@ def login_page() -> rx.Component:
                         rx.el.div(
                             rx.el.p(
                                 "Seu próximo filme favorito pode começar com uma boa conversa.",
-                                class_name="text-[11px] leading-relaxed text-[#595959]",
+                                class_name="ui-login-note text-xs leading-relaxed",
                             ),
                             class_name="border border-[#222222] rounded-2xl px-5 py-3.5 bg-[#030303]/60 text-center",
                         ),
@@ -287,5 +288,5 @@ def login_page() -> rx.Component:
             ),
             class_name="w-full max-w-[1100px] min-h-[640px] flex flex-col md:flex-row items-stretch justify-between gap-12 lg:gap-20 py-8 px-4 sm:px-8",
         ),
-        class_name="bg-black text-white min-h-screen flex items-center justify-center p-4 sm:p-8 selection:bg-yellow-500 selection:text-black",
+        class_name="ui-login bg-black text-white min-h-screen flex items-center justify-center p-4 sm:p-8 selection:bg-yellow-500 selection:text-black",
     )

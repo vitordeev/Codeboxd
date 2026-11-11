@@ -10,6 +10,7 @@ class CoverImage(Img):
 from ..state.social import SocialState as S
 from ..services.catalog import HOME_COLLECTIONS
 from .login import _logo_icon
+from ..horizontal_collection import horizontal_rail, rail_controls
 
 INPUT = 'w-full rounded-xl border border-white/15 bg-[#151719] px-4 py-3 text-white'
 BUTTON = 'action-button'
@@ -118,17 +119,6 @@ def grid(items, render, empty):
         rx.el.p(empty,class_name='p-8 border border-dashed border-white/15 rounded-2xl text-gray-400'))
 
 
-def shelf_arrow(shelf_id, title, direction):
-    # IDs and directions are constants defined here, never user input.
-    script = """(() => { const row = document.getElementById('%s');
-        if (row) row.scrollBy({left: row.clientWidth * .85 * %d,
-        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); })()""" % (shelf_id, direction)
-    return rx.el.button(rx.icon('chevron-left' if direction < 0 else 'chevron-right', size=19),
-        type='button', on_click=rx.call_script(script), class_name='shelf-arrow',
-        aria_label=('Anteriores: ' if direction < 0 else 'Próximos: ') + title,
-        aria_controls=shelf_id)
-
-
 def catalog_shelf(title, subtitle, items, kind, shelf_id, footer=None):
     def card(m, index):
         return rx.el.button(
@@ -137,14 +127,13 @@ def catalog_shelf(title, subtitle, items, kind, shelf_id, footer=None):
             rx.el.div(rx.el.h3(m['title'], class_name='shelf-card-title'),
                 rx.el.p(m['kind'] + ' · ' + m['year'], class_name='shelf-card-meta'), class_name='shelf-card-copy'),
             type='button', on_click=S.open_featured(m['source'],m['external_id'],kind),
-            class_name='shelf-card', key=m['key'])
+            class_name='shelf-card', key=m['key'], custom_attrs={'data-rail-item': 'true'})
     return rx.el.section(
         rx.el.div(rx.el.div(rx.el.h3(title,id=shelf_id+'-heading',class_name='shelf-title'),
             rx.el.p(subtitle,class_name='shelf-subtitle')),
-            rx.el.div(shelf_arrow(shelf_id,title,-1),shelf_arrow(shelf_id,title,1),class_name='shelf-controls'),
+            rail_controls(shelf_id, title),
             class_name='catalog-shelf-heading'),
-        rx.el.div(rx.foreach(items,card),id=shelf_id,class_name='catalog-rail',
-            role='region',aria_label=title,tab_index=0),
+        horizontal_rail(rx.foreach(items,card),rail_id=shelf_id,label=title),
         footer if footer is not None else rx.fragment(),
         class_name='catalog-shelf',aria_labelledby=shelf_id+'-heading')
 
@@ -379,13 +368,17 @@ def media_page():
                         rx.el.p(review['body'],class_name='text-sm leading-relaxed whitespace-pre-wrap mt-3'),class_name='media-community-review')),
                         class_name='media-community-reviews'),
                     rx.el.p('Ainda não há críticas públicas desta fonte.',class_name='text-sm text-gray-400'))),
-            rx.el.section(rx.el.h2('Outras recomendações',class_name='section-title'),
+            rx.el.section(rx.el.div(rx.el.h2('Outras recomendações',class_name='section-title'),
+                    rx.cond(S.recommendations.length()>0,
+                        rail_controls('media-recommendations', 'Outras recomendações')),
+                    class_name='catalog-shelf-heading'),
                 rx.cond(S.recommendations.length()>0,
-                    rx.el.div(rx.foreach(S.recommendations,lambda m:rx.el.button(
+                    horizontal_rail(rx.foreach(S.recommendations,lambda m:rx.el.button(
                         cover_image(m),
                         rx.el.div(rx.el.h3(m['title'],class_name='font-semibold line-clamp-2'),rx.el.p(m['year'],class_name='text-sm text-gray-400'),class_name='p-4'),
-                        on_click=S.open_recommendation(m['source'],m['external_id']),type='button',class_name='media-card text-left')),
-                        class_name='media-shelf'),rx.el.p('Ainda não há recomendações desta fonte.',class_name='text-sm text-gray-400')),
+                        on_click=S.open_recommendation(m['source'],m['external_id']),type='button',class_name='media-card text-left',
+                        custom_attrs={'data-rail-item': 'true'})),
+                        rail_id='media-recommendations',label='Outras recomendações',class_name='media-shelf'),rx.el.p('Ainda não há recomendações desta fonte.',class_name='text-sm text-gray-400')),
                 class_name='space-y-4'),class_name='space-y-8'),
             rx.el.p('Escolha uma obra pela página Descobrir.'))),report_dialog())
 def spoiler(body, flag):

@@ -1,5 +1,13 @@
 # OpenSpec do Codeboxd
 
+11/11/2026 — **Continuação local UI/UX após aprovação:** primeiro lote em
+`task/ui-foundations-20261111`, base `faa655f`, worktree
+`.local/worktrees/ui-foundations-20261111`. [Fundamentos e carrosséis](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
+baseline, tokens/piloto de login e arrasto reutilizável, **3/26 tarefas**.
+Aceite de toda a UI, Cloudinary, Xano e publicação continuam pendentes. Os
+registros de passagem abaixo são históricos; este lote está local e não foi
+enviado para outra máquina. Trabalho anterior preservado em suas worktrees.
+
 11/11/2026 — **Passagem para outra máquina:** usar a branch
 `handoff/retomada-20261111` e ler [instruções de continuação](changes/preparar-homologacao-xano-admin/passagem-equipe-2026-11-11.md).
 Conjunto desta sessão consolidado sem merge em develop/main; performance
