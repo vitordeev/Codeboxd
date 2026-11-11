@@ -1,0 +1,1005 @@
+{
+  "scope": "versionable_worktree_changes_before_saving",
+  "remote_main_before": "faa655f823b2783e30effe115fc169a88b0203f2",
+  "remote_develop_before": "29d0456ed1dff12dd7a270295365639746bfafa2",
+  "private_backup": "not_published",
+  "ignored_private_files": "excluded",
+  "worktrees": [
+    {
+      "branch": "task/performance-context-20261109",
+      "head_before": "eb391e6108bfabb6d552f0916644e91488821b3a",
+      "changed_files": 1,
+      "contents_found_in_origin_history": 1,
+      "contents_not_found_in_origin_history": 0,
+      "files": [
+        {
+          "path": "reflex.lock/package.json",
+          "status": " M",
+          "sha256": "60953f76d66b9864a8ccf100dfc3520f6a5d07f7b3759cc52d4fd5747a54c3e0",
+          "bytes": 912,
+          "published_in": "origin/main"
+        }
+      ]
+    },
+    {
+      "branch": "task/admin-readiness-20261111",
+      "head_before": "29d0456ed1dff12dd7a270295365639746bfafa2",
+      "changed_files": 17,
+      "contents_found_in_origin_history": 15,
+      "contents_not_found_in_origin_history": 2,
+      "files": [
+        {
+          "path": "openspec/PENDENCIAS.md",
+          "status": " M",
+          "sha256": "a0fcb6b91d909adf6868fd4f94488c49c2ab64e477797856bcc1849b8823a9ba",
+          "bytes": 20269,
+          "published_in": null
+        },
+        {
+          "path": "openspec/README.md",
+          "status": " M",
+          "sha256": "a1114c1117f7fc26dd36930acd17be17271a4d6c812eb9a203ecb0b90d62e761",
+          "bytes": 15222,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/gerenciamento-website/tasks.md",
+          "status": " M",
+          "sha256": "26d353d4de59f29b529ced42fc1fe05174b855cf8223c7e3774764335cd39c73",
+          "bytes": 21730,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tests/test_admin_acceptance_executor.py",
+          "status": " M",
+          "sha256": "d6af2ee3c0dce438026f183d1215159712da0ac4e4ecafe671c41c22e4c8049b",
+          "bytes": 15803,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tools/admin_acceptance_executor.py",
+          "status": " M",
+          "sha256": "51652939cf0f2a790debdcc0f45e9a346907055aeb42ca59911dc331050de9af",
+          "bytes": 9570,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tools/admin_browser_real.py",
+          "status": " M",
+          "sha256": "79cac7b980085b969c243026b619f0246c19c13e6418b8552ae4d6a65873ee49",
+          "bytes": 15506,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tools/admin_reads_remote.py",
+          "status": " M",
+          "sha256": "41113143d2a98ca2dac25a01f5acc99edc70e2f7cf364e63e8e4542b5c7c03cd",
+          "bytes": 17935,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/gerenciamento-website/validation/browser-leituras-2026-11-11.json",
+          "status": "??",
+          "sha256": "818ded4c01e91e4024c9bdab2c738aa869de0f49adf1aa35931a8d33ff51301f",
+          "bytes": 5460,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/gerenciamento-website/validation/descoberta-homologacao-2026-11-11.json",
+          "status": "??",
+          "sha256": "20a6b69c9ab8cc0a89f5c8f8d099c3ccba85c5cf5184250004fd7467a716e72d",
+          "bytes": 466,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md",
+          "status": "??",
+          "sha256": "474f3e2b0ebf83d58299c10ee97bf7be61cd62fb32e89f7c94a066b3f104fa86",
+          "bytes": 8296,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/gerenciamento-website/validation/piloto-plano-2026-11-11.json",
+          "status": "??",
+          "sha256": "0103d13cbb4c08feb622c05add8bffc83dab74209d02d3627e6d9a92cd08d0c7",
+          "bytes": 6709,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/gerenciamento-website/validation/piloto-preflight-2026-11-11.json",
+          "status": "??",
+          "sha256": "0402389c08575aad5a6a101c17dae7dc1b40558655f2d4b3605a0fb63160cedd",
+          "bytes": 1883,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/gerenciamento-website/validation/preparacao-leituras-2026-11-11.md",
+          "status": "??",
+          "sha256": "9db99bc64134ead89947e8439c66649f467f0f71d03cc482a0c147f0eb700416",
+          "bytes": 5926,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/gerenciamento-website/validation/resultado-leituras-2026-11-11.md",
+          "status": "??",
+          "sha256": "ed23ff56e49826d29f3ffc79f3995f99d38502e34b66ea9577b192c40d6a61ac",
+          "bytes": 4254,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tests/test_admin_fixture_lifecycle.py",
+          "status": "??",
+          "sha256": "829ba0eb2e2913f048f77cb58e0060fa2953a66194bccde6e14102320eaf18c7",
+          "bytes": 7488,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tests/test_admin_worktree_config.py",
+          "status": "??",
+          "sha256": "3d7aaee3bccf7ea64c6f13fdc5c86329c4b858b552e53d3c29db4f4e6db254a0",
+          "bytes": 3127,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tools/admin_fixture_lifecycle.py",
+          "status": "??",
+          "sha256": "aa683186ce16676ac93b1165c9015906053812cf6dcdca1c3f28c39f6c54c4e6",
+          "bytes": 9367,
+          "published_in": "origin/main"
+        }
+      ]
+    },
+    {
+      "branch": "task/cloudinary-limites-20261111",
+      "head_before": "faa655f823b2783e30effe115fc169a88b0203f2",
+      "changed_files": 23,
+      "contents_found_in_origin_history": 1,
+      "contents_not_found_in_origin_history": 22,
+      "files": [
+        {
+          "path": "Codeboxd_main/services/cloudinary_uploads.py",
+          "status": " M",
+          "sha256": "c8f0940edf93b2f0b035f204984221a9c1b8b890873fbb552ed90ba55a4c049c",
+          "bytes": 6602,
+          "published_in": null
+        },
+        {
+          "path": "openspec/PENDENCIAS.md",
+          "status": " M",
+          "sha256": "46d6f4da6e3780d166e524d261f37d97441c9b242603fa51ecc2655d2141c250",
+          "bytes": 24240,
+          "published_in": null
+        },
+        {
+          "path": "openspec/README.md",
+          "status": " M",
+          "sha256": "ee5e718c4fb51643109e9b4fccf8e7c037199a2213eb95762812f058f25bc70c",
+          "bytes": 19353,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/design.md",
+          "status": " M",
+          "sha256": "09d8f641569a14257f83b07750af2ca6d46f39e0fbe8f49b4d8e9b2d2bfc88d3",
+          "bytes": 20074,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/proposal.md",
+          "status": " M",
+          "sha256": "461a24d422327e62dfb068a08a039048c62c4cbd4667e661d496d9b715fbbf67",
+          "bytes": 3952,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/specs/external-post-images/spec.md",
+          "status": " M",
+          "sha256": "96e49cef42948cf70a95a38885ca3869d2cfb411f1aace4824abbbf70e147969",
+          "bytes": 10921,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/tasks.md",
+          "status": " M",
+          "sha256": "978502a1fbf30aae3a6e29d8b089c0967a691b1cc389d4ba4848afea240845d4",
+          "bytes": 8346,
+          "published_in": null
+        },
+        {
+          "path": "tests/test_cloudinary_uploads.py",
+          "status": " M",
+          "sha256": "750d6f6ea4eedcf8403dc6f8c743ee143975a6da248e425675415e8eab0c781f",
+          "bytes": 9371,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/contrato-integracao-2026-11-11.md",
+          "status": "??",
+          "sha256": "fda633d89c91d92f1b2ca41a8e75708fd819361260831ccbbdda1548e69a025e",
+          "bytes": 6495,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/ensaio-real-2026-11-11.md",
+          "status": "??",
+          "sha256": "d2b8a7479f82459564bd2142e68e200db750a0a1f46fa5a130e68cfb76092179",
+          "bytes": 2640,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/limites-alternativas-2026-11-11.md",
+          "status": "??",
+          "sha256": "862bbd6d3816490d6199211bb2371dcf75d2be5971e24b663a4fe58f8a4c4fa2",
+          "bytes": 5883,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/preflight-cloudinary-2026-11-11.md",
+          "status": "??",
+          "sha256": "f9b1c5944f4bc9df40dad980c786887da1975411d8a40999d6339ee5aa748a2c",
+          "bytes": 4085,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/.openspec.yaml",
+          "status": "??",
+          "sha256": "b8f20def63a86ae4075c5499ff9ed413265d8704692a8493712424dc3f28d8e3",
+          "bytes": 40,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/design.md",
+          "status": "??",
+          "sha256": "63dcac45925aad783c6a669eae1c6afdbb016ed5901791397fc755e74f1f88de",
+          "bytes": 23422,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/proposal.md",
+          "status": "??",
+          "sha256": "269567d872ad34d287e74dce9147c70c44b1c358fb1db227d83a8a94c3c76fd2",
+          "bytes": 3445,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/specs/horizontal-collections/spec.md",
+          "status": "??",
+          "sha256": "9b22b26d17c08526c009a337ec52b9b0caec686421c0a4d48b43f4f0aab9bf85",
+          "bytes": 4729,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/specs/interface-consistency/spec.md",
+          "status": "??",
+          "sha256": "3f41e6271cbf06e23c3162d9d646598b3ce55b9eb9d2f29a44dfdb8eec67c3a2",
+          "bytes": 5943,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/specs/unified-search/spec.md",
+          "status": "??",
+          "sha256": "540044547440e4fd3a9fdec85aacc91120e5cc63936dd2954fddbc7a509a9bd2",
+          "bytes": 5486,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/specs/user-lists/spec.md",
+          "status": "??",
+          "sha256": "f41b01a046a07a789cf562f7448ed481aa298d399af5e3f0a3ea913f5118de9f",
+          "bytes": 4726,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/tasks.md",
+          "status": "??",
+          "sha256": "be07396a906216d62fc785a2c3a307d5a1ea0f9f77e6e534dff9242cab622411",
+          "bytes": 8250,
+          "published_in": null
+        },
+        {
+          "path": "openspec/planning/cloudinary-uiux-2026-11-11.md",
+          "status": "??",
+          "sha256": "9e54c9f885da0f6d8d0f07c28052e0e403715f045a29a843575009ae2cc4db8a",
+          "bytes": 14776,
+          "published_in": null
+        },
+        {
+          "path": "tests/test_cloudinary_acceptance_probe.py",
+          "status": "??",
+          "sha256": "e56606a0979d6f086b096eb3bae68e576a6e682eac6bab6b801e48e74f2f091c",
+          "bytes": 4827,
+          "published_in": null
+        },
+        {
+          "path": "tools/cloudinary_acceptance_probe.py",
+          "status": "??",
+          "sha256": "cd227f0e45bb1e440061e91b88fb040c9335e93a1dabae2575a20468c0d7744c",
+          "bytes": 5988,
+          "published_in": null
+        }
+      ]
+    },
+    {
+      "branch": "task/cloudinary-readiness-20261111",
+      "head_before": "29d0456ed1dff12dd7a270295365639746bfafa2",
+      "changed_files": 2,
+      "contents_found_in_origin_history": 2,
+      "contents_not_found_in_origin_history": 0,
+      "files": [
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/tasks.md",
+          "status": " M",
+          "sha256": "e3eb483901a3517703d6bbd4d07a00413492af2304355e8eb4c6e88b8f0d567b",
+          "bytes": 1295,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/hospedar-imagens-publicacoes-cloudinary/aceite-2026-11-11.md",
+          "status": "??",
+          "sha256": "cb490e20abf28891dfd9b9cc33ff4bcc21abac8f8a35729c6094dc983dfe8ac4",
+          "bytes": 3507,
+          "published_in": "origin/main"
+        }
+      ]
+    },
+    {
+      "branch": "task/email-acceptance-20261111",
+      "head_before": "29d0456ed1dff12dd7a270295365639746bfafa2",
+      "changed_files": 22,
+      "contents_found_in_origin_history": 20,
+      "contents_not_found_in_origin_history": 2,
+      "files": [
+        {
+          "path": "openspec/PENDENCIAS.md",
+          "status": " M",
+          "sha256": "02289875b97534f8dddeb603db000ac242d65deedf48e3c5d0df9acf14701c3c",
+          "bytes": 20617,
+          "published_in": null
+        },
+        {
+          "path": "openspec/README.md",
+          "status": " M",
+          "sha256": "958286e005db9ac1c7d736314a7b9fb712bde6197d36a8e38769532cb93436a6",
+          "bytes": 16263,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/integrar-sendgrid-recuperacao/tasks.md",
+          "status": " M",
+          "sha256": "652fd775b1952ddd1623c5cff36ecfa2479a22230fc656c8aff323013b510bb1",
+          "bytes": 2060,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/melhorar-email-recuperacao/tasks.md",
+          "status": " M",
+          "sha256": "9a6e85745e0e4268f6133b9b7dfd522b075dbf6b385a3c8f0bd1ff8e580d0618",
+          "bytes": 1659,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/design.md",
+          "status": " M",
+          "sha256": "793c1ef965b0dd4ee12577cc64d61e33eb06327d5de336ab21128c70127c3936",
+          "bytes": 7437,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/tasks.md",
+          "status": " M",
+          "sha256": "0406eee6bafa182e1027ec4274875c88a06ca4f0cd18bf6965106d8d1c2e2ce5",
+          "bytes": 10602,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tools/password_recovery_remote.py",
+          "status": " M",
+          "sha256": "3f03f62252a3f69b0cee3552163d0608b467a24ba8ed1819157ff182e4b674bc",
+          "bytes": 18782,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md",
+          "status": "??",
+          "sha256": "7cc53f6ccabb07756859a004b39bbe34c6fa287d391043cbbfdade07addbf38d",
+          "bytes": 7025,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/integrar-sendgrid-recuperacao/readiness-2026-11-11.json",
+          "status": "??",
+          "sha256": "550d658c4ea60d1b27df1662438ba53a2210e75f901bb99ab2d82b8a307e1277",
+          "bytes": 1189,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/melhorar-email-recuperacao/delivery-diagnostic-2026-11-11.json",
+          "status": "??",
+          "sha256": "d02819793939e8b2e1e30894ebcd8029cea9de8072641b32857776e1651dd77e",
+          "bytes": 730,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/melhorar-email-recuperacao/delivery-diagnostic-app-2026-11-11.json",
+          "status": "??",
+          "sha256": "13933e8b3b0767ae1981fccb677351aa6796ffec193e11e9aa32574ac76accce",
+          "bytes": 730,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/melhorar-email-recuperacao/delivery-diagnostic-outro-email-2026-11-11.json",
+          "status": "??",
+          "sha256": "e57dc13fb1faa24041ed8b87699e24661600c5bf98c0e1541152cfc8726e9f21",
+          "bytes": 1052,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md",
+          "status": "??",
+          "sha256": "0c8ddefa632eaf74e76544f4509cff562d95fb69277acccf5411af4d6f7442b9",
+          "bytes": 5521,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md",
+          "status": "??",
+          "sha256": "fe66cfb9b6be292e9a24d5a50bf7e25101d27e43b4b266fda3cdfcf7ba3c6d6a",
+          "bytes": 2049,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/validation/cadastro-persistencia-2026-11-11.json",
+          "status": "??",
+          "sha256": "3af5047fd78123e10ed555bfbbb05d3dcd089e53a89b697e2baed1ba98af2e4a",
+          "bytes": 539,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/validation/ciclo-real-sendgrid-2026-11-11-outro-email.json",
+          "status": "??",
+          "sha256": "0816f48f7306baad3ede49d8b238c4632361824d8c89279bc3ba2915e8ebb5e9",
+          "bytes": 568,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/validation/ciclo-real-sendgrid-2026-11-11-retomada.json",
+          "status": "??",
+          "sha256": "201d6a276df0a87499cbfb6a1b298dd53b4c7e1d28594fe37dd58069b0d589a8",
+          "bytes": 626,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/validation/ciclo-real-sendgrid-2026-11-11-tentativa2.json",
+          "status": "??",
+          "sha256": "0c43e42e3613784ba469f1bc14f915ba2eaf127e192b9734e6c7ec48104a6034",
+          "bytes": 675,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/validation/ciclo-real-sendgrid-2026-11-11.json",
+          "status": "??",
+          "sha256": "cdc94f164e383669644b828b81202ca1cba229829d291a1fc825494e4c9d07a4",
+          "bytes": 411,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md",
+          "status": "??",
+          "sha256": "f98eb2bbba4f29230fc955ea09399468e9082226e53a5b7c8591fdbf6e137374",
+          "bytes": 10047,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/recuperar-senha-codigo-6-digitos/validation/login-diagnostico-2026-11-11.json",
+          "status": "??",
+          "sha256": "aa06878bcd9e16826e67814964c6216275a9f27fd9e91a0ea551fb15fb60c11f",
+          "bytes": 428,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tests/test_recovery_acceptance.py",
+          "status": "??",
+          "sha256": "f7096783fc79eee3137fa2c461f343f837d4f1ab11323e1d3ec7e404e0899961",
+          "bytes": 13540,
+          "published_in": "origin/main"
+        }
+      ]
+    },
+    {
+      "branch": "handoff/retomada-20261111",
+      "head_before": "f0eaea02f556ed5fbf8f2147628d99b9af81b416",
+      "changed_files": 0,
+      "contents_found_in_origin_history": 0,
+      "contents_not_found_in_origin_history": 0,
+      "files": []
+    },
+    {
+      "branch": "task/homologacao-xano-20261111",
+      "head_before": "29d0456ed1dff12dd7a270295365639746bfafa2",
+      "changed_files": 15,
+      "contents_found_in_origin_history": 12,
+      "contents_not_found_in_origin_history": 3,
+      "files": [
+        {
+          "path": "openspec/PENDENCIAS.md",
+          "status": " M",
+          "sha256": "6939dfd3038347e57ba28bf75631b5c9d387d14d5636b335aaa300df96bfc748",
+          "bytes": 19348,
+          "published_in": null
+        },
+        {
+          "path": "openspec/README.md",
+          "status": " M",
+          "sha256": "54c232a011b45bff9120b37e9e897f9c259b4f1bfb9830b4e8ca7ebe7b72307d",
+          "bytes": 15670,
+          "published_in": null
+        },
+        {
+          "path": "homologacao.env.example",
+          "status": "??",
+          "sha256": "709dd4113a239601fe5696b1337e8563c68578069d761cca5eff82e89cbbf14a",
+          "bytes": 370,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/.openspec.yaml",
+          "status": "??",
+          "sha256": "b8f20def63a86ae4075c5499ff9ed413265d8704692a8493712424dc3f28d8e3",
+          "bytes": 40,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/design.md",
+          "status": "??",
+          "sha256": "d169c0bad95f0b9b3ab24d9581ad0056c4cdbb5b005e32ea02b18e41bc399cad",
+          "bytes": 4143,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/local-manifest-2026-11-11.json",
+          "status": "??",
+          "sha256": "fcc7a81ed5177cfe0a5cda73172a2b149b078fb6bfde61a3b606513a5e436bab",
+          "bytes": 9310,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/proposal.md",
+          "status": "??",
+          "sha256": "3cc10011d4837fd2f4a772b64ea017f1633c8473d15fe9a91e9948faee034576",
+          "bytes": 1725,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/retomada-2026-11-11.md",
+          "status": "??",
+          "sha256": "f6dab5b19ffcfeef14e70c721492d42c4c4553b7483b2836acc1bbb9805dcfb4",
+          "bytes": 7040,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/sandbox-attempt-2026-11-11.json",
+          "status": "??",
+          "sha256": "0fbc8bcf6d0b4c8f1cb2a7668f00280e6eb0f45fc2ba1157a1ba5cd63287a9ca",
+          "bytes": 450,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/specs/isolated-acceptance-environment/spec.md",
+          "status": "??",
+          "sha256": "99967787b444bd41587b2d6c7502b76b4eb28247b674e939f21627a8e56b224b",
+          "bytes": 2509,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/tasks.md",
+          "status": "??",
+          "sha256": "8810fc77b76ecd42b361fc0409ef72db2c3127894923e60c734f541ccca63062",
+          "bytes": 2074,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/validation.md",
+          "status": "??",
+          "sha256": "9b38535914e482c7d36bb489f47479c6d51fecc1b7d21b1fe51040ac7f8303a8",
+          "bytes": 5285,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/preparar-homologacao-xano-admin/workspace-attempt-2026-11-11.json",
+          "status": "??",
+          "sha256": "8fb3af2959ee3cd781ae071b8b2c42f2c7a4612e8816266ee5ad9b12d1de75e9",
+          "bytes": 539,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tests/test_prepare_homologation.py",
+          "status": "??",
+          "sha256": "9b0b03e0a0143fe3aba94f8a9c39893b924bf84dd769365a62a22b04ff7b2d3a",
+          "bytes": 4165,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tools/prepare_homologation.py",
+          "status": "??",
+          "sha256": "4507d93ee1f3818f1297b2a586d1f1492f71ac6c9f06b78d239d90c2d4b90f11",
+          "bytes": 6398,
+          "published_in": "origin/main"
+        }
+      ]
+    },
+    {
+      "branch": "wip/performance-preservada-20261111",
+      "head_before": "6aa47770440fca0e05e7f510d143013d541827f9",
+      "changed_files": 0,
+      "contents_found_in_origin_history": 0,
+      "contents_not_found_in_origin_history": 0,
+      "files": []
+    },
+    {
+      "branch": "task/ui-foundations-20261111",
+      "head_before": "faa655f823b2783e30effe115fc169a88b0203f2",
+      "changed_files": 26,
+      "contents_found_in_origin_history": 1,
+      "contents_not_found_in_origin_history": 25,
+      "files": [
+        {
+          "path": "Codeboxd_main/pages/login.py",
+          "status": " M",
+          "sha256": "e092570ae23c3a35a1b602bb2539900abfacacf0af696a64fb8ff65f63913dd0",
+          "bytes": 15157,
+          "published_in": null
+        },
+        {
+          "path": "Codeboxd_main/pages/social.py",
+          "status": " M",
+          "sha256": "8aa4872c5aaf5d9e76b60bd429fb94d685e610acb263fea70bd06f6273d9644e",
+          "bytes": 56136,
+          "published_in": null
+        },
+        {
+          "path": "assets/codeboxd.css",
+          "status": " M",
+          "sha256": "414e3fb5d75c419d76e84ca57d3303c9bbe18e24cd01d6693074762a50fce076",
+          "bytes": 61342,
+          "published_in": null
+        },
+        {
+          "path": "openspec/PENDENCIAS.md",
+          "status": " M",
+          "sha256": "e923e6be5c565baf843db5f5aad97ff7ab3f8f1b98299754d9ba0d2b0bb1b453",
+          "bytes": 24204,
+          "published_in": null
+        },
+        {
+          "path": "openspec/README.md",
+          "status": " M",
+          "sha256": "78653144f81eed888a2d891d6ef544e1bf244a0ea7cf575e0057fa415b701b02",
+          "bytes": 19495,
+          "published_in": null
+        },
+        {
+          "path": "Codeboxd_main/horizontal_collection.py",
+          "status": "??",
+          "sha256": "3074dc2f70f2b3553f9d140f92f62a7305eec1559cbbae2dd6e615cf027a754d",
+          "bytes": 1082,
+          "published_in": null
+        },
+        {
+          "path": "assets/horizontal-collections.js",
+          "status": "??",
+          "sha256": "d426779c075d3cfdaa88e6aaeef323cb4a3c3f51c26a2f1b53980bf525200f8d",
+          "bytes": 6210,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/.openspec.yaml",
+          "status": "??",
+          "sha256": "b8f20def63a86ae4075c5499ff9ed413265d8704692a8493712424dc3f28d8e3",
+          "bytes": 40,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/design.md",
+          "status": "??",
+          "sha256": "1fc7e1937397c8068afc704ec03712e4dd89f1f7e293cd48b8ed5225a3d63413",
+          "bytes": 25510,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/proposal.md",
+          "status": "??",
+          "sha256": "633b142aef1af2055cbeebd4f2d14300a01234afb4919faf278f2c87e3c9c892",
+          "bytes": 3776,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/specs/horizontal-collections/spec.md",
+          "status": "??",
+          "sha256": "9b22b26d17c08526c009a337ec52b9b0caec686421c0a4d48b43f4f0aab9bf85",
+          "bytes": 4729,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/specs/interface-consistency/spec.md",
+          "status": "??",
+          "sha256": "3f41e6271cbf06e23c3162d9d646598b3ce55b9eb9d2f29a44dfdb8eec67c3a2",
+          "bytes": 5943,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/specs/unified-search/spec.md",
+          "status": "??",
+          "sha256": "540044547440e4fd3a9fdec85aacc91120e5cc63936dd2954fddbc7a509a9bd2",
+          "bytes": 5486,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/specs/user-lists/spec.md",
+          "status": "??",
+          "sha256": "f41b01a046a07a789cf562f7448ed481aa298d399af5e3f0a3ea913f5118de9f",
+          "bytes": 4726,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/tasks.md",
+          "status": "??",
+          "sha256": "6307e1f8704ef300b581de40afbac12a3ef9ec631379bae6242d84b98902ec36",
+          "bytes": 8918,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/validation/browser-baseline-2026-11-11.json",
+          "status": "??",
+          "sha256": "5b508cb07c55dc3a38293bd109be669900078c3c3b77ed1fb3586d138929583c",
+          "bytes": 6926,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/validation/browser-contador-eventos-2026-11-11.json",
+          "status": "??",
+          "sha256": "0ac7b7cac00e1f879a2253033d13dadadff062d03954d7a900b3c66605901547",
+          "bytes": 3266,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/validation/browser-fundamentos-2026-11-11.json",
+          "status": "??",
+          "sha256": "33060ced7200e6d1c91662e9ded681633740ab4640cdf1ecf9d1d0986818db7f",
+          "bytes": 13751,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/validation/browser-inter-2026-11-11.json",
+          "status": "??",
+          "sha256": "bbf3bd383a314c0045500ab7316895f01c3f6d8319cf1488be56700132f8b62e",
+          "bytes": 4394,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/validation/capturas/login-antes-390.png",
+          "status": "??",
+          "sha256": "cdc9e4a3048df9801df284a069b44e6d17677ec7279bb1b0df6d8102f6fa5ef5",
+          "bytes": 45323,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/validation/capturas/login-depois-390.png",
+          "status": "??",
+          "sha256": "d221a1c2f4b8aaa75a26e01eb9dd833d66bf87addd6c72040878891dabcf7a89",
+          "bytes": 46493,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md",
+          "status": "??",
+          "sha256": "2e568cf63dd42647527e32711599309b44f5083418b466e8fd0cf0323c005c38",
+          "bytes": 12453,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/validation/preservacao-2026-11-11.json",
+          "status": "??",
+          "sha256": "e4dbb5005947bb688a9317b189d8899e027352d4d22ec365d4ab1e93822a5b8c",
+          "bytes": 87,
+          "published_in": null
+        },
+        {
+          "path": "openspec/changes/modernizar-ui-ux-codeboxd/validation/validacao-local-2026-11-11.json",
+          "status": "??",
+          "sha256": "f62e073f3cc8c4f9a930774d2b498f6b24dd17ac8c744def0d976b2689d92f79",
+          "bytes": 987,
+          "published_in": null
+        },
+        {
+          "path": "tools/ui_foundations_browser.py",
+          "status": "??",
+          "sha256": "c260d778d3d52d076f7927e53f4e6f6baa2d95c3861d3b20318d17ecc38c3707",
+          "bytes": 24269,
+          "published_in": null
+        },
+        {
+          "path": "tools/ui_foundations_fixture.py",
+          "status": "??",
+          "sha256": "049cc1ed88494b11167f740fe10c547c1e04301329c33a35b5c2cf4b358aca08",
+          "bytes": 1798,
+          "published_in": null
+        }
+      ]
+    },
+    {
+      "branch": "develop",
+      "head_before": "29d0456ed1dff12dd7a270295365639746bfafa2",
+      "changed_files": 0,
+      "contents_found_in_origin_history": 0,
+      "contents_not_found_in_origin_history": 0,
+      "files": []
+    },
+    {
+      "branch": "integration/sync-develop-20261110",
+      "head_before": "30f3787aa51feba9e881b9f422db88ddb8a4fed9",
+      "changed_files": 0,
+      "contents_found_in_origin_history": 0,
+      "contents_not_found_in_origin_history": 0,
+      "files": []
+    },
+    {
+      "branch": "task/performance-20261109",
+      "head_before": "a21c806118f7234ec051d455a9b6619767572167",
+      "changed_files": 15,
+      "contents_found_in_origin_history": 15,
+      "contents_not_found_in_origin_history": 0,
+      "files": [
+        {
+          "path": "Codeboxd_main/pages/social.py",
+          "status": " M",
+          "sha256": "923e3afe01ffb63596ece70d60f284e48d9cf315f4d9f771f558f0ff5f49dc96",
+          "bytes": 56483,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "Codeboxd_main/state/social.py",
+          "status": " M",
+          "sha256": "d7f631a6c2052eec1603d5a7d57dfb889024e6ea9e505938dbc4600c47870c4b",
+          "bytes": 120684,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/PENDENCIAS.md",
+          "status": " M",
+          "sha256": "6b3c81a0ce1bf741ba83cfa525e76d6e3d498e02938c77dc3198311c6a680bc4",
+          "bytes": 16339,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/README.md",
+          "status": " M",
+          "sha256": "cea99afc3bd7ea6d245cba1ad6099db5b9542c10bf4fa58448b664b2c43d31c1",
+          "bytes": 11224,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/otimizar-performance-app/tasks.md",
+          "status": " M",
+          "sha256": "42a48e94cacc38975b02160d2034dfd0361d1fa13bc62c1299724c30a8694068",
+          "bytes": 28731,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "reflex.lock/package-lock.json",
+          "status": " M",
+          "sha256": "c42d41736d144237cdf40801cf6d3a1bd68155232091be6fc2740c17643fbc8e",
+          "bytes": 131326,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "reflex.lock/package.json",
+          "status": " M",
+          "sha256": "d9f780978da46c737ac7385558e1b8533f135603f3133533126c050f5c6b8095",
+          "bytes": 751,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/otimizar-performance-app/validation/diagnostico-plano-performance-2026-11-09.md",
+          "status": "??",
+          "sha256": "6423f2c01bb9902901ba8eeedfd51d4cd331a04c568fddd5b34d6f733673f548",
+          "bytes": 18791,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/otimizar-performance-app/validation/home-p0-2026-11-09.md",
+          "status": "??",
+          "sha256": "83786bbbb5689682e013c6b00c769487de8e703718ad66c35840ea1801089645",
+          "bytes": 3587,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/otimizar-performance-app/validation/medicoes-parciais-2026-11-09.json",
+          "status": "??",
+          "sha256": "fd42ba685b15d71432063e54be98bcd04c75572839fcf573920e6526d18d06a8",
+          "bytes": 1442409,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/otimizar-performance-app/validation/medicoes-retomada-2026-11-09.json",
+          "status": "??",
+          "sha256": "e0baf219be16378bb42e35a947362d21f074e954e35723b2bf532dc8e41346e4",
+          "bytes": 64630,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/otimizar-performance-app/validation/pausa-analise-2026-11-09.md",
+          "status": "??",
+          "sha256": "fff3efb1b3633f0e0fa360560a3b891e96be845d27ca4191f472415c60f239c1",
+          "bytes": 8336,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/otimizar-performance-app/validation/plano-analise-2026-11-09.md",
+          "status": "??",
+          "sha256": "fc25babc9a13ac90e4f12f548b3ba28d7b842e2dfb0b5f25d9256291a21a3805",
+          "bytes": 2642,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "openspec/changes/otimizar-performance-app/validation/retomada-analise-2026-11-09.md",
+          "status": "??",
+          "sha256": "279377e4579170027d73992759f96034106823aeee98a9ae078601c95a9e576f",
+          "bytes": 1333,
+          "published_in": "origin/main"
+        },
+        {
+          "path": "tests/test_home_background.py",
+          "status": "??",
+          "sha256": "990c6b972413fe147cffd12a5e960d9f177a5ecf2661f27dc914a4f9735c5769",
+          "bytes": 12680,
+          "published_in": "origin/main"
+        }
+      ]
+    }
+  ],
+  "checkpoints": [
+    {
+      "branch": "task/cloudinary-limites-20261111",
+      "commit": "a7676fa39944d8a32f7306101665e7fae82d1444",
+      "staged_files": 23,
+      "secret_check": "passed",
+      "private_config_check": "passed",
+      "working_bytes_preserved": true
+    },
+    {
+      "branch": "task/ui-foundations-20261111",
+      "commit": "f80110df0af5de573a3afb07200ea84884746933",
+      "staged_files": 26,
+      "secret_check": "passed",
+      "private_config_check": "passed",
+      "working_bytes_preserved": true
+    },
+    {
+      "branch": "task/admin-readiness-20261111",
+      "commit": "b94a1a46255f8eade57bb4d752f8620efc185583",
+      "staged_files": 17,
+      "secret_check": "passed",
+      "private_config_check": "passed",
+      "working_bytes_preserved": true
+    },
+    {
+      "branch": "task/email-acceptance-20261111",
+      "commit": "785c696fe08a20669fdb82208e4df07ca5e8edf4",
+      "staged_files": 22,
+      "secret_check": "passed",
+      "private_config_check": "passed",
+      "working_bytes_preserved": true
+    },
+    {
+      "branch": "task/homologacao-xano-20261111",
+      "commit": "18bc1d7e2acffbf12cc659854b72be2fe5c2b826",
+      "staged_files": 15,
+      "secret_check": "passed",
+      "private_config_check": "passed",
+      "working_bytes_preserved": true
+    }
+  ],
+  "changed_files": 121,
+  "contents_found_in_origin_history": 67,
+  "contents_not_found_in_origin_history": 54
+}
