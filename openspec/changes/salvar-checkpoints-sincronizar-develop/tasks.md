@@ -18,8 +18,15 @@ preservados; performance já coberta no histórico remoto. Publicação ainda pe
 
 ## 2. Integração e validação
 
-- [ ] 2.1 Integrar as frentes compatíveis em branch própria e reconciliar os documentos comuns; verificar ausência de conflitos, preservação dos requisitos/pendências e diff completo contra a base remota.
-- [ ] 2.2 Executar a suíte local pertinente, compilar Reflex e validar OpenSpec do conjunto; registrar resultados reais, evidências anteriores reutilizadas e limites, sem APIs de escrita nem ativação de flags.
+- [x] 2.1 Integrar as frentes compatíveis em branch própria e reconciliar os documentos comuns; verificar ausência de conflitos, preservação dos requisitos/pendências e diff completo contra a base remota.
+- [x] 2.2 Executar a suíte local pertinente, compilar Reflex e validar OpenSpec do conjunto; registrar resultados reais, evidências anteriores reutilizadas e limites, sem APIs de escrita nem ativação de flags.
+
+Evidências: [validação integrada](validacao-2026-11-11.json) e
+[retomada](retomada-2026-11-11.md). Onze arquivos de código/testes/ferramentas
+preservados das branches de origem; cinco conflitos resolvidos só em documentos.
+632 testes em 33,298s, compile Reflex em 5,809s e validação padrão global 34/34
+aprovados. Validação estrita das três changes envolvidas aprovada; global estrita
+tem três itens com avisos estilísticos anteriores, sem delta nesta integração.
 
 ## 3. Publicação autorizada
 

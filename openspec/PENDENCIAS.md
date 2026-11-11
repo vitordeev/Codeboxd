@@ -1,5 +1,12 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — [Salvar trabalhos e sincronizar develop](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md):
+integração preparada e validada com 632 testes/compile e OpenSpec padrão 34/34;
+cinco checkpoints guardam as frentes e versões históricas. Conferir o recibo de
+push/refs da change para o estado de publicação. Nenhuma pendência funcional foi
+encerrada por salvar no Git: Cloudinary 3/17 e UI/UX 3/26, sem ativação de provider
+ou mutação Xano. Entradas anteriores preservam seu contexto de planejamento/local.
+
 11/11/2026 — [UI/UX: primeiro lote local após aprovação](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
 3/26 tarefas, com baseline Home/login/ficha, tokens e piloto de contraste,
 carrossel comum de mouse/teclado/toque nativo na Home e recomendações. Toque

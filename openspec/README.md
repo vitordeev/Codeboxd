@@ -1,5 +1,13 @@
 # OpenSpec do Codeboxd
 
+11/11/2026 — **Integração para develop solicitada pelo usuário:**
+[ponto de continuação, commits e validação](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md).
+Cloudinary e primeiro lote UI reunidos na branch `integration/salvar-develop-20261111`;
+632 testes, compile e OpenSpec padrão 34/34 aprovados. As cópias históricas têm
+checkpoints próprios; performance preservada. O recibo de publicação na mesma
+change distingue preparação local de confirmação remota. Registros abaixo
+descrevem suas etapas anteriores; UI 3/26 e Cloudinary 3/17 continuam abertas.
+
 11/11/2026 — **Continuação local UI/UX após aprovação:** primeiro lote em
 `task/ui-foundations-20261111`, base `faa655f`, worktree
 `.local/worktrees/ui-foundations-20261111`. [Fundamentos e carrosséis](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
