@@ -1,3 +1,10 @@
+10/11/2026 - [Auditoria Git e limites da integracao](validation/integracao-develop-2026-11-10.md). 17/37 mantido; P0 Home segue fora da branch enquanto faltarem cinco pares validos em 390 px e a meta fria nao for comprovada. Nenhum checkbox foi alterado.
+
+09/11/2026 — [retomada após merge do PR #28](validation/retomada-2026-11-09.md):
+17/37 mantido; vinte tarefas abertas. Próximos IDs: 1.3 e 1.5 (baseline e metas).
+Somente atualização documental, sem medição/implementação ou novo checkbox.
+Administração 9.2 continua aberta; merge não autoriza sua homologação integrada.
+
 09/11/2026 — P0 Home autorizado: [plano e validação](validation/home-p0-2026-11-09.md). Implementar busca independente dos complementos com guardas e comparação 1440/390. Manter critérios amplos abertos.
 
 09/11/2026 — [diagnóstico, 36 amostras e plano técnico](validation/diagnostico-plano-performance-2026-11-09.md) consolidados após retomada. Metas propostas aguardam revisão; 1.3/1.5 parciais e 17/37 mantido. Nenhuma otimização ou teste administrativo remoto.
@@ -348,3 +355,7 @@ abertas por critérios além dessa intervenção.
 
 - Após critérios atendidos e aprovação documental, sincronizar specs e arquivar pela skill apropriada.
 - Não arquivar nem declarar performance integralmente resolvida enquanto metas ou validações obrigatórias permanecerem abertas.
+
+## Integração da PR #33
+
+- [x] Reconciliar os três conflitos documentais com main preservando os registros de ambos os lados e os critérios de performance abertos; executar suíte local, OpenSpec, revisão do diff e verificação de segredos antes de atualizar a branch da PR. [Evidência](validation/resolucao-pr33-2026-11-11.md).

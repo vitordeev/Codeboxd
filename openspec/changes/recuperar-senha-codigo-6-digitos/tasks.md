@@ -12,10 +12,18 @@ historico. [Retomada e dependencia de caixa controlada](validation/retomada-2026
 
 ## 1. Contratos de recuperação
 
+11/11/2026: [revisão de aceite e bloqueios](../integrar-sendgrid-recuperacao/aceite-2026-11-11.md).
+25 testes pertinentes locais aprovados; estrutura publicada inspecionada sem
+registros/ambiente. 3.2 aberta por falta do ciclo conjunto na caixa controlada.
+3.4 preservada como pendência histórica Resend substituída por SendGrid, sem
+declará-la cumprida; reconciliar a substituição antes da conclusão. Mantido 9/11.
+
 - [x] 1.1 Implementar esquema aditivo, geração de seis dígitos, prazo de 15 minutos, cooldown e e-mail; verificar contratos no dry-run e confirmar geração/hash/cooldown em execução controlada.
 - [x] 1.2 Implementar validação de formato, conta ativa, prazo, cinco tentativas persistidas, uso único e token temporário de cinco minutos; verificar rejeições, concorrência e consumo no Xano real.
 
 ## 2. Interface e testes locais
+
+- [x] 2.5 Preservar confirmação após troca concluída e bloquear submits posteriores do código consumido; testar repetição sem chamadas HTTP, novo pedido e compilar Reflex. Registrar validação local e limite da instância em execução. [Evidência](validation/repeticao-apos-sucesso-2026-11-10.md).
 
 - [x] 2.1 Ajustar campo e mensagens para seis dígitos e bloquear entradas inválidas sem requisição; verificar testes de formato, troca, falhas e não persistência do token.
 - [x] 2.2 Verificar formulário em desktop/celular e código inválido no navegador, preservando a senha; registrar screenshots privados e resumo sem segredos.
@@ -26,6 +34,30 @@ Complemento da retomada em 20/10, necessário para executar o fluxo real:
 - [x] 2.4 Separar IDs dos e-mails nas duas etapas do formulário e conferir envio do campo correto no navegador, sem alterar os nomes da API. [Diagnóstico e validação](validation/retomada-2026-10-20.md).
 
 ## 3. Publicação e entrega real
+
+Confirmação posterior do usuário em 11/11/2026: recebeu código, trocou a senha,
+entrou com a senha nova e localizou o cadastro.
+[Evidência manual e limites por critério](validation/aceite-usuario-2026-11-11.md).
+Ainda não fechar 3.2: replay, rejeição da senha/sessão antiga e restauração
+específica desta conta não foram confirmados neste ciclo. Registros anteriores
+de ausência de recebimento preservam o estado das respectivas consultas.
+
+Ensaio autorizado em 11/11/2026: login e pedido aceitos, mas usuário não recebeu
+o código. [SendGrid confirmou adiamentos 421/4.7.32](../melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md).
+Nenhuma troca de senha executada até esse diagnóstico; 3.2 permanece aberta.
+
+Investigação posterior do cadastro feito pelo usuário no app confirmou por
+leitura user ativo, perfil e duas listas em workspace 147717/v1/live; recuperação
+da mesma conta retornou 200, mensagem adiada no SendGrid. [Persistência confirmada](validation/cadastro-persistencia-2026-11-11.json).
+Sem alterações remotas e sem concluir entrega pela aceitação do pedido.
+
+Preparação local de 3.2 em 11/11/2026: adaptar executor para segundo código na
+restauração, testar fluxo completo/timeout/replay e ausência de segredos; manter
+3.2 aberta até ensaio real especificamente autorizado e caixa controlada.
+
+Executor adaptado e 14 testes simulados aprovados:
+[evidência, limites e roteiro para autorização](validation/executor-dois-codigos-2026-11-11.md).
+Sem execução real, sem fechamento de 3.2.
 
 - [x] 3.1 Exportar estrutura, revisar delta limitado e publicar contratos de reset; verificar dry-run posterior sem mudanças, sem importar registros/segredos.
 - [ ] 3.2 Comprovar chegada do e-mail com seis dígitos, troca de senha, novo login e rejeição de reutilização em conta com caixa controlada; registrar resultado e restauração segura da conta de teste.

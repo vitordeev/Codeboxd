@@ -1,5 +1,95 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — [Homologação preparada localmente, obtenção remota recusada](changes/preparar-homologacao-xano-admin/validation.md):
+4/8, pacote 32 documentos/573 testes. Sandbox HTTP 500; criação de workspace vazio
+HTTP 403/ERROR_CODE_ACCESS_DENIED, nome ausente após tentativa. A conta/credencial
+atual não permite a obtenção; motivo plano/permissão não confirmado. Proprietário
+deve verificar painel/permissões ou disponibilizar instância isolada. Sem compras,
+publicação de contratos, alteração da origem ou piloto administrativo executado.
+
+11/11/2026 — Usuário escolheu homologação para o piloto administrativo.
+[Descoberta atual e limite de acesso](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+um perfil configurado, somente workspace 147717 acessível; destino isolado não
+identificado. Solicitar identificação/configuração de homologação ou planejar
+criação vazia em escopo próprio antes de qualquer provisão. Não usar live como
+fallback. Administração 33/34; nenhuma escrita executada.
+
+11/11/2026 — [Piloto administrativo preparado offline](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+25 registros propostos, retenção de 16 e nove candidatos próprios à limpeza;
+583 testes locais passaram. Pré-voo atual: uma branch live e uma fonte, sem
+isolamento adicional demonstrado; exclusões/cascatas ainda não confirmadas.
+Decidir destino e verificar limpeza antes de seed; nenhum registro criado,
+alterado ou excluído. 9.2 preservada em 33/34; plano completo de 239 não reduzido.
+
+11/11/2026 — [Leituras administrativas integradas aprovadas](changes/gerenciamento-website/validation/resultado-leituras-2026-11-11.md)
+em desktop/celular, sem alterações remotas administrativas. A tarefa 9.2 continua
+33/34 por exigir mutações, auditoria e permissões integradas sobre fixtures
+controladas; A2–A4 continuam sem autorização específica. Não repetir os cenários
+de leitura aprovados sem regressão ou nova necessidade.
+
+11/11/2026 — [Confirmação manual posterior](changes/recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md):
+usuário recebeu código, trocou senha e entrou com a nova. Essa confirmação supera
+a falta de recebimento inicial; não fecha replay/restauração, comparação de
+latência ou alinhamento do remetente. Checklists funcionais preservados.
+
+11/11/2026 — [Bloqueio de entrega confirmado no ensaio atual](changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md):
+SendGrid processing, cinco adiamentos 421/4.7.32, sem delivered. Usuário sem
+código; nenhuma troca de senha até o diagnóstico. Aguardar domínio próprio/DNS
+e autorização de configuração, sem reenviar para contornar a causa. Changes de
+e-mail/recuperação continuam abertas; nenhuma entrega ou comparação comprovada.
+
+11/11/2026 — Preparação do executor de dois códigos concluída localmente:
+[testes, limites e escopo do ensaio](changes/recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md).
+O bloqueio técnico da restauração por sessão comum foi removido do executor;
+faltam autorização específica, conta/caixa controlada e aceite real. Recuperação
+mantida 9/11 e SendGrid 4/5. Sem envio ou alteração remota.
+
+11/11/2026 — [Critérios de aceite e sequência recomendada](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
+SendGrid 4/5, experiência do e-mail 4/5 e recuperação 9/11. Remetente verificado,
+zero domínios autenticados confirmados por GET. Falta ciclo na caixa controlada,
+restauração compatível com credencial exclusiva e comparação real de entrega.
+3.4 Resend requer reconciliação com SendGrid, preservando histórico/ID. develop
+remota `29d0456`, main remota `42ff4dd`; PRs #31/#32 já integradas. Nada fechado.
+
+10/11/2026 - Auditoria Git e branch de integracao publicada; PR ainda aguarda criacao autenticada. [Registro e link do PR](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md). `origin/develop` em 4a7cabe; administracao 33/34 e performance 17/37 preservadas. Branch `pedro` mantida por conter documentacao historica obsoleta; P0 movel ainda sem evidencia suficiente. Nenhuma tarefa foi fechada.
+
+09/11/2026 — [relatório consolidado do projeto](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
+administração 33/34, performance 17/37 e recuperação 8/10, 23 tarefas abertas.
+Executor administrativo ensaiado somente em memória: 22 testes novos e 26
+regressões aprovados, journal e releitura após PUT simulados. Nenhum acesso Xano
+nesta rodada. Homologação integrada continua pendente de destino, preparação de
+setup/limpeza e autorização específica A2–A4; nenhuma tarefa encerrada.
+
+09/11/2026 — continuação local da administração: [guardas de prévia offline](changes/gerenciamento-website/validation/guardas-locais-2026-11-09.md)
+com 26 testes aprovados. Bloqueiam destino/ator/ID divergentes, alterações não
+aprovadas, cancelamento e métodos fora do escopo. Sem transporte ou chamadas
+Xano; setup/limpeza e integração das guardas ainda não executados. Definir destino
+e obter A2–A4 antes de escrita; nenhuma fixture real aprovada. 9.2 segue 33/34.
+
+09/11/2026 — após autorização de login/leitura A1, a conta admin existente foi
+autenticada e acessou dashboard, usuários, catálogo e reports pela API:
+[dez checks aprovados](changes/gerenciamento-website/validation/login-e-leituras-a1-2026-11-09.md),
+sete respostas 200 (um POST de autenticação e seis GET). Sem mutações
+administrativas. Isso não equivale ao aceite do fluxo completo da UI; 9.2
+continua aberta, 33/34. A2–A4 permanecem sem autorização. As pendências de A1
+registradas abaixo descrevem o estado anterior ao login desta continuação.
+
+09/11/2026 — retomada administrativa posterior à atualização de contexto:
+[inventário A0 autorizado e executado](changes/gerenciamento-website/validation/pre-voo-a0-2026-11-09.md).
+Sete GET 200 no workspace 147717, zero mutações. Branch v1/live e fonte live;
+nenhum isolamento existente ou candidato a fixture confirmado para reuso.
+Há oito contas ativas (uma admin), 23 obras e cinco reports, todos somente lidos.
+A1–A4 continuam pendentes, assim como contratos/cascatas/quota para escrever.
+Administração segue 33/34. O registro anterior de contexto descreve sua própria
+rodada, quando não houve acesso Xano; o inventário administrativo foi posterior.
+
+09/11/2026 — estado conferido no GitHub: [PR #28](https://github.com/vitordeev/Codeboxd/pull/28)
+foi integrado a develop em 05/11, merge a21c806. Administração continua **33/34**:
+merge não conclui 9.2 nem autoriza A0–A4. Performance **17/37**, com 20 tarefas
+abertas; iniciar por baseline/metas (1.3/1.5), antes de novas otimizações.
+[Comparação Git, preservação e plano de retomada](changes/otimizar-performance-app/validation/retomada-2026-11-09.md).
+Nenhum commit, teste integrado ou acesso Xano nesta atualização.
+
 09/11/2026 — análise retomada e consolidada, sem otimizações: [diagnóstico e plano técnico para revisão](changes/otimizar-performance-app/validation/diagnostico-plano-performance-2026-11-09.md). 36 navegações reais preservadas (20 Home +16 leituras de membro); oito novas em 390 px. Metas propostas, não aprovadas; performance 17/37, administração 33/34. Processos de medição encerrados.
 
 

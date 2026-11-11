@@ -1,0 +1,32 @@
+{
+  "checked_at": "2026-11-11T14:47:06.362664+00:00",
+  "mode": "read_only_delivery_diagnostic",
+  "new_emails_sent": 0,
+  "passwords_changed": 0,
+  "messages": [
+    {
+      "detail_http_status": 200,
+      "status": "processing",
+      "events": {
+        "deferred": 3,
+        "processed": 1
+      },
+      "reason_markers": [
+        "spf",
+        "dkim",
+        "dmarc",
+        "rate",
+        "alignment"
+      ],
+      "smtp_codes": [
+        "4.7.32",
+        "421"
+      ],
+      "last_event_time": "2026-11-11T14:44:33Z"
+    }
+  ],
+  "history_http_status": 200,
+  "latest_request_http_status": 200,
+  "destination_available_for_in_memory_match": true,
+  "messages_http_status": 200
+}

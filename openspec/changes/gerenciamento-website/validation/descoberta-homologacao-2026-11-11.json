@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-11-11T15:34:56.162169+00:00",
+  "mode": "read_only_environment_discovery",
+  "writes": 0,
+  "configured_profiles": 1,
+  "instances": [
+    {
+      "instance_number": 1,
+      "workspaces": [
+        {
+          "workspace_id": 147717,
+          "codeboxd_named": false,
+          "homologation_named": false,
+          "known_current_workspace": true
+        }
+      ],
+      "workspace_list_http_status": 200
+    }
+  ]
+}

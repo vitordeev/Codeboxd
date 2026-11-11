@@ -19,6 +19,10 @@ class SessionState(rx.State):
     is_loading: bool = False
     reset_message: str = ''
     reset_success: bool = False
+    reset_completed: bool = False
+    reset_email: str = ''
+    reset_code_requested: bool = False
+    reset_sending: bool = False
     admin_password_visible: bool = False
     _navigation_verified_until: float = 0.0
     _navigation_verified_token: str = ''
@@ -146,6 +150,17 @@ class SessionState(rx.State):
         async for event in self._authenticate(form, True): yield event
 
     @rx.event
+    async def submit_password_reset(self, form: dict):
+        if self.is_loading or self.reset_sending: return
+        self.reset_sending=True
+        try:
+            # Flush the loading state before waiting for the mail provider.
+            yield
+            await self.request_password_reset(form)
+        finally:
+            self.reset_sending=False
+
+    @rx.event
     async def request_password_reset(self, form: dict):
         if self.is_loading: return
         email=str(form.get('email','')).strip().lower()
@@ -161,16 +176,22 @@ class SessionState(rx.State):
             return
         self.is_loading=True
         self.reset_message=''
+        self.reset_completed=False
         try:
-            # Xano's built-in reset flow sends a one-time code by email.
+            # The backend checks account eligibility before issuing the code.
             await request('GET','/reset/request-reset-link',group='auth',params={'email':email})
             self.reset_message='Se o e-mail estiver cadastrado, você receberá um código de 6 dígitos. Ele expira em 15 minutos.'
             self.reset_success=True
+            self.reset_email=email
+            self.reset_code_requested=True
         except APIError as exc:
-            # Keep the response generic so the page does not reveal registered accounts.
-            if exc.status in (400,404):
-                self.reset_message='Se o e-mail estiver cadastrado, você receberá um código de 6 dígitos. Ele expira em 15 minutos.'
-                self.reset_success=True
+            self.reset_success=False
+            if exc.status==404:
+                self.reset_message='Não encontramos uma conta ativa com esse e-mail. Confira o endereço ou crie uma conta.'
+                self.reset_email=email
+                self.reset_code_requested=False
+            elif exc.status==400:
+                self.reset_message='Não foi possível enviar o código. Confira o e-mail e tente novamente em instantes.'
             else:
                 self.reset_message=str(exc)
                 self.reset_success=False
@@ -178,12 +199,28 @@ class SessionState(rx.State):
                     self._reset_retry_key=key
                     self._reset_retry_at=time.monotonic()+max(1,exc.retry_after or 30)
         finally:
+            if self.reset_success:
+                self._reset_retry_key=key
+                self._reset_retry_at=time.monotonic()+60
             self.is_loading=False
 
     @rx.event
+    def change_reset_email(self):
+        if self.is_loading or self.reset_sending: return
+        self.reset_code_requested=False
+        self.reset_completed=False
+        self.reset_success=False
+        self.reset_message=''
+
+    @rx.event
+    async def resend_reset_code(self):
+        if not self.reset_email or self.reset_completed: return
+        await self.request_password_reset({'email': self.reset_email})
+
+    @rx.event
     async def reset_password(self, form: dict):
-        if self.is_loading: return
-        email=str(form.get('email','')).strip().lower()
+        if self.is_loading or self.reset_sending or self.reset_completed: return
+        email=str(self.reset_email or form.get('email','')).strip().lower()
         code=str(form.get('code','')).strip()
         password=str(form.get('password',''))
         confirmation=str(form.get('confirm_password',''))
@@ -195,26 +232,39 @@ class SessionState(rx.State):
         if not re.fullmatch(r'[0-9]{6}',code):
             self.reset_message='Informe o código de 6 dígitos recebido por e-mail.'
             return
-        if len(password)<8 or not re.search(r'[A-Za-z]',password) or not re.search(r'\d',password):
-            self.reset_message='A senha precisa de 8 caracteres, incluindo letra e número.'
+        if not 8 <= len(password) <= 128 or not re.search(r'[A-Za-z]',password) or not re.search(r'[0-9]',password):
+            self.reset_message='A senha deve ter de 8 a 128 caracteres, incluindo letra e número.'
             return
         if password != confirmation:
             self.reset_message='As senhas não coincidem.'
             return
         self.is_loading=True
+        code_accepted=False
         try:
             result=await request('POST','/reset/magic-link-login',group='auth',
                                  data={'email':email,'magic_token':code})
+            code_accepted=True
             token=result.get('authToken') if isinstance(result,dict) else None
             if not isinstance(token,str) or not token:
                 raise APIError('O serviço retornou uma resposta inválida.')
             await request('POST','/reset/update_password',group='auth',token=token,
                           data={'password':password,'confirm_password':confirmation})
+            if self.user_id > 0 and result.get('user_id') == self.user_id:
+                self._clear_session()
             self.reset_message='Senha redefinida. Agora você já pode entrar com a nova senha.'
             self.reset_success=True
+            self.reset_completed=True
         except APIError as exc:
-            self.reset_message=('Código inválido ou expirado. Solicite um novo código e tente novamente.'
-                                if exc.status in (400,401,403,404,422) else str(exc))
+            if code_accepted:
+                if exc.status in (400,422):
+                    self.reset_message='A nova senha não foi aceita. Use de 8 a 128 caracteres, com letra e número, e uma senha diferente da atual. Solicite um novo código para tentar novamente.'
+                elif exc.status in (401,403,404):
+                    self.reset_message='A autorização de recuperação expirou ou já foi usada. Solicite um novo código.'
+                else:
+                    self.reset_message='Não foi possível confirmar a troca. Tente entrar com a nova senha ou solicite um novo código.'
+            else:
+                self.reset_message=('Código inválido ou expirado. Solicite um novo código e tente novamente.'
+                                    if exc.status in (400,401,403,404,422) else str(exc))
         finally:
             self.is_loading=False
 

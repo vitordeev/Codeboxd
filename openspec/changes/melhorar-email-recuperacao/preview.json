@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "published": false,
+  "emails_delivered_by_validation": 0,
+  "sandbox_http_status": 200,
+  "preview_http_status": 200,
+  "operations": [
+    {
+      "type": "query",
+      "name": "reset/request-reset-link GET",
+      "action": "update"
+    }
+  ]
+}

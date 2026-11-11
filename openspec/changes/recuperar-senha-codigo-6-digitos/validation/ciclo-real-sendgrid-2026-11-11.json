@@ -1,0 +1,13 @@
+{
+  "layer": "supervised_real_api",
+  "started_at": "2026-11-11T14:11:00.073944+00:00",
+  "approval_reference_sha256": "a5326bb96d33294f561da823e3653daf188381e06f1a0a76608a1feb51faf58c",
+  "passed": false,
+  "restoration_needed": false,
+  "checks": [],
+  "phase": "initial_login",
+  "mail_requests_attempted": 0,
+  "requests_attempted": 1,
+  "interrupted": true,
+  "failure_type": "CheckStopped"
+}

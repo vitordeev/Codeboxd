@@ -1,0 +1,40 @@
+{
+  "layer": "static_svg_and_real_browser_local_file",
+  "cases": [
+    {
+      "theme": "dark",
+      "width": 360,
+      "overflow": false,
+      "specimens": 12,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "overflow": false,
+      "specimens": 12,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "width": 360,
+      "overflow": false,
+      "specimens": 12,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "overflow": false,
+      "specimens": 12,
+      "passed": true
+    }
+  ],
+  "svg_bytes": 10790,
+  "unique_ids": true,
+  "no_gradients_filters_or_rasters": true,
+  "javascript_errors": [],
+  "art_approved": false,
+  "application_changed": false,
+  "passed": true
+}

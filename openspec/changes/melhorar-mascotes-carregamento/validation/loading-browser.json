@@ -1,0 +1,84 @@
+{
+  "layer": "actual_component_markup_local_browser_fixture",
+  "cases": [
+    {
+      "width": 360,
+      "reduced_motion": false,
+      "variant": "inline",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "reduced_motion": false,
+      "variant": "cards",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "reduced_motion": false,
+      "variant": "rows",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "reduced_motion": false,
+      "variant": "inline",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "reduced_motion": false,
+      "variant": "cards",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "reduced_motion": false,
+      "variant": "rows",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "reduced_motion": true,
+      "variant": "inline",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "reduced_motion": true,
+      "variant": "cards",
+      "passed": true
+    },
+    {
+      "width": 360,
+      "reduced_motion": true,
+      "variant": "rows",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "reduced_motion": true,
+      "variant": "inline",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "reduced_motion": true,
+      "variant": "cards",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "reduced_motion": true,
+      "variant": "rows",
+      "passed": true
+    },
+    {
+      "mode": "fixture-error-retry-success",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "live_reflex_journey": false,
+  "remote_access": false
+}

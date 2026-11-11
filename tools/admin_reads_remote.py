@@ -287,14 +287,16 @@ def login_server(probe, role_label='admin aprovada'):
     return server, path, ready
 
 
-async def main(output, pause=3.0, probe_type=Probe, role_label='admin aprovada'):
+async def main(output, pause=3.0, probe_type=Probe, role_label='admin aprovada', config_path=None):
     from playwright.async_api import async_playwright
     if output.exists():
         raise RuntimeError('output_already_exists')
     output.parent.mkdir(parents=True, exist_ok=True)
-    config = dotenv_values(ROOT/'.env')
+    config_path = Path(config_path) if config_path is not None else ROOT / '.env'
+    config = dotenv_values(config_path)
     with httpx.Client(timeout=25, follow_redirects=False) as client:
         probe = probe_type(client, config['XANO_AUTH_URL'], config['XANO_SOCIAL_URL'], output, pause=pause)
+        probe.config_path = config_path
         server, path, ready = login_server(probe, role_label)
         worker = threading.Thread(target=server.serve_forever, daemon=True)
         worker.start()
@@ -320,7 +322,8 @@ async def main(output, pause=3.0, probe_type=Probe, role_label='admin aprovada')
             server.server_close()
             worker.join(timeout=5)
             probe.token = None
-            probe.report['request_count'] = probe.calls
+            probe.report['bootstrap_request_count'] = probe.calls
+            probe.report['request_count'] = probe.calls + probe.report.get('proxy_upstream_requests', 0)
             probe.save()
         print(json.dumps({'passed': probe.report['passed'], 'checks': len(probe.report['checks'])}))
         return 0 if probe.report['passed'] else 1
@@ -331,8 +334,9 @@ if __name__ == '__main__':
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--pause', type=float, default=3.0)
     parser.add_argument('--diagnose-user-search', action='store_true')
+    parser.add_argument('--config', type=Path, default=ROOT / '.env')
     args = parser.parse_args()
     if not 1.2 <= args.pause <= 10:
         parser.error('Use an interval between 1.2 and 10 seconds')
     raise SystemExit(asyncio.run(main(args.output, args.pause,
-        probe_type=UserSearchProbe if args.diagnose_user_search else Probe)))
+        probe_type=UserSearchProbe if args.diagnose_user_search else Probe, config_path=args.config)))

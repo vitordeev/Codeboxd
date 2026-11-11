@@ -14,6 +14,25 @@ entrega verificável. **Non-Goals:** alterar login comum, papéis, hospedagem ou
 
 ## Decisions
 
+- Preparação de 11/11/2026 para 3.2: substituir o executor histórico por máquina
+  de estados supervisionada. Solicitação inicial e restauração usam códigos
+  distintos, obtidos da caixa pelo operador em janela privada. A restauração
+  jamais usa sessão comum. Antes da primeira escrita de senha, registrar que a
+  restauração pode ser necessária; confirmar login com a senha original antes
+  de limpar esse estado. Timeout não autoriza retry de escrita ou envio.
+  Respeitar cooldown e limitar a duas solicitações por execução. CLI exige
+  --execute e referência da autorização específica; isso não concede autorização.
+  Evidências exclusivas por execução, sem valores privados, com identificação
+  explícita de transporte simulado. Latência de digitação/observação do operador
+  não é medição SMTP ou comparação de entrega. Saída incerta exige reconciliação
+  manual, sem prometer restauração automática.
+
+- Reforço posterior em 10/11/2026, na change reforcar-restricoes-redefinicao-senha: endpoint final exige purpose=password_reset, conta ativa e versão vigente; senha de 8 a 128 caracteres com letra/número e diferente da atual sob lock. Sessão comum não é prova de recuperação. Feedback distingue falha após consumo do código; sessão local da mesma conta é limpa após sucesso. Ferramentas históricas de restauração com sessão comum são incompatíveis e não podem ser reutilizadas sem adaptação.
+
+- Decisão atualizada em 10/11/2026, por solicitação explícita do usuário: conta inexistente/inativa deve retornar 404 e não avançar no formulário. A change impedir-recuperacao-email-sem-conta substitui o tratamento genérico dessas contas descrito nos registros anteriores abaixo. Cooldown continua sem novo envio e a segurança do código não muda. A existência de conta torna-se perceptível pelo fluxo; esse trade-off foi comunicado.
+
+- Ajuste de 10/11/2026: após confirmação da troca, manter estado explícito de recuperação concluída, impedir novo submit no servidor e desabilitar o botão com indicação de conclusão. Nova solicitação válida de código inicia outro fluxo. Histórico real mostrou troca 200 seguida de três reutilizações rejeitadas do mesmo código; não flexibilizar uso único no backend.
+
 - Atualização autorizada em 22/10: substituir o serviço nativo indisponível por
   POST https://api.resend.com/emails a partir do Xano. Ler RESEND_API_KEY e
   RESEND_FROM somente do ambiente privado do backend; nunca embutir a chave

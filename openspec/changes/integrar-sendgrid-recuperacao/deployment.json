@@ -1,0 +1,17 @@
+{
+  "published": true,
+  "passed": true,
+  "sender_verified": true,
+  "preview_http_status": 200,
+  "operations": [
+    {
+      "type": "query",
+      "name": "reset/request-reset-link GET",
+      "action": "update"
+    }
+  ],
+  "push_http_status": 200,
+  "only_recovery_endpoint_changed": true,
+  "private_configuration_verified": true,
+  "existing_environment_preserved": true
+}

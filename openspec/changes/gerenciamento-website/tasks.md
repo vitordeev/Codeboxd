@@ -6,6 +6,27 @@ Os registros datados abaixo preservam rodadas anteriores.
 
 # Tarefas da administração
 
+11/11/2026 — Preparação incremental de 9.2:
+[piloto de mutações e limpeza](validation/piloto-mutacoes-2026-11-11.md).
+Primeiro subconjunto de 25 registros, preservando o plano completo de 239;
+planejador/guardas offline antes de qualquer escrita. A2–A4 ainda não executadas.
+
+Resultado: 12 testes de ciclo de vida e duas regressões de timestamp novas;
+583 na suíte completa aprovados. Pré-voo Metadata de 11 GET aprovado, sem
+escritas. Destino/isolamento e cascatas efetivas precisam ser resolvidos antes de
+provisionar; helper offline não é executor remoto pronto. 33/34 mantido.
+
+11/11/2026 — [Leituras reais de desktop/celular aprovadas](validation/resultado-leituras-2026-11-11.md):
+sete áreas, cinco buscas vazias por largura e preservação de métricas em 503 local.
+53 chamadas remotas observadas, zero 429, nenhuma mutação administrativa.
+Tarefa 9.2 continua aberta (33/34): A2–A4 e aceite integrado das alterações não
+executados. Capturas privadas; lockfiles regenerados pelo build reconciliados.
+
+11/11/2026: [preparação de leituras isoladas](validation/preparacao-leituras-2026-11-11.md)
+na branch task/admin-readiness-20261111, após aceite manual parcial da recuperação
+registrado em outra branch. Parametrizar configuração privada e preparar frontend
+sem tocar app normal. Nenhuma mutação administrativa autorizada; 33/34 preservado.
+
 Atualização em 27/10/2026: **22/34 concluídas, 12 abertas**. Tarefa 3.1 encerrada
 após publicação restrita do GET /admin/users, dry-run sem delta e validação real
 com login admin: 79 checks aprovados em 34 requisições, sem 429. Buscas por
@@ -148,6 +169,31 @@ Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte co
   auditoria, limpeza limitada e autorizações A0–A4. Nenhuma autenticação,
   consulta de inventário ou escrita Xano nesta preparação; execução aguarda
   aprovação explícita do escopo. 9.2 permanece aberta, 33/34.
+
+  09/11/2026 — usuário autorizou somente leitura A0. [Inventário executado](validation/pre-voo-a0-2026-11-09.md):
+  sete GET 200, workspace confirmado, branch v1/live e fonte live, sem destino
+  isolado observado ou fixtures liberadas para reuso. Zero mutações; A1–A4
+  permanecem pendentes. Contratos/cascatas/quota ainda precisam de conferência
+  antes de escrever. Manter 9.2 aberta e não usar executores antigos de limpeza.
+
+  Continuação em 09/11: usuário autorizou login manual e leituras de A1.
+  [Sessão/acesso confirmados](validation/login-e-leituras-a1-2026-11-09.md):
+  dez checks, sete HTTP 200 (um POST de login e seis GET), sem escrita
+  administrativa. Não comprova o formulário/fluxo UI integrado. A2–A4 ainda
+  pendentes; preparar guardas locais e definir destino antes de criar fixtures.
+
+  Preparação local posterior em 09/11: [política de prévias e limites](validation/guardas-locais-2026-11-09.md)
+  implementada sem transporte HTTP. 26 testes offline aprovados para destino,
+  aprovação, manifesto, identidade/hash, payload e cancelamento. Somente prévias
+  dos três PUTs; setup/deduplicação/limpeza, integração do transporte e A2–A4
+  continuam pendentes. Sem novas chamadas Xano; não conclui o aceite 9.2.
+
+  Continuação local seguinte em 09/11: [executor de ensaio](validation/executor-local-2026-11-09.md)
+  conectado às guardas somente com MockTransport/.invalid, journal, orçamento,
+  espaçamento e releitura independente. 48 testes aprovados (22 novos + 26 de
+  dependência), sem rede real. [Relatório do projeto](validation/relatorio-projeto-2026-11-09.md).
+  Setup/deduplicação/limpeza, browser integrado e A2–A4 continuam pendentes;
+  execução real não é habilitada por esse ensaio. Manter 33/34.
 - [x] 9.3 Compilar a aplicação Reflex e validar os contratos/endpoints Xano em dry-run; verificar que não há alterações remotas publicadas automaticamente nem credenciais expostas no cliente.
 - [x] 9.4 Documentar as migrações, os novos endpoints, a concessão manual do papel admin e o procedimento de rollback; verificar que outra pessoa consegue seguir as instruções em ambiente de desenvolvimento.
 

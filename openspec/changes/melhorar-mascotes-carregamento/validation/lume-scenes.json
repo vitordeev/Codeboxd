@@ -1,0 +1,70 @@
+{
+  "layer": "actual_reflex_component_markup_in_local_browser",
+  "cases": [
+    {
+      "theme": "dark",
+      "width": 360,
+      "scenes": 8,
+      "passed": true
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "scenes": 8,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "width": 360,
+      "scenes": 8,
+      "passed": true
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "scenes": 8,
+      "passed": true
+    },
+    {
+      "mode": "decorative-informative-unique-ids-and-fallback",
+      "passed": true
+    }
+  ],
+  "assets": [
+    {
+      "name": "onboarding",
+      "bytes": 2988
+    },
+    {
+      "name": "empty",
+      "bytes": 2854
+    },
+    {
+      "name": "not-found",
+      "bytes": 2796
+    },
+    {
+      "name": "error",
+      "bytes": 3178
+    },
+    {
+      "name": "success",
+      "bytes": 2754
+    },
+    {
+      "name": "loading",
+      "bytes": 3432
+    },
+    {
+      "name": "offline",
+      "bytes": 2844
+    },
+    {
+      "name": "no-results",
+      "bytes": 3017
+    }
+  ],
+  "passed": true,
+  "art_approved": true,
+  "live_backend_journey": false
+}

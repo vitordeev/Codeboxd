@@ -87,6 +87,7 @@ body {
 """
 
 HEAD_COMPONENTS = [
+    rx.el.link(rel="icon", type="image/svg+xml", href=rx.asset("codeboxd-logo.svg")),
     rx.el.link(rel="stylesheet", href="/codeboxd.css"),
     rx.el.link(rel="preconnect", href="https://fonts.googleapis.com"),
     rx.el.link(rel="preconnect", href="https://fonts.gstatic.com", cross_origin=""),
@@ -165,18 +166,13 @@ def _mascots_svg() -> rx.Component:
 
 
 def _logo_icon() -> rx.Component:
-    return rx.el.svg(
-        rx.el.svg.path(d="M22 3L40 13.5V34.5L22 45L4 34.5V13.5L22 3Z", stroke="#F5B300", stroke_width="2.6"),
-        rx.el.svg.path(d="M22 3V24M4 13.5L22 24M40 13.5L22 24", stroke="#F5B300", stroke_width="2.6"),
-        rx.el.svg.path(d="M9 22.5L12 25L9 27.5", stroke="#F5B300", stroke_width="1.8"),
-        rx.el.svg.path(d="M31 22.5L35 25L31 27.5V22.5Z", fill="#F5B300", stroke="#F5B300", stroke_width="1.2"),
-        class_name="w-10 h-10 text-[#F5B300] flex-shrink-0",
-        fill="none",
-        stroke="currentColor",
-        stroke_linecap="round",
-        stroke_linejoin="round",
-        stroke_width="2.5",
-        view_box="0 0 44 44",
+    """Shared mark reproduced from the project's original visual references."""
+    return rx.el.img(
+        src=rx.asset("codeboxd-logo.svg"),
+        alt="",
+        aria_hidden=True,
+        custom_attrs={"width": "44", "height": "50"},
+        class_name="brand-icon w-10 h-10 flex-shrink-0",
     )
 
 
