@@ -14,16 +14,16 @@ historico. [Retomada e dependencia de caixa controlada](validation/retomada-2026
 
 11/11/2026: [revisão de aceite e bloqueios](../integrar-sendgrid-recuperacao/aceite-2026-11-11.md).
 25 testes pertinentes locais aprovados; estrutura publicada inspecionada sem
-registros/ambiente. 3.2 aberta por falta do ciclo conjunto na caixa controlada.
-3.4 preservada como pendência histórica Resend substituída por SendGrid, sem
-declará-la cumprida; reconciliar a substituição antes da conclusão. Mantido 9/11.
+registros/ambiente. 3.2 permanece aberta por falta da evidência de replay e
+restauração no ciclo controlado. A integração SendGrid que substituiu Resend
+foi reconciliada e atende a 3.4; ver registro junto ao item.
 
 - [x] 1.1 Implementar esquema aditivo, geração de seis dígitos, prazo de 15 minutos, cooldown e e-mail; verificar contratos no dry-run e confirmar geração/hash/cooldown em execução controlada.
 - [x] 1.2 Implementar validação de formato, conta ativa, prazo, cinco tentativas persistidas, uso único e token temporário de cinco minutos; verificar rejeições, concorrência e consumo no Xano real.
 
 ## 2. Interface e testes locais
 
-- [x] 2.5 Preservar confirmação após troca concluída e bloquear submits posteriores do código consumido; testar repetição sem chamadas HTTP, novo pedido e compilar Reflex. Registrar validação local e limite da instância em execução. [Evidência](validation/repeticao-apos-sucesso-2026-11-10.md).
+- [x] 2.5 Preservar confirmação após troca concluída e bloquear submits posteriores do código consumido; testar repetição sem chamadas HTTP, novo pedido no estado e compilar Reflex. Registrar validação local e limite da instância em execução. [Evidência](validation/repeticao-apos-sucesso-2026-11-10.md). A ação visual secundária e a reinicialização ao reabrir a rota foram cobertas na task 2.6.
 
 - [x] 2.1 Ajustar campo e mensagens para seis dígitos e bloquear entradas inválidas sem requisição; verificar testes de formato, troca, falhas e não persistência do token.
 - [x] 2.2 Verificar formulário em desktop/celular e código inválido no navegador, preservando a senha; registrar screenshots privados e resumo sem segredos.
@@ -32,6 +32,7 @@ declará-la cumprida; reconciliar a substituição antes da conclusão. Mantido 
 Complemento da retomada em 20/10, necessário para executar o fluxo real:
 
 - [x] 2.4 Separar IDs dos e-mails nas duas etapas do formulário e conferir envio do campo correto no navegador, sem alterar os nomes da API. [Diagnóstico e validação](validation/retomada-2026-10-20.md).
+- [x] 2.6 Permitir iniciar outra jornada de recuperação após sucesso: ao reabrir `/redefinir-senha` ou acionar uma opção textual secundária discreta na confirmação, voltar ao formulário de solicitação com e-mail preservado, sem envio automático. Testar os dois caminhos e confirmar que o código consumido continua bloqueado. Evidência local: 22 testes `test_password_recovery.py` passaram; `reflex compile --dry` aprovado; `openspec validate recuperar-senha-codigo-6-digitos --type change` aprovado. Os testes confirmam limpeza da confirmação sem requisição e preservação do e-mail; o código usado continua protegido pelo bloqueio de repetição já testado.
 
 ## 3. Publicação e entrega real
 
@@ -60,9 +61,17 @@ Executor adaptado e 14 testes simulados aprovados:
 Sem execução real, sem fechamento de 3.2.
 
 - [x] 3.1 Exportar estrutura, revisar delta limitado e publicar contratos de reset; verificar dry-run posterior sem mudanças, sem importar registros/segredos.
-- [ ] 3.2 Comprovar chegada do e-mail com seis dígitos, troca de senha, novo login e rejeição de reutilização em conta com caixa controlada; registrar resultado e restauração segura da conta de teste.
+- [ ] 3.2 Comprovar chegada do e-mail com seis dígitos, troca de senha, novo login e rejeição de reutilização em conta com caixa controlada; registrar resultado e restauração segura da conta de teste. [Bloqueado: depende de caixa controlada, domínio autenticado e validação real de entrega.]
+
+Ensaio controlado em 12/11/2026: recebimento do primeiro código informado pelo
+usuário; troca por senha temporária, novo login, rejeição da senha anterior,
+código consumido e sessão anterior confirmados. O segundo pedido foi aceito,
+mas a validação do segundo código retornou HTTP 403 antes da restauração. A conta
+permanece com restauração pendente; o usuário recusou um terceiro pedido, que
+não foi executado. 3.2 continua aberta.
+[Registro sanitizado e limites](validation/ciclo-controlado-2026-11-12.md).
 - [x] 3.3 Capturar resultado do serviço de e-mail e impedir sucesso silencioso quando o provedor retorna erro dentro de HTTP 200; verificar rejeição sanitizada e preservação dos caminhos genéricos, registrando separadamente validação local e publicação.
-- [ ] 3.4 Integrar Resend no endpoint Xano com chave/remetente no ambiente privado; verificar contrato, falhas sanitizadas e envio aceito, publicar somente o endpoint após backup e conferir delta. Manter entrega/ciclo real em 3.2.
+- [x] 3.4 Integrar Resend/SendGrid no endpoint Xano com chave/remetente no ambiente privado; verificar contrato, falhas sanitizadas e envio aceito, publicar somente o endpoint após backup e conferir delta. SendGrid substituiu Resend: publicação restrita a um endpoint após backup, variáveis privadas verificadas e ambiente anterior preservado ([recibo sanitizado](../integrar-sendgrid-recuperacao/deployment.json)); o endpoint exige aceitação HTTP 202 e as falhas sanitizadas foram verificadas na implementação/testes da integração. O usuário confirmou recebimento do código, troca da senha e novo login ([aceite manual](validation/aceite-usuario-2026-11-11.md)). A entrega da integração não conclui o ciclo completo nem os critérios de replay/restauração, que permanecem em 3.2.
 
 Evidências e limites: [implementacao-2026-10-14.md](validation/implementacao-2026-10-14.md).
 

@@ -64,7 +64,11 @@ gravação/incremento da versão; feedback diferencia rejeição da senha de err
 
 #### Scenario: Repetição após conclusão
 - **WHEN** a troca já foi confirmada nessa jornada e o formulário recebe novo submit
-- **THEN** a interface mantém a confirmação e o caminho para entrar, sem reenviar o código consumido; um novo pedido explícito inicia outra jornada
+- **THEN** a interface mantém a confirmação e o caminho principal para entrar, além de uma ação secundária discreta que retorna ao pedido de recuperação com o e-mail preservado, sem enviar automaticamente; somente um novo pedido pode iniciar outra jornada, e o código consumido continua inválido
+
+#### Scenario: Nova visita à página após conclusão
+- **WHEN** a pessoa abre novamente a página de redefinição após uma troca concluída, inclusive pelo link “Esqueci minha senha”
+- **THEN** a página inicia na etapa de solicitação, preserva o e-mail já informado e não exibe a confirmação antiga nem envia uma nova solicitação automaticamente
 
 #### Scenario: Senha atual ou sessão sem prova de recuperação
 - **WHEN** a senha proposta é igual à atual ou a autorização é uma sessão comum

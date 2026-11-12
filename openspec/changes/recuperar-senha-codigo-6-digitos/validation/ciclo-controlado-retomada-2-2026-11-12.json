@@ -1,0 +1,58 @@
+{
+  "layer": "supervised_real_api",
+  "started_at": "2026-11-12T12:12:34.225565+00:00",
+  "approval_reference_sha256": "da9097c36ecd357cb8db360f516836c8c594f2785cb1161c46161ff861e17d17",
+  "passed": false,
+  "restoration_needed": true,
+  "checks": [
+    {
+      "scenario": "controlled_account_login",
+      "passed": true
+    },
+    {
+      "scenario": "operator_reports_first_code_received",
+      "passed": true
+    },
+    {
+      "scenario": "reset_identity_matches",
+      "passed": true
+    },
+    {
+      "scenario": "temporary_password_saved",
+      "passed": true
+    },
+    {
+      "scenario": "new_password_login",
+      "passed": true
+    },
+    {
+      "scenario": "old_password_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "used_code_rejected",
+      "passed": true
+    },
+    {
+      "scenario": "previous_session_revoked",
+      "passed": true
+    },
+    {
+      "scenario": "request_accepted_not_delivery_proof",
+      "passed": true
+    },
+    {
+      "scenario": "operator_reports_second_code_received",
+      "passed": true
+    }
+  ],
+  "resumed_evidence_sha256": "c40d6a12676c57bd5647932874f27cf93ae5b2426d5978c6e130fadfcb25c737",
+  "operator_observation_unavailable_on_resume": true,
+  "phase": "restoration_code_attempted",
+  "mail_requests_attempted": 2,
+  "requests_attempted": 15,
+  "last_http_status": 403,
+  "interrupted": true,
+  "failure_type": "CheckStopped",
+  "failure_reason": "invalid_session_response"
+}

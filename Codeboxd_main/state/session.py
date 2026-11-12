@@ -205,6 +205,22 @@ class SessionState(rx.State):
             self.is_loading=False
 
     @rx.event
+    def enter_password_reset_page(self):
+        if self.reset_completed:
+            self._start_new_password_reset()
+
+    @rx.event
+    def start_new_password_reset(self):
+        if self.is_loading or self.reset_sending: return
+        self._start_new_password_reset()
+
+    def _start_new_password_reset(self):
+        self.reset_code_requested=False
+        self.reset_completed=False
+        self.reset_success=False
+        self.reset_message=''
+
+    @rx.event
     def change_reset_email(self):
         if self.is_loading or self.reset_sending: return
         self.reset_code_requested=False

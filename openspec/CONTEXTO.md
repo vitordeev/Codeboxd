@@ -1,5 +1,12 @@
 # Contexto técnico e funcional — 27/10/2026
 
+12/11/2026 — `gerenciamento-website` foi arquivada em
+`changes/archive/2026-11-12-gerenciamento-website` após concluir **34/34**
+tarefas no escopo aprovado: leituras administrativas reais em 1440/390, buscas
+vazias e falha parcial controlada (evidência de 11/11). Isso não valida
+mutações, persistência ou auditoria reais; tais verificações exigem change
+futura e ambiente isolado. Os registros datados seguintes preservam seus estados históricos.
+
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
 04/11/2026 - Conexoes/feed/listas concluida (10/10), specs sincronizadas e
@@ -34,7 +41,7 @@ Busca administrativa em 27/10: GET /admin/users usa modos separados de ID,
 texto e listagem sem termo, includes com escape de curingas e filtros/paginação
 preservados. Publicado após autorização, com backup e dry-run posterior sem
 delta. 79 checks reais aprovados; tarefa 3.1 concluída, administração **22/34**.
-[Evidências e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
+[Evidências e limites](changes/archive/2026-11-12-gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
 Listas: coleção pessoal separada de descoberta pública agrupada por autor; nome permanece à direita do avatar. Backend usa `user_list.default_key` anulável e único para proprietário/tipo padrão, preservando personalizadas homônimas. Cadastro e preparação compartilham função que reaproveita a lista sem sobrescrever suas personalizações. Contratos publicados, 16 chaves legadas atribuídas sem perda de 19 listas/8 vínculos e flag privada habilitada. Validação com 411 testes, 18 checks API e 14 critérios de navegador real concluída, incluindo limpeza descartável. [Conclusão da change, 11/11](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Quatro requisitos sincronizados e change arquivada em 26/10/2026; tabelas históricas abaixo preservam seu contexto original.
 
@@ -58,18 +65,17 @@ os relatórios arquivados. O scanner permanente de commits não depende dessas p
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
 As contagens vêm dos checklists, não medem o percentual global do produto.
-As três changes têm planejamento completo; isso não significa implementação concluída.
+As duas changes listadas têm planejamento completo; isso não significa implementação concluída.
 
 Evidências mais recentes:
 
 - [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
 - [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
-- [Administração, 22/10](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
+- [Administração, 22/10](changes/archive/2026-11-12-gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
 - [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
 
 ## Produto e arquitetura
@@ -133,7 +139,7 @@ no Xano. Trocar nota mantém a crítica em edição. [Evidência](changes/archiv
 | Seguidores | Seguir/deixar de seguir, sem duplicata nem auto-seguimento; feed dos seguidos | `specs/social-connections/`, `specs/data-social-connections/` |
 | Feed | Posts com mídia opcional, curtidas, comentários e autoria; imagem multipart e pesquisa de obra adicionadas posteriormente | `specs/social-feed/`, `specs/data-social-content/`; complementos em HISTORICO.md |
 | Listas | Listas públicas/privadas, ownership, itens sem duplicata, mesma mídia em listas diferentes | `specs/user-lists/`, `specs/data-user-lists/` |
-| Administração | Login dedicado, dashboard, pesquisa de contas, suspensão/reativação, correção/cadastro de obras e reports | Deltas em `changes/gerenciamento-website/specs/`; ainda não consolidados como entrega concluída |
+| Administração | Login dedicado, dashboard, pesquisa de contas, suspensão/reativação, correção/cadastro de obras e reports | Contratos principais em `specs/admin-dashboard/`, `specs/admin-user-management/`, `specs/admin-catalog-management/` e `specs/content-moderation/`; aceite integrado limitado a leituras, conforme change arquivada |
 
 ## Fontes e compatibilidade
 
@@ -166,7 +172,7 @@ opcional `file image_upload`, convertida em metadados após autorização; `imag
 existente continua compatível. Rascunhos são preservados em falha transitória de
 sessão e descartados com limpeza de arquivo ao cancelar. Browser de imagem passou
 com limpeza local/remota. Referências em `validation/uploads-and-session-2026-10-13.md`
-e `changes/gerenciamento-website/validation/publicacao-admin-2026-10-13.md`.
+e `changes/archive/2026-11-12-gerenciamento-website/validation/publicacao-admin-2026-10-13.md`.
 
 Autoria/ator vêm de `$auth.id`, não do payload. Endpoints protegem propriedade e acesso; listas privadas são filtradas no backend. Administração exige `admin` ativo em cada operação. Papel `moderator` não concede acesso administrativo automaticamente. Logs e respostas devem excluir credenciais.
 

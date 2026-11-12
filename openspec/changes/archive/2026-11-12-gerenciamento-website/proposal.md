@@ -2,7 +2,17 @@
 
 ## Why
 
-O Codeboxd precisa de uma área administrativa para acompanhar a atividade do site e permitir que pessoas autorizadas gerenciem usuários, catálogo e denúncias em um só lugar. Esta proposta nasceu antes da implementação do fluxo. Na revisão de 13/10/2026, telas, estados e contratos locais já existem; o trabalho restante é concluir autorização e persistência remotas, testes integrados e validação visual. Ver `tasks.md` e `validation/revisao-2026-10-13.md`.
+O Codeboxd precisa de uma área administrativa para acompanhar a atividade do site e permitir que pessoas autorizadas gerenciem usuários, catálogo e denúncias em um só lugar. Esta proposta nasceu antes da implementação do fluxo. Na revisão de 13/10/2026, telas, estados e contratos locais já existiam; naquele momento, faltavam autorização e persistência remotas, testes integrados e validação visual. O escopo de aceite atualizado em 12/11 está registrado abaixo. Ver `tasks.md` e `validation/revisao-2026-10-13.md`.
+
+## Escopo de aceite — atualização de 12/11/2026
+
+Esta change encerra a entrega da interface administrativa e seu aceite integrado
+de leitura comprovado: áreas administrativas, buscas vazias, falha parcial
+controlada e larguras desktop/celular, conforme a evidência de 11/11/2026.
+Esse encerramento não afirma aceite integrado de mutações, persistência de
+alterações ou auditoria real. Suspensão/reativação, criação/edição de catálogo
+e decisões de reports integradas deverão ser verificadas em uma change futura,
+com ambiente Xano isolado e autorização específica antes de qualquer escrita.
 
 ## What Changes
 

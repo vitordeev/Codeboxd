@@ -27,7 +27,7 @@ continuam documentados nos arquivos de validação arquivados e abaixo.
 | --- | ---: | ---: | --- |
 | [corrigir-conexoes-feed-listas](changes/archive/2026-11-04-corrigir-conexoes-feed-listas/tasks.md) | 6/7 | 1 | Python e mocks concluídos; aplicar migração/contratos Xano e validar jornadas reais (3.2) |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Integração publicada historicamente; envio aceito e recebimento/ciclo de recuperação ainda sem evidência (3.4/3.2) |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e browser real ainda pendentes |
+| [gerenciamento-website](changes/archive/2026-11-12-gerenciamento-website/tasks.md) | 22/34 | 12 | Autorização completa, mutações, auditoria, catálogo/reports e browser real ainda pendentes no retrato de 30/10 |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 14/37 | 23 | Baselines/metas, comparações das jornadas, browser e mutações reais; não é apenas falta de credencial |
 
 Total dessas quatro changes: **50 tarefas concluídas, 38 abertas**. As contagens

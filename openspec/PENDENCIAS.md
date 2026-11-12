@@ -1,6 +1,16 @@
 # Pendências atuais — 27/10/2026
 
-11/11/2026 — [Salvar trabalhos e sincronizar develop](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md):
+12/11/2026 — Oito changes concluídas foram arquivadas em
+`changes/archive/2026-11-12-*`; seis sincronizaram seus deltas com as specs
+principais (validação: 29 specs aprovadas) e duas não tinham deltas. A change
+`gerenciamento-website` encerrou 34/34 tarefas no escopo de leitura em
+desktop/celular, buscas vazias e falha parcial controlada. Mutações, persistência,
+autorização negativa integrada e auditoria reais não foram verificadas; exigem
+change OpenSpec futura, homologação isolada e autorização específica. Nenhuma
+escrita no live foi autorizada. A change de mascotes foi arquivada como reversão;
+seus contratos são históricos e não afirmam implementação atual.
+
+11/11/2026 — [Salvar trabalhos e sincronizar develop](changes/archive/2026-11-12-salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md):
 integração publicada em develop e validada com 632 testes/compile e OpenSpec padrão 34/34;
 cinco checkpoints guardam as frentes e versões históricas. Recibo de push/refs
 confirma a publicação e a develop local limpa por fast-forward. Nenhuma pendência funcional foi
@@ -36,20 +46,20 @@ deve verificar painel/permissões ou disponibilizar instância isolada. Sem comp
 publicação de contratos, alteração da origem ou piloto administrativo executado.
 
 11/11/2026 — Usuário escolheu homologação para o piloto administrativo.
-[Descoberta atual e limite de acesso](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+[Descoberta atual e limite de acesso](changes/archive/2026-11-12-gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
 um perfil configurado, somente workspace 147717 acessível; destino isolado não
 identificado. Solicitar identificação/configuração de homologação ou planejar
 criação vazia em escopo próprio antes de qualquer provisão. Não usar live como
 fallback. Administração 33/34; nenhuma escrita executada.
 
-11/11/2026 — [Piloto administrativo preparado offline](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+11/11/2026 — [Piloto administrativo preparado offline](changes/archive/2026-11-12-gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
 25 registros propostos, retenção de 16 e nove candidatos próprios à limpeza;
 583 testes locais passaram. Pré-voo atual: uma branch live e uma fonte, sem
 isolamento adicional demonstrado; exclusões/cascatas ainda não confirmadas.
 Decidir destino e verificar limpeza antes de seed; nenhum registro criado,
 alterado ou excluído. 9.2 preservada em 33/34; plano completo de 239 não reduzido.
 
-11/11/2026 — [Leituras administrativas integradas aprovadas](changes/gerenciamento-website/validation/resultado-leituras-2026-11-11.md)
+11/11/2026 — [Leituras administrativas integradas aprovadas](changes/archive/2026-11-12-gerenciamento-website/validation/resultado-leituras-2026-11-11.md)
 em desktop/celular, sem alterações remotas administrativas. A tarefa 9.2 continua
 33/34 por exigir mutações, auditoria e permissões integradas sobre fixtures
 controladas; A2–A4 continuam sem autorização específica. Não repetir os cenários
@@ -81,14 +91,14 @@ remota `29d0456`, main remota `42ff4dd`; PRs #31/#32 já integradas. Nada fechad
 
 10/11/2026 - Auditoria Git e branch de integracao publicada; PR ainda aguarda criacao autenticada. [Registro e link do PR](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md). `origin/develop` em 4a7cabe; administracao 33/34 e performance 17/37 preservadas. Branch `pedro` mantida por conter documentacao historica obsoleta; P0 movel ainda sem evidencia suficiente. Nenhuma tarefa foi fechada.
 
-09/11/2026 — [relatório consolidado do projeto](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
+09/11/2026 — [relatório consolidado do projeto](changes/archive/2026-11-12-gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
 administração 33/34, performance 17/37 e recuperação 8/10, 23 tarefas abertas.
 Executor administrativo ensaiado somente em memória: 22 testes novos e 26
 regressões aprovados, journal e releitura após PUT simulados. Nenhum acesso Xano
 nesta rodada. Homologação integrada continua pendente de destino, preparação de
 setup/limpeza e autorização específica A2–A4; nenhuma tarefa encerrada.
 
-09/11/2026 — continuação local da administração: [guardas de prévia offline](changes/gerenciamento-website/validation/guardas-locais-2026-11-09.md)
+09/11/2026 — continuação local da administração: [guardas de prévia offline](changes/archive/2026-11-12-gerenciamento-website/validation/guardas-locais-2026-11-09.md)
 com 26 testes aprovados. Bloqueiam destino/ator/ID divergentes, alterações não
 aprovadas, cancelamento e métodos fora do escopo. Sem transporte ou chamadas
 Xano; setup/limpeza e integração das guardas ainda não executados. Definir destino
@@ -96,14 +106,14 @@ e obter A2–A4 antes de escrita; nenhuma fixture real aprovada. 9.2 segue 33/34
 
 09/11/2026 — após autorização de login/leitura A1, a conta admin existente foi
 autenticada e acessou dashboard, usuários, catálogo e reports pela API:
-[dez checks aprovados](changes/gerenciamento-website/validation/login-e-leituras-a1-2026-11-09.md),
+[dez checks aprovados](changes/archive/2026-11-12-gerenciamento-website/validation/login-e-leituras-a1-2026-11-09.md),
 sete respostas 200 (um POST de autenticação e seis GET). Sem mutações
 administrativas. Isso não equivale ao aceite do fluxo completo da UI; 9.2
 continua aberta, 33/34. A2–A4 permanecem sem autorização. As pendências de A1
 registradas abaixo descrevem o estado anterior ao login desta continuação.
 
 09/11/2026 — retomada administrativa posterior à atualização de contexto:
-[inventário A0 autorizado e executado](changes/gerenciamento-website/validation/pre-voo-a0-2026-11-09.md).
+[inventário A0 autorizado e executado](changes/archive/2026-11-12-gerenciamento-website/validation/pre-voo-a0-2026-11-09.md).
 Sete GET 200 no workspace 147717, zero mutações. Branch v1/live e fonte live;
 nenhum isolamento existente ou candidato a fixture confirmado para reuso.
 Há oito contas ativas (uma admin), 23 obras e cinco reports, todos somente lidos.
@@ -126,7 +136,7 @@ Nenhum commit, teste integrado ou acesso Xano nesta atualização.
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
 05/11/2026 — preparação documental da homologação integrada 9.2:
-[plano e autorizações A0–A4](changes/gerenciamento-website/design.md#plano-de-homologação-integrada-da-92--preparado-em-05112026).
+[plano e autorizações A0–A4](changes/archive/2026-11-12-gerenciamento-website/design.md#plano-de-homologação-integrada-da-92--preparado-em-05112026).
 Preferir destino isolado; disponibilidade atual ainda não inventariada. Proposto
 lote próprio com teto de 26 contas member, 104 obras, 30 reports e um post,
 além dos efeitos de signup/auditoria; preservar eventos e referências na limpeza.
@@ -139,14 +149,14 @@ Change mantida em 33/34, sem conclusão ou arquivamento.
 com resposta e renderização; Reports com dados reais carregado em 1440/390.
 Feedback de erros encoberto pelos modais foi identificado, documentado e
 corrigido, com regressão local. As modalidades e critérios por cenário estão na
-[continuação do aceite](changes/gerenciamento-website/validation/continuacao-9-2-2026-11-05.md).
+[continuação do aceite](changes/archive/2026-11-12-gerenciamento-website/validation/continuacao-9-2-2026-11-05.md).
 Manter 33/34 enquanto houver critério obrigatório de aceite integrado sem
 evidência; não confundir fixtures com novas mutações no Xano. Registros abaixo
 preservam seus estados históricos.
 
 Resultado da continuação: 68 cenários distintos aprovados com fixtures e dois
 casos reais de renderização de Reports; 44 cenários revalidados após corrigir
-feedback nos modais. [Matriz detalhada](changes/gerenciamento-website/validation/matriz-9-2-2026-11-05.md).
+feedback nos modais. [Matriz detalhada](changes/archive/2026-11-12-gerenciamento-website/validation/matriz-9-2-2026-11-05.md).
 Falta homologação da UI integrada ao Xano nos fluxos de alteração e na matriz
 completa de permissões, com contas/alvos descartáveis e escrita/limpeza definida.
 Nenhuma mutação remota foi executada; 9.2 continua aberta, administração 33/34.
@@ -189,37 +199,36 @@ de destinatário elegível e caixa controlada; administração **22/34** e perfo
 **14/37** mantêm seus critérios. Credenciais não substituem implementação e evidência.
 
 Busca administrativa publicada e validada: tarefa 3.1 concluída, 79 checks reais
-aprovados; administração agora **22/34**. [Entrega e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
+aprovados; administração agora **22/34**. [Entrega e limites](changes/archive/2026-11-12-gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
 ## Listas — concluídas e arquivadas
 
 Change [corrigir-duplicacao-listas-padrao](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/tasks.md): **11/11 tarefas concluídas**. Coleção própria separada, descoberta agrupada por autor com nome à direita do avatar, preparação idempotente publicada no Xano e 16 identidades legadas atribuídas. 411 testes, compilação/build, 18 checks API e 14 critérios de navegador com duas contas reais comprovados. Conta e registros descartáveis removidos; 19 listas e 8 vínculos originais preservados, zero duplicatas/conflitos. [Conclusão e evidências](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md).
 
-Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10/2026 por solicitação do usuário. Limite de chamadas em navegação rápida continua no escopo de performance; validação funcional final foi espaçada conforme a evidência. As três changes funcionais abaixo mantêm suas pendências e contagens.
+Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10/2026 por solicitação do usuário. Limite de chamadas em navegação rápida continua no escopo de performance; validação funcional final foi espaçada conforme a evidência. As duas changes funcionais abaixo mantêm suas pendências e contagens.
 
-## Changes funcionais abertas
+## Changes funcionais em acompanhamento
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
 As contagens vêm dos checklists, não medem o percentual global do produto.
-As três changes têm planejamento completo; isso não significa implementação concluída.
+As changes listadas têm planejamento completo; isso não significa implementação concluída.
 
 Evidências mais recentes:
 
 - [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
 - [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
-- [Administração, 22/10](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
+- [Administração, 22/10](changes/archive/2026-11-12-gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
 - [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
 
-## Critérios administrativos restantes
+## Critérios administrativos restantes — histórico
 
 Registro historico de 27/10: Os 12 IDs abertos são 2.1–2.3, 3.2–3.3, 4.1–4.2, 5.2–5.4 e 9.1–9.2.
-Em 04/11, apos 119 checks reais aprovados, resta somente 9.2.
-[Evidencias atuais](changes/gerenciamento-website/validation/aceite-2026-11-04.md).
+Em 04/11, apos 119 checks reais aprovados, restava somente 9.2.
+[Evidencias da rodada](changes/archive/2026-11-12-gerenciamento-website/validation/aceite-2026-11-04.md).
 Telas/contratos já existem; falta completar os critérios reais indicados no checklist.
 5.1 e 5.5 estão concluídas; 6.2/6.3 tiveram validação local com fixtures.
 As leituras admin reais de 23/10 eliminam a antiga afirmação de que nunca houve
@@ -243,7 +252,7 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 | P.9 | Conforme crescimento | Estado e páginas sociais concentram muitas responsabilidades | Separar por domínio quando houver necessidade concreta, mantendo rotas/eventos e testes relevantes |
 | P.10 | Fora da etapa atual | Publicação/domínio/HTTPS ainda não validados; Docker excluído por decisão do usuário | Definir hospedagem somente quando solicitada; operação atual local com `.venv` |
 | P.11 | Antes de reusar validações | Scripts históricos têm caminhos anteriores ao arquivo e portas fixas | Copiar/adaptar scripts para nova pasta de resultados; preservar arquivo histórico e não criar contas incidentalmente |
-| P.12 | Publicada em 19/10; validação funcional parcial | Três GETs corrigidos publicados após backup de 77 documentos e delta limitado; dry-run final sem mudanças. 18 testes locais passaram; visitante 401 e membro 403 confirmados | Validar buscas, caixa, vazio, filtros e paginação com admin aprovado e interface no navegador. Leituras admin reais posteriores registradas em 23/10; mutações e browser completo continuam pendentes. [Evidência](changes/gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md) |
+| P.12 | Publicada em 19/10; validação funcional parcial | Três GETs corrigidos publicados após backup de 77 documentos e delta limitado; dry-run final sem mudanças. 18 testes locais passaram; visitante 401 e membro 403 confirmados | Validar buscas, caixa, vazio, filtros e paginação com admin aprovado e interface no navegador. Leituras admin reais posteriores registradas em 23/10; mutações e browser completo continuam pendentes. [Evidência](changes/archive/2026-11-12-gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md) |
 
 Atualização P.6 em 28/10: os testes locais de recuperação/cooldown passaram
 (24 testes); a documentação oficial confirma a restrição do remetente de teste.

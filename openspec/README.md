@@ -1,10 +1,20 @@
 # OpenSpec do Codeboxd
 
+12/11/2026 — Oito changes concluídas foram arquivadas em
+`changes/archive/2026-11-12-*`. Seis conjuntos de deltas foram sincronizados
+nas specs principais e validados; duas changes sem delta foram arquivadas sem
+sync. `gerenciamento-website` encerra o aceite de leitura em 1440/390, buscas
+vazias e falha parcial controlada, conforme evidência de 11/11; mutações,
+persistência e auditoria reais seguem não comprovadas e exigem change futura,
+homologação isolada e autorização específica. `melhorar-mascotes-carregamento`
+foi arquivada como reversão: os contratos sincronizados são históricos, não
+representam implementação ativa. Registros abaixo preservam os estados históricos.
+
 11/11/2026 — **develop sincronizada no origin por solicitação do usuário:**
-[ponto de continuação, commits e validação](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md).
+[ponto de continuação, commits e validação](changes/archive/2026-11-12-salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md).
 Cloudinary e primeiro lote UI integrados por `integration/salvar-develop-20261111`;
 632 testes, compile e OpenSpec padrão 34/34 aprovados. As cópias históricas têm
-checkpoints próprios; performance preservada. [Recibo de publicação](changes/salvar-checkpoints-sincronizar-develop/publicacao-2026-11-11.json)
+checkpoints próprios; performance preservada. [Recibo de publicação](changes/archive/2026-11-12-salvar-checkpoints-sincronizar-develop/publicacao-2026-11-11.json)
 confirma o push sem force e develop local limpa por fast-forward. Registros abaixo
 descrevem suas etapas anteriores; UI 3/26 e Cloudinary 3/17 continuam abertas.
 
@@ -43,7 +53,7 @@ pacote local com 32 contratos e configuração separada, sete testes específico
 403/ACCESS_DENIED e ausência confirmada após tentativa. Change 4/8; sem ambiente
 isolado disponível, publicação ou cópia de dados. Não usar live como fallback.
 
-11/11/2026 — [Homologação administrativa de leitura](changes/gerenciamento-website/validation/resultado-leituras-2026-11-11.md):
+11/11/2026 — [Homologação administrativa de leitura](changes/archive/2026-11-12-gerenciamento-website/validation/resultado-leituras-2026-11-11.md):
 navegador real aprovado em 1440/390px para sete áreas e estados vazios; falhas de
 dashboard injetadas só localmente. 53 chamadas remotas observadas, zero 429,
 sem mutações administrativas. 9.2 segue aberta, 33/34; ensaio não autoriza A2–A4.
@@ -72,26 +82,26 @@ remota, push ou arquivo. A tabela antiga de recuperação 8/10 abaixo é histór
 
 10/11/2026 — [Ambiente Cloudinary preparado](changes/hospedar-imagens-publicacoes-cloudinary/validation.md): variáveis privadas com flag false, adaptador de upload assinado e 11 testes locais aprovados; dependências existentes íntegras. Conta/credenciais, integração de posts/URL no Xano e validação real ainda pendentes. Fluxo atual de anexos preservado até ativação validada.
 
-10/11/2026 — [Restrições de redefinição reforçadas](changes/reforcar-restricoes-redefinicao-senha/validation.md): endpoint final exige credencial exclusiva de recuperação, política 8..128/confirmação e senha diferente da atual sob lock. Feedback por etapa e limpeza seletiva da sessão local. Publicado um endpoint; 511 testes locais e 20 checks reais passaram, fixture removida sem envio de e-mail. Limites e inventário documentados.
+10/11/2026 — [Restrições de redefinição reforçadas](changes/archive/2026-11-12-reforcar-restricoes-redefinicao-senha/validation.md): endpoint final exige credencial exclusiva de recuperação, política 8..128/confirmação e senha diferente da atual sob lock. Feedback por etapa e limpeza seletiva da sessão local. Publicado um endpoint; 511 testes locais e 20 checks reais passaram, fixture removida sem envio de e-mail. Limites e inventário documentados.
 
-10/11/2026 — [Recuperação exige conta ativa](changes/impedir-recuperacao-email-sem-conta/validation.md): por solicitação do usuário, endereço sem cadastro/inativo retorna 404 e permanece na primeira etapa. Publicado um endpoint com backup; 16 testes e compilação aprovados, API e navegador real confirmaram rejeição sem envio. Decisão anterior de avanço genérico substituída; falha de envio também não gera sucesso falso.
+10/11/2026 — [Recuperação exige conta ativa](changes/archive/2026-11-12-impedir-recuperacao-email-sem-conta/validation.md): por solicitação do usuário, endereço sem cadastro/inativo retorna 404 e permanece na primeira etapa. Publicado um endpoint com backup; 16 testes e compilação aprovados, API e navegador real confirmaram rejeição sem envio. Decisão anterior de avanço genérico substituída; falha de envio também não gera sucesso falso.
 
 10/11/2026 — [E-mail de recuperação redesenhado e atraso diagnosticado](changes/melhorar-email-recuperacao/validation.md): HTML/texto publicados no endpoint, 14 testes e sandbox aprovados, feedback imediato e cooldown local. SendGrid revela adiamentos Gmail 421 4.7.32 por alinhamento SPF/DKIM; entregas existentes em 27s/70s e outra pendente. Corrigir causa depende de domínio próprio autenticado; redução real de entrega não comprovada.
 
-10/11/2026 — [Página de recuperação simplificada](changes/simplificar-pagina-recuperacao/validation.md): uma etapa por vez, sem e-mail duplicado, cartão compacto e confirmação final com login. Doze testes e compilação aprovados; etapa inicial conferida no navegador em 390/1440px sem overflow. Sem novos envios ou alterações remotas.
+10/11/2026 — [Página de recuperação simplificada](changes/archive/2026-11-12-simplificar-pagina-recuperacao/validation.md): uma etapa por vez, sem e-mail duplicado, cartão compacto e confirmação final com login. Doze testes e compilação aprovados; etapa inicial conferida no navegador em 390/1440px sem overflow. Sem novos envios ou alterações remotas.
 
 10/11/2026 — [SendGrid para recuperação](changes/integrar-sendgrid-recuperacao/validation.md): remetente verificado e integração publicada no Xano após backup/prévia de um endpoint. Chave/remetente privados conferidos e demais variáveis preservadas; sete testes locais passaram. Aceitação de envio, recebimento e ciclo completo ainda pendentes; histórico Resend preservado.
 
-08/11/2026 — [Mascotes Lume e carregamento revertidos](changes/melhorar-mascotes-carregamento/validation.md) a pedido do usuário. Bonecos e carregamento anteriores restaurados; integração da logo preservada. A entrega e suas evidências são históricas, sem aplicação atual.
+08/11/2026 — [Mascotes Lume e carregamento revertidos](changes/archive/2026-11-12-melhorar-mascotes-carregamento/validation.md) a pedido do usuário. Bonecos e carregamento anteriores restaurados; integração da logo preservada. A entrega e suas evidências são históricas, sem aplicação atual.
 
-09/11/2026 — [relatório consolidado após o ensaio administrativo local](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
+09/11/2026 — [relatório consolidado após o ensaio administrativo local](changes/archive/2026-11-12-gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
 48 testes aprovados (22 do executor novo + 26 guardas), sem acesso Xano ou
 alteração funcional. Permanecem administração 33/34, performance 17/37 e
 recuperação 8/10. Destino e A2–A4 ainda precisam de decisão específica.
 
 09/11/2026 — retomada administrativa posterior ao registro de contexto abaixo:
 A0 de inventário e login/leitura limitada A1 autorizados e executados; preparação
-de [guardas locais](changes/gerenciamento-website/validation/guardas-locais-2026-11-09.md)
+de [guardas locais](changes/archive/2026-11-12-gerenciamento-website/validation/guardas-locais-2026-11-09.md)
 com 26 testes offline aprovados. A2–A4 continuam sem autorização, sem escrita
 administrativa; 9.2 permanece aberta, 33/34. O registro de contexto a seguir
 preserva o estado de sua própria rodada anterior à autorização de A0/A1.
@@ -162,9 +172,9 @@ feed não executados.
 
 27/10/2026 — busca administrativa corrigida e publicada no Xano, com backup,
 dry-run final sem delta e **79 checks reais aprovados** após login admin.
-Tarefa 3.1 concluída; administração **22/34**. [Publicação, aceite e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
+Tarefa 3.1 concluída; administração **22/34**. [Publicação, aceite e limites](changes/archive/2026-11-12-gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
-Listas: [corrigir-duplicacao-listas-padrao](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/tasks.md) foi sincronizada e arquivada em 26/10/2026 com **11/11 tarefas**. Coleção própria separada, públicas agrupadas por autor e identidade estável publicada/ativada. Validação local, API e duas contas reais no navegador, limpeza e limites estão na [conclusão](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). As três changes funcionais abaixo mantêm suas pendências; o arquivo histórico agora reúne 18 entregas/diretórios, preservando as contagens anteriores por rodada.
+Listas: [corrigir-duplicacao-listas-padrao](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/tasks.md) foi sincronizada e arquivada em 26/10/2026 com **11/11 tarefas**. Coleção própria separada, públicas agrupadas por autor e identidade estável publicada/ativada. Validação local, API e duas contas reais no navegador, limpeza e limites estão na [conclusão](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Naquele registro, três changes funcionais mantinham suas pendências e o arquivo reunia 18 entregas/diretórios; a tabela seguinte foi reconciliada após os oito arquivamentos de 12/11, preservando as contagens históricas por rodada.
 
 Estado documental reconciliado em **26/10/2026**, para a AP2.
 
@@ -182,22 +192,31 @@ suas pendências ou contagens.
 
 | Change funcional ativa | Concluídas | Abertas | Critérios restantes |
 | --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
 | [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
 
 As contagens vêm dos checklists, não medem o percentual global do produto.
-As três changes têm planejamento completo; isso não significa implementação concluída.
+As changes listadas têm planejamento completo; isso não significa implementação concluída.
 
 Evidências mais recentes:
 
 - [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
 - [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
-- [Administração, 22/10](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
+- [Administração, 22/10](changes/archive/2026-11-12-gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
 - [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
 - [Recuperação/Resend, 28/10](changes/recuperar-senha-codigo-6-digitos/validation/elegibilidade-resend-2026-10-28.md): 24 testes locais passaram; a elegibilidade do destinatário ainda bloqueia envio/entrega reais, e 3.2/3.4 permanecem abertas.
 
 ## Entregas arquivadas
+
+12/11/2026 — Oito changes concluídas arquivadas após conferir tarefas:
+`gerenciamento-website` (34/34), `salvar-checkpoints-sincronizar-develop`
+(6/6), `consolidar-auditoria-backlog` (4/4),
+`reforcar-restricoes-redefinicao-senha` (6/6),
+`impedir-recuperacao-email-sem-conta` (4/4),
+`simplificar-pagina-recuperacao` (3/3), `melhorar-mascotes-carregamento`
+(9/9, implementação revertida) e `integrar-logo-codeboxd-referencias` (4/4).
+Seis changes tiveram seus 10 deltas sincronizados; as duas sem delta foram
+arquivadas sem sincronização. Todas as 29 specs principais passaram na validação.
 
 Fundação (87 tarefas únicas), modelo de dados (37), meias estrelas, listas iniciais,
 tradução DeepL, conteúdo obrigatório, correções operacionais e ajustes de feed/listas

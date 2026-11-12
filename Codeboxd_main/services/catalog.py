@@ -23,6 +23,8 @@ logger = logging.getLogger(__name__)
 KITSU_URL = 'https://kitsu.app/api/edge'
 _kitsu_cache: OrderedDict = OrderedDict()
 _public_cache: OrderedDict = OrderedDict()
+_public_result_cache: OrderedDict = OrderedDict()
+_public_result_pending: dict = {}
 _public_pending: dict = {}
 _connection_clients: dict = {}
 
@@ -164,6 +166,42 @@ def media(source: str, kind: str, identifier: str, title: str, **extra) -> dict:
                 description=str(extra.get('description') or ''), cover_url=safe_url(extra.get('cover_url')),
                 year=int(extra.get('year') or 0), details=extra.get('details') or {},
                 backdrop_url=safe_url(extra.get('backdrop_url')), search_titles=extra.get('search_titles') or [])
+
+
+async def _public_result_cache_get(namespace: str, key: Any, ttl: float, loader):
+    digest = hashlib.sha256(json.dumps([namespace, key], sort_keys=True).encode()).hexdigest()
+    cached = _public_result_cache.get(digest)
+    if cached and time.monotonic() - cached[0] < ttl:
+        _public_result_cache.move_to_end(digest)
+        return copy.deepcopy(cached[1])
+    if cached:
+        del _public_result_cache[digest]
+
+    pending_key = (asyncio.get_running_loop(), digest)
+    task = _public_result_pending.get(pending_key)
+    if task is None:
+        if len(_public_result_pending) >= 128:
+            return await loader()
+
+        async def load_and_cache():
+            value = await loader()
+            _public_result_cache[digest] = (time.monotonic(), copy.deepcopy(value))
+            _public_result_cache.move_to_end(digest)
+            while len(_public_result_cache) > 256:
+                _public_result_cache.popitem(last=False)
+            return value
+
+        task = asyncio.create_task(load_and_cache())
+        _public_result_pending[pending_key] = task
+
+        def finished(completed):
+            if _public_result_pending.get(pending_key) is completed:
+                del _public_result_pending[pending_key]
+            if not completed.cancelled():
+                completed.exception()
+
+        task.add_done_callback(finished)
+    return copy.deepcopy(await asyncio.shield(task))
 
 
 async def fetch(url: str, *, cache: bool = False, **kwargs) -> dict:
@@ -528,54 +566,59 @@ async def detail(item: dict) -> dict:
     allowed = {'tmdb': ('movie', 'series'), 'jikan': ('anime',), 'kitsu': ('anime',), 'openlibrary': ('book',)}
     if item.get('media_type') not in allowed.get(source, ()):
         raise APIError('Fonte ou categoria inválida.')
-    if source == 'tmdb':
-        if not identifier.isdigit(): raise APIError('Identificador inválido.')
-        category='movie' if item['media_type']=='movie' else 'tv'
-        headers={'Authorization':'Bearer '+os.getenv('TMDB_READ_TOKEN','')}
-        payload,credits=await asyncio.gather(
-            fetch(f'https://api.themoviedb.org/3/{category}/{identifier}',params={'language':'pt-BR'},headers=headers),
-            fetch(f'https://api.themoviedb.org/3/{category}/{identifier}/credits',params={'language':'pt-BR'},headers=headers),
-            return_exceptions=True)
-        if isinstance(payload,BaseException): raise payload
-        result=tmdb_item(payload,item['media_type'])
-        if not isinstance(credits,BaseException):
-            crew=credits.get('crew',[]); cast=credits.get('cast',[])
-            label='Dire\u00e7\u00e3o' if category=='movie' else 'Cria\u00e7\u00e3o'
-            people=[p.get('name','') for p in crew if p.get('job') in ('Director','Creator')][:3]
-            if people: result['details'][label]=', '.join(people)
-            if cast: result['details']['Elenco principal']=', '.join(p.get('name','') for p in cast[:8] if p.get('name'))
-        return result
-    if source in ('kitsu', 'jikan'):
-        kitsu_id = await kitsu_identifier(item)
-        payload = await kitsu_fetch('/anime/' + kitsu_id, include='categories,mappings')
-        if not isinstance(payload['data'], dict) or not kitsu_safe(payload['data']):
-            raise APIError('Anime não disponível neste catálogo.', 404)
-        result = kitsu_item(payload['data'], payload.get('included'))
-        if source == 'jikan':
-            # Preserve saved library links while refreshing metadata through Kitsu.
-            result.update(external_source=source, external_id=identifier,
-                          identity_key=f'jikan:anime:{identifier}', id=item.get('id', 0))
-        result['description'] = await translate_description(result['description'])
-        return result
-    if source == 'openlibrary':
-        if not re.fullmatch(r'OL\d+W',identifier): raise APIError('Identificador inválido.')
-        payload=await fetch(f'https://openlibrary.org/works/{identifier}.json',params={'lang':'pt'})
-        description=payload.get('description','')
-        if isinstance(description,dict): description=description.get('value','')
-        description = await translate_description(str(description or ''))
-        details=dict(item.get('details') or {})
-        author_keys=[a.get('author',{}).get('key','') for a in payload.get('authors',[])[:5]]
-        author_keys=[key for key in author_keys if re.fullmatch(r'/authors/OL\d+A',key)]
-        if author_keys:
-            authors=await asyncio.gather(*(fetch('https://openlibrary.org'+key+'.json') for key in author_keys),return_exceptions=True)
-            names=[a.get('name','') for a in authors if isinstance(a,dict) and a.get('name')]
-            if names: details['Autores']=', '.join(names)
-        if payload.get('subjects'): details['Temas']=', '.join(str(s) for s in payload['subjects'][:8])
-        covers=payload.get('covers') or []
-        return {**item,'title':payload.get('title') or item['title'],'description':description,
-                'year':year(payload.get('first_publish_date')) or item.get('year',0),'details':details,
-                'cover_url':f'https://covers.openlibrary.org/b/id/{covers[0]}-L.jpg' if covers and isinstance(covers[0],int) and covers[0]>0 else item.get('cover_url','')}
-    return item
+
+    async def load_detail():
+        if source == 'tmdb':
+            if not identifier.isdigit(): raise APIError('Identificador inválido.')
+            category='movie' if item['media_type']=='movie' else 'tv'
+            headers={'Authorization':'Bearer '+os.getenv('TMDB_READ_TOKEN','')}
+            payload,credits=await asyncio.gather(
+                fetch(f'https://api.themoviedb.org/3/{category}/{identifier}',params={'language':'pt-BR'},headers=headers),
+                fetch(f'https://api.themoviedb.org/3/{category}/{identifier}/credits',params={'language':'pt-BR'},headers=headers),
+                return_exceptions=True)
+            if isinstance(payload,BaseException): raise payload
+            result=tmdb_item(payload,item['media_type'])
+            if not isinstance(credits,BaseException):
+                crew=credits.get('crew',[]); cast=credits.get('cast',[])
+                label='Direção' if category=='movie' else 'Criação'
+                people=[p.get('name','') for p in crew if p.get('job') in ('Director','Creator')][:3]
+                if people: result['details'][label]=', '.join(people)
+                if cast: result['details']['Elenco principal']=', '.join(p.get('name','') for p in cast[:8] if p.get('name'))
+            return result
+        if source in ('kitsu', 'jikan'):
+            kitsu_id = await kitsu_identifier(item)
+            payload = await kitsu_fetch('/anime/' + kitsu_id, include='categories,mappings')
+            if not isinstance(payload['data'], dict) or not kitsu_safe(payload['data']):
+                raise APIError('Anime não disponível neste catálogo.', 404)
+            result = kitsu_item(payload['data'], payload.get('included'))
+            if source == 'jikan':
+                # Preserve saved library links while refreshing metadata through Kitsu.
+                result.update(external_source=source, external_id=identifier,
+                              identity_key=f'jikan:anime:{identifier}', id=item.get('id', 0))
+            result['description'] = await translate_description(result['description'])
+            return result
+        if source == 'openlibrary':
+            if not re.fullmatch(r'OL\d+W',identifier): raise APIError('Identificador inválido.')
+            payload=await fetch(f'https://openlibrary.org/works/{identifier}.json',params={'lang':'pt'})
+            description=payload.get('description','')
+            if isinstance(description,dict): description=description.get('value','')
+            description = await translate_description(str(description or ''))
+            details=dict(item.get('details') or {})
+            author_keys=[a.get('author',{}).get('key','') for a in payload.get('authors',[])[:5]]
+            author_keys=[key for key in author_keys if re.fullmatch(r'/authors/OL\d+A',key)]
+            if author_keys:
+                authors=await asyncio.gather(*(fetch('https://openlibrary.org'+key+'.json') for key in author_keys),return_exceptions=True)
+                names=[a.get('name','') for a in authors if isinstance(a,dict) and a.get('name')]
+                if names: details['Autores']=', '.join(names)
+            if payload.get('subjects'): details['Temas']=', '.join(str(s) for s in payload['subjects'][:8])
+            covers=payload.get('covers') or []
+            return {**item,'title':payload.get('title') or item['title'],'description':description,
+                    'year':year(payload.get('first_publish_date')) or item.get('year',0),'details':details,
+                    'cover_url':f'https://covers.openlibrary.org/b/id/{covers[0]}-L.jpg' if covers and isinstance(covers[0],int) and covers[0]>0 else item.get('cover_url','')}
+        return item
+
+    cache_key = item
+    return await _public_result_cache_get('detail', cache_key, 600, load_detail)
 
 
 async def availability(item: dict, region: str = 'BR') -> list[dict[str, str]]:
@@ -584,18 +627,22 @@ async def availability(item: dict, region: str = 'BR') -> list[dict[str, str]]:
     kind = item.get('media_type')
     if source != 'tmdb' or kind not in ('movie', 'series') or not identifier.isdigit():
         return []
-    category = 'movie' if kind == 'movie' else 'tv'
-    headers = {'Authorization': 'Bearer ' + os.getenv('TMDB_READ_TOKEN', '')}
-    payload = await fetch(f'https://api.themoviedb.org/3/{category}/{identifier}/watch/providers',
-                          params={'watch_region': region.upper(), 'language': 'pt-BR'}, headers=headers)
-    countries = payload.get('results') or {}
-    country = countries.get(region.upper()) or {}
-    result, seen = [], set()
-    for bucket in ('flatrate', 'free', 'ads', 'rent', 'buy'):
-        for provider in country.get(bucket, []) or []:
-            name = str(provider.get('provider_name') or '').strip()
-            link = safe_url(country.get('link'))
-            if name and name not in seen:
-                seen.add(name)
-                result.append({'name': name, 'url': link, 'type': bucket})
-    return result
+
+    async def load_availability():
+        category = 'movie' if kind == 'movie' else 'tv'
+        headers = {'Authorization': 'Bearer ' + os.getenv('TMDB_READ_TOKEN', '')}
+        payload = await fetch(f'https://api.themoviedb.org/3/{category}/{identifier}/watch/providers',
+                             params={'watch_region': region.upper(), 'language': 'pt-BR'}, headers=headers)
+        countries = payload.get('results') or {}
+        country = countries.get(region.upper()) or {}
+        result, seen = [], set()
+        for bucket in ('flatrate', 'free', 'ads', 'rent', 'buy'):
+            for provider in country.get(bucket, []) or []:
+                name = str(provider.get('provider_name') or '').strip()
+                link = safe_url(country.get('link'))
+                if name and name not in seen:
+                    seen.add(name)
+                    result.append({'name': name, 'url': link, 'type': bucket})
+        return result
+
+    return await _public_result_cache_get('availability', {'source': source, 'kind': kind, 'external_id': identifier, 'region': region.upper()}, 360, load_availability)

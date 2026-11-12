@@ -37,7 +37,8 @@ app.add_page(login_page, route="/login")
 app.add_page(admin_login_page, route="/admin/login", title="Acesso administrativo | Codeboxd",
              on_load=AuthState.guard_admin_login)
 app.add_page(signup_page, route="/cadastro")
-app.add_page(password_reset_page, route="/redefinir-senha")
+app.add_page(password_reset_page, route="/redefinir-senha",
+             on_load=AuthState.enter_password_reset_page)
 app.add_page(profile_page, route="/perfil/[profile_id]", on_load=SocialState.visit('profile'))
 app.add_page(profile_page, route="/conta", on_load=SocialState.visit('profile'))
 app.add_page(media_page, route="/obra/[media_id]", on_load=SocialState.visit('media'))

@@ -94,6 +94,8 @@ def password_reset_page() -> rx.Component:
                     rx.el.h1('Tudo certo.', class_name='reset-title'),
                     rx.el.p('Sua senha foi atualizada. Entre para continuar suas histórias.', class_name='reset-description'),
                     rx.el.a('Entrar na minha conta', href='/login', class_name='action-button reset-primary-button'),
+                    rx.el.button('Precisa redefinir a senha novamente?', type='button',
+                        on_click=SessionState.start_new_password_reset, class_name='reset-text-button'),
                     role='status', class_name='reset-complete'),
                 rx.el.div(
                     rx.el.div(

@@ -6,6 +6,13 @@ Os registros datados abaixo preservam rodadas anteriores.
 
 # Tarefas da administração
 
+12/11/2026 — Escopo de aceite revisado com aprovação do usuário:
+`proposal.md` e `design.md` delimitam esta entrega ao aceite integrado de leitura
+comprovado em 11/11. A homologação integrada de mutações/persistência/auditoria
+não foi executada e fica para uma change futura com ambiente isolado e autorização
+específica. Estado revisado: **34/34 tarefas desta change**; isso não equivale a
+aceite das mutações administrativas reais.
+
 11/11/2026 — Preparação incremental de 9.2:
 [piloto de mutações e limpeza](validation/piloto-mutacoes-2026-11-11.md).
 Primeiro subconjunto de 25 registros, preservando o plano completo de 239;
@@ -146,7 +153,12 @@ real pendente; [evidência](validation/catalogo-inicial-2026-10-20.md).
 Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte completa tem 106 testes aprovados na reanálise. 9.1 segue aberta porque testes simulados não verificam auditoria e autorização do Xano real. A validação 9.3 inclui dry-run histórico de setembro e compilação atual, não publicação administrativa atual.
 
 - [x] 9.1 Adicionar testes de unidade e integração para autorização, paginação, filtros, transições, snapshots e auditoria; verificar cenários de admin, membro, visitante e dados inválidos.
-- [ ] 9.2 Validar a interface completa com dados reais de desenvolvimento, estados vazios, erros parciais e tamanhos móveis; registrar resultados e defeitos encontrados.
+- [x] 9.2 Validar a interface administrativa integrada de leitura com dados reais de desenvolvimento, estados vazios, erro parcial controlado e tamanhos desktop/celular; registrar resultados e defeitos encontrados. Escopo limitado ao aceite documentado em [resultado de leituras de 11/11](validation/resultado-leituras-2026-11-11.md); mutações, persistência, autorização negativa integrada e auditoria real não fazem parte deste aceite e exigem change futura com ambiente isolado.
+
+  **Histórico preservado:** a descrição anterior de 9.2 incluía validação integrada de
+  fluxos de alteração e permissões. Esses critérios não foram exercitados no aceite
+  de leitura e foram separados para trabalho futuro; não interpretar os registros
+  abaixo como evidência de mutações concluídas.
 
   Retomada exclusiva em 05/11/2026: [plano de aceite](validation/plano-9-2-2026-11-05.md)
   e [resultados/limites](validation/aceite-9-2-2026-11-05.md). Testes locais e
@@ -160,21 +172,21 @@ Há testes locais em `tests/test_admin.py`, autenticação e social; a suíte co
   Distinguir aceite com APIs fictícias de integração real antes de fechar 9.2.
   Resultado final: 68 cenários distintos com fixtures, 44 revalidados após a
   correção dos modais, três regressões do sincronismo e dois casos reais de
-  Reports. [Matriz e limites](validation/matriz-9-2-2026-11-05.md). Manter 9.2
-  aberta pelo aceite integrado dos fluxos de alteração/permissões ainda não
-  comprovado, sem mutações remotas nesta rodada.
+  Reports. [Matriz e limites](validation/matriz-9-2-2026-11-05.md). Essa rodada
+  permanece evidência histórica; o aceite de leitura posterior está em 11/11.
 
   Preparação posterior, somente documental: [plano de homologação integrada](design.md#plano-de-homologação-integrada-da-92--preparado-em-05112026),
   com contas/lote, matriz de métodos e efeitos, isolamento, guardas, retenção de
   auditoria, limpeza limitada e autorizações A0–A4. Nenhuma autenticação,
-  consulta de inventário ou escrita Xano nesta preparação; execução aguarda
-  aprovação explícita do escopo. 9.2 permanece aberta, 33/34.
+  consulta de inventário ou escrita Xano nesta preparação; execução aguardava
+  aprovação explícita do escopo. Na data desse registro, 9.2 permanecia aberta;
+  o escopo foi revisado em 12/11 conforme a decisão acima.
 
   09/11/2026 — usuário autorizou somente leitura A0. [Inventário executado](validation/pre-voo-a0-2026-11-09.md):
   sete GET 200, workspace confirmado, branch v1/live e fonte live, sem destino
   isolado observado ou fixtures liberadas para reuso. Zero mutações; A1–A4
-  permanecem pendentes. Contratos/cascatas/quota ainda precisam de conferência
-  antes de escrever. Manter 9.2 aberta e não usar executores antigos de limpeza.
+  permaneciam pendentes. Contratos/cascatas/quota ainda precisavam de conferência antes de escrever. Esse
+  registro não autoriza executores antigos de limpeza.
 
   Continuação em 09/11: usuário autorizou login manual e leituras de A1.
   [Sessão/acesso confirmados](validation/login-e-leituras-a1-2026-11-09.md):

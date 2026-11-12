@@ -4,6 +4,21 @@
 
 Ver `proposal.md` para a motivação e `specs/` para os contratos observáveis. Revisão em 13/10/2026: a rota `/admin` já apresenta dashboard, e existem páginas/estado para usuários, catálogo e reports, além de `/admin/login`. A sessão confirma o papel por `/auth/me`. Contratos locais Xano existem e foram reconhecidos em dry-run histórico, mas publicação e autorização direta precisam de evidência remota. O catálogo social separa registros persistidos de dados externos. Estado por tarefa: `validation/revisao-2026-10-13.md`.
 
+## Decisão de aceite — 12/11/2026
+
+O escopo encerrável desta change inclui o aceite integrado de leitura registrado
+em `validation/resultado-leituras-2026-11-11.md`: sete áreas administrativas,
+buscas sem resultados, erro parcial injetado localmente e viewports de 1440/390.
+O resultado não valida mutações, autorização negativa integrada, persistência ou
+auditoria de ações administrativas; a própria evidência registra esses limites.
+
+Não usar o workspace live como substituto para homologação. O aceite de
+suspensão/reativação, criação/edição de catálogo e decisões de reports com
+persistência e auditoria deve ser planejado em uma change OpenSpec posterior,
+após disponibilização de ambiente isolado e autorização explícita. Os planos
+anteriores de lote, escrita e limpeza permanecem referências históricas e não
+autorizam sua execução.
+
 ## Goals / Non-Goals
 
 **Goals:**

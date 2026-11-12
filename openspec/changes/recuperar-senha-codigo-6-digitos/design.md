@@ -33,6 +33,8 @@ entrega verificável. **Non-Goals:** alterar login comum, papéis, hospedagem ou
 
 - Ajuste de 10/11/2026: após confirmação da troca, manter estado explícito de recuperação concluída, impedir novo submit no servidor e desabilitar o botão com indicação de conclusão. Nova solicitação válida de código inicia outro fluxo. Histórico real mostrou troca 200 seguida de três reutilizações rejeitadas do mesmo código; não flexibilizar uso único no backend.
 
+- Decisão de UX em 12/11/2026: a confirmação de sucesso deve manter “Entrar” como ação principal e oferecer somente uma ação textual secundária discreta para iniciar outra solicitação. Essa ação volta à etapa de e-mail com o endereço preservado, sem disparar envio automaticamente; a pessoa precisa submeter um novo pedido, sujeito ao cooldown vigente. Abrir novamente a rota `/redefinir-senha`, inclusive pelo link “Esqueci minha senha”, também deve limpar a confirmação antiga e mostrar o formulário de solicitação, preservando o e-mail sem enviar nada automaticamente. O código já consumido continua inválido e não pode ser reenviado ou reutilizado. A tela atual não oferece o caminho secundário e mantém estado de sucesso ao entrar de novo na rota; a implementação e os testes ficam na task 2.6.
+
 - Atualização autorizada em 22/10: substituir o serviço nativo indisponível por
   POST https://api.resend.com/emails a partir do Xano. Ler RESEND_API_KEY e
   RESEND_FROM somente do ambiente privado do backend; nunca embutir a chave

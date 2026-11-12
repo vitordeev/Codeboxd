@@ -1,0 +1,17 @@
+{
+  "layer": "supervised_real_api",
+  "started_at": "2026-11-12T12:06:48.335257+00:00",
+  "approval_reference_sha256": "da9097c36ecd357cb8db360f516836c8c594f2785cb1161c46161ff861e17d17",
+  "passed": false,
+  "restoration_needed": false,
+  "checks": [],
+  "resumed_evidence_sha256": "c40d6a12676c57bd5647932874f27cf93ae5b2426d5978c6e130fadfcb25c737",
+  "operator_observation_unavailable_on_resume": true,
+  "phase": "initial_login",
+  "mail_requests_attempted": 1,
+  "requests_attempted": 3,
+  "last_http_status": 400,
+  "interrupted": true,
+  "failure_type": "CheckStopped",
+  "failure_reason": "invalid_session_response"
+}

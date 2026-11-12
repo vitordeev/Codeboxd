@@ -40,6 +40,7 @@ class CatalogTests(unittest.IsolatedAsyncioTestCase):
 
     def setUp(self):
         catalog._kitsu_cache.clear()
+        catalog._public_result_cache.clear()
         # Provider fixtures do not use the optional live translation service.
         translation_env = patch.dict(os.environ, {'DEEPL_API_KEY': ''})
         translation_env.start()
@@ -139,6 +140,20 @@ class CatalogTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn('Diretora',result['details']['Direção'])
         self.assertIn('Atriz',result['details']['Elenco principal'])
         self.assertEqual(result['backdrop_url'],'https://image.tmdb.org/t/p/w1280/wide.jpg')
+
+    async def test_detail_cache_does_not_reuse_another_record_id(self):
+        first = catalog.media('jikan', 'anime', '52', 'Anime')
+        first['id'] = 7
+        second = {**first, 'id': 8}
+        payload = {'data': {'id': '456', 'type': 'anime', 'attributes': {'canonicalTitle': 'Anime'}}}
+        with patch.object(catalog, 'kitsu_identifier', new=AsyncMock(return_value='456')), \
+                patch.object(catalog, 'kitsu_fetch', new=AsyncMock(return_value=payload)) as fetch, \
+                patch.object(catalog, 'translate_description', new=AsyncMock(return_value='')):
+            result1 = await catalog.detail(first)
+            result2 = await catalog.detail(second)
+
+        self.assertEqual((result1['id'], result2['id']), (7, 8))
+        self.assertEqual(fetch.await_count, 2)
 
     async def test_recommendations_use_provider_data_without_extra_credentials(self):
         tmdb=catalog.media('tmdb','series','42','Série')

@@ -1,7 +1,7 @@
 # Backlog rastreável — Codeboxd
 
 Atualizado em 28/10/2026. Fonte: [auditoria](codeboxd-auditoria.md).
-Change documental: [consolidar-auditoria-backlog](../changes/consolidar-auditoria-backlog/proposal.md).
+Change documental arquivada: [consolidar-auditoria-backlog](../changes/archive/2026-11-12-consolidar-auditoria-backlog/proposal.md).
 Não foram encontrados IDs CBX anteriores nos Markdown de docs/OpenSpec; os IDs
 existentes P.* e IDs internos das changes continuam preservados.
 
@@ -53,7 +53,7 @@ do primeiro uso; P3: fechamento documental. P/M/G são tamanhos relativos, não 
 
 - Objetivo: comprovar as regras existentes de admin ativo e sessão suspensa,
   com ator derivado de `$auth.id` e auditoria persistida. Fonte:
-  [tasks](../changes/gerenciamento-website/tasks.md), IDs 2.1/3.2/3.3.
+  [tasks](../changes/archive/2026-11-12-gerenciamento-website/tasks.md), IDs 2.1/3.2/3.3.
 - Aceite: visitante/membro/admin desativado rejeitados por chamada direta;
   suspensão impede operação protegida; reativação funciona; evento identifica
   ator/alvo/estado anterior/novo/horário/motivo. Sem inventar proibição de autossuspensão.
@@ -66,7 +66,7 @@ do primeiro uso; P3: fechamento documental. P/M/G são tamanhos relativos, não 
 
 - Defeito comprovado: validação global interrompia métricas e listas válidas;
   booleanos/frações eram aceitos como totais. Fonte: `state/admin.py` e
-  [spec](../changes/gerenciamento-website/specs/admin-dashboard/spec.md).
+  [spec](../specs/admin-dashboard/spec.md).
 - Aceite: inválidos mostram indisponibilidade, zero válido continua zero,
   fontes restantes permanecem legíveis; erro não vira vazio; nova resposta
   remove erros anteriores e não apresenta dados antigos como atualizados.
@@ -80,7 +80,7 @@ do primeiro uso; P3: fechamento documental. P/M/G são tamanhos relativos, não 
 
 ### CBX-004 — Indicadores e filas do dashboard
 
-- Requisito: gerenciamento 2.2/2.3. [Candidato e limites](../changes/gerenciamento-website/validation/dashboard-2026-10-27.md).
+- Requisito: gerenciamento 2.2/2.3. [Candidato e limites](../changes/archive/2026-11-12-gerenciamento-website/validation/dashboard-2026-10-27.md).
   Endpoint candidato e ferramentas já existem; não contabilizar como implementação ausente.
 - Aceite: totais conferidos contra inventário independente; apenas pendentes;
   páginas sem repetição/omissão, desempate por ID e vazio correto, sem segredos.
@@ -212,4 +212,4 @@ Produção/hospedagem continuam decisões separadas.
 - 28/10/2026: criado inventário CBX-001–012 com relação aos IDs existentes,
   separação de hipóteses e critérios de aceite. Sem exclusão ou reabertura de
   entregas históricas. Estado inicial dos PRs e validação conjunta no
-  [relatório](../changes/consolidar-auditoria-backlog/revisao-multiagente.md).
+  [relatório](../changes/archive/2026-11-12-consolidar-auditoria-backlog/revisao-multiagente.md).

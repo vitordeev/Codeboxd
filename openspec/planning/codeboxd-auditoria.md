@@ -1,7 +1,7 @@
 # Auditoria técnica e de produto — Codeboxd
 
 Data: 28/10/2026. Acompanhamento: change
-[consolidar-auditoria-backlog](../changes/consolidar-auditoria-backlog/proposal.md).
+[consolidar-auditoria-backlog](../changes/archive/2026-11-12-consolidar-auditoria-backlog/proposal.md).
 Este diagnóstico registra o que foi examinado; não certifica o ambiente remoto.
 
 ## Base e método
@@ -67,7 +67,7 @@ por cache de interface. Referência: [CONTEXTO.md](../CONTEXTO.md).
 | Avaliações e resenhas | Implementado | `media-interactions`, meias estrelas e envio único documentados; comparação de performance da jornada segue aberta |
 | Listas e biblioteca | Implementado | Change de duplicação arquivada 11/11; identidade e validações anteriores preservadas; não reabrir como recurso ausente |
 | Feed, curtidas e comentários | Implementado localmente | [Feed 6/6 no branch do PR #24](https://github.com/vitordeev/Codeboxd/blob/codex/agente-1/openspec/changes/corrigir-publicacoes-foto-interacoes/tasks.md); commit comum e testes locais, sem nova publicação ou reinício da instância normal |
-| Administração | Parcial | [22/34](../changes/gerenciamento-website/tasks.md); APIs e UI presentes, faltam critérios remotos e navegador real |
+| Administração | Parcial | [22/34 no retrato de 28/10](../changes/archive/2026-11-12-gerenciamento-website/tasks.md); APIs e UI presentes, faltam critérios remotos e navegador real |
 | Desempenho | Parcial | [14/37](../changes/otimizar-performance-app/tasks.md); pools/caches já existem; faltam metas e comparações das demais jornadas |
 | Responsividade e acessibilidade | Parcial | Há cenários fictícios 1440/390px e controles acessíveis; não é certificação de todas as rotas/tecnologias assistivas |
 | Hospedagem e persistência externa de uploads | A verificar / fora da etapa | P.3/P.10; operação local definida pelo usuário, sem autorizar implantação |
@@ -87,7 +87,7 @@ por cache de interface. Referência: [CONTEXTO.md](../CONTEXTO.md).
    negativos. Isso preenche preparação, não o aceite da API publicada.
 
 Resultados atuais e decisões por PR constam no
-[relatório multiagente](../changes/consolidar-auditoria-backlog/revisao-multiagente.md).
+[relatório multiagente](../changes/archive/2026-11-12-consolidar-auditoria-backlog/revisao-multiagente.md).
 Baseline executada nesta sessão: **432 testes passaram** e `pip check` não
 encontrou dependências quebradas. Suíte integrada: **479 testes, compile e build
 aprovados, 8/8 cenários de navegador fictício aprovados**. As contagens históricas
