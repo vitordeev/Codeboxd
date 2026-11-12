@@ -1,7 +1,7 @@
 # Tasks
 
 O planejamento foi aprovado pelo pedido posterior de prosseguimento do usuário.
-O primeiro lote local concluiu 1.1, 2.1 e 3.1: **3/26 tarefas**. A aprovação
+O primeiro lote local concluiu 1.1, 2.1 e 3.1; a continuação concluiu 2.2: **4/26 tarefas**. A aprovação
 do planejamento não é autorização de publicação Xano, mutações
 reais ou merge. Referências e diagnóstico estão em design.md; critérios de
 comportamento estão em specs/. Cada lote deve incluir seus testes e evidências.
@@ -14,7 +14,11 @@ comportamento estão em specs/. Cada lote deve incluir seus testes e evidências
 ## 2. Fundamentos e navegação — sem mudança de negócio
 
 - [x] 2.1 Consolidar tokens de cores, tipografia, espaços e raios a partir da identidade ativa, com uma página piloto; medir contraste nos fundos reais, verificar Inter/fallback e preservar logo/mascotes, registrando antes/depois sem introduzir arte ou fontes novas.
-- [ ] 2.2 Modernizar variantes reutilizáveis de botão/campo/feedback/vazio/diálogo, mantendo mensagens e dados recuperáveis; verificar nomes acessíveis, foco/retorno, colagem, loading/erro/vazio/falha parcial e registrar regressões da família piloto.
+- [x] 2.2 Modernizar variantes reutilizáveis de botão/campo/feedback/vazio/diálogo, mantendo mensagens e dados recuperáveis; verificar nomes acessíveis, foco/retorno, colagem, loading/erro/vazio/falha parcial e registrar regressões da família piloto.
+
+Evidência: [controles compartilhados e retorno de foco](validation/controles-2026-11-11.md).
+632 testes, cinco cenários de controles e quatro regressões Home/ficha aprovados;
+compile normal aprovado. Aceite da família piloto, sem encerrar 6.x/7.x.
 - [ ] 2.3 Reorganizar shell e acesso a Buscar/Biblioteca/conta/listas/comunidade mantendo rotas antigas e guards; testar teclado, menu sem hover, foco não encoberto e navegação desktop/celular, documentando o mapa atual→novo e que não há chamadas extras por apresentação.
 
 ## 3. Coleções horizontais reutilizáveis
@@ -55,8 +59,9 @@ comportamento estão em specs/. Cada lote deve incluir seus testes e evidências
 
 ## Workflow follow-up
 
+- Push da branch de continuação autorizado pelo usuário junto à [análise consolidada do chat](../../planning/analise-consolidada-chat-2026-11-11.md). Registro incremental de 7.3; não autoriza merge/PR nem encerra o aceite transversal.
 - Aprovação de planejamento e prosseguimento recebida; o primeiro lote foi implementado apenas localmente, em branch/worktree própria.
 - Evidências do lote: [fundamentos e carrosséis, 11/11/2026](validation/fundamentos-carrosseis-2026-11-11.md), baseline de 15 capturas, 20 cenários de navegador e cinco verificações adicionais da Inter existente. A suíte local e o compile estão discriminados nesse relatório.
-- 3.2 segue aberta: toque emulado não substitui dispositivo físico. 3.3 tem o componente aplicado, mas ainda exige aceite de carregar mais/falha de capa e comparação específica de carregamento. 2.2/2.3 e os demais itens não foram concluídos por este lote.
+- 3.2 segue aberta: toque emulado não substitui dispositivo físico. A continuação de 3.3 comprovou carregar mais, esgotamento e falha de capa em quatro larguras; falta comparação quantitativa com baseline equivalente. [Evidência incremental](validation/carrosseis-dados-2026-11-11.md). 2.2 foi concluída na rodada de controles; 2.3 e os demais itens continuam abertos.
 - Planejamento completo e testes do piloto não significam aceite de toda a interface.
 - Não sincronizar specs nem arquivar sem critérios e autorização próprios.

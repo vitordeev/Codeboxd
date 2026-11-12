@@ -1,5 +1,18 @@
 # OpenSpec do Codeboxd
 
+11/11/2026 — **Push da continuação UI autorizado e análise consolidada:**
+[tudo que foi investigado, implementado, testado e permanece pendente](planning/analise-consolidada-chat-2026-11-11.md).
+Pacote da branch `task/ui-rails-acceptance-20261111`, UI 4/26; develop permanece
+`7d32dc2`. Publicação da branch não equivale a merge, deploy ou aceite remoto.
+
+11/11/2026 — **UI/UX 4/26, incremento local de controles compartilhados:**
+[implementação e evidências](changes/modernizar-ui-ux-codeboxd/validation/controles-2026-11-11.md).
+Campos/botões/feedback/vazio/diálogos modernizados e foco do editor corrigido;
+632 testes, cinco cenários de controles e quatro regressões Home/ficha passaram.
+Branch `task/ui-rails-acceptance-20261111`, sem push/merge/PR ou arquivo nesta rodada.
+Baseline quantitativo e toque físico continuam pendentes; os registros abaixo
+descrevem as rodadas anteriores.
+
 11/11/2026 — **develop sincronizada no origin por solicitação do usuário:**
 [ponto de continuação, commits e validação](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md).
 Cloudinary e primeiro lote UI integrados por `integration/salvar-develop-20261111`;

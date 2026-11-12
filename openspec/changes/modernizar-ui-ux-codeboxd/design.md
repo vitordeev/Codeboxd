@@ -327,3 +327,13 @@ Não houve alteração de SocialState, caches, paginação, contratos de autenti
 ou serviços. A evidência em [validation/fundamentos-carrosseis-2026-11-11.md](validation/fundamentos-carrosseis-2026-11-11.md)
 delimita testes reais de navegador com backend fictício, cancelamento sintético,
 toque emulado e verificações ainda abertas. O restante do plano permanece válido.
+
+## Continuação dos controles compartilhados — 11/11/2026
+
+Aplicada a família piloto de 2.2 nos helpers sociais existentes: `ui-control`,
+variante secundária de botão, feedback contextual e vazio sem caixa decorativa.
+Editor/confirm continuam usando Radix, com viewport limitada. Um asset local
+restaura foco de editores programáticos apenas quando Radix não o restaurou;
+mantém histórico limitado e limpa referências desconectadas, sem eventos de rede.
+Essa decisão corrige o caso reproduzido e preserva contratos/rascunhos. Ver
+[implementação, testes e limites](validation/controles-2026-11-11.md).

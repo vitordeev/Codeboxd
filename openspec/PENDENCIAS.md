@@ -1,5 +1,16 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — [UI/UX: controles e foco implementados](changes/modernizar-ui-ux-codeboxd/validation/controles-2026-11-11.md):
+2.2 concluída na família piloto, UI **4/26**. Campos, ações secundárias, feedback,
+vazio e diálogos compartilham padrões; foco de editor programático corrigido.
+632 testes e matrizes locais aprovados. 3.2/3.3, shell e demais famílias seguem
+abertos; nenhuma integração remota ou mudança nas worktrees de colaboradores.
+
+11/11/2026 — [Carrosséis: paginação e capa indisponível comprovadas](changes/modernizar-ui-ux-codeboxd/validation/carrosseis-dados-2026-11-11.md)
+em quatro larguras com backend fictício. Sem mudança no código do produto.
+3.3 ainda exige comparação quantitativa com baseline; 3.2 exige aparelho físico.
+UI/UX preservada em 3/26, sem nova publicação ou alteração de develop.
+
 11/11/2026 — [Salvar trabalhos e sincronizar develop](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md):
 integração publicada em develop e validada com 632 testes/compile e OpenSpec padrão 34/34;
 cinco checkpoints guardam as frentes e versões históricas. Recibo de push/refs

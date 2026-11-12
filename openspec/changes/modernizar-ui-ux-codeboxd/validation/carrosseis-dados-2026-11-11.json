@@ -1,0 +1,62 @@
+{
+  "layer": "browser_with_fictional_backend",
+  "cases": [
+    {
+      "width": 320,
+      "initial_cards": 12,
+      "loaded_cards": 24,
+      "unique_titles": 24,
+      "first_page_preserved": true,
+      "other_collection_preserved": true,
+      "scroll_does_not_load": true,
+      "exhaustion_hides_more": true,
+      "broken_cover_preserves_title_and_geometry": true,
+      "keyboard_navigation": true,
+      "javascript_errors": [],
+      "passed": true
+    },
+    {
+      "width": 390,
+      "initial_cards": 12,
+      "loaded_cards": 24,
+      "unique_titles": 24,
+      "first_page_preserved": true,
+      "other_collection_preserved": true,
+      "scroll_does_not_load": true,
+      "exhaustion_hides_more": true,
+      "broken_cover_preserves_title_and_geometry": true,
+      "keyboard_navigation": true,
+      "javascript_errors": [],
+      "passed": true
+    },
+    {
+      "width": 768,
+      "initial_cards": 12,
+      "loaded_cards": 24,
+      "unique_titles": 24,
+      "first_page_preserved": true,
+      "other_collection_preserved": true,
+      "scroll_does_not_load": true,
+      "exhaustion_hides_more": true,
+      "broken_cover_preserves_title_and_geometry": true,
+      "keyboard_navigation": true,
+      "javascript_errors": [],
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "initial_cards": 12,
+      "loaded_cards": 24,
+      "unique_titles": 24,
+      "first_page_preserved": true,
+      "other_collection_preserved": true,
+      "scroll_does_not_load": true,
+      "exhaustion_hides_more": true,
+      "broken_cover_preserves_title_and_geometry": true,
+      "keyboard_navigation": true,
+      "javascript_errors": [],
+      "passed": true
+    }
+  ],
+  "passed": true
+}

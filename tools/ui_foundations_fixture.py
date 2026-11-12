@@ -11,15 +11,16 @@ from Codeboxd_main.services import catalog
 from Codeboxd_main.state import social
 
 
-def items(kind='movie'):
+def items(kind='movie', page=1):
     return [catalog.media('tmdb' if kind in ('movie', 'series') else kind, kind, str(i),
         f'Obra de teste {i:02} — uma história com título longo para verificar a leitura',
         cover_url='https://ui-fixture.invalid/cover.png', year=2020+i % 5,
-        description='Conteúdo fictício para verificar layout e navegação.') for i in range(1, 13)]
+        description='Conteúdo fictício para verificar layout e navegação.')
+        for i in range((page-1)*12+1, page*12+1)]
 
 
 async def search(query='', kind='all', page=1):
-    return items('movie' if kind == 'all' else kind), []
+    return (items('movie' if kind == 'all' else kind, page) if page <= 2 else []), []
 
 
 async def highlights():

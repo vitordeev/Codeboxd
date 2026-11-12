@@ -507,6 +507,20 @@ button:disabled { cursor: wait; }
 .ui-login .form-input-custom:focus-visible { outline: 2px solid var(--cb-accent); outline-offset: 3px; }
 .ui-login-primary { background: var(--cb-accent); color: var(--cb-on-accent); }
 .ui-form-error { color: var(--cb-error); }
+.ui-control { display: block; width: 100%; min-width: 0; min-height: 44px; padding: 11px 14px; border: 1px solid var(--cb-control-border); border-radius: var(--cb-radius-control); background: var(--cb-surface); color: var(--cb-text); font: inherit; line-height: 1.5; }
+textarea.ui-control { resize: vertical; min-height: 120px; }
+.ui-control::placeholder { color: var(--cb-subtle); opacity: 1; }
+.ui-control:disabled { opacity: .65; cursor: not-allowed; }
+.ui-control[aria-invalid="true"] { border-color: var(--cb-error); }
+.site-shell :is(.action-button,.quiet-button),.codeboxd-dialog :is(.action-button,.quiet-button) { min-height: 44px; white-space: normal; overflow-wrap: anywhere; text-align: center; }
+:is(.ui-control,.action-button,.quiet-button):focus-visible { outline: 2px solid var(--cb-accent); outline-offset: 3px; }
+.quiet-button:disabled { cursor: not-allowed; opacity: .55; }
+.ui-feedback { padding: 12px 0 12px 14px; border-left: 3px solid var(--cb-accent); color: var(--cb-text); line-height: 1.6; overflow-wrap: anywhere; }
+.ui-feedback-error { border-color: var(--cb-error); color: var(--cb-error); }
+.ui-feedback-success { border-color: #9be0af; color: #9be0af; }
+.ui-empty-state { padding: 24px 0; color: var(--cb-muted); line-height: 1.6; overflow-wrap: anywhere; }
+.codeboxd-dialog { width: min(500px, calc(100vw - 32px)) !important; max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior-y: contain; }
+@media(prefers-reduced-motion:reduce) { .ui-control,.action-button,.quiet-button { transition: none; } }
 [data-codeboxd-rail] { touch-action: auto; cursor: grab; }
 .catalog-rail[data-codeboxd-rail] { scroll-padding-inline: 2px; }
 [data-codeboxd-rail]:focus-visible,[data-rail-item]:focus-visible { outline: 2px solid var(--cb-accent); outline-offset: 3px; }

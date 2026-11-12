@@ -12,13 +12,25 @@ from ..services.catalog import HOME_COLLECTIONS
 from .login import _logo_icon
 from ..horizontal_collection import horizontal_rail, rail_controls
 
-INPUT = 'w-full rounded-xl border border-white/15 bg-[#151719] px-4 py-3 text-white'
+INPUT = 'ui-control'
 BUTTON = 'action-button'
 CARD = 'rounded-2xl border border-white/10 bg-[#111114] p-5 space-y-4'
 
 
-def button(text, event=None, **props):
-    return rx.el.button(text, on_click=event, type='button', class_name=BUTTON, **props)
+def button(text, event=None, variant='primary', **props):
+    styles = {'primary': BUTTON, 'secondary': 'quiet-button'}
+    return rx.el.button(text, on_click=event, type='button', class_name=styles[variant], **props)
+
+
+def feedback(message, tone='info'):
+    if tone not in ('info', 'error', 'success'):
+        raise ValueError('Unsupported feedback tone')
+    return rx.el.p(message, role='alert' if tone == 'error' else 'status',
+                   class_name='ui-feedback ui-feedback-'+tone)
+
+
+def empty_state(message):
+    return rx.el.p(message, class_name='ui-empty-state')
 
 
 def field(label, name, value='', **props):
@@ -60,7 +72,7 @@ def avatar(url, name):
 def editor(title, description, content, **props):
     return rx.dialog.root(rx.dialog.content(
         rx.dialog.title(title), rx.dialog.description(description),
-        rx.cond(S.notice != '', rx.el.p(S.notice, role='status', class_name='dialog-notice')),
+        rx.cond(S.notice != '', feedback(S.notice)),
         content, rx.dialog.close(rx.el.button('Fechar', type='button', class_name='quiet-button')),
         class_name='codeboxd-dialog'), **props)
 
@@ -80,7 +92,7 @@ def shell(title, subtitle, *children):
             class_name='site-header'),
         rx.el.main(rx.el.h1(title,class_name='sr-only' if title in ('Sua próxima história começa aqui.', 'Detalhes da obra') else 'text-3xl md:text-4xl font-bold'),
             rx.el.p(subtitle,class_name='sr-only' if title in ('Sua próxima história começa aqui.', 'Detalhes da obra') else 'text-gray-400 mt-3 mb-8'),
-            rx.cond(S.notice!='',rx.el.p(S.notice,role='status',class_name='rounded-xl border border-amber-400/25 bg-amber-400/10 p-4 mb-6')),
+            rx.cond(S.notice!='',feedback(S.notice)),
             rx.cond(S.busy,rx.el.p('Carregando…',role='status',class_name='text-amber-300')),
             rx.fragment(*children),
             class_name='site-main space-y-8'),
@@ -116,7 +128,7 @@ def media_card(m, search=False):
 def grid(items, render, empty):
     return rx.cond(items.length()>0,
         rx.el.div(rx.foreach(items,render),class_name='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'),
-        rx.el.p(empty,class_name='p-8 border border-dashed border-white/15 rounded-2xl text-gray-400'))
+        empty_state(empty))
 
 
 def catalog_shelf(title, subtitle, items, kind, shelf_id, footer=None):
@@ -322,7 +334,7 @@ def media_page():
                         rx.el.p('Avaliação salva',role='status',class_name='font-semibold brand-yellow'),
                         rx.el.p(rx.cond(S.selected_rating=='0','Sem nota','Sua nota: '+S.selected_rating.replace('.',',')+' / 5')),
                         rx.cond(S.selected_review!='',rx.el.p(S.selected_review,class_name='whitespace-pre-wrap')),
-                        button('Editar avaliação',S.edit_interaction),class_name=CARD))),
+                        button('Editar avaliação',S.edit_interaction,variant='secondary'),class_name=CARD))),
                     rx.el.div(rx.el.h3('Avalie esta obra',class_name='font-semibold'),
                         rx.el.p('Sua nota fica salva apenas neste navegador e não aparece no perfil nem na comunidade.',class_name='text-sm text-gray-400'),
                         rating_picker(),
@@ -354,7 +366,7 @@ def media_page():
                             disabled=S.list_item_saving,class_name=INPUT),
                         button(rx.cond(S.list_item_saving,'Adicionando…','Confirmar inclusão'),S.add_current_media_to_list,
                             disabled=S.list_item_saving | (S.media_list_target=='')),
-                        button('Cancelar',S.close_media_lists,disabled=S.list_item_saving),
+                        button('Cancelar',S.close_media_lists,disabled=S.list_item_saving,variant='secondary'),
                         class_name='space-y-3 mt-4'),rx.fragment()),
                     rx.el.a('Abrir minhas listas →',href='/listas',class_name='block brand-yellow mt-4')),
                 class_name='review-layout'),
@@ -481,7 +493,7 @@ def post_media_picker():
             rx.cond(S.post_media_selected['cover']!='',rx.el.img(src=S.post_media_selected['cover'],
                 alt=S.post_media_selected['title'],class_name='post-media-selected-cover')),
             rx.el.strong(S.post_media_selected['title']),
-            button('Remover obra',S.clear_post_media),class_name='post-media-selected'),rx.fragment()),
+            button('Remover obra',S.clear_post_media,variant='secondary'),class_name='post-media-selected'),rx.fragment()),
         rx.cond(S.post_media_results.length()>0,rx.el.div(rx.foreach(S.post_media_results,
             lambda item:rx.el.button(
                 rx.cond(item['cover']!='',rx.el.img(src=item['cover'],alt='',class_name='post-media-result-cover'),
@@ -512,7 +524,7 @@ def post_image_picker():
                 class_name='post-image-upload-actions'),rx.fragment()),
         rx.cond(S.post_image_filename!='',rx.el.div(
             rx.el.img(src=rx.get_upload_url(S.post_image_filename),alt='Previa da imagem enviada',
-                class_name='post-image-preview'),button('Remover imagem',S.remove_post_image),class_name='space-y-2'),
+                class_name='post-image-preview'),button('Remover imagem',S.remove_post_image,variant='secondary'),class_name='space-y-2'),
             rx.cond(S.post_existing_image_url!='',rx.el.img(src=S.post_existing_image_url,
                 alt='Imagem atual da publicacao',class_name='post-image-preview'),rx.fragment())),
         class_name='post-image-picker')
