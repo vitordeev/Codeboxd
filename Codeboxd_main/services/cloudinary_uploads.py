@@ -1,6 +1,7 @@
 """Prepared server-only Cloudinary transport; not yet wired into post persistence."""
 from dataclasses import dataclass, field
 import hashlib
+import hmac
 import os
 import re
 import time
@@ -34,6 +35,8 @@ class CloudinaryImage:
     height: int
     bytes: int
     format: str
+    version: int
+    signature: str = field(repr=False)
 
 
 def upload_config() -> CloudinaryConfig:
@@ -62,7 +65,40 @@ def _read_image(body, config, public_id):
         raise ValueError('Invalid metadata')
     if any(type(body.get(k)) is not int or body[k] <= 0 for k in ('width', 'height', 'bytes')) or body['bytes'] > MAX_BYTES:
         raise ValueError('Invalid dimensions/size')
-    return CloudinaryImage(url, public_id, body['asset_id'], body['width'], body['height'], body['bytes'], body['format'])
+    version, signature = body.get('version'), body.get('signature')
+    if type(version) is not int or version <= 0 or not isinstance(signature, str):
+        raise ValueError('Invalid receipt')
+    # Cloudinary signs public_id and version; other metadata is not covered.
+    canonical = f'public_id={public_id}&version={version}' + config.api_secret
+    valid = any(hmac.compare_digest(signature, algorithm(canonical.encode()).hexdigest())
+                for algorithm in (hashlib.sha1, hashlib.sha256))
+    if not valid:
+        raise ValueError('Invalid receipt signature')
+    expected = f'/{config.cloud_name}/image/upload/v{version}/{public_id}.{body["format"]}'
+    if parts.path != expected:
+        raise ValueError('URL does not identify uploaded asset')
+    return CloudinaryImage(url, public_id, body['asset_id'], body['width'], body['height'], body['bytes'], body['format'], version, signature)
+
+
+def post_image_payload(image: CloudinaryImage, *, owner_id: int) -> dict:
+    """Server-side receipt only. Xano must independently verify it before saving.
+
+    asset_id and arbitrary URLs are deliberately not accepted as persistence proof.
+    This helper does not authorize a write, deletion, or compensate a failed save.
+    """
+    if (type(owner_id) is not int or owner_id <= 0 or not isinstance(image, CloudinaryImage)
+            or not re.fullmatch(rf'codeboxd/posts/u{owner_id}/[a-f0-9]{{32}}', image.public_id)):
+        raise APIError('A imagem não pertence a esta publicação.')
+    config = upload_config()
+    try:
+        _read_image(dict(secure_url=image.secure_url, public_id=image.public_id,
+            asset_id=image.asset_id, resource_type='image', type='upload', format=image.format,
+            width=image.width, height=image.height, bytes=image.bytes, version=image.version,
+            signature=image.signature), config, image.public_id)
+    except (ValueError, TypeError, KeyError):
+        raise APIError('O comprovante da imagem é inválido.') from None
+    return {'image_provider': 'cloudinary', 'image_public_id': image.public_id,
+            'image_version': image.version, 'image_signature': image.signature}
 
 
 async def upload_post_image(*, owner_id: int, content: bytes, mime: str) -> CloudinaryImage:

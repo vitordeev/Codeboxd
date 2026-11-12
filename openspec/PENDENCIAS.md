@@ -1,5 +1,44 @@
 # Pendências atuais — 27/10/2026
 
+11/11/2026 — [UI/UX: controles e foco implementados](changes/modernizar-ui-ux-codeboxd/validation/controles-2026-11-11.md):
+2.2 concluída na família piloto, UI **4/26**. Campos, ações secundárias, feedback,
+vazio e diálogos compartilham padrões; foco de editor programático corrigido.
+632 testes e matrizes locais aprovados. 3.2/3.3, shell e demais famílias seguem
+abertos; nenhuma integração remota ou mudança nas worktrees de colaboradores.
+
+11/11/2026 — [Carrosséis: paginação e capa indisponível comprovadas](changes/modernizar-ui-ux-codeboxd/validation/carrosseis-dados-2026-11-11.md)
+em quatro larguras com backend fictício. Sem mudança no código do produto.
+3.3 ainda exige comparação quantitativa com baseline; 3.2 exige aparelho físico.
+UI/UX preservada em 3/26, sem nova publicação ou alteração de develop.
+
+11/11/2026 — [Salvar trabalhos e sincronizar develop](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md):
+integração publicada em develop e validada com 632 testes/compile e OpenSpec padrão 34/34;
+cinco checkpoints guardam as frentes e versões históricas. Recibo de push/refs
+confirma a publicação e a develop local limpa por fast-forward. Nenhuma pendência funcional foi
+encerrada por salvar no Git: Cloudinary 3/17 e UI/UX 3/26, sem ativação de provider
+ou mutação Xano. Entradas anteriores preservam seu contexto de planejamento/local.
+
+11/11/2026 — [UI/UX: primeiro lote local após aprovação](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
+3/26 tarefas, com baseline Home/login/ficha, tokens e piloto de contraste,
+carrossel comum de mouse/teclado/toque nativo na Home e recomendações. Toque
+validado por emulação, não por aparelho físico; carregar mais/falha de capa,
+shell, busca/listas, outras famílias e aceite transversal seguem abertos.
+Cloudinary permanece separado, sem ativação ou escrita remota nesta continuação.
+Não transferir os 632 testes da branch Cloudinary para este lote: a base desta
+branch de UI tem sua própria suíte e evidências no relatório. Sem push/merge.
+
+Registro histórico da etapa de planejamento, anterior à aprovação e ao lote acima:
+
+11/11/2026 — [Duas frentes planejadas para aprovação](planning/cloudinary-uiux-2026-11-11.md):
+Cloudinary mantém 2.1/2.2 abertas, com reserva durável, persistência e limpeza
+supervisionada especificadas (marcos originais 3/5, checkpoints 3/17). UI/UX nova
+0/26: tokens/contraste/navegação, prateleiras arrastáveis e busca por Obras,
+Pessoas e Listas públicas, com privacidade no servidor. Atividade de lista no
+feed não reproduzida no código local, sem remoção proposta por suposição.
+Aguardar aprovação das duas changes antes de implementar. Xano, limpeza real
+e ativação exigem autorizações específicas posteriores. Nenhum aceite funcional
+novo, commit, push, merge ou mudança no trabalho local de performance.
+
 11/11/2026 — [Homologação preparada localmente, obtenção remota recusada](changes/preparar-homologacao-xano-admin/validation.md):
 4/8, pacote 32 documentos/573 testes. Sandbox HTTP 500; criação de workspace vazio
 HTTP 403/ERROR_CODE_ACCESS_DENIED, nome ausente após tentativa. A conta/credencial

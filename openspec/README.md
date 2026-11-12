@@ -1,5 +1,43 @@
 # OpenSpec do Codeboxd
 
+11/11/2026 — **Push da continuação UI autorizado e análise consolidada:**
+[tudo que foi investigado, implementado, testado e permanece pendente](planning/analise-consolidada-chat-2026-11-11.md).
+Pacote da branch `task/ui-rails-acceptance-20261111`, UI 4/26; develop permanece
+`7d32dc2`. Publicação da branch não equivale a merge, deploy ou aceite remoto.
+
+11/11/2026 — **UI/UX 4/26, incremento local de controles compartilhados:**
+[implementação e evidências](changes/modernizar-ui-ux-codeboxd/validation/controles-2026-11-11.md).
+Campos/botões/feedback/vazio/diálogos modernizados e foco do editor corrigido;
+632 testes, cinco cenários de controles e quatro regressões Home/ficha passaram.
+Branch `task/ui-rails-acceptance-20261111`, sem push/merge/PR ou arquivo nesta rodada.
+Baseline quantitativo e toque físico continuam pendentes; os registros abaixo
+descrevem as rodadas anteriores.
+
+11/11/2026 — **develop sincronizada no origin por solicitação do usuário:**
+[ponto de continuação, commits e validação](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md).
+Cloudinary e primeiro lote UI integrados por `integration/salvar-develop-20261111`;
+632 testes, compile e OpenSpec padrão 34/34 aprovados. As cópias históricas têm
+checkpoints próprios; performance preservada. [Recibo de publicação](changes/salvar-checkpoints-sincronizar-develop/publicacao-2026-11-11.json)
+confirma o push sem force e develop local limpa por fast-forward. Registros abaixo
+descrevem suas etapas anteriores; UI 3/26 e Cloudinary 3/17 continuam abertas.
+
+11/11/2026 — **Continuação local UI/UX após aprovação:** primeiro lote em
+`task/ui-foundations-20261111`, base `faa655f`, worktree
+`.local/worktrees/ui-foundations-20261111`. [Fundamentos e carrosséis](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
+baseline, tokens/piloto de login e arrasto reutilizável, **3/26 tarefas**.
+Aceite de toda a UI, Cloudinary, Xano e publicação continuam pendentes. Os
+registros de passagem abaixo são históricos; este lote está local e não foi
+enviado para outra máquina. Trabalho anterior preservado em suas worktrees.
+
+Registro histórico da etapa de planejamento, anterior à aprovação e ao lote acima:
+
+11/11/2026 — **Planejamento Cloudinary + UI/UX, aguardando aprovação:**
+[relatório da rodada](planning/cloudinary-uiux-2026-11-11.md).
+Cloudinary existente detalhada sem duplicação: marcos originais 3/5 preservados,
+checklist desdobrado 3/17. Nova `modernizar-ui-ux-codeboxd`: 0/26, identidade
+preta/amarela e mascotes ativos preservados; Lume segue revertido. Apenas
+documentação, sem implementação/ativação/publicação. Histórico abaixo mantido.
+
 11/11/2026 — **Passagem para outra máquina:** usar a branch
 `handoff/retomada-20261111` e ler [instruções de continuação](changes/preparar-homologacao-xano-admin/passagem-equipe-2026-11-11.md).
 Conjunto desta sessão consolidado sem merge em develop/main; performance

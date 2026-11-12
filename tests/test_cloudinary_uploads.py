@@ -1,6 +1,7 @@
 """Prepared upload transport contracts; no network or real Cloudinary account."""
 import hashlib
 import os
+from dataclasses import replace
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
@@ -8,7 +9,7 @@ from unittest.mock import patch
 import httpx
 
 from Codeboxd_main.services.api import APIError
-from Codeboxd_main.services.cloudinary_uploads import upload_post_image, upload_config, MAX_BYTES
+from Codeboxd_main.services.cloudinary_uploads import upload_post_image, upload_config, post_image_payload, _read_image, MAX_BYTES
 
 ENV = {'CLOUDINARY_UPLOADS_ENABLED': 'true', 'CLOUDINARY_CLOUD_NAME': 'demo-test',
        'CLOUDINARY_API_KEY': 'dummy-key', 'CLOUDINARY_API_SECRET': 'dummy-secret'}
@@ -19,7 +20,8 @@ PNG = b'\x89PNG\r\n\x1a\n' + b'fictional-image'
 def image():
     return {'secure_url': 'https://res.cloudinary.com/demo-test/image/upload/v1/' + PUBLIC_ID + '.png',
             'public_id': PUBLIC_ID, 'asset_id': 'test-asset', 'resource_type': 'image', 'type': 'upload',
-            'width': 40, 'height': 30, 'bytes': 100, 'format': 'png', 'api_key': 'provider-extra-field'}
+            'width': 40, 'height': 30, 'bytes': 100, 'format': 'png', 'api_key': 'provider-extra-field',
+            'version': 1, 'signature': hashlib.sha1((f'public_id={PUBLIC_ID}&version=1dummy-secret').encode()).hexdigest()}
 
 
 class CloudinaryUploadTests(unittest.IsolatedAsyncioTestCase):
@@ -94,3 +96,53 @@ class CloudinaryUploadTests(unittest.IsolatedAsyncioTestCase):
         with patch.dict(os.environ, ENV, clear=True):
             self.assertNotIn('dummy-secret', repr(upload_config()))
             self.assertNotIn('dummy-key', repr(upload_config()))
+
+    async def test_valid_domain_url_for_different_asset_or_version_is_rejected(self):
+        for url in (f'https://res.cloudinary.com/demo-test/image/upload/v1/other.png',
+                    f'https://res.cloudinary.com/demo-test/image/upload/v2/{PUBLIC_ID}.png',
+                    f'https://res.cloudinary.com/demo-test/image/upload/v1/{PUBLIC_ID}.jpg',
+                    f'https://res.cloudinary.com/demo-test/image/upload/c_scale,w_1/v1/{PUBLIC_ID}.png'):
+            with self.subTest(url=url), self.assertRaises(APIError):
+                await self.send(lambda request: httpx.Response(200, json=image() | {'secure_url': url}))
+
+    async def test_missing_forged_or_malformed_receipt_is_rejected(self):
+        for changes in ({'version': None}, {'version': True}, {'version': 0}, {'version': 2},
+                        {'signature': None}, {'signature': '0'*40}, {'signature': 'á'*40},
+                        {'signature': ''}):
+            with self.subTest(changes=changes), self.assertRaises(APIError):
+                await self.send(lambda request: httpx.Response(200, json=image() | changes))
+
+    async def test_sha256_response_receipt_is_also_accepted(self):
+        signature = hashlib.sha256((f'public_id={PUBLIC_ID}&version=1dummy-secret').encode()).hexdigest()
+        result = await self.send(lambda request: httpx.Response(200, json=image() | {'signature': signature}))
+        self.assertEqual(result.version, 1)
+        self.assertNotIn(signature, repr(result))
+
+    def owned_image(self):
+        public_id = 'codeboxd/posts/u7/' + 'a'*32
+        body = image() | {'public_id': public_id,
+            'secure_url': f'https://res.cloudinary.com/demo-test/image/upload/v1/{public_id}.png',
+            'signature': hashlib.sha1((f'public_id={public_id}&version=1dummy-secret').encode()).hexdigest()}
+        return _read_image(body, upload_config(), public_id)
+
+    def test_payload_is_bound_to_owner_without_accepting_arbitrary_metadata(self):
+        with patch.dict(os.environ, ENV, clear=True):
+            uploaded = self.owned_image()
+            payload = post_image_payload(uploaded, owner_id=7)
+            self.assertEqual(set(payload), {'image_provider', 'image_public_id', 'image_version', 'image_signature'})
+            self.assertNotIn('asset_id', str(payload))
+            self.assertNotIn('dummy-secret', str(payload))
+            for owner in (True, 0, 8):
+                with self.subTest(owner=owner), self.assertRaises(APIError):
+                    post_image_payload(uploaded, owner_id=owner)
+
+    def test_payload_rechecks_tampered_object_and_current_configuration(self):
+        with patch.dict(os.environ, ENV, clear=True):
+            uploaded = self.owned_image()
+            for altered in (replace(uploaded, signature='0'*40), replace(uploaded, version=2),
+                            replace(uploaded, public_id=uploaded.public_id + '/child'),
+                            replace(uploaded, secure_url='https://res.cloudinary.com/demo-test/foreign.png')):
+                with self.subTest(altered=repr(altered)), self.assertRaises(APIError):
+                    post_image_payload(altered, owner_id=7)
+            with patch.dict(os.environ, {'CLOUDINARY_UPLOADS_ENABLED': 'false'}), self.assertRaises(APIError):
+                post_image_payload(uploaded, owner_id=7)

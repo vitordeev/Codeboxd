@@ -1,0 +1,114 @@
+{
+  "tested_commit": "e2b85f245c28441f9f20c7da5a985a5cfa26d63d",
+  "unit": {
+    "command": "python -B -m unittest discover -s tests",
+    "tests": 632,
+    "seconds": 33.298,
+    "exit_code": 0,
+    "passed": true
+  },
+  "compile": {
+    "command": "python -B -m reflex compile --dry",
+    "reflex": "0.9.11.post1",
+    "seconds": 5.809,
+    "exit_code": 0,
+    "passed": true
+  },
+  "openspec_default": {
+    "command": "openspec validate --all",
+    "passed": 34,
+    "failed": 0
+  },
+  "openspec_changed_strict": {
+    "modernizar-ui-ux-codeboxd": "passed",
+    "hospedar-imagens-publicacoes-cloudinary": "passed",
+    "salvar-checkpoints-sincronizar-develop": "passed"
+  },
+  "openspec_global_strict": {
+    "passed": 31,
+    "failed_due_to_preexisting_style_warnings": 3,
+    "unchanged_paths": [
+      "openspec/changes/gerenciamento-website/specs/content-moderation/spec.md",
+      "openspec/specs/media-interactions/spec.md",
+      "openspec/changes/recuperar-senha-codigo-6-digitos/specs/password-recovery/spec.md"
+    ],
+    "reason": "Requirement text longer than 500 characters; no delta versus origin/main"
+  },
+  "preservation": {
+    "versionable_files_checked": 121,
+    "working_bytes_unchanged": true,
+    "generated_manifest_restored_only_in_new_integration_worktree": true
+  },
+  "merge_resolution": {
+    "conflicts": [
+      "openspec/PENDENCIAS.md",
+      "openspec/README.md",
+      "openspec/changes/modernizar-ui-ux-codeboxd/design.md",
+      "openspec/changes/modernizar-ui-ux-codeboxd/proposal.md",
+      "openspec/changes/modernizar-ui-ux-codeboxd/tasks.md"
+    ],
+    "policy": "current_ui_artifacts_and_both_historical_entries",
+    "non_openspec_source_files_checked": [
+      {
+        "file": "Codeboxd_main/services/cloudinary_uploads.py",
+        "source": "task/cloudinary-limites-20261111",
+        "sha256": "c8f0940edf93b2f0b035f204984221a9c1b8b890873fbb552ed90ba55a4c049c"
+      },
+      {
+        "file": "tests/test_cloudinary_acceptance_probe.py",
+        "source": "task/cloudinary-limites-20261111",
+        "sha256": "d7b44df959701e4270f4f5b2d0a7b15ddab2085724f76cfa642b1e0119c4f2fb"
+      },
+      {
+        "file": "tests/test_cloudinary_uploads.py",
+        "source": "task/cloudinary-limites-20261111",
+        "sha256": "750d6f6ea4eedcf8403dc6f8c743ee143975a6da248e425675415e8eab0c781f"
+      },
+      {
+        "file": "tools/cloudinary_acceptance_probe.py",
+        "source": "task/cloudinary-limites-20261111",
+        "sha256": "70f6c8fb678a6e5809748843019f500bae7d4325683e01e9e170e35411683e71"
+      },
+      {
+        "file": "Codeboxd_main/horizontal_collection.py",
+        "source": "task/ui-foundations-20261111",
+        "sha256": "c30b95a996331b96000510e24c9a7142ea5b7c6afab3e41843c1e02f43918543"
+      },
+      {
+        "file": "Codeboxd_main/pages/login.py",
+        "source": "task/ui-foundations-20261111",
+        "sha256": "e092570ae23c3a35a1b602bb2539900abfacacf0af696a64fb8ff65f63913dd0"
+      },
+      {
+        "file": "Codeboxd_main/pages/social.py",
+        "source": "task/ui-foundations-20261111",
+        "sha256": "8aa4872c5aaf5d9e76b60bd429fb94d685e610acb263fea70bd06f6273d9644e"
+      },
+      {
+        "file": "assets/codeboxd.css",
+        "source": "task/ui-foundations-20261111",
+        "sha256": "414e3fb5d75c419d76e84ca57d3303c9bbe18e24cd01d6693074762a50fce076"
+      },
+      {
+        "file": "assets/horizontal-collections.js",
+        "source": "task/ui-foundations-20261111",
+        "sha256": "a884eb4ff0c43b0f57fa7cc08127319a5d39fe3640a8aff3f71712680bbd3ebc"
+      },
+      {
+        "file": "tools/ui_foundations_browser.py",
+        "source": "task/ui-foundations-20261111",
+        "sha256": "0a99c1fe1dcbddd425813701d282a5150dab32d74f6ae334abad46fce27bbcb6"
+      },
+      {
+        "file": "tools/ui_foundations_fixture.py",
+        "source": "task/ui-foundations-20261111",
+        "sha256": "84f814a4d0efc395edf646d453fa6945f54995029afa5b139e527a184c941c5b"
+      }
+    ],
+    "passed": true
+  },
+  "browser_evidence": "Previous UI fixture matrix retained; all 11 source/test/tool files match source commits",
+  "remote_service_mutations": 0,
+  "cloudinary_activation": false,
+  "ignored_private_files_published": false
+}
