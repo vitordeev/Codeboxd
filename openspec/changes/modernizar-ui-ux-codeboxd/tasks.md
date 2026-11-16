@@ -9,13 +9,13 @@ comportamento estão em specs/. Cada lote deve incluir seus testes e evidências
 ## 1. Recorte aprovado e baseline
 
 - [x] 1.1 Após aprovação das duas changes, registrar baseline atual das páginas e componentes afetados em 320/390/768/1024/1440px com dados controlados e inventário de ações/rotas; identificar fonte/viewport/estado de cada captura e preservar a worktree de performance.
-- [ ] 1.2 Revisar com o usuário a proposta de shell, densidade e ações a condensar, usando somente referências locais; registrar decisões de manter/mover/condensar e provar alternativa funcional/acessível antes de qualquer retirada.
+- [ ] 1.2 Revisar com o usuário a proposta de shell, densidade e ações a condensar, usando somente referências locais; registrar decisões de manter/mover/condensar e provar alternativa funcional/acessível antes de qualquer retirada. Decisões de 14/11 registradas em `design.md`: shell aprovado, densidade atual da Home mantida e condensação conservadora. A tarefa permanece aberta até que qualquer alternativa a controles retirados seja comprovada funcional e acessível; nenhum controle ou rota foi removido nesta revisão.
 
 ## 2. Fundamentos e navegação — sem mudança de negócio
 
 - [x] 2.1 Consolidar tokens de cores, tipografia, espaços e raios a partir da identidade ativa, com uma página piloto; medir contraste nos fundos reais, verificar Inter/fallback e preservar logo/mascotes, registrando antes/depois sem introduzir arte ou fontes novas.
-- [ ] 2.2 Modernizar variantes reutilizáveis de botão/campo/feedback/vazio/diálogo, mantendo mensagens e dados recuperáveis; verificar nomes acessíveis, foco/retorno, colagem, loading/erro/vazio/falha parcial e registrar regressões da família piloto.
-- [ ] 2.3 Reorganizar shell e acesso a Buscar/Biblioteca/conta/listas/comunidade mantendo rotas antigas e guards; testar teclado, menu sem hover, foco não encoberto e navegação desktop/celular, documentando o mapa atual→novo e que não há chamadas extras por apresentação.
+- [ ] 2.2 Modernizar variantes reutilizáveis de botão/campo/feedback/vazio/diálogo, mantendo mensagens e dados recuperáveis; verificar nomes acessíveis, foco/retorno, colagem, loading/erro/vazio/falha parcial e registrar regressões da família piloto. Implementação local de campos rotulados, feedback/empty states e fechamento de diálogo; cinco testes novos, 38 regressões sociais e compile Reflex aprovados. Verificação de foco/retorno e colagem no navegador ainda pendente.
+- [ ] 2.3 Reorganizar shell e acesso a Buscar/Biblioteca/conta/listas/comunidade mantendo rotas antigas e guards; testar teclado, menu sem hover, foco não encoberto e navegação desktop/celular, documentando o mapa atual→novo e que não há chamadas extras por apresentação. Shell agora expõe Início/Buscar/Feed/Biblioteca e menu nativo expansível para conta/listas/comunidade/admin guardado; rotas/links antigos preservados. Testes estruturais e compile Reflex aprovados; navegação por teclado, foco e viewports reais pendentes.
 
 ## 3. Coleções horizontais reutilizáveis
 
@@ -25,7 +25,7 @@ comportamento estão em specs/. Cada lote deve incluir seus testes e evidências
 
 ## 4. Busca e contexto no frontend — fixtures primeiro
 
-- [ ] 4.1 Criar a entrada `/buscar` com escopos Obras/Pessoas/Listas públicas e query/filtros/página na URL, reutilizando a busca multiformato atual; testar recarga/voltar, categorias separadas, texto não submetido e nenhuma consulta de todos os domínios por tecla, registrando contratos.
+- [x] 4.1 Criar a entrada `/buscar` com escopos Obras/Pessoas/Listas públicas e query/filtros/página na URL, reutilizando a busca multiformato atual; testar recarga/voltar, categorias separadas, texto não submetido e nenhuma consulta de todos os domínios por tecla, registrando contratos. Implementação local: busca multiformato no escopo Obras, perfis/listas com chamadas separadas e filtros/consulta/página na URL. Oito testes de estado e seis cenários de navegador com fixture fictícia passaram; recarga, histórico, paginação e ausência de consulta ao digitar confirmados. Sem chamadas reais ou publicação Xano.
 - [ ] 4.2 Preparar apresentação paginada de perfis e listas com autoria, vazio/erro/429 e estado por escopo; testar respostas atrasadas/troca de conta, nomes longos e falha parcial com fixtures sem dados privados, documentando as consultas necessárias e ausência de N+1.
 - [ ] 4.3 Preparar detalhe endereçável de lista, links ao criador/obras, fallback de copiar link e gerenciamento do dono; testar abertura fora da página do diretório, paginação/zero itens, contexto pessoal privado e perda de acesso após mudar visibilidade, registrando os casos que dependem de Xano real.
 
@@ -55,8 +55,10 @@ comportamento estão em specs/. Cada lote deve incluir seus testes e evidências
 
 ## Workflow follow-up
 
+- Revisão documental de 14/11/2026 registrada em `design.md`; `openspec validate modernizar-ui-ux-codeboxd --type change` e `git diff --check` aprovados. Sem testes de aplicação, pois não houve alteração de interface. A tarefa 1.2 permanece aberta até que alternativas funcionais e acessíveis sejam comprovadas antes de retirar controles.
 - Aprovação de planejamento e prosseguimento recebida; o primeiro lote foi implementado apenas localmente, em branch/worktree própria.
 - Evidências do lote: [fundamentos e carrosséis, 11/11/2026](validation/fundamentos-carrosseis-2026-11-11.md), baseline de 15 capturas, 20 cenários de navegador e cinco verificações adicionais da Inter existente. A suíte local e o compile estão discriminados nesse relatório.
 - 3.2 segue aberta: toque emulado não substitui dispositivo físico. 3.3 tem o componente aplicado, mas ainda exige aceite de carregar mais/falha de capa e comparação específica de carregamento. 2.2/2.3 e os demais itens não foram concluídos por este lote.
 - Planejamento completo e testes do piloto não significam aceite de toda a interface.
 - Não sincronizar specs nem arquivar sem critérios e autorização próprios.
+- 15/11/2026 — Busca unificada local: 4/26 tarefas concluídas. `/buscar` passou em oito testes de estado, seis cenários de navegador com fixtures e compile Reflex; atualização de fixture preservou logs anteriores em `.local`. A tarefa 4.1 foi concluída; 4.2 e 4.3 seguem abertas até cobrir os critérios restantes de falhas/nomes longos e detalhe endereçável. Contratos Xano permanecem apenas locais, sem publicação ou validação integrada.

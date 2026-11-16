@@ -67,7 +67,7 @@ imagens, opacidades ou todas as telas. Revalidar tokens nos fundos reais.
 | Área e evidência no código | Comportamento atual / problema | Melhoria proposta e preservação | Prioridade |
 | --- | --- | --- | --- |
 | Shell, `shell` | Perfil no menu e Meu perfil na ação da conta apontam a `/conta`; Biblioteca/Comunidade ficam no rodapé | Manter um acesso reconhecível ao próprio perfil no menu da conta; levar Biblioteca ao menu principal, mantendo links antigos | P1 visual/navegação |
-| Home/Buscar/Catálogo, `discovery_page` | Busca e categorias moram em `/`; não há escopos Pessoas/Listas; banner editorial, textos e CTA de biblioteca disputam a primeira dobra | Home editorial mais compacta, entrada Buscar explícita e resultados em rota estável; manter filtros de categorias separados da consulta textual | P1; consultas novas P2 |
+| Home/Buscar/Catálogo, `discovery_page` | Busca e categorias moram em `/`; não há escopos Pessoas/Listas; banner editorial, textos e CTA de biblioteca disputam a primeira dobra | Manter a densidade atual da Home; tornar Buscar explícita e resultados estáveis, mantendo filtros de categorias separados da consulta textual | P1; consultas novas P2 |
 | Catálogo, `catalog_shelf` | Setas 34×34 e trilho focável já existem; não há arrasto de mouse implementado | Evoluir uma prateleira, ampliar área interativa e preservar carregamento por lote | P1 interação |
 | Detalhes, `media_page` | Ficha, dados técnicos, trailer, streaming, nota, crítica, status e listas coexistem; várias caixas e avisos ocupam a hierarquia | Um bloco de ação principal de avaliação, status distinto de listas; secundários em grupos claros. Não fundir nota, progresso e lista como se fossem a mesma regra | P2 visual |
 | Filmes/séries/animes/livros | Mesmo template, detalhes técnicos variam por provedor; resposta complementar pode chegar depois | Reutilizar template, revelar campos pertinentes ao tipo, manter hero e obra identificados durante falha parcial | P2 visual |
@@ -97,6 +97,22 @@ reescrever regras de notas/listas, reativar Lume, migrar provedores, alterar dad
 ou concluir aceitações de administração, autenticação, Cloudinary ou performance.
 
 ## Decisions
+
+### Revisão do usuário — 14/11/2026
+
+- Aprovado o shell proposto: Início, Buscar, Feed e Biblioteca na navegação
+  principal; Meu perfil, Minhas listas, Comunidade e Sair no menu da conta,
+  preservando a entrada administrativa e seus guards. Em celular/tablet, usar
+  navegação compacta com rótulos e secundários expansíveis, sem duplicar os
+  destinos em uma barra inferior e outro menu.
+- Manter a densidade atual da Home; não compactar seu conteúdo editorial nesta
+  rodada.
+- Condensar ações duplicadas somente depois de comprovar uma alternativa
+  funcional e acessível. Preservar rotas antigas e não retirar controles nesta
+  revisão.
+- A decisão foi baseada somente na auditoria e nas referências locais desta
+  change; não foram usados exemplos visuais externos. Nenhuma interface foi
+  alterada como parte desta revisão.
 
 ### 4. Hierarquia e navegação
 
@@ -162,9 +178,11 @@ e busca textual devem ser validados com os recursos reais do plano; não carrega
 todas as listas/perfis no Reflex para filtrar. Sem SQL concatenado; termos
 escapados, limites de comprimento e consultas parametrizadas.
 
-Detalhe proposto `/listas/[list_id]`: rota resolve metadados e depois itens, não
-depende de achar a lista na página atual do diretório. Mostra autor/link, título,
-descrição, obras e paginação. Editar/adicionar/remover aparece só ao dono; Xano
+Detalhe proposto `/lista?id={list_id}`: rota estática com ID na query preserva
+deep links no build de produção atual, que prerenderiza rotas estáticas e não
+entrega diretamente parâmetros dinâmicos. A página resolve metadados e depois
+itens, sem depender de achar a lista na página atual do diretório. Mostra
+autor/link, título, descrição, obras e paginação. Editar/adicionar/remover aparece só ao dono; Xano
 valida novamente. Link de lista pública pode ser copiado; fallback selecionável
 se Clipboard API falhar. Web Share só como aprimoramento, sem nova rede social.
 Privada ou removida por URL pública retorna resposta indistinguível de ausente,
@@ -174,6 +192,12 @@ privada (accessdenied) de ausente (notfound), após validar compatibilidade dos
 consumidores; a resposta proposta para ambos é 404 genérico sem metadados.
 Após mudar pública→privada, limpar estado e caches; validar acesso público de
 novo, sem aplicar cache privado de outra conta nem indexar conteúdo privado.
+
+**Decisão de implementação de 15/11/2026:** a URL dinâmica planejada foi
+substituída pela rota estática `/lista?id=...` após verificar que o build de
+produção local retorna 404 em rotas com parâmetros e que desativar prerender
+também impede a entrega das demais rotas estáticas. A nova URL mantém detalhe
+direto e compartilhável sem alterar configuração global de hosting.
 
 **Feed:** README descreve atividades/listas, mas `save_list` e `lists_POST.xs`
 não criam posts no código lido; `feed_GET.xs` lê posts dos seguidos e

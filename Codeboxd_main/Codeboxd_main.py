@@ -11,7 +11,10 @@ from .state.admin import AdminState
 from .state.social import SocialState
 from .services.catalog import catalog_connection_pool
 from .services.api import api_connection_pool
-from .pages.social import discovery_page, media_page, library_page, community_page, profile_page, feed_page, lists_page
+from .pages.social import (
+    discovery_page, unified_search_page, media_page, library_page, community_page,
+    profile_page, feed_page, lists_page, list_detail_page,
+)
 
 
 class State(rx.State):
@@ -33,6 +36,7 @@ app = rx.App(head_components=HEAD_COMPONENTS, html_lang="pt-BR")
 app.register_lifespan_task(catalog_connection_pool)
 app.register_lifespan_task(api_connection_pool)
 app.add_page(discovery_page, route="/", on_load=SocialState.visit('home'))
+app.add_page(unified_search_page, route="/buscar", on_load=SocialState.load_unified_search)
 app.add_page(login_page, route="/login")
 app.add_page(admin_login_page, route="/admin/login", title="Acesso administrativo | Codeboxd",
              on_load=AuthState.guard_admin_login)
@@ -47,6 +51,7 @@ app.add_page(library_page, route="/biblioteca", on_load=SocialState.visit('libra
 app.add_page(community_page, route="/comunidade", on_load=SocialState.visit('community'))
 app.add_page(feed_page, route="/feed", on_load=SocialState.visit('feed'))
 app.add_page(lists_page, route="/listas", on_load=SocialState.visit('lists'))
+app.add_page(list_detail_page, route="/lista", on_load=SocialState.load_addressable_list)
 app.add_page(protected_admin, route="/admin", on_load=AdminState.load_dashboard)
 app.add_page(admin_users_page, route="/admin/users", on_load=AdminState.guard_users_page,
              title="Usuários | Administração | Codeboxd")

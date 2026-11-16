@@ -15,8 +15,8 @@ precondition ($record != null) {
   error = "Registro não encontrado."
 }
 precondition ($record.is_public == true) {
-  error_type = "accessdenied"
-  error = "Operação não permitida."
+  error_type = "notfound"
+  error = "Registro não encontrado."
 }
 function.run "Lists/default_list_status" {
  input = {user_id: $record.user_id, default_key: $record.default_key}

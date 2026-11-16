@@ -1,4 +1,22 @@
-# Pendências atuais — 27/10/2026
+# Pendências atuais — 14/11/2026
+
+## Resumo vigente
+
+As **sete changes funcionais ativas** somam **47/111 tarefas concluídas e 64
+abertas**. Fonte: `openspec list --json`, checklists atuais e evidências
+específicas; não é percentual de conclusão do produto. O quadro único por change
+está em [README.md — Estado atual](README.md#estado-atual-14112026).
+
+Bloqueios prioritários: a recuperação da conta controlada segue pendente após
+HTTP 403 na validação do segundo código; o usuário não autorizou um terceiro
+pedido. E-mail/SendGrid dependem de domínio autenticado e aceite real em caixa.
+A homologação Xano depende de destino isolado, ainda indisponível. Não usar live
+como fallback nem marcar preparação local/simulação como aceite integrado.
+`gerenciamento-website` foi arquivada em 34/34 somente no escopo de leitura;
+mutações administrativas reais continuam fora desse aceite.
+
+Os registros datados seguintes preservam o estado e os resultados das respectivas
+rodadas; para números vigentes, usar o quadro atual e os checklists vinculados.
 
 12/11/2026 — Oito changes concluídas foram arquivadas em
 `changes/archive/2026-11-12-*`; seis sincronizaram seus deltas com as specs
@@ -209,20 +227,25 @@ Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10
 
 ## Changes funcionais em acompanhamento
 
-| Change funcional ativa | Concluídas | Abertas | Critérios restantes |
-| --- | ---: | ---: | --- |
-| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
-| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
+O quadro atual consolidado, as contagens e as evidências de cada change estão em
+[README.md — Estado atual](README.md#estado-atual-14112026). As sete changes
+funcionais somam 64 tarefas abertas; a change documental de reconciliação não
+entra nessa contagem.
 
-As contagens vêm dos checklists, não medem o percentual global do produto.
-As changes listadas têm planejamento completo; isso não significa implementação concluída.
+Bloqueios com dependências externas:
 
-Evidências mais recentes:
+- **Recuperação:** a conta controlada não foi restaurada após HTTP 403; não
+  repetir pedidos sem nova autorização. [Ensaio de 12/11](changes/recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md).
+- **SendGrid/e-mail:** sem domínio autenticado e comparação de entrega na caixa;
+  os adiamentos SPF/DKIM não são resolvidos por template ou reenvio.
+  [Diagnóstico](changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md).
+- **Homologação:** sandbox HTTP 500 e criação de workspace HTTP 403; publicação
+  e piloto integrado aguardam destino isolado.
+  [Validação Xano](changes/preparar-homologacao-xano-admin/validation.md).
 
-- [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
-- [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
-- [Administração, 22/10](changes/archive/2026-11-12-gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
-- [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
+Performance, UI/UX e Cloudinary ainda têm critérios locais, integrados e de
+navegador em aberto; conferir seus checklists e evidências antes de iniciar cada
+lote. Não transferir testes de uma branch/worktree para comprovar outra.
 
 ## Critérios administrativos restantes — histórico
 
@@ -246,7 +269,7 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 | P.3 | Alta antes de hospedar | URL concreta de banner corrigida/testada; execução e armazenamento locais, sem Docker | Manter backup do diretório de uploads; escolher persistência para hospedagem quando essa etapa for solicitada |
 | P.4 | Resolvida | Mensagens de erro de upload corrigidas e verificadas | Testes de rede, HTTP e JSON inválido passaram |
 | P.5 | Resolvida em 14/10/2026 | Contrato multipart e preservação do rascunho/cancelamento corrigidos; browser real validado | Criar/editar/recarregar, rejeitar inválido e cancelar passaram; posts, arquivos staged e blobs de teste limpos. Evidência em `validation/uploads-and-session-2026-10-13.md` |
-| P.6 | Bloqueada na entrega real | Código de seis dígitos implementado/publicado com 15 minutos, cinco tentativas, cooldown e uso único; fluxo de senha verificado no Xano | Confirmar chegada do e-mail e fluxo com caixa controlada. Change `recuperar-senha-codigo-6-digitos`; integração Resend publicada em 22/10, destinatário não elegível para o remetente de testes. Ver evidência Resend na tabela acima |
+| P.6 | Bloqueada na conclusão do ciclo controlado | Recuperação por código de seis dígitos está integrada ao SendGrid; em 12/11 o primeiro código foi recebido e a troca/login temporário foram confirmados, mas o segundo código retornou HTTP 403 antes da restauração. Conta de teste não restaurada. | Resolver a restauração com autorização específica e confirmar ciclo/reuso em caixa controlada. Sem terceiro pedido autorizado. [Evidência](changes/recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md); ver também [SendGrid](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md) |
 | P.7 | Média | `/likes` remoto ausente no último registro | Revalidar contrato remoto; manter fallback ou publicar rota após revisão; verificar curtidas sem N+1 |
 | P.8 | Resolvida para retomada | Checkpoints atuais de `docs/` apontam para OpenSpec; histórico anterior preservado | Novas alterações continuam centralizadas no OpenSpec |
 | P.9 | Conforme crescimento | Estado e páginas sociais concentram muitas responsabilidades | Separar por domínio quando houver necessidade concreta, mantendo rotas/eventos e testes relevantes |
@@ -254,7 +277,7 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 | P.11 | Antes de reusar validações | Scripts históricos têm caminhos anteriores ao arquivo e portas fixas | Copiar/adaptar scripts para nova pasta de resultados; preservar arquivo histórico e não criar contas incidentalmente |
 | P.12 | Publicada em 19/10; validação funcional parcial | Três GETs corrigidos publicados após backup de 77 documentos e delta limitado; dry-run final sem mudanças. 18 testes locais passaram; visitante 401 e membro 403 confirmados | Validar buscas, caixa, vazio, filtros e paginação com admin aprovado e interface no navegador. Leituras admin reais posteriores registradas em 23/10; mutações e browser completo continuam pendentes. [Evidência](changes/archive/2026-11-12-gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md) |
 
-Atualização P.6 em 28/10: os testes locais de recuperação/cooldown passaram
+Registro histórico de P.6 em 28/10: os testes locais de recuperação/cooldown passaram
 (24 testes); a documentação oficial confirma a restrição do remetente de teste.
 Nenhuma chamada ou troca real executada. 3.2/3.4 continuam abertas até envio
 aceito a uma caixa elegível e ciclo/restauração controlados. [Evidências e próximo passo](changes/recuperar-senha-codigo-6-digitos/validation/elegibilidade-resend-2026-10-28.md).

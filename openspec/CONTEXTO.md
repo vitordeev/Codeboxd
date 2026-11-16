@@ -1,4 +1,4 @@
-# Contexto técnico e funcional — 27/10/2026
+# Contexto técnico e funcional — atualização de estado 14/11/2026
 
 12/11/2026 — `gerenciamento-website` foi arquivada em
 `changes/archive/2026-11-12-gerenciamento-website` após concluir **34/34**
@@ -63,20 +63,19 @@ Ferramentas/scripts de implantação dessas entregas possuem destinos datados ou
 da change então ativa: adaptar em nova change antes de reutilizar, sem sobrescrever
 os relatórios arquivados. O scanner permanente de commits não depende dessas pastas.
 
-| Change funcional ativa | Concluídas | Abertas | Critérios restantes |
-| --- | ---: | ---: | --- |
-| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
-| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
+## Estado atual das changes — 14/11/2026
 
-As contagens vêm dos checklists, não medem o percentual global do produto.
-As duas changes listadas têm planejamento completo; isso não significa implementação concluída.
+As sete changes funcionais ativas somam **47/111 tarefas concluídas e 64
+abertas**, segundo `openspec list --json` e os checklists atuais. Essa contagem
+não representa percentual global do produto. O quadro único, com critérios e
+evidências por change, está em [README.md — Estado atual](README.md#estado-atual-14112026).
 
-Evidências mais recentes:
-
-- [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
-- [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
-- [Administração, 22/10](changes/archive/2026-11-12-gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
-- [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
+Bloqueios relevantes nesta data: a recuperação segue 11/12 após HTTP 403 na
+tentativa de restaurar a conta controlada; e-mail/SendGrid aguardam domínio
+autenticado e comprovação de entrega; homologação Xano não dispõe de destino
+isolado. Performance, UI/UX e Cloudinary mantêm critérios de jornada e aceites
+amplos em aberto. Preparação local ou teste simulado não equivale a aceite remoto
+ou de navegador.
 
 ## Produto e arquitetura
 
@@ -158,12 +157,16 @@ O último registro remoto de `/likes` é HTTP 404. O feed usa `/posts/{id}/discu
 
 ## Segurança e dados
 
-Recuperação de senha atualizada em 14/10: código de seis dígitos, 15 minutos,
-até cinco tentativas, intervalo de 60 segundos para reenvio e uso único sob
-transação por conta. Envio pelo Xano integrado ao Resend desde 22/10; token intermediário de cinco
-minutos não é salvo como sessão no navegador. Contratos publicados e testes
-remotos/browser passaram, mas chegada em caixa real continua pendente na change
-`recuperar-senha-codigo-6-digitos` (P.6). UUIDs antigos exigem novo pedido. O serviço nativo falhou; Resend foi publicado, mas rejeitou o destinatário testado com o remetente de testes. Entrega e ciclo real permanecem abertos (8/10).
+Recuperação de senha usa código de seis dígitos, validade de 15 minutos, até
+cinco tentativas, cooldown de 60 segundos e uso único sob transação por conta.
+O endpoint Xano de recuperação está integrado ao SendGrid; o token intermediário
+de cinco minutos não é salvo como sessão no navegador. Em 12/11, o primeiro
+código foi recebido e a troca/login temporário foram confirmados; a validação do
+segundo código retornou HTTP 403 antes da restauração. A conta controlada
+permanece sem restauração e não houve autorização para um terceiro pedido.
+Recuperação está em 11/12; ver [evidência do ensaio](changes/recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md).
+Entrega de e-mail e comparação real continuam dependentes de domínio autenticado
+e caixa controlada; não inferir entrega a partir da aceitação HTTP do provedor.
 
 Rodada 13–14/10/2026: tabela report e nove endpoints administrativos foram
 publicados; os quatro GETs rejeitaram visitante/membro, com admin/desativado e

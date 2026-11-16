@@ -76,7 +76,8 @@ fetch e leitura confirmam develop em `29d0456`, main remota em `42ff4dd`, com PR
 SendGrid 4/5, experiência do e-mail 4/5 e recuperação 9/11, sem fechamento por
 simulação. Remetente verificado, zero domínios autenticados; ciclo controlado e
 comparação de entrega pendentes. Trabalho isolado em branch própria, sem escrita
-remota, push ou arquivo. A tabela antiga de recuperação 8/10 abaixo é histórica.
+remota, push ou arquivo. O quadro de status vigente foi reconciliado em 14/11;
+os números registrados nesta rodada permanecem históricos.
 
 10/11/2026 - [Auditoria de branches e integracao](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md): branch publicada; PR aguarda criacao em sessao autenticada. Base `origin/develop` 4a7cabe. Administracao 33/34 e performance 17/37; sem merge em main. P0 movel continua pendente.
 
@@ -188,23 +189,28 @@ seis requisitos com as specs principais e conferir tarefas/evidências.
 A tabela funcional abaixo preserva as três changes de produto, sem alterar
 suas pendências ou contagens.
 
-## Estado atual
+## Estado atual (14/11/2026)
 
-| Change funcional ativa | Concluídas | Abertas | Critérios restantes |
+O CLI e os checklists das **sete changes funcionais ativas** confirmam **47/111
+tarefas concluídas e 64 abertas**. A change documental
+`reconciliar-estado-changes-abertas` não entra nesses totais. As contagens não
+representam percentual de conclusão do produto.
+
+| Change funcional ativa | Concluídas | Abertas | Critério principal ainda pendente |
 | --- | ---: | ---: | --- |
-| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
-| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
+| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 11/12 | 1 | Restauração da conta controlada: validação do segundo código retornou HTTP 403; conta não restaurada e terceiro pedido não autorizado. [Ensaio de 12/11](changes/recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md) |
+| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 18/38 | 20 | Baselines, metas e comparações de jornadas completas em desktop/celular; testes locais simulados não encerram o aceite. [Cache de fichas, 12/11](changes/otimizar-performance-app/validation/cache-fichas-concorrente-2026-11-12.md) |
+| [melhorar-email-recuperacao](changes/melhorar-email-recuperacao/tasks.md) | 4/5 | 1 | Comparação real de entrega ainda depende de domínio autenticado, DNS e caixa controlada; foram observados adiamentos SPF/DKIM. [Diagnóstico, 11/11](changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md) |
+| [integrar-sendgrid-recuperacao](changes/integrar-sendgrid-recuperacao/tasks.md) | 4/5 | 1 | Recebimento e ciclo completo em caixa controlada; compartilhar aceite com a recuperação, sem inferir entrega por HTTP 200/202. [Revisão de aceite, 11/11](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md) |
+| [preparar-homologacao-xano-admin](changes/preparar-homologacao-xano-admin/tasks.md) | 4/8 | 4 | Destino isolado indisponível: sandbox HTTP 500 e criação de workspace HTTP 403; não usar live como fallback. [Validação](changes/preparar-homologacao-xano-admin/validation.md) |
+| [modernizar-ui-ux-codeboxd](changes/modernizar-ui-ux-codeboxd/tasks.md) | 3/26 | 23 | Busca/listas, navegação e aceite de acessibilidade ainda amplos; toque foi emulado, não validado em aparelho físico. [Primeiro lote, 11/11](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md) |
+| [hospedar-imagens-publicacoes-cloudinary](changes/hospedar-imagens-publicacoes-cloudinary/tasks.md) | 3/17 | 14 | Persistência e ciclo de vida de assets no Xano, integração do post e aceite ponta a ponta; flag permanece desativada. [Prontidão, 11/11](changes/hospedar-imagens-publicacoes-cloudinary/aceite-2026-11-11.md) |
 
-As contagens vêm dos checklists, não medem o percentual global do produto.
-As changes listadas têm planejamento completo; isso não significa implementação concluída.
-
-Evidências mais recentes:
-
-- [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
-- [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
-- [Administração, 22/10](changes/archive/2026-11-12-gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
-- [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
-- [Recuperação/Resend, 28/10](changes/recuperar-senha-codigo-6-digitos/validation/elegibilidade-resend-2026-10-28.md): 24 testes locais passaram; a elegibilidade do destinatário ainda bloqueia envio/entrega reais, e 3.2/3.4 permanecem abertas.
+`gerenciamento-website` foi arquivada em 34/34 no escopo de leitura aprovado;
+isso não comprova mutações administrativas reais. As mudanças de e-mail,
+recuperação e homologação têm dependências externas; preparações locais e
+simulações não as encerram. Para arquitetura e pendências detalhadas, consulte
+[CONTEXTO.md](CONTEXTO.md) e [PENDENCIAS.md](PENDENCIAS.md).
 
 ## Entregas arquivadas
 
