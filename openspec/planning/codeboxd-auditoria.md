@@ -61,7 +61,7 @@ por cache de interface. Referência: [CONTEXTO.md](../CONTEXTO.md).
 | Módulo | Estado observado | Evidência e limite |
 | --- | --- | --- |
 | Login, cadastro e sessão | Implementado | `state/auth_state.py`, `state/session.py`; guard e revogação documentados nas changes de segurança arquivadas; não revalidados na API nesta sessão |
-| Recuperação de senha | Parcial | [8/10 tarefas](../changes/recuperar-senha-codigo-6-digitos/tasks.md); falta envio aceito/recebimento e ciclo completo |
+| Recuperação de senha | Parcial | [8/10 tarefas](../changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/tasks.md); falta envio aceito/recebimento e ciclo completo |
 | Perfil, relações e comunidade | Implementado | `state/social.py`, páginas e specs `user-profile`/`social-connections`; jornada com duas contas ainda integra performance |
 | Catálogo e busca dos quatro tipos | Implementado | `services/catalog.py`, specs `media-catalog`/`media-discovery`; não declarar todos os provedores disponíveis hoje sem consulta |
 | Avaliações e resenhas | Implementado | `media-interactions`, meias estrelas e envio único documentados; comparação de performance da jornada segue aberta |

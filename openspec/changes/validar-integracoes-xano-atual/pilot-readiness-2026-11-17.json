@@ -1,0 +1,31 @@
+{
+  "layer": "published_contract_snapshot_review",
+  "contracts_sha256": "a499147e7226b49c8746ec812dff0978507d8e181e62e4ca82f3a273603c28f7",
+  "collection_pilot_contracts": {
+    "POST auth/signup": true,
+    "POST auth/login": true,
+    "GET auth/me": true,
+    "POST lists": true,
+    "GET lists": true,
+    "PUT lists/{id}": true,
+    "DELETE lists/{id}": true,
+    "GET lists/public": true,
+    "PUT admin/users/{id}/status": true
+  },
+  "unpublished_ui_detail_routes": [
+    "GET lists/{id}",
+    "GET lists/public/{id}"
+  ],
+  "routing_verified_against_metadata_snapshot": {
+    "auth_group": 429670,
+    "social_group": 433585
+  },
+  "reviewed_provisioning_digest": "e6c2c84b2ea0f0692e16631d8b8e11e94314c1f6a60c323e6aaf0556423dcc5e",
+  "run_id": "cbshared_74089c52e9bb",
+  "remote_writes": 0,
+  "fixture_ids_available": false,
+  "creation_receipts_available": false,
+  "pilot_executable": false,
+  "pilot_approved": false,
+  "collection_pilot_contracts_present": true
+}

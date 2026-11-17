@@ -40,8 +40,8 @@ do primeiro uso; P3: fechamento documental. P/M/G são tamanhos relativos, não 
 ### CBX-001 — Entrega de recuperação
 
 - Problema/objetivo: código e integração existem; envio aceito, recebimento e
-  ciclo completo ainda não foram comprovados. Fonte: [tasks](../changes/recuperar-senha-codigo-6-digitos/tasks.md)
-  e [Resend](../changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md).
+  ciclo completo ainda não foram comprovados. Fonte: [tasks](../changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/tasks.md)
+  e [Resend](../changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md).
 - Aceite mínimo: envio aceito; seis dígitos recebidos em caixa controlada;
   alteração/login novo; código reutilizado rejeitado; restauração segura da conta
   e evidências sem código, senha ou token. Não recriar integração já publicada.

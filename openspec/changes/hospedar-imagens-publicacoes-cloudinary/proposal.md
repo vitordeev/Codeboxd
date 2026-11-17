@@ -1,5 +1,9 @@
 ## Why
 
+17/11/2026 — O aceite pode usar o Xano atual com contas/assets descartáveis e proteção dos registros preexistentes, conforme [estratégia substituta](../validar-integracoes-xano-atual/design.md). Workspace separado não é obrigatório; autoria, persistência, transação e limpeza mantêm seus critérios.
+
+17/11/2026 — Continuação de implementação autorizada: [lote local, testes e pendências](implementacao-2026-11-17.md). Fluxo e contratos candidatos preparados, flag false, sem publicação. O planejamento e os estados históricos abaixo permanecem preservados.
+
 O adaptador Cloudinary e um ensaio descartável já existem, mas os posts ainda enviam imagens ao processamento do Xano. Concluir o escopo de publicações já previsto nesta change exige persistência verificável, autorização no servidor e reconciliação durável, preservando imagens antigas.
 
 ## What Changes

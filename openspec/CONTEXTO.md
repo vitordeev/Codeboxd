@@ -1,4 +1,8 @@
-# Contexto técnico e funcional — atualização de estado 14/11/2026
+# Contexto técnico e funcional — atualização de estado 17/11/2026
+
+Último fechamento: [recuperação de senha 12/12](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md), restauração autorizada e login/identidade confirmados. A pendência de restauração citada nas entradas anteriores está resolvida, preservando o ensaio original com falha.
+
+17/11 — [Melhoria do e-mail concluída, 5/5](changes/archive/2026-11-17-melhorar-email-recuperacao/aceite-final-2026-11-17.md), após recebimento real e aceite qualitativo do usuário de que está mais rápido. Sem benchmark quantitativo ou SLA; comparação não bloqueia mais esta entrega. Restauração segue separada.
 
 12/11/2026 — `gerenciamento-website` foi arquivada em
 `changes/archive/2026-11-12-gerenciamento-website` após concluir **34/34**
@@ -63,21 +67,30 @@ Ferramentas/scripts de implantação dessas entregas possuem destinos datados ou
 da change então ativa: adaptar em nova change antes de reutilizar, sem sobrescrever
 os relatórios arquivados. O scanner permanente de commits não depende dessas pastas.
 
-## Estado atual das changes — 14/11/2026
+## Estado atual das changes — 17/11/2026
 
-As sete changes funcionais ativas somam **47/111 tarefas concluídas e 64
+As quatro changes funcionais vigentes somam **35/87 tarefas concluídas e 52
 abertas**, segundo `openspec list --json` e os checklists atuais. Essa contagem
 não representa percentual global do produto. O quadro único, com critérios e
-evidências por change, está em [README.md — Estado atual](README.md#estado-atual-14112026).
+evidências por change, está em [README.md — Estado atual](README.md#estado-atual-17112026).
 
 Bloqueios relevantes nesta data: a recuperação segue 11/12 após HTTP 403 na
-tentativa de restaurar a conta controlada; e-mail/SendGrid aguardam domínio
-autenticado e comprovação de entrega; homologação Xano não dispõe de destino
-isolado. Performance, UI/UX e Cloudinary mantêm critérios de jornada e aceites
+tentativa de restaurar a conta controlada; a experiência do e-mail aguarda comparação
+real de entrega com remetente individual verificado. SendGrid foi concluída e arquivada
+em 5/5; domínio próprio/DNS fora do escopo por decisão do usuário. O aceite Xano poderá usar o workspace atual
+com lote limitado, sem criar outro ambiente. Performance, UI/UX e Cloudinary mantêm critérios de jornada e aceites
 amplos em aberto. Preparação local ou teste simulado não equivale a aceite remoto
 ou de navegador.
 
+Auditoria atual: [auditoria e plano de hoje](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md). Busca Xano candidata tem dry-run aprovado (três addons, dois endpoints), sem publicação. Suíte local 675/675, compile e dependências aprovados. UI continua 7/26; não concluir aceite remoto por simulação.
+
 ## Produto e arquitetura
+
+17/11 — [Fechamento SendGrid](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md), com spec sincronizada em `recovery-email-delivery`, e arquivo das duas changes documentais 4/4. A restauração da conta não foi executada nem marcada concluída por esse fechamento.
+
+17/11 — [Reformulação autorizada](changes/validar-integracoes-xano-atual/matriz-validacao.md): a preparação isolada foi supersedida em 4/8, sem declarar entrega dos quatro itens restantes. O inventário bruto inclui as caixas históricas descontinuadas; o quadro vigente usa a substituta. Planejador offline validado em 18 testes; suíte atual 736/736 e OpenSpec 39/39. Nenhum provisionamento ou mutação remota nesta reformulação.
+
+Continuação local de 17/11: [Cloudinary 6/17](changes/hospedar-imagens-publicacoes-cloudinary/implementacao-2026-11-17.md). O editor agora possui caminho externo condicionado ao contrato, e os candidatos Xano têm journal/verificação/commit/fila. Suíte 718/718 e prévia de 13 documentos aprovadas; sem publicação ou ativação. As descrições históricas de ausência desses arquivos não representam este incremento.
 
 Tradução opcional: `services/translation.py` usa DEEPL_API_KEY somente no servidor
 para descrições das fichas Kitsu/Jikan/Open Library, com destino PT-BR, cache
@@ -164,7 +177,7 @@ de cinco minutos não é salvo como sessão no navegador. Em 12/11, o primeiro
 código foi recebido e a troca/login temporário foram confirmados; a validação do
 segundo código retornou HTTP 403 antes da restauração. A conta controlada
 permanece sem restauração e não houve autorização para um terceiro pedido.
-Recuperação está em 11/12; ver [evidência do ensaio](changes/recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md).
+Recuperação está em 11/12; ver [evidência do ensaio](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md).
 Entrega de e-mail e comparação real continuam dependentes de domínio autenticado
 e caixa controlada; não inferir entrega a partir da aceitação HTTP do provedor.
 

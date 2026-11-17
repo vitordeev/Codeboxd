@@ -187,3 +187,17 @@ Rollback do lote consiste em reverter seus arquivos de apresentação/helper/hea
 na branch isolada, preservando dados, regras, serviços e as demais worktrees.
 Nenhuma migração ou limpeza remota é necessária. A candidata a entrega continua
 local e deve ser revisada antes de qualquer publicação autorizada.
+
+## Verificação da retomada — 16/11/2026
+
+Na retomada em `develop` (`73c8d5d`), antes da ampliação de cobertura da tarefa
+3.3, os hashes dos arquivos
+`Codeboxd_main/horizontal_collection.py`, `assets/horizontal-collections.js`,
+`tools/ui_foundations_browser.py` e `tools/ui_foundations_fixture.py` foram
+comparados com os hashes deste lote após normalização de finais de linha; os
+quatro correspondiam exatamente. A matriz então existente não foi executada
+novamente; sua evidência de cinco larguras continua associada à implementação
+integrada do trilho. A ampliação posterior alterou apenas a fixture/harness,
+com nova evidência registrada em `colecoes-home-recomendacoes-2026-11-16.md`.
+As verificações de toque continuam sendo emulações, não ensaio em hardware
+físico. A tarefa 3.2 permanece aberta até esse aceite.

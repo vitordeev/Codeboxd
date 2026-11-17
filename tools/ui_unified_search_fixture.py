@@ -5,6 +5,7 @@ from pathlib import Path
 
 import tools.ui_foundations_fixture as base
 from Codeboxd_main.services import catalog
+from Codeboxd_main.services.api import APIError
 from Codeboxd_main.state import social
 
 _original_search = base.search
@@ -43,8 +44,28 @@ async def request(method, path, **kwargs):
         raise RuntimeError('ui_fixture_forbids_mutations')
     params = kwargs.get('params') or {}
     _record('api', method=method, path=path, params=params)
+    query = params.get('q', '')
     page = int(params.get('page', 1))
-    if path == '/profiles' and params.get('q'):
+    if path in ('/profiles', '/lists/public') and query == 'RateLimited':
+        raise APIError('Muitas solicitações. Tente novamente em 30 segundos.', 429, 30)
+    if path == '/lists/public' and query == 'Partial':
+        raise APIError('Serviço de listas indisponível.', 503)
+    if path == '/profiles' and query:
+        if query == 'LongName':
+            return {
+                'items': [{
+                    'user_id': 42, 'username': 'perfil_longo',
+                    'display_name': 'Nome público ' + ('com muitas palavras ' * 8),
+                    'avatar_url': '',
+                }],
+                'total': 1, 'page': page, 'per_page': 20, 'next_page': None,
+            }
+        if query == 'Partial':
+            return {
+                'items': [{'user_id': 43, 'username': 'perfil_ok',
+                           'display_name': 'Pessoa disponível'}],
+                'total': 1, 'page': page, 'per_page': 20, 'next_page': None,
+            }
         return {
             'items': [{
                 'user_id': 41, 'username': 'joana_fixture',
@@ -52,7 +73,20 @@ async def request(method, path, **kwargs):
             }] if page == 1 else [],
             'total': 1, 'page': page, 'per_page': 20, 'next_page': None,
         }
-    if path == '/lists/public' and params.get('q'):
+    if path == '/lists/public' and query:
+        if query == 'LongName':
+            return {
+                'items': [{
+                    'id': 54, 'title': 'Lista ' + ('de leituras extensas ' * 7),
+                    'description': 'Descrição longa de teste.',
+                    'items_count': 3,
+                    'creator': {
+                        'user_id': 42, 'username': 'perfil_longo',
+                        'display_name': 'Criadora ' + ('de listas públicas ' * 8),
+                    },
+                }],
+                'total': 1, 'page': page, 'per_page': 20, 'next_page': None,
+            }
         return {
             'items': [{
                 'id': 51, 'title': 'Lista pública de Joana',

@@ -2,6 +2,8 @@
 
 ## Context
 
+17/11/2026 — O aceite combina fixtures locais com piloto limitado no Xano atual, conforme [estratégia controlada](../validar-integracoes-xano-atual/design.md). Criar ambiente adicional não é pré-requisito de 5.3/5.4. Publicação e mutações de contas/listas descartáveis continuam separadas de leituras/simulações.
+
 Rodada de **planejamento**, sem execução do app ou alteração funcional. Base local
 `task/cloudinary-limites-20261111`, HEAD `faa655f`; alterações Cloudinary anteriores
 estão não commitadas. O schema é spec-driven, CLI 1.14.3. README e documentação

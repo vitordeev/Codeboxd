@@ -1,22 +1,35 @@
-# Pendências atuais — 14/11/2026
+# Pendências atuais — 17/11/2026
 
 ## Resumo vigente
 
-As **sete changes funcionais ativas** somam **47/111 tarefas concluídas e 64
+Atualização final da recuperação: [12/12 concluídas](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md). Senha restaurada, login e identidade confirmados em 17/11, após autorização específica. Os bloqueios de restauração/recusa descritos abaixo são históricos e foram resolvidos por esta retomada; não se aplicam mais ao estado vigente.
+
+Fechamento posterior de 17/11: [melhoria do e-mail concluída, 5/5](changes/archive/2026-11-17-melhorar-email-recuperacao/aceite-final-2026-11-17.md). Recebimento real em aproximadamente 25 s até confirmação e usuário relata estar mais rápido; aceite qualitativo substitui benchmark adicional. A comparação deixa de ser bloqueio vigente. Restauração da conta permanece aberta e não foi autorizada por esse teste de entrega.
+
+17/11 — SendGrid concluída em 5/5 e arquivada: [aceite e limites](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md). A evidência real de recebimento/troca/login foi reconciliada com a conferência atual de leitura. As duas changes documentais completas também foram arquivadas.
+
+17/11 — [Plano sem novo ambiente](changes/validar-integracoes-xano-atual/matriz-validacao.md) e planejador offline concluídos localmente, 18 testes novos e suíte 736/736. Os quatro itens de provisionamento da estratégia supersedida permanecem históricos, fora dos pré-requisitos vigentes; piloto real e publicação não foram executados.
+
+Continuação de implementação de 17/11: [Cloudinary local 6/17, suíte 718/718](changes/hospedar-imagens-publicacoes-cloudinary/implementacao-2026-11-17.md). Novos contratos têm prévia aprovada; publicação, aceites reais e executor supervisionado continuam pendentes.
+
+As **quatro changes funcionais vigentes** somam **35/87 tarefas concluídas e 52
 abertas**. Fonte: `openspec list --json`, checklists atuais e evidências
 específicas; não é percentual de conclusão do produto. O quadro único por change
-está em [README.md — Estado atual](README.md#estado-atual-14112026).
+está em [README.md — Estado atual](README.md#estado-atual-17112026).
 
 Bloqueios prioritários: a recuperação da conta controlada segue pendente após
 HTTP 403 na validação do segundo código; o usuário não autorizou um terceiro
-pedido. E-mail/SendGrid dependem de domínio autenticado e aceite real em caixa.
-A homologação Xano depende de destino isolado, ainda indisponível. Não usar live
-como fallback nem marcar preparação local/simulação como aceite integrado.
+pedido. Falta comparar o tempo de entrega em caixa controlada com remetente individual
+verificado. Não haverá domínio próprio/DNS, por decisão do usuário; isso não é bloqueio.
+Outro workspace deixou de ser requisito: o aceite Xano poderá usar o destino atual
+com lote de fixtures próprias revisado. Não marcar planejamento/simulação como aceite integrado.
 `gerenciamento-website` foi arquivada em 34/34 somente no escopo de leitura;
 mutações administrativas reais continuam fora desse aceite.
 
 Os registros datados seguintes preservam o estado e os resultados das respectivas
 rodadas; para números vigentes, usar o quadro atual e os checklists vinculados.
+
+17/11/2026 — [auditoria e plano de hoje](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md): suíte 675/675, compile, pip check e prévia Xano de busca aprovados. Contratos ainda não publicados; critérios funcionais incompletos permanecem abertos.
 
 12/11/2026 — Oito changes concluídas foram arquivadas em
 `changes/archive/2026-11-12-*`; seis sincronizaram seus deltas com as specs
@@ -83,24 +96,24 @@ em desktop/celular, sem alterações remotas administrativas. A tarefa 9.2 conti
 controladas; A2–A4 continuam sem autorização específica. Não repetir os cenários
 de leitura aprovados sem regressão ou nova necessidade.
 
-11/11/2026 — [Confirmação manual posterior](changes/recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md):
+11/11/2026 — [Confirmação manual posterior](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md):
 usuário recebeu código, trocou senha e entrou com a nova. Essa confirmação supera
 a falta de recebimento inicial; não fecha replay/restauração, comparação de
 latência ou alinhamento do remetente. Checklists funcionais preservados.
 
-11/11/2026 — [Bloqueio de entrega confirmado no ensaio atual](changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md):
+11/11/2026 — [Bloqueio de entrega confirmado no ensaio atual](changes/archive/2026-11-17-melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md):
 SendGrid processing, cinco adiamentos 421/4.7.32, sem delivered. Usuário sem
 código; nenhuma troca de senha até o diagnóstico. Aguardar domínio próprio/DNS
 e autorização de configuração, sem reenviar para contornar a causa. Changes de
 e-mail/recuperação continuam abertas; nenhuma entrega ou comparação comprovada.
 
 11/11/2026 — Preparação do executor de dois códigos concluída localmente:
-[testes, limites e escopo do ensaio](changes/recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md).
+[testes, limites e escopo do ensaio](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md).
 O bloqueio técnico da restauração por sessão comum foi removido do executor;
 faltam autorização específica, conta/caixa controlada e aceite real. Recuperação
 mantida 9/11 e SendGrid 4/5. Sem envio ou alteração remota.
 
-11/11/2026 — [Critérios de aceite e sequência recomendada](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
+11/11/2026 — [Critérios de aceite e sequência recomendada](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
 SendGrid 4/5, experiência do e-mail 4/5 e recuperação 9/11. Remetente verificado,
 zero domínios autenticados confirmados por GET. Falta ciclo na caixa controlada,
 restauração compatível com credencial exclusiva e comparação real de entrega.
@@ -235,10 +248,10 @@ entra nessa contagem.
 Bloqueios com dependências externas:
 
 - **Recuperação:** a conta controlada não foi restaurada após HTTP 403; não
-  repetir pedidos sem nova autorização. [Ensaio de 12/11](changes/recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md).
+  repetir pedidos sem nova autorização. [Ensaio de 12/11](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md).
 - **SendGrid/e-mail:** sem domínio autenticado e comparação de entrega na caixa;
   os adiamentos SPF/DKIM não são resolvidos por template ou reenvio.
-  [Diagnóstico](changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md).
+  [Diagnóstico](changes/archive/2026-11-17-melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md).
 - **Homologação:** sandbox HTTP 500 e criação de workspace HTTP 403; publicação
   e piloto integrado aguardam destino isolado.
   [Validação Xano](changes/preparar-homologacao-xano-admin/validation.md).
@@ -269,7 +282,7 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 | P.3 | Alta antes de hospedar | URL concreta de banner corrigida/testada; execução e armazenamento locais, sem Docker | Manter backup do diretório de uploads; escolher persistência para hospedagem quando essa etapa for solicitada |
 | P.4 | Resolvida | Mensagens de erro de upload corrigidas e verificadas | Testes de rede, HTTP e JSON inválido passaram |
 | P.5 | Resolvida em 14/10/2026 | Contrato multipart e preservação do rascunho/cancelamento corrigidos; browser real validado | Criar/editar/recarregar, rejeitar inválido e cancelar passaram; posts, arquivos staged e blobs de teste limpos. Evidência em `validation/uploads-and-session-2026-10-13.md` |
-| P.6 | Bloqueada na conclusão do ciclo controlado | Recuperação por código de seis dígitos está integrada ao SendGrid; em 12/11 o primeiro código foi recebido e a troca/login temporário foram confirmados, mas o segundo código retornou HTTP 403 antes da restauração. Conta de teste não restaurada. | Resolver a restauração com autorização específica e confirmar ciclo/reuso em caixa controlada. Sem terceiro pedido autorizado. [Evidência](changes/recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md); ver também [SendGrid](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md) |
+| P.6 | Bloqueada na conclusão do ciclo controlado | Recuperação por código de seis dígitos está integrada ao SendGrid; em 12/11 o primeiro código foi recebido e a troca/login temporário foram confirmados, mas o segundo código retornou HTTP 403 antes da restauração. Conta de teste não restaurada. | Resolver a restauração com autorização específica e confirmar ciclo/reuso em caixa controlada. Sem terceiro pedido autorizado. [Evidência](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md); ver também [SendGrid](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/aceite-2026-11-11.md) |
 | P.7 | Média | `/likes` remoto ausente no último registro | Revalidar contrato remoto; manter fallback ou publicar rota após revisão; verificar curtidas sem N+1 |
 | P.8 | Resolvida para retomada | Checkpoints atuais de `docs/` apontam para OpenSpec; histórico anterior preservado | Novas alterações continuam centralizadas no OpenSpec |
 | P.9 | Conforme crescimento | Estado e páginas sociais concentram muitas responsabilidades | Separar por domínio quando houver necessidade concreta, mantendo rotas/eventos e testes relevantes |
@@ -280,7 +293,7 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 Registro histórico de P.6 em 28/10: os testes locais de recuperação/cooldown passaram
 (24 testes); a documentação oficial confirma a restrição do remetente de teste.
 Nenhuma chamada ou troca real executada. 3.2/3.4 continuam abertas até envio
-aceito a uma caixa elegível e ciclo/restauração controlados. [Evidências e próximo passo](changes/recuperar-senha-codigo-6-digitos/validation/elegibilidade-resend-2026-10-28.md).
+aceito a uma caixa elegível e ciclo/restauração controlados. [Evidências e próximo passo](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/elegibilidade-resend-2026-10-28.md).
 
 
 ## Ajustes visuais e entregas encerradas

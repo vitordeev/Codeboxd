@@ -1,0 +1,18 @@
+{
+  "remote_writes": 0,
+  "emails_sent": 0,
+  "password_changes": 0,
+  "passed": true,
+  "published_contract": {
+    "sendgrid": true,
+    "requires_202": true,
+    "private_key_reference": true,
+    "private_sender_reference": true,
+    "sanitized_failure": true,
+    "no_provider_retry": true
+  },
+  "published_endpoint_sha256": "202c96111c9f522914aa326622744f02df7fe5896fa4a84574b1a47993539399",
+  "sender_read_available": true,
+  "sender_read_status": 200,
+  "configured_sender_verified": true
+}

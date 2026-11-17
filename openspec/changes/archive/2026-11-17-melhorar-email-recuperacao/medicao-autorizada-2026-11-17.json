@@ -1,0 +1,17 @@
+{
+  "layer": "supervised_real_api",
+  "approval": "Autorizado pode realizar",
+  "mail_requests_attempted": 1,
+  "password_changes": 0,
+  "retries": 0,
+  "operator_received": true,
+  "comparison_available": false,
+  "requested_at": "2026-11-17T14:11:07.804910+00:00",
+  "http_status": 200,
+  "request_accepted_not_delivery_proof": true,
+  "api_elapsed_seconds": 4.521,
+  "response_finished_at": "2026-11-17T14:11:12.327094+00:00",
+  "operator_observed_at": "2026-11-17T14:11:32.767221+00:00",
+  "request_to_operator_confirmation_seconds": 24.962,
+  "observation_limit": "Includes operator perception and confirmation delay; not exact inbox delivery time."
+}

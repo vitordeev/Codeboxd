@@ -4,6 +4,8 @@
 
 ## Why
 
+17/11/2026 — Aceite no Xano atual com leituras limitadas e fixtures próprias, conforme [reformulação](../validar-integracoes-xano-atual/design.md). Não é necessário criar outro ambiente. Mutações em dados preexistentes, testes de carga e indução de 429 em serviços reais não fazem parte dessa decisão.
+
 A navegação apresenta HTTP 429 e esperas que prejudicam o uso do Codeboxd.
 É necessário medir e otimizar a jornada inteira, começando pelo login, sem
 perder dados, funcionalidades ou verificações de acesso.

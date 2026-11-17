@@ -1,5 +1,7 @@
 ## Context
 
+**17/11/2026 — supersedida:** a criação abaixo foi substituída pela [validação controlada no workspace existente](../validar-integracoes-xano-atual/design.md). Guardas e pacote antigos permanecem históricos e inalterados; não serão usados para executar no ambiente compartilhado.
+
 Origem protegida: configuração privada atual, workspace 147717, branch v1/live.
 Um perfil e um workspace acessíveis foram observados. O usuário escolheu
 homologação e autorizou prepará-la; o piloto administrativo continua separado.

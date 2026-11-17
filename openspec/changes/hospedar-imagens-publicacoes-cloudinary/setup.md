@@ -21,6 +21,10 @@ Não é necessário criar preset unsigned nem instalar SDK para o transporte pre
 
 Documentação oficial: [assinaturas](https://cloudinary.com/documentation/authentication_signatures), [upload](https://cloudinary.com/documentation/upload_images).
 
+## Continuação local — 17/11/2026
+
+O fluxo do editor e os contratos candidatos agora incluem reserva, verificação independente, commit idempotente, revisão e fila durável; ver [implementação e limites](implementacao-2026-11-17.md). A flag permanece false. O Xano também exigirá `CLOUDINARY_POST_IMAGES_CONTRACT_READY=false` por padrão: esse gate é exclusivo do backend e só poderá passar a true após a implantação e o aceite completos. Publicar a prévia não ativa o serviço nem configura as credenciais do verificador.
+
 ## Git
 
 O `.env.example` possui apenas nomes de variáveis e defaults; o `.env` privado é ignorado. Não usar git add -f no `.env`. O push leva código/exemplos/planejamento, não configura credenciais em outra máquina ou hospedagem.

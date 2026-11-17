@@ -59,18 +59,18 @@ dashboard injetadas só localmente. 53 chamadas remotas observadas, zero 429,
 sem mutações administrativas. 9.2 segue aberta, 33/34; ensaio não autoriza A2–A4.
 Branch própria task/admin-readiness-20261111, sem push/merge/arquivo.
 
-11/11/2026 — [Recebimento, troca e novo login confirmados pelo usuário](changes/recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md).
+11/11/2026 — [Recebimento, troca e novo login confirmados pelo usuário](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md).
 Persistência do cadastro conferida; sem medição comparativa de entrega nem
 correção do alinhamento SPF/DKIM. Critérios restantes do ciclo preservados;
 recuperação 9/11, SendGrid 4/5 e experiência do e-mail 4/5. Retomada administrativa
 preparada separadamente, sem autorização de mutações remotas.
 
-11/11/2026 — [Executor de recuperação adaptado](changes/recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md):
+11/11/2026 — [Executor de recuperação adaptado](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md):
 restauração por segundo código e credencial exclusiva, sem retry de escrita.
 14 testes simulados aprovados; ensaio real aguarda autorização específica e
 conta/caixa controlada. Nenhuma tarefa funcional encerrada por preparação local.
 
-11/11/2026 — [Revisão de aceite de e-mail e recuperação](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
+11/11/2026 — [Revisão de aceite de e-mail e recuperação](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
 fetch e leitura confirmam develop em `29d0456`, main remota em `42ff4dd`, com PRs
 #31/#32 integradas. Os registros de 10/11 sobre PR ainda não criada são históricos.
 SendGrid 4/5, experiência do e-mail 4/5 e recuperação 9/11, sem fechamento por
@@ -87,11 +87,11 @@ os números registrados nesta rodada permanecem históricos.
 
 10/11/2026 — [Recuperação exige conta ativa](changes/archive/2026-11-12-impedir-recuperacao-email-sem-conta/validation.md): por solicitação do usuário, endereço sem cadastro/inativo retorna 404 e permanece na primeira etapa. Publicado um endpoint com backup; 16 testes e compilação aprovados, API e navegador real confirmaram rejeição sem envio. Decisão anterior de avanço genérico substituída; falha de envio também não gera sucesso falso.
 
-10/11/2026 — [E-mail de recuperação redesenhado e atraso diagnosticado](changes/melhorar-email-recuperacao/validation.md): HTML/texto publicados no endpoint, 14 testes e sandbox aprovados, feedback imediato e cooldown local. SendGrid revela adiamentos Gmail 421 4.7.32 por alinhamento SPF/DKIM; entregas existentes em 27s/70s e outra pendente. Corrigir causa depende de domínio próprio autenticado; redução real de entrega não comprovada.
+10/11/2026 — [E-mail de recuperação redesenhado e atraso diagnosticado](changes/archive/2026-11-17-melhorar-email-recuperacao/validation.md): HTML/texto publicados no endpoint, 14 testes e sandbox aprovados, feedback imediato e cooldown local. SendGrid revela adiamentos Gmail 421 4.7.32 por alinhamento SPF/DKIM; entregas existentes em 27s/70s e outra pendente. Corrigir causa depende de domínio próprio autenticado; redução real de entrega não comprovada.
 
 10/11/2026 — [Página de recuperação simplificada](changes/archive/2026-11-12-simplificar-pagina-recuperacao/validation.md): uma etapa por vez, sem e-mail duplicado, cartão compacto e confirmação final com login. Doze testes e compilação aprovados; etapa inicial conferida no navegador em 390/1440px sem overflow. Sem novos envios ou alterações remotas.
 
-10/11/2026 — [SendGrid para recuperação](changes/integrar-sendgrid-recuperacao/validation.md): remetente verificado e integração publicada no Xano após backup/prévia de um endpoint. Chave/remetente privados conferidos e demais variáveis preservadas; sete testes locais passaram. Aceitação de envio, recebimento e ciclo completo ainda pendentes; histórico Resend preservado.
+10/11/2026 — [SendGrid para recuperação](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/validation.md): remetente verificado e integração publicada no Xano após backup/prévia de um endpoint. Chave/remetente privados conferidos e demais variáveis preservadas; sete testes locais passaram. Aceitação de envio, recebimento e ciclo completo ainda pendentes; histórico Resend preservado.
 
 08/11/2026 — [Mascotes Lume e carregamento revertidos](changes/archive/2026-11-12-melhorar-mascotes-carregamento/validation.md) a pedido do usuário. Bonecos e carregamento anteriores restaurados; integração da logo preservada. A entrega e suas evidências são históricas, sem aplicação atual.
 
@@ -189,28 +189,41 @@ seis requisitos com as specs principais e conferir tarefas/evidências.
 A tabela funcional abaixo preserva as três changes de produto, sem alterar
 suas pendências ou contagens.
 
-## Estado atual (14/11/2026)
+<a id="estado-atual-14112026"></a>
 
-O CLI e os checklists das **sete changes funcionais ativas** confirmam **47/111
-tarefas concluídas e 64 abertas**. A change documental
-`reconciliar-estado-changes-abertas` não entra nesses totais. As contagens não
+## Estado atual (17/11/2026)
+
+Próxima frente em andamento: [piloto no Xano atual](changes/validar-integracoes-xano-atual/piloto-revisao-2026-11-17.md), 4/6. Backup e inventário real de 14 tabelas concluídos por leitura, destino v1/live conferido e proposta de duas contas/listas preparada. Nenhuma fixture criada ou publicação realizada; criação de recibos, aprovação do lote e piloto continuam pendentes.
+
+Fechamento mais recente: [recuperação de senha, 12/12](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md). Restauração autorizada concluída e login/identidade confirmados pela API e pelo usuário. A pendência de restauração dos registros anteriores está resolvida; nenhum novo envio é necessário para esse aceite.
+
+Fechamento posterior nesta data: [e-mail de recuperação, 5/5](changes/archive/2026-11-17-melhorar-email-recuperacao/aceite-final-2026-11-17.md), com recebimento real e comparação qualitativa aceita pelo usuário (“está mais rápido”). Sem comprovação de redução percentual/SLA. A pendência de comparação descrita nos registros anteriores foi encerrada por esse aceite; restauração da conta continua aberta.
+
+Os checklists das **quatro changes funcionais vigentes** confirmam **35/87
+tarefas concluídas e 52 abertas**. As changes documentais
+`reconciliar-estado-changes-abertas` e `finalizar-projeto-2026-11-17` não entram nesses totais. As contagens não
 representam percentual de conclusão do produto.
+
+17/11 — Concluída e arquivada [integração SendGrid, 5/5](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md), com jornada real de recebimento/troca/login e conferência atual do contrato/remetente. As duas changes documentais completas também foram arquivadas. Domínio próprio foi excluído dos pré-requisitos por decisão do usuário; restauração e comparação de entrega continuam nas changes respectivas.
+
+17/11 — [Plano sem novo workspace](changes/validar-integracoes-xano-atual/matriz-validacao.md): a preparação isolada foi supersedida em 4/8. Os quatro itens remotos restantes não foram entregues e deixaram de ser pré-requisitos. O inventário bruto do CLI inclui essa estratégia histórica: cinco changes funcionais, 39/95 e 56 caixas abertas (quatro supersedidas). O quadro vigente abaixo usa a substituta.
 
 | Change funcional ativa | Concluídas | Abertas | Critério principal ainda pendente |
 | --- | ---: | ---: | --- |
-| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 11/12 | 1 | Restauração da conta controlada: validação do segundo código retornou HTTP 403; conta não restaurada e terceiro pedido não autorizado. [Ensaio de 12/11](changes/recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md) |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 18/38 | 20 | Baselines, metas e comparações de jornadas completas em desktop/celular; testes locais simulados não encerram o aceite. [Cache de fichas, 12/11](changes/otimizar-performance-app/validation/cache-fichas-concorrente-2026-11-12.md) |
-| [melhorar-email-recuperacao](changes/melhorar-email-recuperacao/tasks.md) | 4/5 | 1 | Comparação real de entrega ainda depende de domínio autenticado, DNS e caixa controlada; foram observados adiamentos SPF/DKIM. [Diagnóstico, 11/11](changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md) |
-| [integrar-sendgrid-recuperacao](changes/integrar-sendgrid-recuperacao/tasks.md) | 4/5 | 1 | Recebimento e ciclo completo em caixa controlada; compartilhar aceite com a recuperação, sem inferir entrega por HTTP 200/202. [Revisão de aceite, 11/11](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md) |
-| [preparar-homologacao-xano-admin](changes/preparar-homologacao-xano-admin/tasks.md) | 4/8 | 4 | Destino isolado indisponível: sandbox HTTP 500 e criação de workspace HTTP 403; não usar live como fallback. [Validação](changes/preparar-homologacao-xano-admin/validation.md) |
-| [modernizar-ui-ux-codeboxd](changes/modernizar-ui-ux-codeboxd/tasks.md) | 3/26 | 23 | Busca/listas, navegação e aceite de acessibilidade ainda amplos; toque foi emulado, não validado em aparelho físico. [Primeiro lote, 11/11](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md) |
-| [hospedar-imagens-publicacoes-cloudinary](changes/hospedar-imagens-publicacoes-cloudinary/tasks.md) | 3/17 | 14 | Persistência e ciclo de vida de assets no Xano, integração do post e aceite ponta a ponta; flag permanece desativada. [Prontidão, 11/11](changes/hospedar-imagens-publicacoes-cloudinary/aceite-2026-11-11.md) |
+| [validar-integracoes-xano-atual](changes/validar-integracoes-xano-atual/tasks.md) | 4/6 | 2 | Planejador e estratégia locais concluídos; preparar lote com backup/IDs/recibos e executar aceite controlado no workspace atual. [Matriz](changes/validar-integracoes-xano-atual/matriz-validacao.md) |
+| [modernizar-ui-ux-codeboxd](changes/modernizar-ui-ux-codeboxd/tasks.md) | 7/26 | 19 | Busca/listas, navegação e aceite de acessibilidade ainda amplos; toque foi emulado, não validado em aparelho físico. [Primeiro lote, 11/11](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md) |
+| [hospedar-imagens-publicacoes-cloudinary](changes/hospedar-imagens-publicacoes-cloudinary/tasks.md) | 6/17 | 11 | Persistência e ciclo de vida de assets no Xano, integração do post e aceite ponta a ponta; flag permanece desativada. [Prontidão, 11/11](changes/hospedar-imagens-publicacoes-cloudinary/aceite-2026-11-11.md) |
 
 `gerenciamento-website` foi arquivada em 34/34 no escopo de leitura aprovado;
 isso não comprova mutações administrativas reais. As mudanças de e-mail,
 recuperação e homologação têm dependências externas; preparações locais e
 simulações não as encerram. Para arquitetura e pendências detalhadas, consulte
 [CONTEXTO.md](CONTEXTO.md) e [PENDENCIAS.md](PENDENCIAS.md).
+
+Auditoria de 17/11: **675 testes locais**, compile e pip check aprovados. Contratos de busca têm prévia Xano aprovada, sem publicação. Ver [auditoria e plano de hoje](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md). O avanço UI de 3 para 7 tarefas é anterior a esta sessão.
+
+Continuação de 17/11, ainda ativa: [Cloudinary local](changes/hospedar-imagens-publicacoes-cloudinary/implementacao-2026-11-17.md), **6/17**; journal, verificação e integração do editor implementados, **718 testes** e prévia de 13 documentos aprovados. Sem publicação ou ativação; os aceites de banco, limpeza e navegador permanecem abertos.
 
 ## Entregas arquivadas
 
@@ -242,7 +255,7 @@ Nenhuma change funcional ativa está pronta para arquivar.
 | [AMBIENTE.md](AMBIENTE.md) | Ambiente `.venv` e operação local sem Docker |
 | [HISTORICO.md](HISTORICO.md) | Rodadas anteriores e decisões substituídas |
 | [VALIDACAO.md](VALIDACAO.md) | Validações documentais e limites |
-| `specs/` | 19 contratos consolidados |
+| `specs/` | 30 contratos consolidados |
 | `changes/` | Planejamento, tarefas e evidências ativas |
 | `changes/archive/` | Entregas históricas, incluindo esta revisão concluída |
 

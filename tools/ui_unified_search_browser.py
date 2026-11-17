@@ -134,15 +134,122 @@ async def run(url, output, log_path):
             await page.get_by_role('button', name='Copiar link').click()
             await expect(page.locator('[role="status"]').filter(
                 has_text='Link copiado.')).to_be_visible()
+            await page.evaluate("""() => Object.defineProperty(navigator, 'clipboard', {
+                configurable: true,
+                value: {writeText: () => Promise.reject(new Error('fixture_clipboard_denied'))}
+            })""")
+            await page.get_by_role('button', name='Copiar link').click()
+            await expect(page.locator('[role="status"]').filter(
+                has_text='Não foi possível copiar')).to_be_visible()
+            await expect(share_url).to_have_value('/lista?id=51')
             await page.get_by_role('button', name='Próxima página').click()
             await page.wait_for_url(lambda value: '/lista?' in value and 'id=51' in value
                                     and 'page=2' in value)
             await expect(page.get_by_role('heading', name='Obra de lista 21')).to_be_visible()
+            await expect(page.locator('.catalog-grid a').first).to_have_attribute(
+                'href', '/obra/21')
             await page.goto(url.rstrip('/') + '/lista?id=53&page=1', wait_until='networkidle')
             await expect(page.get_by_role('heading', name='Lista vazia')).to_be_visible()
             await expect(page.get_by_text('Esta página da lista não tem obras.')).to_be_visible()
             report['cases'].append({'addressable_list': True, 'pagination_page': 2,
-                                    'zero_items': True, 'share_copy': True})
+                                    'zero_items': True, 'share_copy': True,
+                                    'clipboard_failure_fallback': True})
+
+            await page.goto(url.rstrip('/') + '/buscar?tipo=pessoas&q=LongName&page=1',
+                            wait_until='networkidle')
+            long_name = page.locator('.search-result-card h2').first
+            await expect(long_name).to_contain_text('Nome público')
+            long_profile_layout = await long_name.evaluate('''element => ({
+                overflow_wrap: getComputedStyle(element).overflowWrap,
+                document_width: document.documentElement.scrollWidth,
+                viewport_width: innerWidth
+            })''')
+            assert len(await long_name.inner_text()) > 100, 'long_profile_name_fixture_too_short'
+            assert long_profile_layout['overflow_wrap'] == 'anywhere', 'long_profile_name_does_not_wrap'
+            assert long_profile_layout['document_width'] <= long_profile_layout['viewport_width'] + 1
+            await page.get_by_role('button', name='Listas públicas').click()
+            await page.wait_for_url(lambda value: 'tipo=listas' in value and 'LongName' in value)
+            await expect(page.locator('.search-result-card h2').first).to_contain_text('Lista')
+            long_list_layout = await page.locator('.search-result-card h2').first.evaluate('''element => ({
+                overflow_wrap: getComputedStyle(element).overflowWrap,
+                document_width: document.documentElement.scrollWidth,
+                viewport_width: innerWidth
+            })''')
+            assert long_list_layout['overflow_wrap'] == 'anywhere', 'long_list_title_does_not_wrap'
+            assert long_list_layout['document_width'] <= long_list_layout['viewport_width'] + 1
+            long_creator = page.locator('.search-result-owner').first
+            assert len(await long_creator.inner_text()) > 100, 'long_creator_fixture_too_short'
+            creator_layout = await long_creator.evaluate('''element => ({
+                overflow_wrap: getComputedStyle(element).overflowWrap,
+                document_width: document.documentElement.scrollWidth,
+                viewport_width: innerWidth
+            })''')
+            assert creator_layout['document_width'] <= creator_layout['viewport_width'] + 1
+            long_name_calls = [row for row in read_calls(log_path)
+                               if row.get('kind') == 'api'
+                               and row.get('params', {}).get('q') == 'LongName']
+            assert [row['path'] for row in long_name_calls] == ['/profiles', '/lists/public']
+            report['cases'].append({'long_profile_and_list_names': True,
+                                    'creator_embedded_no_n_plus_one': True,
+                                    'layout': {'profile': long_profile_layout,
+                                               'list': long_list_layout,
+                                               'creator': creator_layout}})
+
+            await page.get_by_role('button', name='Listas públicas').click()
+            await page.wait_for_url(lambda value: 'tipo=listas' in value)
+            await page.locator('#unified-search-query').fill('Partial')
+            await page.get_by_role('button', name='Buscar', exact=True).click()
+            await page.wait_for_url(lambda value:
+                                    'tipo=listas' in value and 'q=Partial' in value)
+            await expect(page.get_by_role('alert')).to_contain_text('indisponível')
+            assert await page.locator('.search-result-card').count() == 0
+            await page.get_by_role('button', name='Pessoas').click()
+            await page.wait_for_function("""() => {
+                const params = new URLSearchParams(location.search);
+                return params.get('tipo') === 'pessoas' && params.get('q') === 'Partial';
+            }""")
+            await expect(page.locator('.search-result-card h2').first).to_have_text(
+                'Pessoa disponível')
+            partial_calls = [row for row in read_calls(log_path)
+                             if row.get('kind') == 'api'
+                             and row.get('params', {}).get('q') == 'Partial']
+            assert [row['path'] for row in partial_calls] == ['/lists/public', '/profiles']
+            report['cases'].append({'failed_scope_recovers_without_stale_results': True,
+                                    'scope_calls': [row['path'] for row in partial_calls]})
+
+            for scope in ('pessoas', 'listas'):
+                current_scope = parse_qs(urlsplit(page.url).query).get('tipo', [''])[0]
+                if current_scope != scope:
+                    await page.get_by_role(
+                        'button', name='Pessoas' if scope == 'pessoas' else 'Listas públicas').click()
+                    await page.wait_for_function("""expected => {
+                        const params = new URLSearchParams(location.search);
+                        return params.get('tipo') === expected;
+                    }""", arg=scope)
+                    if scope == 'listas':
+                        await expect(page.get_by_role('alert')).to_contain_text(
+                            'Muitas solicitações')
+                await page.locator('#unified-search-query').fill('RateLimited')
+                await page.get_by_role('button', name='Buscar', exact=True).click()
+                await page.wait_for_function("""expected => {
+                    const params = new URLSearchParams(location.search);
+                    return params.get('q') === 'RateLimited' && params.get('tipo') === expected;
+                }""", arg=scope)
+                await expect(page.get_by_role('alert')).to_contain_text('30 segundos')
+                assert await page.locator('.search-result-card').count() == 0
+                path = '/profiles' if scope == 'pessoas' else '/lists/public'
+                limited_calls = [row for row in read_calls(log_path)
+                                 if row.get('kind') == 'api' and row.get('path') == path
+                                 and row.get('params', {}).get('q') == 'RateLimited']
+                await page.reload(wait_until='networkidle')
+                await expect(page.get_by_role('alert')).to_contain_text('segundos')
+                await page.wait_for_timeout(200)
+                retry_calls = [row for row in read_calls(log_path)
+                               if row.get('kind') == 'api' and row.get('path') == path
+                               and row.get('params', {}).get('q') == 'RateLimited']
+                assert len(retry_calls) == len(limited_calls), '429_retry_ignored_cooldown'
+                report['cases'].append({'scope': scope, 'rate_limit_distinct_from_empty': True,
+                                        'reload_respects_retry_after': True})
 
             assert not errors, 'javascript_errors'
             report['passed'] = True

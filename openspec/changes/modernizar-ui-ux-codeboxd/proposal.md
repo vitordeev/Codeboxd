@@ -2,6 +2,8 @@
 
 ## Why
 
+17/11/2026 — Busca/listas poderão ser validadas no Xano atual com contas/listas descartáveis, conforme [estratégia controlada](../validar-integracoes-xano-atual/design.md). Outro workspace deixou de ser requisito; privacidade, compatibilidade, publicação revisada e limpeza mantêm seus critérios.
+
 O Codeboxd já tem catálogo, rede social, listas e administração funcionais, mas a descoberta, a navegação e os padrões visuais variam entre páginas. Evoluir os componentes atuais e tornar listas públicas encontráveis pela busca melhora clareza e acessibilidade preservando a marca preta e amarela.
 
 ## What Changes

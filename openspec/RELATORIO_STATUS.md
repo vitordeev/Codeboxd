@@ -1,17 +1,29 @@
-# Estado do Codeboxd — atualização 14/11/2026
+# Estado do Codeboxd — atualização 17/11/2026
 
 ## Resumo vigente
 
-As sete changes funcionais ativas somam **47/111 tarefas concluídas e 64
+Último fechamento: [recuperação de senha 12/12](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md), senha restaurada e login/identidade confirmados pela execução real e pelo usuário. A restauração deixou de ser bloqueio vigente; referências anteriores preservam histórico.
+
+Fechamento posterior de 17/11: [e-mail concluído, 5/5](changes/archive/2026-11-17-melhorar-email-recuperacao/aceite-final-2026-11-17.md), com chegada real e melhora percebida confirmada pelo usuário. Aceite qualitativo, sem redução percentual ou SLA comprovados. Comparação deixa de ser pendência desta entrega; restauração permanece aberta.
+
+17/11 — Concluídas e arquivadas: SendGrid **5/5** e duas changes documentais **4/4**. [Evidências da integração](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md). Spec do provedor sincronizada; nenhuma nova alteração de senha/envio nesta rodada. Domínio próprio foi excluído dos pré-requisitos.
+
+17/11 — [Estratégia sem novo workspace](changes/validar-integracoes-xano-atual/matriz-validacao.md): planejador offline com 18 testes novos, suíte 736/736 e OpenSpec 39/39. Preparação isolada supersedida em 4/8; quatro caixas históricas não são pré-requisitos nem entregas. Validação real no destino existente continua pendente.
+
+Continuação de 17/11: [Cloudinary local 6/17](changes/hospedar-imagens-publicacoes-cloudinary/implementacao-2026-11-17.md), suíte 718/718, compile e prévia Xano de 13 documentos aprovados. Flag false; aceite remoto, navegador e limpeza supervisionada ainda abertos.
+
+As quatro changes funcionais vigentes somam **35/87 tarefas concluídas e 52
 abertas**, segundo `openspec list --json` e os checklists atuais. Os critérios
 remotos e de navegador permanecem abertos quando não há evidência própria. O
 quadro único, com contagens, bloqueios e links, está em
-[README.md — Estado atual](README.md#estado-atual-14112026).
+[README.md — Estado atual](README.md#estado-atual-17112026).
 
 **Bloqueios principais:** recuperação da conta controlada após HTTP 403;
-autenticação de domínio e comprovação de entrega de e-mail; disponibilidade de
-workspace Xano isolado. `gerenciamento-website` foi arquivada em 34/34 para o
+comparação real do tempo de entrega com remetente individual verificado; preparação e execução
+do lote real no Xano atual. Outro workspace não é requisito. `gerenciamento-website` foi arquivada em 34/34 para o
 escopo de leitura, sem aceite de mutações administrativas reais.
+
+Auditoria de 17/11: [plano de conclusão e evidências](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md), suíte local 675/675, compile, pip check e prévia limitada dos contratos de busca aprovados; nenhuma publicação Xano.
 
 ## Registros históricos
 

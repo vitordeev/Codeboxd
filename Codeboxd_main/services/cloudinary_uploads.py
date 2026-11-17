@@ -6,6 +6,7 @@ import os
 import re
 import time
 from urllib.parse import urlsplit
+from urllib.parse import quote
 import uuid
 
 import httpx
@@ -42,6 +43,11 @@ class CloudinaryImage:
 def upload_config() -> CloudinaryConfig:
     if os.getenv('CLOUDINARY_UPLOADS_ENABLED', 'false').strip().lower() != 'true':
         raise APIError('A hospedagem externa de imagens ainda não está ativada.')
+    return provider_config()
+
+
+def provider_config() -> CloudinaryConfig:
+    """Private credentials for verification, including when new uploads are off."""
     cloud, key, secret = (os.getenv(name, '').strip() for name in
                           ('CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'))
     if not cloud or not key or not secret or not re.fullmatch(r'[A-Za-z0-9_-]+', cloud):
@@ -101,7 +107,8 @@ def post_image_payload(image: CloudinaryImage, *, owner_id: int) -> dict:
             'image_version': image.version, 'image_signature': image.signature}
 
 
-async def upload_post_image(*, owner_id: int, content: bytes, mime: str) -> CloudinaryImage:
+async def upload_post_image(*, owner_id: int, content: bytes, mime: str,
+                            public_id: str | None = None) -> CloudinaryImage:
     """Caller must authorize the owner; this adapter only signs/uploads validated bytes."""
     config = upload_config()
     if type(owner_id) is not int or owner_id <= 0:
@@ -111,7 +118,10 @@ async def upload_post_image(*, owner_id: int, content: bytes, mime: str) -> Clou
     kind = MIMES.get(mime)
     if not kind or not any(content.startswith(s) for s in kind[1]) or (mime == 'image/webp' and content[8:12] != b'WEBP'):
         raise APIError('Envie uma imagem PNG, JPG, WEBP ou GIF válida.')
-    public_id = f'codeboxd/posts/u{owner_id}/{uuid.uuid4().hex}'
+    if public_id is not None and (not isinstance(public_id, str) or not re.fullmatch(
+            rf'codeboxd/posts/u{owner_id}/[a-f0-9]{{32}}', public_id)):
+        raise APIError('A reserva da imagem não pertence a esta publicação.')
+    public_id = public_id or f'codeboxd/posts/u{owner_id}/{uuid.uuid4().hex}'
     params = {'overwrite': 'false', 'public_id': public_id, 'timestamp': str(int(time.time()))}
     canonical = '&'.join(f'{key}={params[key]}' for key in sorted(params))
     signature = hashlib.sha256((canonical + config.api_secret).encode()).hexdigest()
@@ -128,3 +138,79 @@ async def upload_post_image(*, owner_id: int, content: bytes, mime: str) -> Clou
         return _read_image(response.json(), config, public_id)
     except (ValueError, TypeError, KeyError):
         raise APIError('O serviço de imagens retornou uma resposta inválida.') from None
+
+
+async def verify_post_image(image: CloudinaryImage, *, owner_id: int,
+                            public_id: str) -> CloudinaryImage:
+    """Private independent provider lookup; never accepts a caller-supplied URL.
+
+    The Xano commit endpoint still needs its own independent authorization and
+    verification. This helper does not mark a reservation verified or attached.
+    """
+    config = provider_config()
+    if (type(owner_id) is not int or owner_id <= 0 or not isinstance(public_id, str)
+            or not re.fullmatch(rf'codeboxd/posts/u{owner_id}/[a-f0-9]{{32}}', public_id)
+            or not isinstance(image, CloudinaryImage) or image.public_id != public_id):
+        raise APIError('A imagem não pertence a esta reserva.')
+    # Validate the signed receipt before consuming Admin API quota.
+    try:
+        _read_image(dict(secure_url=image.secure_url, public_id=image.public_id,
+            asset_id=image.asset_id, resource_type='image', type='upload', format=image.format,
+            width=image.width, height=image.height, bytes=image.bytes, version=image.version,
+            signature=image.signature), config, public_id)
+    except (ValueError, TypeError, KeyError):
+        raise APIError('O comprovante da imagem é inválido.') from None
+    resource = await _lookup_resource(config, public_id)
+    try:
+        # Admin API resource metadata is authenticated independently of the receipt.
+        for name in ('public_id', 'asset_id', 'version', 'format', 'bytes', 'width', 'height'):
+            value = resource.get(name)
+            if type(value) is not type(getattr(image, name)) or value != getattr(image, name):
+                raise ValueError('Resource changed')
+        # Resource lookup does not necessarily return the upload response signature.
+        checked = _read_image({**resource, 'signature': image.signature}, config, public_id)
+        if checked != image:
+            raise ValueError('Resource changed')
+        return checked
+    except (ValueError, TypeError, KeyError):
+        raise APIError('A imagem verificada não corresponde à reserva. A operação continua pendente.') from None
+
+
+async def _lookup_resource(config, public_id):
+    try:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(15, connect=5), follow_redirects=False) as client:
+            response = await client.get(
+                f'https://api.cloudinary.com/v1_1/{config.cloud_name}/resources/image/upload/'
+                + quote(public_id, safe=''), auth=(config.api_key, config.api_secret))
+    except httpx.RequestError:
+        raise APIError('Não foi possível verificar a imagem. A operação continua pendente.') from None
+    if response.status_code == 429:
+        raw_wait = response.headers.get('retry-after', '')
+        wait = min(int(raw_wait), 3600) if raw_wait.isdigit() else 30
+        raise APIError('A verificação de imagens está temporariamente limitada.', 429, max(1, wait))
+    if not response.is_success:
+        raise APIError('A imagem não pôde ser confirmada no provedor. A operação continua pendente.')
+    try:
+        resource = response.json()
+        if not isinstance(resource, dict):
+            raise ValueError('Invalid resource')
+        return resource
+    except (ValueError, TypeError):
+        raise APIError('O provedor retornou dados incompletos. A operação continua pendente.') from None
+
+
+async def recover_post_image(*, owner_id: int, public_id: str) -> CloudinaryImage:
+    """Reconcile one known reserved identity using an authenticated GET, never upload."""
+    config = provider_config()
+    if (type(owner_id) is not int or owner_id <= 0 or not isinstance(public_id, str)
+            or not re.fullmatch(rf'codeboxd/posts/u{owner_id}/[a-f0-9]{{32}}', public_id)):
+        raise APIError('A imagem não pertence a esta reserva.')
+    resource = await _lookup_resource(config, public_id)
+    try:
+        version = resource.get('version')
+        if type(version) is not int or version <= 0:
+            raise ValueError('Invalid version')
+        signature = hashlib.sha256((f'public_id={public_id}&version={version}' + config.api_secret).encode()).hexdigest()
+        return _read_image({**resource, 'signature': signature}, config, public_id)
+    except (ValueError, TypeError, KeyError):
+        raise APIError('A imagem ainda não pôde ser conciliada. A operação continua pendente.') from None

@@ -671,8 +671,16 @@ def post_image_picker():
         rx.cond(S.post_image_filename!='',rx.el.div(
             rx.el.img(src=rx.get_upload_url(S.post_image_filename),alt='Previa da imagem enviada',
                 class_name='post-image-preview'),button('Remover imagem',S.remove_post_image),class_name='space-y-2'),
-            rx.cond(S.post_existing_image_url!='',rx.el.img(src=S.post_existing_image_url,
-                alt='Imagem atual da publicacao',class_name='post-image-preview'),rx.fragment())),
+            rx.cond(S.post_existing_image_url!='',rx.el.div(
+                rx.cond(S.post_image_remove_requested,
+                    rx.el.p('A imagem será removida ao salvar. O texto e os comentários serão preservados.',role='status'),
+                    rx.el.img(src=S.post_existing_image_url,
+                        alt='Imagem atual da publicacao',class_name='post-image-preview')),
+                rx.cond(S.post_existing_image_provider=='cloudinary',
+                    rx.el.button(rx.cond(S.post_image_remove_requested,'Manter imagem','Remover imagem atual'),
+                        type='button',on_click=S.remove_existing_post_image,
+                        disabled=S.post_saving | S.post_image_staging,class_name='quiet-button'),rx.fragment()),
+                class_name='space-y-2'),rx.fragment())),
         class_name='post-image-picker')
 
 
@@ -908,7 +916,7 @@ def list_detail_page():
             rx.cond(S.owns_list,rx.el.a('Gerenciar minhas listas',href='/listas',
                                         class_name='quiet-button')),
             rx.cond(S.list_items.length()>0,
-                rx.el.div(rx.foreach(S.list_items,lambda item:media_card(item,True)),
+                rx.el.div(rx.foreach(S.list_items,lambda item:media_card(item)),
                           class_name='catalog-grid'),
                 rx.cond(~S.list_detail_loading,
                     empty_state('Esta página da lista não tem obras.'),rx.fragment())),

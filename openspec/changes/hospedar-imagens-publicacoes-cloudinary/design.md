@@ -2,6 +2,10 @@
 
 ## Context
 
+17/11/2026 — [Implementação local do contrato](implementacao-2026-11-17.md): schema/reserva/verificação/commit/edição/fila e integração do editor preparados, sem publicação ou ativação. O diagnóstico de planejamento abaixo precede este lote e não afirma ausência desses arquivos no estado atual.
+
+### Contexto da rodada de planejamento
+
 Esta revisão atualiza o escopo existente de 2.1/2.2; não cria outra change nem
 implementa funcionalidades. Proposta/specs/tasks são candidatos à aprovação do
 usuário. As evidências anteriores são históricas, não operações desta rodada.
@@ -189,9 +193,11 @@ sem prometer contadores em tempo real ou custo zero. Não fazer teste de carga r
 | Limpeza física de assets | Prévia restrita + autorização daquele lote e verificação novamente na execução |
 | Ativar flag no app/backend | Contratos/ensaio completos, aprovação específica e janela/rollback; não habilitar por existir uma chave |
 
-Falta de homologação isolada mantém aceite remoto pendente. Não usar live como
-fallback automático nem pedir compra de plano como etapa obrigatória. UI pode
-avançar com fixtures, mas não fecha Cloudinary pela aparência do feed.
+Decisão de 17/11/2026: o aceite remoto poderá usar o workspace atual, com contas e
+assets descartáveis, seguindo [estratégia controlada](../validar-integracoes-xano-atual/design.md).
+Novo workspace não é requisito. Backup, prévia, compatibilidade, aprovação do lote,
+verificação e limpeza continuam necessários. Falhas induzidas ficam locais;
+aparência do feed com fixtures não comprova integração real.
 
 ## Risks / Trade-offs
 

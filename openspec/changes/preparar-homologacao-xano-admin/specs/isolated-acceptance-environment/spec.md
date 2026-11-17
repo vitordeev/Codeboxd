@@ -1,5 +1,7 @@
 ## Purpose
 
+**Estratégia supersedida em 17/11/2026.** O aceite atual segue [controlled-shared-acceptance](../../../validar-integracoes-xano-atual/specs/controlled-shared-acceptance/spec.md), sem exigir ambiente adicional. Os requisitos abaixo preservam somente o provisionamento anterior e não serão consolidados como obrigações atuais do produto.
+
 Disponibilizar preparação verificável de backend isolado para homologação do
 Codeboxd, preservando o ambiente compartilhado e seus dados.
 

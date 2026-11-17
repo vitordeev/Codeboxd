@@ -64,6 +64,22 @@ class AddressableListTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(self.state.list_detail_has_more)
         self.assertEqual(self.state.list_detail_error, '')
 
+    async def test_visitor_detail_load_survives_personal_state_reset_during_validation(self):
+        async def request(method, path, **kwargs):
+            if path == '/lists/public/84':
+                return self.public_record()
+            if path == '/lists/public/84/items':
+                return []
+            raise AssertionError(f'unexpected_request:{path}')
+
+        with patch('Codeboxd_main.state.social.request', new=AsyncMock(side_effect=request)) as api:
+            await self.load()
+
+        self.assertEqual([call.args[1] for call in api.await_args_list], [
+            '/lists/public/84', '/lists/public/84/items'])
+        self.assertEqual(self.state.selected_list['title'], 'Lista pública')
+        self.assertFalse(self.state.list_detail_loading)
+
     async def test_detail_load_survives_trailing_slash_normalization(self):
         calls = []
 
@@ -86,6 +102,44 @@ class AddressableListTests(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(calls, ['/lists/public/84', '/lists/public/84/items'])
         self.assertEqual(self.state.selected_list['title'], 'Lista pública')
+
+    async def test_query_change_discards_delayed_detail_response(self):
+        gate = asyncio.Event()
+
+        async def request(method, path, **kwargs):
+            if path == '/lists/public/84':
+                await gate.wait()
+                return self.public_record()
+            raise AssertionError(f'unexpected_request:{path}')
+
+        with patch('Codeboxd_main.state.social.request', new=AsyncMock(side_effect=request)), \
+             patch.object(SocialState, '_validate_navigation_session',
+                          new=AsyncMock(return_value=True)):
+            task = asyncio.create_task(self.load())
+            await asyncio.sleep(0)
+            self.state.router.url.query_parameters = {'id': '85', 'page': '1'}
+            gate.set()
+            await task
+
+        self.assertEqual(self.state.selected_list['id'], '')
+        self.assertEqual(self.state.list_items, [])
+        self.assertFalse(self.state.list_detail_loading)
+
+    async def test_session_validation_error_clears_previous_detail(self):
+        self.state.selected_list = {
+            'id': '83', 'title': 'Lista anterior', 'description': 'Privada',
+            'user_id': '6', 'is_public': 'False',
+        }
+        self.state.list_items = [{'id': '1', 'title': 'Obra privada'}]
+
+        with patch.object(SocialState, '_validate_navigation_session',
+                          new=AsyncMock(side_effect=APIError('Sessão indisponível.', 503))):
+            await self.load()
+
+        self.assertEqual(self.state.selected_list['id'], '')
+        self.assertEqual(self.state.list_items, [])
+        self.assertEqual(self.state.list_detail_error, 'Sessão indisponível.')
+        self.assertFalse(self.state.list_detail_loading)
 
     async def test_private_list_is_available_only_through_authenticated_owner_contract(self):
         self.state.user_id = 7

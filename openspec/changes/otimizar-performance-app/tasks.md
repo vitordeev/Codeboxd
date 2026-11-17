@@ -173,6 +173,8 @@ rodada não autorizam alterações novas. Manter IDs e histórico.
 
 ## 1. Inventário e linha de base
 
+17/11/2026 — Estratégia vigente: medições no Xano atual com chamadas limitadas; mutações apenas em fixtures próprias do lote revisado. Outro workspace não é necessário. Falhas/429 induzidos permanecem locais; medições reais, metas, persistência e auditoria continuam exigidas. Ver [matriz por frente](../validar-integracoes-xano-atual/matriz-validacao.md). Critérios e checkboxes existentes preservados.
+
 Avanço parcial autorizado em 20/10: instrumento isolado e seis testes simulados
 criados; inventário inicial de rotas e chamadas registrado. Ainda sem medição
 real ou autorização para servidor/contas. [Evidência](validation/instrumentacao-2026-10-20.md).

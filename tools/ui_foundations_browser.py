@@ -31,10 +31,15 @@ async def run(url, output, phase, widths=WIDTHS):
         try:
             for width in widths:
                 context = await browser.new_context(viewport={'width': width, 'height': 900})
+                failed_cover_requests = []
                 async def route_request(route):
                     target = urlsplit(route.request.url)
                     if target.hostname == 'ui-fixture.invalid':
-                        await route.fulfill(content_type='image/png', body=(ROOT/'assets/default-movie-cover.png').read_bytes())
+                        if target.path == '/missing-cover.png':
+                            failed_cover_requests.append(target.path)
+                            await route.fulfill(status=404, content_type='image/png', body=b'')
+                        else:
+                            await route.fulfill(content_type='image/png', body=(ROOT/'assets/default-movie-cover.png').read_bytes())
                     elif target.hostname in ('127.0.0.1', 'localhost'):
                         await route.continue_()
                     else:
@@ -76,7 +81,7 @@ async def run(url, output, phase, widths=WIDTHS):
                     if phase == 'acceptance':
                         await page.goto(url.rstrip('/') + '/')
                         await expect(page.locator('[data-codeboxd-rail]').first).to_be_visible(timeout=30000)
-                        report['cases'].append(await check_rail(page, width))
+                        report['cases'].append(await check_rail(page, width, failed_cover_requests))
                 finally:
                     await context.close()
             completed = True
@@ -94,13 +99,23 @@ async def run(url, output, phase, widths=WIDTHS):
     return 0 if report['passed'] else 1
 
 
-async def check_rail(page, width):
+async def check_rail(page, width, failed_cover_requests):
     print(f'{width}px rail: initial', flush=True)
     await page.emulate_media(reduced_motion='reduce')
     await page.wait_for_function('window.CodeboxdRails !== undefined')
     rail = page.locator('[data-codeboxd-rail]').first
     await rail.scroll_into_view_if_needed()
     rail_id = await rail.get_attribute('id')
+    initial_items = await rail.locator('[data-rail-item]').count()
+    initial_titles = await rail.locator('.shelf-card-title').all_text_contents()
+    assert initial_items == 12, f'unexpected_baseline_collection_size:{initial_items}'
+    last = rail.locator('[data-rail-item]').last
+    await last.focus()
+    await expect(last.locator('.media-cover')).to_have_count(0)
+    await expect(last.locator('.cover-placeholder')).to_be_visible()
+    assert '/missing-cover.png' in failed_cover_requests, 'failed_cover_fixture_not_used'
+    await rail.evaluate('r => r.scrollLeft = 0')
+    await rail.focus()
     arrows = page.locator(f'button[aria-controls="{rail_id}"]')
     previous, following = arrows.nth(0), arrows.nth(1)
     await page.wait_for_timeout(300)
@@ -157,7 +172,6 @@ async def check_rail(page, width):
     await page.mouse.up()
     assert await rail.get_attribute('data-dragging') is None, 'cancel_left_drag_state'
     # Focusing an offscreen item reveals it horizontally.
-    last = rail.locator('[data-rail-item]').last
     await last.focus()
     assert await last.evaluate('e => { const a=e.getBoundingClientRect(), b=e.closest("[data-codeboxd-rail]").getBoundingClientRect(); return a.left>=b.left-2 && a.right<=b.right+2; }'), json.dumps(await last.evaluate('e=>({item:e.getBoundingClientRect().toJSON(),rail:e.closest("[data-codeboxd-rail]").getBoundingClientRect().toJSON(),left:e.closest("[data-codeboxd-rail]").scrollLeft})'))
     # Horizontal trackpad/wheel input remains native; vertical wheel can scroll the page.
@@ -172,6 +186,16 @@ async def check_rail(page, width):
                   and '/cover.png' not in url]
     assert not unexpected, 'gesture_generated_requests'
     assert len(page._ui_frames) == initial_frames, 'gesture_generated_reflex_event'
+    after_gestures = await rail.locator('[data-rail-item]').count()
+    assert after_gestures == initial_items, 'gesture_loaded_more_items'
+    before_load_more_frames = len(page._ui_frames)
+    await page.get_by_role('button', name='Carregar mais filmes', exact=True).click()
+    await expect(rail.locator('[data-rail-item]')).to_have_count(initial_items * 2)
+    after_load_titles = await rail.locator('.shelf-card-title').all_text_contents()
+    assert after_load_titles[:initial_items] == initial_titles, 'load_more_replaced_existing_items'
+    assert len(set(after_load_titles)) == len(after_load_titles), 'load_more_created_duplicate_items'
+    load_more_application_events = len(page._ui_frames) - before_load_more_frames
+    assert load_more_application_events > 0, 'load_more_did_not_send_explicit_event'
     box = await following.bounding_box()
     assert box['width'] >= 44 and box['height'] >= 44
     lifecycle = await check_lifecycle(page) if width == 390 else None
@@ -219,6 +243,14 @@ async def check_rail(page, width):
             'activation_frames_positive_control': activation_frames,
             'recommendation_drag': True, 'native_horizontal_wheel': True,
             'recommendation_gesture_requests': 0, 'recommendation_gesture_events': 0,
+            'initial_collection_items': initial_items,
+            'initial_collection_titles': initial_titles,
+            'items_after_gestures': after_gestures,
+            'items_after_explicit_load_more': len(after_load_titles),
+            'collection_titles_after_load_more': after_load_titles,
+            'load_more_preserved_initial_items': True,
+            'load_more_application_events': load_more_application_events,
+            'failed_cover_fallback': True,
             'lifecycle': lifecycle, **touch}
 
 
