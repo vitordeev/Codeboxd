@@ -1,0 +1,22 @@
+[
+  [
+    "POST",
+    "/auth/login",
+    {}
+  ],
+  [
+    "GET",
+    "/auth/me",
+    {}
+  ],
+  [
+    "GET",
+    "/auth/me",
+    {}
+  ],
+  [
+    "GET",
+    "/admin/dashboard",
+    {}
+  ]
+]

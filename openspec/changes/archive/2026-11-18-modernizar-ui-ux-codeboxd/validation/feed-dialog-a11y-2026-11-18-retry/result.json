@@ -1,0 +1,7 @@
+{
+  "layer": "browser_local_fictional_backend",
+  "expected": 8,
+  "completed": [],
+  "failure": "AssertionError: Locator expected to be focused\nActual value: inactive \nCall log:\n  - Expect \"to_be_focused\" get_by_role(\"dialog\").locator(\"textarea[name=body]\") with timeout 5000ms\n  - waiting for get_by_role(\"dialog\").locator(\"textarea[name=body]\")\n    13 \u00d7 locator resolved to <textarea id=\"body\" name=\"body\" required=\"\" maxlength=\"5000\" class=\"w-full rounded-xl border border-white/15 bg-[#151719] px-4 py-3 text-white form-field-control\">Texto original</textarea>\n       - unexpected value \"inactive\"\n\nAria snapshot:\n- textbox \"Sua publica\u00e7\u00e3o\": Texto original",
+  "normal_server_modified": false
+}

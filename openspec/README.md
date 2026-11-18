@@ -20,7 +20,7 @@ descrevem suas etapas anteriores; UI 3/26 e Cloudinary 3/17 continuam abertas.
 
 11/11/2026 — **Continuação local UI/UX após aprovação:** primeiro lote em
 `task/ui-foundations-20261111`, base `faa655f`, worktree
-`.local/worktrees/ui-foundations-20261111`. [Fundamentos e carrosséis](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
+`.local/worktrees/ui-foundations-20261111`. [Fundamentos e carrosséis](changes/archive/2026-11-18-modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
 baseline, tokens/piloto de login e arrasto reutilizável, **3/26 tarefas**.
 Aceite de toda a UI, Cloudinary, Xano e publicação continuam pendentes. Os
 registros de passagem abaixo são históricos; este lote está local e não foi
@@ -191,29 +191,26 @@ suas pendências ou contagens.
 
 <a id="estado-atual-14112026"></a>
 
-## Estado atual (17/11/2026)
+## Estado atual (18/11/2026)
 
-Próxima frente em andamento: [piloto no Xano atual](changes/validar-integracoes-xano-atual/piloto-revisao-2026-11-17.md), 4/6. Backup e inventário real de 14 tabelas concluídos por leitura, destino v1/live conferido e proposta de duas contas/listas preparada. Nenhuma fixture criada ou publicação realizada; criação de recibos, aprovação do lote e piloto continuam pendentes.
+Frente concluída em 6/6: [piloto no Xano atual](changes/archive/2026-11-18-validar-integracoes-xano-atual/piloto-revisao-2026-11-17.md). O run cbshared_e695fd5320e4 passou os checks API de persistência/autoria/privacidade; listas 125/126 removidas, usuários 50/51 desativados e auditoria admin confirmada. A limpeza por metadata foi documentada como desvio após perda do token do proprietário; navegador não fez parte do aceite backend.
 
 Fechamento mais recente: [recuperação de senha, 12/12](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md). Restauração autorizada concluída e login/identidade confirmados pela API e pelo usuário. A pendência de restauração dos registros anteriores está resolvida; nenhum novo envio é necessário para esse aceite.
 
 Fechamento posterior nesta data: [e-mail de recuperação, 5/5](changes/archive/2026-11-17-melhorar-email-recuperacao/aceite-final-2026-11-17.md), com recebimento real e comparação qualitativa aceita pelo usuário (“está mais rápido”). Sem comprovação de redução percentual/SLA. A pendência de comparação descrita nos registros anteriores foi encerrada por esse aceite; restauração da conta continua aberta.
 
-Os checklists das **quatro changes funcionais vigentes** confirmam **35/87
-tarefas concluídas e 52 abertas**. As changes documentais
-`reconciliar-estado-changes-abertas` e `finalizar-projeto-2026-11-17` não entram nesses totais. As contagens não
-representam percentual de conclusão do produto.
+O `openspec list --json` confirma **28/63 tarefas concluidas e 35 abertas** nas tres changes funcionais ativas apos o cancelamento de UI/UX. Essa contagem nao representa percentual de conclusao do produto. A change de UI/UX foi cancelada em 18/11, arquivada sem sincronizar deltas e com tarefas incompletas; veja [relatorio de cancelamento](changes/archive/2026-11-18-modernizar-ui-ux-codeboxd/cancelamento-2026-11-18.md). As imagens de referencia em `Imagens/` foram preservadas para a reformulacao futura.
+
 
 17/11 — Concluída e arquivada [integração SendGrid, 5/5](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md), com jornada real de recebimento/troca/login e conferência atual do contrato/remetente. As duas changes documentais completas também foram arquivadas. Domínio próprio foi excluído dos pré-requisitos por decisão do usuário; restauração e comparação de entrega continuam nas changes respectivas.
 
-17/11 — [Plano sem novo workspace](changes/validar-integracoes-xano-atual/matriz-validacao.md): a preparação isolada foi supersedida em 4/8. Os quatro itens remotos restantes não foram entregues e deixaram de ser pré-requisitos. O inventário bruto do CLI inclui essa estratégia histórica: cinco changes funcionais, 39/95 e 56 caixas abertas (quatro supersedidas). O quadro vigente abaixo usa a substituta.
+17/11 — [Plano sem novo workspace](changes/archive/2026-11-18-validar-integracoes-xano-atual/matriz-validacao.md): a preparação isolada foi supersedida em 4/8. Os quatro itens remotos restantes não foram entregues e deixaram de ser pré-requisitos. O inventário bruto do CLI inclui essa estratégia histórica: cinco changes funcionais, 39/95 e 56 caixas abertas (quatro supersedidas). O quadro vigente abaixo usa a substituta.
 
 | Change funcional ativa | Concluídas | Abertas | Critério principal ainda pendente |
 | --- | ---: | ---: | --- |
 | [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 18/38 | 20 | Baselines, metas e comparações de jornadas completas em desktop/celular; testes locais simulados não encerram o aceite. [Cache de fichas, 12/11](changes/otimizar-performance-app/validation/cache-fichas-concorrente-2026-11-12.md) |
-| [validar-integracoes-xano-atual](changes/validar-integracoes-xano-atual/tasks.md) | 4/6 | 2 | Planejador e estratégia locais concluídos; preparar lote com backup/IDs/recibos e executar aceite controlado no workspace atual. [Matriz](changes/validar-integracoes-xano-atual/matriz-validacao.md) |
-| [modernizar-ui-ux-codeboxd](changes/modernizar-ui-ux-codeboxd/tasks.md) | 7/26 | 19 | Busca/listas, navegação e aceite de acessibilidade ainda amplos; toque foi emulado, não validado em aparelho físico. [Primeiro lote, 11/11](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md) |
-| [hospedar-imagens-publicacoes-cloudinary](changes/hospedar-imagens-publicacoes-cloudinary/tasks.md) | 6/17 | 11 | Persistência e ciclo de vida de assets no Xano, integração do post e aceite ponta a ponta; flag permanece desativada. [Prontidão, 11/11](changes/hospedar-imagens-publicacoes-cloudinary/aceite-2026-11-11.md) |
+| [validar-integracoes-xano-atual](changes/archive/2026-11-18-validar-integracoes-xano-atual/tasks.md) | 6/6 | 0 | Aceite API de persistência, autoria, privacidade, limpeza e auditoria concluído. [Relatório e recibos](changes/archive/2026-11-18-validar-integracoes-xano-atual/piloto-revisao-2026-11-17.md) |
+| [hospedar-imagens-publicacoes-cloudinary](changes/hospedar-imagens-publicacoes-cloudinary/tasks.md) | 6/17 | Bundle exato de 13 contratos aguarda aprovação para publicação no workspace Xano; flags e uploads seguem desativados. Aceites integrados de banco e navegador continuam pendentes. [Prévia e hashes](changes/hospedar-imagens-publicacoes-cloudinary/xano-contract-preflight-2026-11-18.json) |
 
 `gerenciamento-website` foi arquivada em 34/34 no escopo de leitura aprovado;
 isso não comprova mutações administrativas reais. As mudanças de e-mail,
@@ -223,7 +220,7 @@ simulações não as encerram. Para arquitetura e pendências detalhadas, consul
 
 Auditoria de 17/11: **675 testes locais**, compile e pip check aprovados. Contratos de busca têm prévia Xano aprovada, sem publicação. Ver [auditoria e plano de hoje](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md). O avanço UI de 3 para 7 tarefas é anterior a esta sessão.
 
-Continuação de 17/11, ainda ativa: [Cloudinary local](changes/hospedar-imagens-publicacoes-cloudinary/implementacao-2026-11-17.md), **6/17**; journal, verificação e integração do editor implementados, **718 testes** e prévia de 13 documentos aprovados. Sem publicação ou ativação; os aceites de banco, limpeza e navegador permanecem abertos.
+Atualização de 18/11: Cloudinary segue **6/17**; 756 testes passaram, Reflex compilou, e 13 contratos foram publicados com flags desligadas. Os aceites integrados de Xano e navegador seguem abertos. [Recibo de publicação](changes/hospedar-imagens-publicacoes-cloudinary/xano-contract-execution-2026-11-18.json).
 
 ## Entregas arquivadas
 

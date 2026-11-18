@@ -1,6 +1,8 @@
-# Pendências atuais — 17/11/2026
+# Pendências atuais — 18/11/2026
 
 ## Resumo vigente
+
+Atualização de 18/11: o run cbshared_e695fd5320e4 concluiu os checks API de persistência, autoria e privacidade; lista 125/126 removidas, usuários 50/51 desativados e eventos administrativos confirmados. A change Xano fica 6/6; reconciliação arquivada com receipts. Exclusões via metadata foram documentadas como desvio após perda do token de proprietário.
 
 Atualização final da recuperação: [12/12 concluídas](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md). Senha restaurada, login e identidade confirmados em 17/11, após autorização específica. Os bloqueios de restauração/recusa descritos abaixo são históricos e foram resolvidos por esta retomada; não se aplicam mais ao estado vigente.
 
@@ -8,21 +10,16 @@ Fechamento posterior de 17/11: [melhoria do e-mail concluída, 5/5](changes/arch
 
 17/11 — SendGrid concluída em 5/5 e arquivada: [aceite e limites](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md). A evidência real de recebimento/troca/login foi reconciliada com a conferência atual de leitura. As duas changes documentais completas também foram arquivadas.
 
-17/11 — [Plano sem novo ambiente](changes/validar-integracoes-xano-atual/matriz-validacao.md) e planejador offline concluídos localmente, 18 testes novos e suíte 736/736. Os quatro itens de provisionamento da estratégia supersedida permanecem históricos, fora dos pré-requisitos vigentes; piloto real e publicação não foram executados.
+18/11 — Histórico do primeiro lote cbshared_9182bcbf0edb: oito escritas, depois corrigido e reconciliado em change operacional arquivada. O aceite atual está concluído pelo lote cbshared_e695fd5320e4, 6/6; ver recibos na change arquivada em 18/11.
 
-Continuação de implementação de 17/11: [Cloudinary local 6/17, suíte 718/718](changes/hospedar-imagens-publicacoes-cloudinary/implementacao-2026-11-17.md). Novos contratos têm prévia aprovada; publicação, aceites reais e executor supervisionado continuam pendentes.
+Conclusão em 18/11: lote funcional cbshared_e695fd5320e4 validou persistência/autoria/privacidade, removeu listas customizadas, desativou contas e verificou auditoria admin. A change está 6/6; desvio de metadata para listas está registrado.
 
-As **quatro changes funcionais vigentes** somam **35/87 tarefas concluídas e 52
-abertas**. Fonte: `openspec list --json`, checklists atuais e evidências
-específicas; não é percentual de conclusão do produto. O quadro único por change
-está em [README.md — Estado atual](README.md#estado-atual-17112026).
+Atualização de 18/11: Cloudinary segue 6/17; suíte 756/756, compile Reflex e pip check aprovados. Treze contratos publicados e confirmados por leitura; flags desligadas. Aceites autenticados de Xano, navegador e executor de limpeza continuam pendentes. [Recibo](changes/hospedar-imagens-publicacoes-cloudinary/xano-contract-execution-2026-11-18.json).
 
-Bloqueios prioritários: a recuperação da conta controlada segue pendente após
-HTTP 403 na validação do segundo código; o usuário não autorizou um terceiro
-pedido. Falta comparar o tempo de entrega em caixa controlada com remetente individual
-verificado. Não haverá domínio próprio/DNS, por decisão do usuário; isso não é bloqueio.
-Outro workspace deixou de ser requisito: o aceite Xano poderá usar o destino atual
-com lote de fixtures próprias revisado. Não marcar planejamento/simulação como aceite integrado.
+As tres changes funcionais ativas somam **28/63 tarefas concluidas e 35 abertas** apos o cancelamento de UI/UX. Fonte: `openspec list --json` e checklists atuais; nao representa percentual de conclusao do produto. Consulte [README.md ? Estado atual](README.md#estado-atual-18112026).
+
+
+Bloqueios prioritários: listas customizadas e aceites de persistência/autoria/visibilidade do Xano seguem pendentes; o último lote foi interrompido por HTTP 429 e não deve ser repetido com as mesmas fixtures. Outra rodada depende de corrigir a limitação, gerar novo baseline/IDs e aprovar novo lote. Recuperação foi concluída em 12/12 e a comparação de e-mail aceita qualitativamente; domínio próprio/DNS não será usado, por decisão do usuário. Outro workspace não é requisito. Não marcar planejamento/simulação como aceite integrado.
 `gerenciamento-website` foi arquivada em 34/34 somente no escopo de leitura;
 mutações administrativas reais continuam fora desse aceite.
 
@@ -48,7 +45,7 @@ confirma a publicação e a develop local limpa por fast-forward. Nenhuma pendê
 encerrada por salvar no Git: Cloudinary 3/17 e UI/UX 3/26, sem ativação de provider
 ou mutação Xano. Entradas anteriores preservam seu contexto de planejamento/local.
 
-11/11/2026 — [UI/UX: primeiro lote local após aprovação](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
+11/11/2026 — [UI/UX: primeiro lote local após aprovação](changes/archive/2026-11-18-modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
 3/26 tarefas, com baseline Home/login/ficha, tokens e piloto de contraste,
 carrossel comum de mouse/teclado/toque nativo na Home e recomendações. Toque
 validado por emulação, não por aparelho físico; carregar mais/falha de capa,

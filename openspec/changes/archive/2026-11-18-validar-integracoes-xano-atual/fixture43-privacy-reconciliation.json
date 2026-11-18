@@ -1,0 +1,45 @@
+{
+  "layer": "fixture_default_list_privacy_reconciliation",
+  "workspace": 147717,
+  "user_id": 43,
+  "list_ids": [
+    104,
+    105
+  ],
+  "remote_writes": 2,
+  "passed": true,
+  "write_attempts": [
+    {
+      "action": "make_list_private_104",
+      "state": "accepted",
+      "started_at": "2026-11-18T00:32:54.069256+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T00:32:54.473537+00:00"
+    },
+    {
+      "action": "make_list_private_105",
+      "state": "accepted",
+      "started_at": "2026-11-18T00:32:55.724622+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T00:32:56.107833+00:00"
+    }
+  ],
+  "references": {
+    "104": [],
+    "105": []
+  },
+  "list_hashes_before": {
+    "104": "9451805a8f765e8e2fdb6315d88596473c3ae69dd8add46758501af7bdfb7e05",
+    "105": "a44230af5e3a264f6da9981481d8b3cd169966c7c859f02f162cb40149ee6607"
+  },
+  "item_count_before": 6,
+  "phase": "complete",
+  "list_count": 30,
+  "item_count": 6,
+  "unrelated_lists_unchanged": true,
+  "all_items_unchanged": true,
+  "verified_private": [
+    104,
+    105
+  ]
+}

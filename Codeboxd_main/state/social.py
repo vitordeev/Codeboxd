@@ -80,23 +80,6 @@ def present_media(m: dict) -> dict[str,str]:
             if k not in {'Kitsu ID', 'MyAnimeList ID', 'YouTube ID'}) if isinstance(details,dict) else '').items()}
 
 
-def search_page(value, page: int) -> tuple[list[dict], int, int | None]:
-    if not isinstance(value, dict) or not isinstance(value.get('items'), list):
-        raise APIError('O serviço de busca retornou uma resposta sem paginação.')
-    items = rows(value)
-    try:
-        total = int(value['total'])
-        current_page = int(value['page'])
-        per_page = int(value['per_page'])
-        next_page = value['next_page']
-        next_page = None if next_page is None else int(next_page)
-    except (KeyError, TypeError, ValueError) as exc:
-        raise APIError('O serviço de busca retornou uma paginação inválida.') from exc
-    if total < 0 or current_page != page or per_page != 20 or (next_page is not None and next_page <= page):
-        raise APIError('O serviço de busca retornou uma paginação inválida.')
-    return items, total, next_page
-
-
 # This buffer is local to a background task, never stored in Reflex state.
 # Reusing the catalog loader preserves provider limits, ordering and fallbacks.
 _HOME_CATALOG_FIELDS = (
@@ -182,20 +165,6 @@ class SocialState(SessionState):
     submitted_query: str = ''
     search_active: bool = False
     has_more_results: bool = True
-    unified_search_scope: str = 'obras'
-    unified_search_draft: str = ''
-    unified_search_query: str = ''
-    unified_search_page: int = 1
-    unified_search_creator_id: str = ''
-    unified_search_in: str = 'title'
-    unified_search_people_results: list[dict[str,str]] = []
-    unified_search_list_results: list[dict[str,str]] = []
-    unified_search_total: int = 0
-    unified_search_has_more: bool = False
-    unified_search_busy: bool = False
-    unified_search_error: str = ''
-    _unified_search_generation: int = 0
-    _unified_search_retry_at: dict[str,float] = {}
     failed_covers: list[str] = []
     search_page: int = 1
     search_results: list[dict[str,str]] = []
@@ -290,13 +259,6 @@ class SocialState(SessionState):
     quick_lists: list[dict[str,str]] = []
     list_items: list[dict[str,str]] = []
     selected_list: dict[str,str] = {'id':'','title':'','description':'','user_id':'','is_public':'True'}
-    list_detail_loading: bool = False
-    list_detail_error: str = ''
-    list_detail_page: int = 1
-    list_detail_has_more: bool = False
-    list_detail_creator: dict[str,str] = {'user_id':'','username':'','display_name':'Usuário','avatar_url':''}
-    list_share_feedback: str = ''
-    _list_detail_generation: int = 0
     list_media_query: str = ''
     list_media_results: list[dict[str,str]] = []
     list_media_searching: bool = False
@@ -352,203 +314,6 @@ class SocialState(SessionState):
     @rx.event
     def update_search_term(self, value: str):
         self.search_term=value[:200]
-
-    @rx.event
-    def update_unified_search_draft(self, value: str):
-        self.unified_search_draft = value[:200]
-
-    @rx.event
-    def update_unified_search_creator_id(self, value: str):
-        self.unified_search_creator_id = value[:10]
-
-    @rx.event
-    def update_unified_search_in(self, value: str):
-        if value in ('title', 'title_description'):
-            self.unified_search_in = value
-
-    def _unified_search_url(self, scope: str, query: str, page: int,
-                            creator_id: str = '', search_in: str = 'title') -> str:
-        params = {'tipo': scope, 'page': str(page)}
-        if query:
-            params['q'] = query
-        if scope == 'listas':
-            if creator_id:
-                params['creator_id'] = creator_id
-            if search_in == 'title_description':
-                params['search_in'] = search_in
-        return '/buscar?' + urlencode(params)
-
-    @rx.event
-    def submit_unified_search(self, form: dict):
-        query = str(form.get('query', self.unified_search_draft)).strip()[:200]
-        scope = self.unified_search_scope if self.unified_search_scope in ('obras', 'pessoas', 'listas') else 'obras'
-        creator_id = str(form.get('creator_id', self.unified_search_creator_id)).strip()
-        search_in = str(form.get('search_in', self.unified_search_in))
-        if scope == 'listas' and creator_id and (not creator_id.isdigit() or int(creator_id) <= 0):
-            self.unified_search_error = 'Informe um ID de perfil válido ou limpe o filtro de criador.'
-            return
-        if search_in not in ('title', 'title_description'):
-            search_in = 'title'
-        self.unified_search_draft = query
-        self.unified_search_creator_id = creator_id if scope == 'listas' else ''
-        self.unified_search_in = search_in
-        self.unified_search_error = ''
-        return rx.redirect(self._unified_search_url(scope, query, 1, self.unified_search_creator_id, search_in))
-
-    @rx.event
-    def select_unified_search_scope(self, scope: str):
-        if scope not in ('obras', 'pessoas', 'listas'):
-            return
-        creator_id = self.unified_search_creator_id if scope == 'listas' else ''
-        search_in = self.unified_search_in if scope == 'listas' else 'title'
-        return rx.redirect(self._unified_search_url(
-            scope, self.unified_search_query, 1, creator_id, search_in))
-
-    @rx.event
-    def navigate_unified_search_page(self, page: int):
-        if page < 1 or page > 1000 or self.unified_search_busy:
-            return
-        return rx.redirect(self._unified_search_url(
-            self.unified_search_scope, self.unified_search_query, page,
-            self.unified_search_creator_id, self.unified_search_in))
-
-    @rx.event
-    async def load_unified_search(self):
-        params = self.router.url.query_parameters
-        scope = str(params.get('tipo', 'obras'))
-        if scope not in ('obras', 'pessoas', 'listas'):
-            yield rx.redirect('/buscar?tipo=obras&page=1')
-            return
-        query = str(params.get('q', '')).strip()[:200]
-        try:
-            page = int(params.get('page', '1'))
-        except (TypeError, ValueError):
-            page = 1
-        if page < 1 or page > 1000:
-            page = 1
-        creator_id = str(params.get('creator_id', '')).strip()
-        search_in = str(params.get('search_in', 'title'))
-        if search_in not in ('title', 'title_description'):
-            search_in = 'title'
-        self.unified_search_scope = scope
-        if query:
-            self.unified_search_draft = query
-        self.unified_search_query = query
-        self.unified_search_page = page
-        self.unified_search_creator_id = creator_id if scope == 'listas' else ''
-        self.unified_search_in = search_in
-        self.unified_search_people_results = []
-        self.unified_search_list_results = []
-        self.unified_search_total = 0
-        self.unified_search_has_more = False
-        self.unified_search_error = ''
-        self.search_results = []
-        self._results = {}
-        self.search_active = scope == 'obras' and bool(query)
-        if not query:
-            self.unified_search_busy = False
-            return
-        if scope == 'listas' and creator_id and (not creator_id.isdigit() or int(creator_id) <= 0):
-            self.unified_search_error = 'O filtro de criador na URL é inválido.'
-            self.unified_search_busy = False
-            return
-        remaining=math.ceil(self._unified_search_retry_at.get(scope,0.0)-time.monotonic())
-        if remaining>0:
-            self.unified_search_error=(
-                f'Muitas solicitações. Tente novamente em {remaining} segundos.')
-            self.unified_search_busy=False
-            return
-        self._unified_search_generation += 1
-        generation = self._unified_search_generation
-        stamp = self._route_stamp()
-        token = self._token()
-        self.unified_search_busy = True
-        yield
-
-        def current():
-            return (generation == self._unified_search_generation
-                    and stamp == self._route_stamp() and token == self._token())
-
-        try:
-            if scope == 'obras':
-                self.submitted_query = query
-                self.search_type = 'all'
-                self.search_page = page
-                found, errors = await catalog.search(query, 'all', page)
-                if not current():
-                    return
-                self._results = {item['identity_key']: item for item in found}
-                self.search_results = [present_media(item) for item in
-                    catalog.relevant_results(query, list(self._results.values()))]
-                self.unified_search_has_more = bool(found) or bool(errors)
-                self.unified_search_error = ' '.join(errors)
-                return
-
-            if scope == 'pessoas':
-                response = await self._call('GET', '/profiles',
-                    params={'q': query, 'page': page, 'per_page': 20}, paginate=False)
-                items, total, next_page = search_page(response, page)
-                public_items = []
-                for item in items:
-                    user_id = str(item.get('user_id', ''))
-                    username = str(item.get('username', '')).strip()
-                    display_name = str(item.get('display_name') or username).strip()
-                    if not user_id.isdigit() or not username or not display_name:
-                        raise APIError('O serviço de perfis retornou um item inválido.')
-                    public_items.append({
-                        'user_id': user_id, 'username': username,
-                        'display_name': display_name,
-                        'avatar_url': catalog.safe_url(item.get('avatar_url')),
-                    })
-                if not current():
-                    return
-                self.unified_search_people_results = public_items
-            else:
-                search_params = {'q': query, 'page': page, 'per_page': 20,
-                                 'search_in': search_in}
-                if creator_id:
-                    search_params['creator_id'] = int(creator_id)
-                response = await self._call('GET', '/lists/public',
-                    params=search_params, paginate=False)
-                items, total, next_page = search_page(response, page)
-                public_items = []
-                for item in items:
-                    creator = item.get('creator')
-                    if not isinstance(creator, dict):
-                        raise APIError('O serviço de listas públicas não incluiu a autoria.')
-                    list_id = str(item.get('id', ''))
-                    creator_id_value = str(creator.get('user_id', ''))
-                    title = str(item.get('title', '')).strip()
-                    count = item.get('items_count')
-                    if (not list_id.isdigit() or not creator_id_value.isdigit() or not title
-                            or not isinstance(count, int) or count < 0):
-                        raise APIError('O serviço de listas públicas retornou um item inválido.')
-                    public_items.append({
-                        'id': list_id, 'title': title,
-                        'description': str(item.get('description') or '').strip(),
-                        'items_count': str(count),
-                        'creator_user_id': creator_id_value,
-                        'creator_display_name': str(creator.get('display_name')
-                            or creator.get('username') or 'Usuário').strip(),
-                    })
-                if not current():
-                    return
-                self.unified_search_list_results = public_items
-            self.unified_search_total = total
-            self.unified_search_has_more = next_page is not None
-        except APIError as exc:
-            if current():
-                self._failure(exc)
-                if exc.status==429:
-                    wait=max(1,exc.retry_after or 30)
-                    self._unified_search_retry_at[scope]=time.monotonic()+wait
-                    self.unified_search_error=(
-                        f'Muitas solicitações. Tente novamente em {wait} segundos.')
-                else:
-                    self.unified_search_error = str(exc)
-        finally:
-            if generation == self._unified_search_generation:
-                self.unified_search_busy = False
 
     @rx.event
     def set_selected_status(self, value: str):
@@ -749,7 +514,7 @@ class SocialState(SessionState):
     @rx.event
     def remove_existing_post_image(self):
         if self.post_saving or self.post_image_staging: return
-        if self.post_existing_image_provider != 'cloudinary': return
+        if self.post_existing_image_provider!='cloudinary': return
         self._discard_post_upload()
         self.post_image_remove_requested=not self.post_image_remove_requested
 
@@ -848,18 +613,12 @@ class SocialState(SessionState):
         self.post_media_query=''; self.post_media_results=[]; self._post_media_candidates={}; self._post_media_raw={}
         self.post_media_selected={'id':'','key':'','title':'','cover':''}
         self.post_existing_image_url=''
-        self.post_existing_image_provider=''
-        self.post_existing_image_revision=0
+        self.post_existing_image_provider=''; self.post_existing_image_revision=0
         self.post_image_remove_requested=False
         self.edit_comment_id=''; self.edit_comment_body=''
         self.selected_review=''; self.selected_rating='0'; self.selected_status='planned'; self.selected_spoiler=False
         self.trailers=[]
         self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'True'}
-        self.list_detail_loading=False; self.list_detail_error=''; self.list_detail_page=1
-        self.list_detail_has_more=False
-        self.list_detail_creator={'user_id':'','username':'','display_name':'Usuário','avatar_url':''}
-        self.list_share_feedback=''
-        self._list_detail_generation+=1
         self._reset_list_search()
         self.media_list_open=False; self.media_list_options=[]; self.media_list_target=''; self.media_list_error=''
         self.profile={'user_id':'','username':'','display_name':'','bio':'','avatar_url':'','banner_url':''}
@@ -2043,15 +1802,12 @@ class SocialState(SessionState):
                 else:
                     self.post_media_selected={'id':'','key':'','title':'','cover':''}
                 self.post_existing_image_url=p.get('image_url','')
-                self.post_existing_image_provider=p.get('image_provider','')
+                self.post_existing_image_provider=str(p.get('image_provider') or '')
                 self.post_existing_image_revision=int(p.get('image_revision') or 0)
                 self.post_image_remove_requested=False
 
     @rx.event
     def cancel_post(self):
-        self.post_existing_image_provider=''
-        self.post_existing_image_revision=0
-        self.post_image_remove_requested=False
         self.post_editor_open=False
         self.edit_post_id=''; self.edit_post_body=''; self.edit_post_media='0'; self.edit_post_spoiler=False
         self.post_editor_token=''
@@ -2059,6 +1815,8 @@ class SocialState(SessionState):
         self._post_media_candidates={}; self._post_media_raw={}
         self.post_media_selected={'id':'','key':'','title':'','cover':''}
         self.post_existing_image_url=''
+        self.post_existing_image_provider=''; self.post_existing_image_revision=0
+        self.post_image_remove_requested=False
         self._discard_post_upload()
 
     @rx.event
@@ -2082,23 +1840,24 @@ class SocialState(SessionState):
             if not await self._require_user():
                 yield rx.redirect('/login')
                 return
-            if self.user_id!=owner or self._token()!=token or self.edit_post_id!=post_id or self.post_editor_token!=editor_token:
+            if not current():
                 self.notice='A sessão ou a publicação mudou. Abra o editor novamente.'
                 return
             media_id=await self._persist_post_media()
-            if self.user_id!=owner or self._token()!=token or self.edit_post_id!=post_id or self.post_editor_token!=editor_token:
+            if not current():
                 self.notice='A sessão ou a publicação mudou. Abra o editor novamente.'
                 return
             method='PUT' if post_id else 'POST'
             path='/posts'+('/'+post_id if post_id else '')
             payload=dict(body=str(form.get('body','')).strip(),media_id=media_id,spoiler=form.get('spoiler')=='on')
             if not payload['body'] or len(payload['body'])>5000:
-                raise APIError('Escreva uma publicação entre 1 e 5000 caracteres.')
+                raise APIError('O texto deve ter entre 1 e 5000 caracteres.')
             external_enabled=os.getenv('CLOUDINARY_UPLOADS_ENABLED','false').strip().lower()=='true'
             if self._post_image_path and external_enabled:
                 image_path=Path(self._post_image_path)
                 content=image_path.read_bytes()
-                operation_key=hashlib.sha256((str(owner)+'/'+post_id+'/'+editor_token+'/'+hashlib.sha256(content).hexdigest()).encode()).hexdigest()[:32]
+                operation_key=hashlib.sha256((str(owner)+'/'+post_id+'/'+editor_token+'/'+
+                    hashlib.sha256(content).hexdigest()).encode()).hexdigest()[:32]
                 self._invalidate_navigation_reads()
                 try:
                     reservation,image=await prepare_image(token=token,owner_id=owner,
@@ -2109,7 +1868,8 @@ class SocialState(SessionState):
                     if image is not None:
                         payload.update(image_reservation_id=reservation.id,image_version=image.version)
                         if post_id:
-                            payload.update(image_action='replace',expected_image_revision=self.post_existing_image_revision)
+                            payload.update(image_action='replace',
+                                expected_image_revision=self.post_existing_image_revision)
                         await self._call(method,path,payload)
                 finally:
                     self._invalidate_navigation_reads()
@@ -2123,7 +1883,7 @@ class SocialState(SessionState):
                 # JSON writes, including an uncertain outcome after a timeout.
                 self._invalidate_navigation_reads()
                 try:
-                    await upload_file(path,method=method,token=self._token(),data=form_data,field='image_upload',
+                    await upload_file(path,method=method,token=token,data=form_data,field='image_upload',
                         filename=image_path.name,content=image_path.read_bytes(),mime=self.post_image_mime)
                 finally:
                     self._invalidate_navigation_reads()
@@ -2132,7 +1892,8 @@ class SocialState(SessionState):
                 if not current(): return
                 if not isinstance(capabilities,dict) or capabilities.get('contract_version')!=1:
                     raise APIError('A remoção de imagem ainda não está disponível.')
-                payload.update(image_action='remove',expected_image_revision=self.post_existing_image_revision)
+                payload.update(image_action='remove',
+                    expected_image_revision=self.post_existing_image_revision)
                 await self._call(method,path,payload)
             else:
                 await self._call(method,path,payload)
@@ -2465,153 +2226,6 @@ class SocialState(SessionState):
             self.list_items=[present_media(self._media.get(str(i['media_id']),{'id':i['media_id']})) for i in items]
         except APIError as exc:
             if stamp==self._route_stamp() and self.selected_list.get('id')==lid: self._failure(exc)
-
-    @rx.event
-    async def load_addressable_list(self):
-        route=self.router.url.path
-        params=dict(self.router.url.query_parameters)
-        list_id=str(params.get('id','')).strip()
-        try:
-            page=int(params.get('page','1'))
-        except (TypeError,ValueError):
-            page=1
-        if page < 1 or page > 1000:
-            yield rx.redirect(f'/lista?id={list_id}&page=1')
-            return
-
-        normalized_route=route.rstrip('/') or '/'
-
-        def route_is_current():
-            current_route=self.router.url.path.rstrip('/') or '/'
-            return (normalized_route==current_route
-                    and dict(self.router.url.query_parameters)==params)
-
-        self._list_detail_generation+=1
-        generation=self._list_detail_generation
-        self.list_detail_page=page
-        self.list_detail_loading=True
-        self.list_detail_error=''
-        self.list_detail_has_more=False
-        self.list_share_feedback=''
-        self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'False'}
-        self.list_detail_creator={'user_id':'','username':'','display_name':'Usuário','avatar_url':''}
-        self.list_items=[]
-        self._reset_list_search()
-        yield
-
-        try:
-            await self._validate_navigation_session()
-            if not route_is_current():
-                return
-            if generation!=self._list_detail_generation:
-                generation=self._list_detail_generation
-                self.list_detail_page=page
-                self.list_detail_loading=True
-                self.list_detail_error=''
-                yield
-            if generation!=self._list_detail_generation or not route_is_current():
-                return
-            owner=self.user_id
-            token=self._token()
-            owner_detail=False
-
-            def current():
-                return (generation==self._list_detail_generation
-                        and route_is_current()
-                        and owner==self.user_id and token==self._token())
-
-            if not list_id.isdigit() or int(list_id)<=0:
-                raise APIError('Esta lista não está disponível.',404)
-            try:
-                record=await self._call('GET',f'/lists/public/{list_id}',paginate=False)
-            except APIError as exc:
-                if exc.status!=404 or not owner or not token:
-                    raise
-                record=await self._call('GET',f'/lists/{list_id}',paginate=False)
-                owner_detail=True
-            if not current():
-                return
-            if not isinstance(record,dict):
-                raise APIError('O serviço de listas retornou um detalhe inválido.')
-            creator=record.get('creator')
-            if not isinstance(creator,dict):
-                raise APIError('O serviço de listas não incluiu a autoria.')
-            record_id=str(record.get('id',''))
-            record_owner=str(record.get('user_id',''))
-            title=str(record.get('title','')).strip()
-            is_public=record.get('is_public')
-            creator_id=str(creator.get('user_id',''))
-            if (record_id!=list_id or not record_owner.isdigit() or not title
-                    or not isinstance(is_public,bool) or not creator_id.isdigit()
-                    or creator_id!=record_owner
-                    or (owner_detail and record_owner!=str(owner))
-                    or (not owner_detail and not is_public)):
-                raise APIError('O serviço de listas retornou um detalhe inválido.')
-            self.selected_list={
-                'id':record_id,'user_id':record_owner,'title':title,
-                'description':str(record.get('description') or '').strip(),
-                'is_public':'True' if is_public else 'False',
-            }
-            self.list_detail_creator={
-                'user_id':creator_id,
-                'username':str(creator.get('username') or '').strip(),
-                'display_name':str(creator.get('display_name')
-                    or creator.get('username') or 'Usuário').strip(),
-                'avatar_url':catalog.safe_url(creator.get('avatar_url')),
-            }
-            items_path=(f'/lists/{list_id}/items' if self.owns_list
-                        else f'/lists/public/{list_id}/items')
-            item_response=await self._call('GET',items_path,
-                params={'page':page,'per_page':20},paginate=False)
-            if not current():
-                return
-            if not isinstance(item_response,list):
-                raise APIError('O serviço de listas retornou itens inválidos.')
-            item_rows=rows(item_response)
-            media_ids=[]
-            for item in item_rows:
-                media_id=str(item.get('media_id',''))
-                if not media_id.isdigit() or int(media_id)<=0:
-                    raise APIError('O serviço de listas retornou um item inválido.')
-                media_ids.append(media_id)
-            missing_media=any(media_id not in self._media for media_id in media_ids)
-            if missing_media:
-                media_response=await self._call('GET','/media')
-                if not current():
-                    return
-                self._media={str(media['id']):media for media in rows(media_response)}
-            self.list_items=[
-                present_media(self._media.get(media_id,{'id':media_id}))
-                for media_id in media_ids
-            ]
-            self.list_detail_has_more=len(item_rows)==20
-        except APIError as exc:
-            if (generation==self._list_detail_generation
-                    and route_is_current()):
-                self.selected_list={'id':'','title':'','description':'','user_id':'','is_public':'False'}
-                self.list_detail_creator={
-                    'user_id':'','username':'','display_name':'Usuário','avatar_url':''}
-                self.list_items=[]
-                self.list_detail_has_more=False
-                self.list_detail_error=(
-                    'Esta lista não está disponível.' if exc.status==404 else str(exc))
-        finally:
-            if generation==self._list_detail_generation:
-                self.list_detail_loading=False
-
-    @rx.event
-    def navigate_list_detail_page(self, page: int):
-        list_id=self.selected_list.get('id','')
-        if (not list_id.isdigit() or page<1 or page>1000
-                or page==self.list_detail_page or self.list_detail_loading):
-            return
-        return rx.redirect(f'/lista?id={list_id}&page={page}')
-
-    @rx.event
-    def set_list_share_feedback(self, copied: bool):
-        self.list_share_feedback=(
-            'Link copiado.' if copied
-            else 'Não foi possível copiar. Selecione e copie o endereço abaixo.')
 
     @rx.event
     async def save_list(self, form: dict):

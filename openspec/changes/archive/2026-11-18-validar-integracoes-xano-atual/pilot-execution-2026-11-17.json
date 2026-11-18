@@ -1,0 +1,57 @@
+{
+  "layer": "supervised_real_xano_pilot",
+  "run_id": "cbshared_74089c52e9bb",
+  "passed": false,
+  "remote_writes": 2,
+  "checks": [
+    {
+      "check": "admin_still_original_active",
+      "passed": true
+    },
+    {
+      "check": "interrupted_fixture_disabled",
+      "passed": true
+    }
+  ],
+  "fixtures": {
+    "user_a": {
+      "id": 43,
+      "username": "cbshared_74089c52e9bb_a",
+      "email_sha256": "8fb9481862c89ee66acea604f931d8fd052be56e46575f8efe078aa276098510",
+      "password_sha256": "d70913118089ba52b750a0dff03cc8e05b89f72f85779c6867102a674e4fbabd",
+      "created_at": "2026-11-17T21:53:08.976678+00:00",
+      "disabled": true
+    }
+  },
+  "write_attempts": [
+    {
+      "action": "signup_a",
+      "state": "accepted",
+      "started_at": "2026-11-17T21:53:08.535513+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-17T21:53:08.976678+00:00"
+    },
+    {
+      "action": "disable_interrupted_fixture_a",
+      "state": "accepted",
+      "started_at": "2026-11-17T21:55:53.644695+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-17T21:55:53.945533+00:00"
+    }
+  ],
+  "admin_confirmed": true,
+  "pre_mutation_read_refresh": {
+    "inventory_complete": true,
+    "routing_verified": true,
+    "table_count": 14,
+    "remote_writes": 0,
+    "report_file": "refresh-4b95520a.json",
+    "existing_table_drift": []
+  },
+  "failure_reason": "AttributeError",
+  "phase": "interrupted_account_disabled_partial_pilot_aborted",
+  "partial_pilot_aborted": true,
+  "reconciliation_verified": true,
+  "fixture_a_state": "disabled_member_profile_and_two_default_lists_retained",
+  "remaining_scope": "Pilot aborted after one signup; no lists created; no privacy/authorship validation."
+}

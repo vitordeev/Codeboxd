@@ -1,0 +1,27 @@
+{
+  "layer": "single_orphan_row_cleanup",
+  "workspace": 147717,
+  "table": "user_list",
+  "row_id": 110,
+  "remote_writes": 1,
+  "passed": true,
+  "write_attempts": [
+    {
+      "action": "delete_user_list_110",
+      "state": "accepted",
+      "started_at": "2026-11-18T00:25:13.056730+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T00:25:13.361441+00:00"
+    }
+  ],
+  "references": [],
+  "candidate_sha256": "195706bd56e961a27a92e1ee63b718dcda84344f15beee7a021f9b90665806d9",
+  "list_count_before": 31,
+  "item_count_before": 6,
+  "verified_absent": true,
+  "list_count_after": 30,
+  "item_count_after": 6,
+  "other_lists_unchanged": true,
+  "all_items_unchanged": true,
+  "phase": "complete"
+}

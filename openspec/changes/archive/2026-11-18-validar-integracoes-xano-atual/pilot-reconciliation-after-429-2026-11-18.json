@@ -1,0 +1,22 @@
+{
+  "layer": "supervised_xano_fixture_reconciliation",
+  "run_id": "cbshared_35b8a42f44c4",
+  "passed": false,
+  "remote_writes": 0,
+  "checks": [],
+  "write_attempts": [],
+  "fixture_ids": {
+    "users": [
+      46,
+      47
+    ],
+    "lists": [
+      111,
+      112,
+      113,
+      114
+    ]
+  },
+  "custom_lists_created": 0,
+  "failure_reason": "ReadTimeout"
+}

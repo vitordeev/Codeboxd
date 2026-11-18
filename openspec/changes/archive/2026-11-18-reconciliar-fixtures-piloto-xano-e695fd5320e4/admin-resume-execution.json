@@ -1,0 +1,62 @@
+{
+  "layer": "approved_fixture_admin_cleanup_resume",
+  "workspace": 147717,
+  "run_id": "cbshared_e695fd5320e4",
+  "passed": true,
+  "remote_writes": 2,
+  "checks": [
+    {
+      "check": "deleted_lists_absent_and_other_lists_items_unchanged",
+      "passed": true
+    },
+    {
+      "check": "users_50_51_identity_and_active_status",
+      "passed": true
+    },
+    {
+      "check": "user_51_disabled",
+      "passed": true
+    },
+    {
+      "check": "user_50_disabled",
+      "passed": true
+    },
+    {
+      "check": "admin_disable_audit_events_for_50_and_51",
+      "passed": true
+    }
+  ],
+  "write_attempts": [
+    {
+      "action": "disable_user_51",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:25:34.689794+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:25:34.967433+00:00"
+    },
+    {
+      "action": "disable_user_50",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:25:46.162648+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:25:46.463696+00:00"
+    }
+  ],
+  "fixture_ids": {
+    "users": [
+      50,
+      51
+    ],
+    "deleted_lists": [
+      125,
+      126
+    ]
+  },
+  "phase": "complete",
+  "admin_confirmed": true,
+  "audit_events_verified_for": [
+    50,
+    51
+  ],
+  "completed_at": "2026-11-18T10:26:15.762276+00:00"
+}

@@ -1,0 +1,145 @@
+{
+  "layer": "supervised_real_xano_pilot",
+  "run_id": "cbshared_9182bcbf0edb",
+  "passed": false,
+  "remote_writes": 8,
+  "checks": [
+    {
+      "check": "original_active_admin_confirmed",
+      "passed": true
+    }
+  ],
+  "fixtures": {
+    "user_a": {
+      "id": 48,
+      "username": "cbshared_9182bcbf0edb_a",
+      "email_sha256": "80d2bfde7e4ef895bb0d825532d1b16f83b07acb0ddb1659b538901e618e7c05",
+      "password_sha256": "793dc042c51f606145ae0aecf14ac69baaeac2fb24a1cf6ce4092e60e7760c26",
+      "created_at": "2026-11-18T01:43:11.005006+00:00"
+    },
+    "profile_a": {
+      "id": 40,
+      "user_id": 48
+    },
+    "defaults_a": [
+      {
+        "id": 115,
+        "user_id": 48,
+        "default_key": "48:planned",
+        "is_public": false
+      },
+      {
+        "id": 116,
+        "user_id": 48,
+        "default_key": "48:completed",
+        "is_public": false
+      }
+    ],
+    "user_b": {
+      "id": 49,
+      "username": "cbshared_9182bcbf0edb_b",
+      "email_sha256": "911d1a320e30fd356dd35f3a3f33a98247f9660cf1600c3b4bbb7059bdb8b975",
+      "password_sha256": "59e88e3d031481a9c33552703dc278391917dffb7c355c758d5e0d42aab576ac",
+      "created_at": "2026-11-18T01:43:41.314744+00:00"
+    },
+    "profile_b": {
+      "id": 41,
+      "user_id": 49
+    },
+    "defaults_b": [
+      {
+        "id": 117,
+        "user_id": 49,
+        "default_key": "49:planned",
+        "is_public": false
+      },
+      {
+        "id": 118,
+        "user_id": 49,
+        "default_key": "49:completed",
+        "is_public": false
+      }
+    ],
+    "custom": {
+      "public": {
+        "id": 119,
+        "user_id": 48,
+        "is_public": true
+      },
+      "private": {
+        "id": 120,
+        "user_id": 48,
+        "is_public": false
+      }
+    }
+  },
+  "write_attempts": [
+    {
+      "action": "signup_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:43:10.512455+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:43:11.005006+00:00"
+    },
+    {
+      "action": "privatize_default_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:43:20.514068+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:43:21.246320+00:00"
+    },
+    {
+      "action": "privatize_default_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:43:30.514904+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:43:31.488182+00:00"
+    },
+    {
+      "action": "signup_b",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:43:40.515639+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:43:41.314744+00:00"
+    },
+    {
+      "action": "privatize_default_b",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:43:50.515993+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:43:51.352103+00:00"
+    },
+    {
+      "action": "privatize_default_b",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:44:00.517344+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:44:01.492614+00:00"
+    },
+    {
+      "action": "create_public",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:44:10.537392+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:44:11.730020+00:00"
+    },
+    {
+      "action": "create_private",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:44:20.545590+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:44:21.430499+00:00"
+    }
+  ],
+  "admin_confirmed": true,
+  "pre_mutation_read_refresh": {
+    "inventory_complete": true,
+    "routing_verified": true,
+    "table_count": 14,
+    "remote_writes": 0,
+    "report_file": "refresh-5186de67.json",
+    "existing_table_drift": []
+  },
+  "baseline_file": ".local\\shared-xano-preflight-after-run35-reconciliation-escalated\\baseline-hashes.json",
+  "failure_reason": "AttributeError"
+}

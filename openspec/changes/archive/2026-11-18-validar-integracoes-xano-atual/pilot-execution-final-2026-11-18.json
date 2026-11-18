@@ -1,0 +1,113 @@
+{
+  "layer": "supervised_real_xano_pilot",
+  "run_id": "cbshared_35b8a42f44c4",
+  "passed": false,
+  "remote_writes": 6,
+  "checks": [
+    {
+      "check": "original_active_admin_confirmed",
+      "passed": true
+    }
+  ],
+  "fixtures": {
+    "user_a": {
+      "id": 46,
+      "username": "cbshared_35b8a42f44c4_a",
+      "email_sha256": "f8eed7274cb9190bb50abadcccaa6cef81db40efffb6a2fdad84e84def2ad012",
+      "password_sha256": "cc8e0a553841fff8f69b64f4f4cfcc07d624c546d5451f07441672484d224c30",
+      "created_at": "2026-11-18T00:41:49.714460+00:00"
+    },
+    "profile_a": {
+      "id": 38,
+      "user_id": 46
+    },
+    "defaults_a": [
+      {
+        "id": 111,
+        "user_id": 46,
+        "default_key": "46:planned",
+        "is_public": false
+      },
+      {
+        "id": 112,
+        "user_id": 46,
+        "default_key": "46:completed",
+        "is_public": false
+      }
+    ],
+    "user_b": {
+      "id": 47,
+      "username": "cbshared_35b8a42f44c4_b",
+      "email_sha256": "c8e510cb19a778bcbaa9b45312b2b9e9195601947d934760565ce6b1c469306d",
+      "password_sha256": "25748b50588f12d27e5b69148a25639af473b70ac86e00a89a2b771f0edd774d",
+      "created_at": "2026-11-18T00:41:53.501601+00:00"
+    },
+    "profile_b": {
+      "id": 39,
+      "user_id": 47
+    },
+    "defaults_b": [
+      {
+        "id": 113,
+        "user_id": 47,
+        "default_key": "47:planned",
+        "is_public": false
+      }
+    ]
+  },
+  "write_attempts": [
+    {
+      "action": "signup_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T00:41:49.207377+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T00:41:49.714460+00:00"
+    },
+    {
+      "action": "privatize_default_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T00:41:50.457957+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T00:41:51.213428+00:00"
+    },
+    {
+      "action": "privatize_default_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T00:41:51.708588+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T00:41:51.944354+00:00"
+    },
+    {
+      "action": "signup_b",
+      "state": "accepted",
+      "started_at": "2026-11-18T00:41:52.959340+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T00:41:53.501601+00:00"
+    },
+    {
+      "action": "privatize_default_b",
+      "state": "accepted",
+      "started_at": "2026-11-18T00:41:54.209819+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T00:41:54.474039+00:00"
+    },
+    {
+      "action": "privatize_default_b",
+      "state": "rejected_no_retry",
+      "started_at": "2026-11-18T00:41:55.460262+00:00",
+      "http_status": 429,
+      "finished_at": "2026-11-18T00:41:55.632561+00:00"
+    }
+  ],
+  "admin_confirmed": true,
+  "pre_mutation_read_refresh": {
+    "inventory_complete": true,
+    "routing_verified": true,
+    "table_count": 14,
+    "remote_writes": 0,
+    "report_file": "refresh-f6a7821c.json",
+    "existing_table_drift": []
+  },
+  "baseline_file": ".local\\shared-xano-preflight-20261118-after-fixture43-privacy\\baseline-hashes.json",
+  "failure_reason": "write_rejected_429"
+}

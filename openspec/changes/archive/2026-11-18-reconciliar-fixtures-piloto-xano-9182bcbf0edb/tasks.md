@@ -1,0 +1,5 @@
+## Reconciliação autorizada
+
+- [x] 1. Confirmar manifesto/recibo e inventário remoto de identidade/referências para os IDs 48/49 e 119/120; abortar em qualquer divergência. Leitura real aprovada no recibo `reconciliation-execution-escalated.json`: usuários 48/49 ativos e com usernames esperados; listas 119/120 de propriedade de 48, 119 pública e 120 privada, ambas sem referências; visitante vê somente 119. Zero escritas até esta etapa.
+- [x] 2. Tornar 119 privada, excluir 119/120 sem referências e desativar 48/49 pelo endpoint administrativo, com recibo por escrita e leitura posterior. `reconciliation-execution-console.json`: cinco escritas HTTP 200; lista 119 privatizada/ocultada e removida; lista 120 removida; contas 49/48 desativadas. Seis verificações aprovadas, itens preservados.
+- [x] 3. Registrar evidências, limites e estado final na change principal e validar ambas as changes OpenSpec. A reconciliação operacional fica concluída; o aceite funcional de autoria permanece pendente na change principal.

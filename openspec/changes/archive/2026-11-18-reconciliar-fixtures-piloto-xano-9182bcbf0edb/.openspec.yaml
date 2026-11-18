@@ -1,0 +1,6 @@
+schema: spec-driven
+created: 2026-11-17
+goal: Privatizar e remover somente as listas customizadas 119/120 sem
+  referências e desativar somente as contas de fixture 48/49, com identidade e
+  evidência verificadas
+skip_specs: true

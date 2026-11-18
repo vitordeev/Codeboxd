@@ -1,0 +1,5 @@
+schema: spec-driven
+created: 2026-11-18
+goal: Remover somente listas vazias 125/126 e desativar somente usuários 50/51,
+  preservando evidência do aceite funcional já realizado
+skip_specs: true

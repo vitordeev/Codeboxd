@@ -10,7 +10,6 @@ class CoverImage(Img):
 from ..state.social import SocialState as S
 from ..services.catalog import HOME_COLLECTIONS
 from .login import _logo_icon
-from ..horizontal_collection import horizontal_rail, rail_controls
 
 INPUT = 'w-full rounded-xl border border-white/15 bg-[#151719] px-4 py-3 text-white'
 BUTTON = 'action-button'
@@ -18,37 +17,17 @@ CARD = 'rounded-2xl border border-white/10 bg-[#111114] p-5 space-y-4'
 
 
 def button(text, event=None, **props):
-    return rx.el.button(text, on_click=event, type=props.pop('type', 'button'),
-                        class_name=props.pop('class_name', BUTTON), **props)
+    return rx.el.button(text, on_click=event, type='button', class_name=BUTTON, **props)
 
 
-def field(label, name, value='', input_id=None, **props):
-    identifier = input_id or props.pop('id', name)
-    return rx.el.div(
-        rx.el.label(label, html_for=identifier, class_name='form-field-label'),
-        rx.el.input(id=identifier, name=name, default_value=value,
-                    class_name=props.pop('class_name', INPUT + ' form-field-control'), **props),
-        class_name='form-field')
+def field(label, name, value='', **props):
+    return rx.el.label(rx.el.span(label, class_name='block mb-2 text-sm text-gray-300'),
+                       rx.el.input(name=name, default_value=value, class_name=INPUT, **props))
 
 
 def textarea(label, name, value='', **props):
-    identifier = props.pop('id', name)
-    return rx.el.div(
-        rx.el.label(label, html_for=identifier, class_name='form-field-label'),
-        rx.el.textarea(id=identifier, name=name, default_value=value,
-                       class_name=props.pop('class_name', INPUT + ' form-field-control'), **props),
-        class_name='form-field')
-
-
-def feedback(message, *, error=False):
-    return rx.el.p(message, role='alert' if error else 'status',
-                   aria_live='assertive' if error else 'polite',
-                   class_name='ui-feedback ui-feedback-error' if error else 'ui-feedback')
-
-
-def empty_state(message):
-    return rx.el.div(rx.el.p(message, class_name='empty-state-message'),
-                     role='status', aria_live='polite', class_name='empty-state')
+    return rx.el.label(rx.el.span(label, class_name='block mb-2 text-sm text-gray-300'),
+                       rx.el.textarea(name=name, default_value=value, class_name=INPUT, **props))
 
 
 def check(label, name, checked=False):
@@ -80,52 +59,22 @@ def avatar(url, name):
 def editor(title, description, content, **props):
     return rx.dialog.root(rx.dialog.content(
         rx.dialog.title(title), rx.dialog.description(description),
-        rx.cond(S.notice != '', feedback(S.notice)),
-        content, rx.dialog.close(rx.el.button('Fechar', type='button',
-            aria_label='Fechar diálogo', class_name='quiet-button dialog-close')),
+        rx.cond(S.notice != '', rx.el.p(S.notice, role='status', class_name='dialog-notice')),
+        content, rx.dialog.close(rx.el.button('Fechar', type='button', class_name='quiet-button')),
         class_name='codeboxd-dialog'), **props)
 
 
 def shell(title, subtitle, *children):
-    nav_items = (
-        ('Início', '/', 'home'),
-        ('Buscar', '/buscar', 'search'),
-        ('Feed', '/feed', 'feed'),
-        ('Biblioteca', '/biblioteca', 'library'),
-    )
-
-    def nav_link(item):
-        label, href, key = item
-        if key == 'home':
-            active = (S.router.url.path == '/') & ~S.search_active
-        elif key == 'search':
-            active = S.router.url.path == '/buscar'
-        else:
-            active = S.router.url.path == href
-        return rx.el.a(label, href=href,
-                       class_name=rx.cond(active, 'nav-link active', 'nav-link'),
-                       aria_current=rx.cond(active, 'page', 'false'))
-
-    account_menu = rx.el.details(
-        rx.el.summary('Conta', rx.icon('chevron-down', size=16, aria_hidden=True),
-                      aria_label='Abrir menu da conta', class_name='account-menu-trigger'),
-        rx.el.div(
-            rx.el.a('Meu perfil', href='/conta', class_name='account-menu-link'),
-            rx.el.a('Minhas listas', href='/listas', class_name='account-menu-link'),
-            rx.el.a('Comunidade', href='/comunidade', class_name='account-menu-link'),
-            rx.cond(S.is_admin, rx.el.a('Administração', href='/admin', class_name='account-menu-link')),
-            button('Sair', S.logout_social, class_name='quiet-button account-menu-logout'),
-            class_name='account-menu-items'),
-        class_name='account-menu')
-
     return rx.el.div(
         rx.el.header(
             rx.el.a(_logo_icon(), rx.el.span('code', rx.el.span('boxd', class_name='brand-yellow')),
                     href='/', class_name='brand', aria_label='Codeboxd — início'),
-            rx.el.nav(*[nav_link(item) for item in nav_items],
+            rx.el.nav(*[rx.el.a(label, href=href,
+                        class_name=rx.cond(S.router.url.path == href, 'nav-link active', 'nav-link')) for label,href in
+                        [('Início','/'),('Feed','/feed'),('Listas','/listas'),('Perfil','/conta')]],
                       class_name='main-nav', aria_label='Navegação principal'),
             rx.cond(S.is_authenticated,
-                account_menu,
+                rx.el.div(rx.el.a('Meu perfil',href='/conta'), button('Sair',S.logout_social),class_name='flex items-center gap-4'),
                 rx.el.a('Entrar',href='/login',class_name=BUTTON)),
             class_name='site-header'),
         rx.el.main(rx.el.h1(title,class_name='sr-only' if title in ('Sua próxima história começa aqui.', 'Detalhes da obra') else 'text-3xl md:text-4xl font-bold'),
@@ -166,7 +115,18 @@ def media_card(m, search=False):
 def grid(items, render, empty):
     return rx.cond(items.length()>0,
         rx.el.div(rx.foreach(items,render),class_name='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5'),
-        empty_state(empty))
+        rx.el.p(empty,class_name='p-8 border border-dashed border-white/15 rounded-2xl text-gray-400'))
+
+
+def shelf_arrow(shelf_id, title, direction):
+    # IDs and directions are constants defined here, never user input.
+    script = """(() => { const row = document.getElementById('%s');
+        if (row) row.scrollBy({left: row.clientWidth * .85 * %d,
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); })()""" % (shelf_id, direction)
+    return rx.el.button(rx.icon('chevron-left' if direction < 0 else 'chevron-right', size=19),
+        type='button', on_click=rx.call_script(script), class_name='shelf-arrow',
+        aria_label=('Anteriores: ' if direction < 0 else 'Próximos: ') + title,
+        aria_controls=shelf_id)
 
 
 def catalog_shelf(title, subtitle, items, kind, shelf_id, footer=None):
@@ -177,13 +137,14 @@ def catalog_shelf(title, subtitle, items, kind, shelf_id, footer=None):
             rx.el.div(rx.el.h3(m['title'], class_name='shelf-card-title'),
                 rx.el.p(m['kind'] + ' · ' + m['year'], class_name='shelf-card-meta'), class_name='shelf-card-copy'),
             type='button', on_click=S.open_featured(m['source'],m['external_id'],kind),
-            class_name='shelf-card', key=m['key'], custom_attrs={'data-rail-item': 'true'})
+            class_name='shelf-card', key=m['key'])
     return rx.el.section(
         rx.el.div(rx.el.div(rx.el.h3(title,id=shelf_id+'-heading',class_name='shelf-title'),
             rx.el.p(subtitle,class_name='shelf-subtitle')),
-            rail_controls(shelf_id, title),
+            rx.el.div(shelf_arrow(shelf_id,title,-1),shelf_arrow(shelf_id,title,1),class_name='shelf-controls'),
             class_name='catalog-shelf-heading'),
-        horizontal_rail(rx.foreach(items,card),rail_id=shelf_id,label=title),
+        rx.el.div(rx.foreach(items,card),id=shelf_id,class_name='catalog-rail',
+            role='region',aria_label=title,tab_index=0),
         footer if footer is not None else rx.fragment(),
         class_name='catalog-shelf',aria_labelledby=shelf_id+'-heading')
 
@@ -226,7 +187,6 @@ def discovery_page():
             rx.el.div(rx.icon('search', size=24),
                 rx.el.input(name='query',placeholder='Pesquisar filmes, séries, animes e livros',aria_label='Buscar título',max_length=200,value=S.search_term,on_change=S.update_search_term),
                 rx.el.button('Buscar',type='submit',disabled=S.busy,class_name=BUTTON),class_name='search-box'),
-            id='buscar', role='search', aria_label='Buscar obras',
             on_submit=S.search,class_name='space-y-7'),
         rx.el.div(*[rx.el.button(label,type='button',on_click=S.browse_category(value),
             disabled=S.busy,aria_pressed=S.search_active & (S.submitted_query == '') & (S.search_type == value),
@@ -289,113 +249,6 @@ def discovery_page():
             rx.el.div(rx.foreach(S.catalog_items,lambda m:media_card(m)),class_name='catalog-grid'),
             rx.el.div(rx.icon('library',size=32),rx.el.p('Sua próxima descoberta começa com uma busca.'),
                 rx.el.p('Pesquise uma obra e salve sua primeira experiência.',class_name='text-sm text-gray-400'),class_name='empty-state')))))
-
-
-def unified_search_page():
-    scopes = (('obras', 'Obras'), ('pessoas', 'Pessoas'), ('listas', 'Listas públicas'))
-
-    def profile_result(item):
-        return rx.el.article(
-            avatar(item['avatar_url'], item['display_name']),
-            rx.el.div(rx.el.h2(item['display_name'], class_name='font-semibold'),
-                      rx.el.p('@' + item['username'], class_name='text-sm text-gray-400'),
-                      class_name='min-w-0'),
-            rx.el.div(
-                rx.el.a('Abrir perfil', href='/perfil/' + item['user_id'], class_name='quiet-button'),
-                rx.el.a('Buscar listas deste perfil',
-                        href='/buscar?tipo=listas&page=1&creator_id=' + item['user_id'],
-                        class_name='quiet-button'),
-                class_name='search-result-actions'),
-            class_name='search-result-card')
-
-    def list_result(item):
-        return rx.el.article(
-            rx.el.div(rx.el.h2(item['title'], class_name='font-semibold'),
-                      rx.el.p(item['description'], class_name='text-sm text-gray-400'),
-                      rx.el.p(item['items_count'] + ' obras', class_name='text-sm text-gray-400'),
-                      class_name='min-w-0'),
-            rx.el.div(
-                rx.el.a(item['creator_display_name'],
-                        href='/perfil/' + item['creator_user_id'], class_name='search-result-owner'),
-                rx.el.a('Abrir lista', href='/lista?id=' + item['id'], class_name='quiet-button'),
-                class_name='search-result-actions'),
-            class_name='search-result-card')
-
-    return shell('Buscar', 'Encontre obras, pessoas e listas públicas.',
-        rx.el.form(
-            rx.el.div(
-                rx.el.label('O que você procura?', html_for='unified-search-query',
-                            class_name='form-field-label'),
-                rx.el.input(id='unified-search-query', name='query',
-                    value=S.unified_search_draft, on_change=S.update_unified_search_draft,
-                    max_length=200, placeholder='Digite um título ou nome',
-                    class_name=INPUT + ' form-field-control'),
-                submit('Buscar', disabled=S.unified_search_busy),
-                class_name='unified-search-form-row'),
-            rx.cond(S.unified_search_scope == 'listas',
-                rx.el.div(
-                    rx.el.div(rx.el.label('ID do criador (opcional)', html_for='search-creator-id',
-                                          class_name='form-field-label'),
-                        rx.el.input(id='search-creator-id', name='creator_id',
-                            value=S.unified_search_creator_id,
-                            on_change=S.update_unified_search_creator_id,
-                            input_mode='numeric', class_name=INPUT + ' form-field-control')),
-                    rx.el.div(rx.el.label('Pesquisar em', html_for='search-list-field',
-                                          class_name='form-field-label'),
-                        rx.el.select(
-                            rx.el.option('Somente título', value='title'),
-                            rx.el.option('Título e descrição', value='title_description'),
-                            name='search_in', value=S.unified_search_in,
-                            on_change=S.update_unified_search_in,
-                            id='search-list-field', class_name=INPUT + ' form-field-control')),
-                    class_name='unified-search-filters'),
-                rx.fragment()),
-            on_submit=S.submit_unified_search, class_name='unified-search-form'),
-        rx.el.nav(*[
-            rx.el.button(label, type='button',
-                on_click=S.select_unified_search_scope(scope),
-                aria_pressed=S.unified_search_scope == scope,
-                class_name=rx.cond(S.unified_search_scope == scope,
-                    'search-scope active', 'search-scope'))
-            for scope, label in scopes],
-            aria_label='Escopo da busca', class_name='search-scopes'),
-        rx.cond(S.unified_search_error != '', feedback(S.unified_search_error, error=True)),
-        rx.cond(S.unified_search_busy, feedback('Pesquisando…')),
-        rx.cond(S.unified_search_query == '',
-            empty_state('Digite uma consulta e escolha onde pesquisar.'),
-            rx.cond(S.unified_search_scope == 'obras',
-                rx.cond(S.search_results.length() > 0,
-                    rx.el.div(rx.foreach(S.search_results, lambda item: media_card(item, True)),
-                              class_name='catalog-grid'),
-                    rx.cond(~S.unified_search_busy & (S.unified_search_error == ''),
-                        empty_state('Nenhuma obra encontrada.'), rx.fragment())),
-                rx.cond(S.unified_search_scope == 'pessoas',
-                    rx.cond(S.unified_search_people_results.length() > 0,
-                        rx.el.div(rx.foreach(S.unified_search_people_results, profile_result),
-                                  class_name='search-result-list'),
-                        rx.cond(~S.unified_search_busy & (S.unified_search_error == ''),
-                            empty_state('Nenhuma pessoa encontrada.'), rx.fragment())),
-                    rx.cond(S.unified_search_list_results.length() > 0,
-                        rx.el.div(rx.foreach(S.unified_search_list_results, list_result),
-                                  class_name='search-result-list'),
-                        rx.cond(~S.unified_search_busy & (S.unified_search_error == ''),
-                            empty_state('Nenhuma lista pública encontrada.'), rx.fragment()))))),
-        rx.cond(S.unified_search_query != '',
-            rx.el.nav(
-                rx.cond(S.unified_search_page > 1,
-                    button('Página anterior',
-                        S.navigate_unified_search_page(S.unified_search_page - 1),
-                        disabled=S.unified_search_busy, class_name='quiet-button')),
-                rx.el.span('Página ' + S.unified_search_page.to_string(),
-                           class_name='text-sm text-gray-400'),
-                rx.cond(S.unified_search_has_more,
-                    button('Próxima página',
-                        S.navigate_unified_search_page(S.unified_search_page + 1),
-                        disabled=S.unified_search_busy, class_name='quiet-button')),
-                aria_label='Paginação dos resultados', class_name='search-pagination')),
-        rx.cond((S.unified_search_scope == 'obras') & (S.unified_search_error != ''),
-            rx.el.p('A busca de obras informa falhas por provedor; os resultados disponíveis permanecem acessíveis.',
-                    class_name='text-sm text-gray-400')))
 
 
 def rating_picker():
@@ -526,17 +379,13 @@ def media_page():
                         rx.el.p(review['body'],class_name='text-sm leading-relaxed whitespace-pre-wrap mt-3'),class_name='media-community-review')),
                         class_name='media-community-reviews'),
                     rx.el.p('Ainda não há críticas públicas desta fonte.',class_name='text-sm text-gray-400'))),
-            rx.el.section(rx.el.div(rx.el.h2('Outras recomendações',class_name='section-title'),
-                    rx.cond(S.recommendations.length()>0,
-                        rail_controls('media-recommendations', 'Outras recomendações')),
-                    class_name='catalog-shelf-heading'),
+            rx.el.section(rx.el.h2('Outras recomendações',class_name='section-title'),
                 rx.cond(S.recommendations.length()>0,
-                    horizontal_rail(rx.foreach(S.recommendations,lambda m:rx.el.button(
+                    rx.el.div(rx.foreach(S.recommendations,lambda m:rx.el.button(
                         cover_image(m),
                         rx.el.div(rx.el.h3(m['title'],class_name='font-semibold line-clamp-2'),rx.el.p(m['year'],class_name='text-sm text-gray-400'),class_name='p-4'),
-                        on_click=S.open_recommendation(m['source'],m['external_id']),type='button',class_name='media-card text-left',
-                        custom_attrs={'data-rail-item': 'true'})),
-                        rail_id='media-recommendations',label='Outras recomendações',class_name='media-shelf'),rx.el.p('Ainda não há recomendações desta fonte.',class_name='text-sm text-gray-400')),
+                        on_click=S.open_recommendation(m['source'],m['external_id']),type='button',class_name='media-card text-left')),
+                        class_name='media-shelf'),rx.el.p('Ainda não há recomendações desta fonte.',class_name='text-sm text-gray-400')),
                 class_name='space-y-4'),class_name='space-y-8'),
             rx.el.p('Escolha uma obra pela página Descobrir.'))),report_dialog())
 def spoiler(body, flag):
@@ -612,8 +461,8 @@ def profile_page():
              (S.profile_counts['activities'],'Obras registradas','#atividades')]],class_name='profile-statistics'),
         rx.el.section(rx.el.h2('Avaliações e atividades',class_name='section-title'),
             rx.cond(S.profile_activity_loading,rx.el.p('Carregando atividades…',role='status'),
-                rx.cond(S.profile_activity_error!='',feedback(S.profile_activity_error,error=True),
-                    rx.cond(S.profile_activity.length()>0,rx.foreach(S.profile_activity,interaction),empty_state('Nenhuma experiência registrada.')))),id='atividades',class_name='space-y-4'),
+                rx.cond(S.profile_activity_error!='',rx.el.p(S.profile_activity_error,role='alert',class_name='text-red-400'),
+                    rx.cond(S.profile_activity.length()>0,rx.foreach(S.profile_activity,interaction),rx.el.p('Nenhuma experiência registrada.',class_name='empty-state')))),id='atividades',class_name='space-y-4'),
         rx.el.section(rx.el.h2('Seguidores',class_name='section-title'),
             rx.cond(S.profile_people_loading,rx.el.p('Carregando seguidores…',role='status'),
                 rx.cond(S.profile_people_error!='',rx.el.p(S.profile_people_error,role='alert',class_name='text-red-400'),grid(S.followers,person,'Ainda não há seguidores.'))),id='seguidores'),
@@ -671,16 +520,16 @@ def post_image_picker():
         rx.cond(S.post_image_filename!='',rx.el.div(
             rx.el.img(src=rx.get_upload_url(S.post_image_filename),alt='Previa da imagem enviada',
                 class_name='post-image-preview'),button('Remover imagem',S.remove_post_image),class_name='space-y-2'),
-            rx.cond(S.post_existing_image_url!='',rx.el.div(
-                rx.cond(S.post_image_remove_requested,
-                    rx.el.p('A imagem será removida ao salvar. O texto e os comentários serão preservados.',role='status'),
-                    rx.el.img(src=S.post_existing_image_url,
-                        alt='Imagem atual da publicacao',class_name='post-image-preview')),
-                rx.cond(S.post_existing_image_provider=='cloudinary',
-                    rx.el.button(rx.cond(S.post_image_remove_requested,'Manter imagem','Remover imagem atual'),
-                        type='button',on_click=S.remove_existing_post_image,
-                        disabled=S.post_saving | S.post_image_staging,class_name='quiet-button'),rx.fragment()),
-                class_name='space-y-2'),rx.fragment())),
+              rx.cond(S.post_existing_image_url!='',rx.el.div(
+                  rx.cond(S.post_image_remove_requested,
+                      rx.el.p('A imagem será removida ao salvar. O texto e os comentários serão preservados.',role='status'),
+                      rx.el.img(src=S.post_existing_image_url,
+                          alt='Imagem atual da publicacao',class_name='post-image-preview')),
+                  rx.cond(S.post_existing_image_provider=='cloudinary',
+                      rx.el.button(rx.cond(S.post_image_remove_requested,'Manter imagem','Remover imagem atual'),
+                          type='button',on_click=S.remove_existing_post_image,
+                          disabled=S.post_saving | S.post_image_staging,class_name='quiet-button'),rx.fragment()),
+                  class_name='space-y-2'),rx.fragment())),
         class_name='post-image-picker')
 
 
@@ -878,58 +727,3 @@ def lists_page():
             rx.cond(S.owns_list,list_media_search()),
             rx.cond(S.list_items.length()>0,rx.el.div(rx.foreach(S.list_items,list_item),class_name='catalog-grid'),
                 rx.el.p('Esta lista ainda não tem obras.',class_name='empty-state')),class_name='space-y-5')))
-
-
-def list_detail_page():
-    return shell('Detalhes da lista','Explore as obras e autoria desta coleção.',
-        rx.cond(S.list_detail_loading,feedback('Carregando lista…')),
-        rx.cond(S.list_detail_error!='',feedback(S.list_detail_error,error=True)),
-        rx.cond(S.selected_list['id']!='',rx.el.section(
-            rx.el.header(
-                rx.el.div(
-                    rx.el.h1(S.selected_list['title'],class_name='section-title'),
-                    rx.el.p(S.selected_list['description'],class_name='text-gray-400'),
-                    class_name='space-y-2 min-w-0'),
-                rx.el.a(
-                    avatar(S.list_detail_creator['avatar_url'],S.list_detail_creator['display_name']),
-                    rx.el.span(S.list_detail_creator['display_name'],
-                               class_name='public-list-owner-name font-semibold'),
-                    href='/perfil/'+S.list_detail_creator['user_id'],
-                    class_name='public-list-owner'),
-                class_name='list-heading'),
-            rx.cond(S.selected_list['is_public']=='True',rx.el.div(
-                rx.el.div(
-                    rx.el.label('Link público para compartilhar',html_for='list-share-url',
-                                class_name='form-field-label'),
-                    rx.el.input(id='list-share-url',value='/lista?id='+S.selected_list['id'],
-                                read_only=True,class_name=INPUT+' form-field-control'),
-                    button('Copiar link',rx.call_script(
-                        "navigator.clipboard && navigator.clipboard.writeText ? "
-                        "navigator.clipboard.writeText(window.location.href).then(() => true)"
-                        ".catch(() => false) : Promise.resolve(false)",
-                        S.set_list_share_feedback)),
-                    class_name='space-y-2 min-w-0'),
-                rx.cond(S.list_share_feedback!='',feedback(S.list_share_feedback)),
-                rx.el.p('Se a cópia não estiver disponível, selecione e copie o endereço.',
-                        class_name='text-sm text-gray-400'),
-                class_name='list-share-panel')),
-            rx.cond(S.owns_list,rx.el.a('Gerenciar minhas listas',href='/listas',
-                                        class_name='quiet-button')),
-            rx.cond(S.list_items.length()>0,
-                rx.el.div(rx.foreach(S.list_items,lambda item:media_card(item)),
-                          class_name='catalog-grid'),
-                rx.cond(~S.list_detail_loading,
-                    empty_state('Esta página da lista não tem obras.'),rx.fragment())),
-            rx.el.nav(
-                rx.cond(S.list_detail_page>1,
-                    button('Página anterior',
-                        S.navigate_list_detail_page(S.list_detail_page-1),
-                        disabled=S.list_detail_loading,class_name='quiet-button')),
-                rx.el.span('Página '+S.list_detail_page.to_string(),
-                           class_name='text-sm text-gray-400'),
-                rx.cond(S.list_detail_has_more,
-                    button('Próxima página',
-                        S.navigate_list_detail_page(S.list_detail_page+1),
-                        disabled=S.list_detail_loading,class_name='quiet-button')),
-                aria_label='Paginação dos itens da lista',class_name='search-pagination'),
-            class_name='space-y-5')))

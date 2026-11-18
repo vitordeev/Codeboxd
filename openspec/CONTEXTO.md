@@ -1,4 +1,4 @@
-# Contexto técnico e funcional — atualização de estado 17/11/2026
+# Contexto técnico e funcional — atualização de estado 18/11/2026
 
 Último fechamento: [recuperação de senha 12/12](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md), restauração autorizada e login/identidade confirmados. A pendência de restauração citada nas entradas anteriores está resolvida, preservando o ensaio original com falha.
 
@@ -67,30 +67,22 @@ Ferramentas/scripts de implantação dessas entregas possuem destinos datados ou
 da change então ativa: adaptar em nova change antes de reutilizar, sem sobrescrever
 os relatórios arquivados. O scanner permanente de commits não depende dessas pastas.
 
-## Estado atual das changes — 17/11/2026
+## Estado atual das changes — 18/11/2026
 
-As quatro changes funcionais vigentes somam **35/87 tarefas concluídas e 52
-abertas**, segundo `openspec list --json` e os checklists atuais. Essa contagem
-não representa percentual global do produto. O quadro único, com critérios e
-evidências por change, está em [README.md — Estado atual](README.md#estado-atual-17112026).
+As tres changes funcionais ativas somam **28/63 tarefas concluidas e 35 abertas** apos o cancelamento de UI/UX. Fonte: `openspec list --json` e checklists atuais; nao representa percentual de conclusao do produto. Consulte [README.md ? Estado atual](README.md#estado-atual-18112026).
 
-Bloqueios relevantes nesta data: a recuperação segue 11/12 após HTTP 403 na
-tentativa de restaurar a conta controlada; a experiência do e-mail aguarda comparação
-real de entrega com remetente individual verificado. SendGrid foi concluída e arquivada
-em 5/5; domínio próprio/DNS fora do escopo por decisão do usuário. O aceite Xano poderá usar o workspace atual
-com lote limitado, sem criar outro ambiente. Performance, UI/UX e Cloudinary mantêm critérios de jornada e aceites
-amplos em aberto. Preparação local ou teste simulado não equivale a aceite remoto
-ou de navegador.
 
-Auditoria atual: [auditoria e plano de hoje](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md). Busca Xano candidata tem dry-run aprovado (três addons, dois endpoints), sem publicação. Suíte local 675/675, compile e dependências aprovados. UI continua 7/26; não concluir aceite remoto por simulação.
+Xano: change validar-integracoes-xano-atual concluída em 6/6. O run cbshared_e695fd5320e4 confirmou persistência/autoria/privacidade via API, limpeza das listas customizadas e desativação auditada; ver tasks.md e recibos. Não houve validação de navegador nesta change backend.
+
+Auditoria e plano anterior: [registro de 17/11](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md). A busca Xano local e o resultado de 675 testes sao historicos; UI/UX foi cancelada em 18/11, implementacao revertida e tarefas abertas. Consulte `changes/archive/2026-11-18-modernizar-ui-ux-codeboxd/cancelamento-2026-11-18.md`.
 
 ## Produto e arquitetura
 
 17/11 — [Fechamento SendGrid](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md), com spec sincronizada em `recovery-email-delivery`, e arquivo das duas changes documentais 4/4. A restauração da conta não foi executada nem marcada concluída por esse fechamento.
 
-17/11 — [Reformulação autorizada](changes/validar-integracoes-xano-atual/matriz-validacao.md): a preparação isolada foi supersedida em 4/8, sem declarar entrega dos quatro itens restantes. O inventário bruto inclui as caixas históricas descontinuadas; o quadro vigente usa a substituta. Planejador offline validado em 18 testes; suíte atual 736/736 e OpenSpec 39/39. Nenhum provisionamento ou mutação remota nesta reformulação.
+17/11 — [Reformulação autorizada](changes/archive/2026-11-18-validar-integracoes-xano-atual/matriz-validacao.md): a preparação isolada foi supersedida em 4/8, sem declarar entrega dos quatro itens restantes. O inventário bruto inclui as caixas históricas descontinuadas; o quadro vigente usa a substituta. Planejador offline validado em 18 testes; suíte atual 736/736 e OpenSpec 39/39. Nenhum provisionamento ou mutação remota nesta reformulação.
 
-Continuação local de 17/11: [Cloudinary 6/17](changes/hospedar-imagens-publicacoes-cloudinary/implementacao-2026-11-17.md). O editor agora possui caminho externo condicionado ao contrato, e os candidatos Xano têm journal/verificação/commit/fila. Suíte 718/718 e prévia de 13 documentos aprovadas; sem publicação ou ativação. As descrições históricas de ausência desses arquivos não representam este incremento.
+Atualização de 18/11: Cloudinary permanece 6/17. 756 testes e compilação Reflex passaram; 13 contratos publicados e confirmados por leitura independente, com upload desativado. Testes integrados autenticados e navegador ainda pendentes. [Recibo](changes/hospedar-imagens-publicacoes-cloudinary/xano-contract-execution-2026-11-18.json).
 
 Tradução opcional: `services/translation.py` usa DEEPL_API_KEY somente no servidor
 para descrições das fichas Kitsu/Jikan/Open Library, com destino PT-BR, cache

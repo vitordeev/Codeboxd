@@ -1,0 +1,175 @@
+{
+  "layer": "supervised_real_xano_pilot",
+  "run_id": "cbshared_e695fd5320e4",
+  "passed": false,
+  "remote_writes": 10,
+  "checks": [
+    {
+      "check": "original_active_admin_confirmed",
+      "passed": true
+    },
+    {
+      "check": "custom_lists_persisted_and_owned",
+      "passed": true
+    },
+    {
+      "check": "public_custom_visible_and_private_custom_hidden",
+      "passed": true
+    },
+    {
+      "check": "cross_user_mutation_rejected_without_change",
+      "passed": true
+    },
+    {
+      "check": "owner_privacy_change_persisted_and_hidden",
+      "passed": true
+    }
+  ],
+  "fixtures": {
+    "user_a": {
+      "id": 50,
+      "username": "cbshared_e695fd5320e4_a",
+      "email_sha256": "80857a043fcdc10419b9e953c0d573e22448664d277252884cfa5f71f08050f7",
+      "password_sha256": "d50ac96bda4a803efea02896561aa0fc6ae5fa0f64d57ff5dcb8d5fe5b4afbac",
+      "created_at": "2026-11-18T10:10:03.567646+00:00"
+    },
+    "profile_a": {
+      "id": 42,
+      "user_id": 50
+    },
+    "defaults_a": [
+      {
+        "id": 121,
+        "user_id": 50,
+        "default_key": "50:planned",
+        "is_public": false
+      },
+      {
+        "id": 122,
+        "user_id": 50,
+        "default_key": "50:completed",
+        "is_public": false
+      }
+    ],
+    "user_b": {
+      "id": 51,
+      "username": "cbshared_e695fd5320e4_b",
+      "email_sha256": "6e099ddcbcbc166246b5d16ac5bbca19ef46abbd27ea6e38269752b6cb4fb45d",
+      "password_sha256": "b1b90766340e9087019a988a61d56dc428a16a7492b1e4cdbf14087f63d40ed1",
+      "created_at": "2026-11-18T10:10:33.665237+00:00"
+    },
+    "profile_b": {
+      "id": 43,
+      "user_id": 51
+    },
+    "defaults_b": [
+      {
+        "id": 123,
+        "user_id": 51,
+        "default_key": "51:planned",
+        "is_public": false
+      },
+      {
+        "id": 124,
+        "user_id": 51,
+        "default_key": "51:completed",
+        "is_public": false
+      }
+    ],
+    "custom": {
+      "public": {
+        "id": 125,
+        "user_id": 50,
+        "is_public": false
+      },
+      "private": {
+        "id": 126,
+        "user_id": 50,
+        "is_public": false
+      }
+    }
+  },
+  "write_attempts": [
+    {
+      "action": "signup_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:10:02.637079+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:10:03.567646+00:00"
+    },
+    {
+      "action": "privatize_default_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:10:12.638169+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:10:13.390106+00:00"
+    },
+    {
+      "action": "privatize_default_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:10:22.638600+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:10:23.629522+00:00"
+    },
+    {
+      "action": "signup_b",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:10:32.639513+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:10:33.665237+00:00"
+    },
+    {
+      "action": "privatize_default_b",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:10:42.640036+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:10:43.334806+00:00"
+    },
+    {
+      "action": "privatize_default_b",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:10:52.640597+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:10:53.543627+00:00"
+    },
+    {
+      "action": "create_public",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:11:02.641768+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:11:03.654279+00:00"
+    },
+    {
+      "action": "create_private",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:11:12.642043+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:11:13.362636+00:00"
+    },
+    {
+      "action": "cross_user_update_must_be_rejected",
+      "state": "expected_rejection",
+      "started_at": "2026-11-18T10:11:22.642865+00:00",
+      "http_status": 403,
+      "finished_at": "2026-11-18T10:11:23.435951+00:00"
+    },
+    {
+      "action": "owner_makes_public_custom_private",
+      "state": "accepted",
+      "started_at": "2026-11-18T10:11:32.643237+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T10:11:33.433394+00:00"
+    }
+  ],
+  "admin_confirmed": true,
+  "pre_mutation_read_refresh": {
+    "inventory_complete": true,
+    "routing_verified": true,
+    "table_count": 14,
+    "remote_writes": 0,
+    "report_file": "refresh-921a92e3.json",
+    "existing_table_drift": []
+  },
+  "baseline_file": ".local\\shared-xano-preflight-after-run9182-cleanup-escalated\\baseline-hashes.json",
+  "failure_reason": "AttributeError"
+}

@@ -1,0 +1,50 @@
+{
+  "layer": "real_xano_read_only_preflight",
+  "remote_writes": 0,
+  "fixtures_created": 0,
+  "pilot_executed": false,
+  "passed": true,
+  "branch_verified": true,
+  "started_at": "2026-11-18T00:40:50.024069+00:00",
+  "contracts_sha256": "a499147e7226b49c8746ec812dff0978507d8e181e62e4ca82f3a273603c28f7",
+  "required_contracts": {
+    "POST auth/signup": true,
+    "POST auth/login": true,
+    "GET auth/me": true,
+    "POST lists": true,
+    "GET lists": true,
+    "PUT lists/{id}": true,
+    "DELETE lists/{id}": true,
+    "GET lists/public": true,
+    "PUT admin/users/{id}/status": true
+  },
+  "api_group_ids": {
+    "auth_group": 429670,
+    "social_group": 433585
+  },
+  "api_group_count": 4,
+  "inventory_complete": true,
+  "counts": {
+    "comment": 6,
+    "event_log": 2344,
+    "media": 23,
+    "post": 10,
+    "post_like": 4,
+    "profile": 16,
+    "report": 5,
+    "titulos": 0,
+    "user": 14,
+    "user_follow": 14,
+    "user_list": 30,
+    "user_list_item": 6,
+    "user_media_interaction": 22,
+    "user_media_list_status": 5
+  },
+  "table_count": 14,
+  "baseline_digest": "c52959e0d13a3ba140674b9a5ea92ffec44cde2fa03c9ef2c0bc718878b0503d",
+  "provisioning_preview_digest": "59e2074132b5588cdd9eecb3f739a4edfca773b659a818981cfb11ed13feb7e3",
+  "run_id": "cbshared_95b982fb5b77",
+  "active_admin_candidates": 1,
+  "requests": 40,
+  "limitation": "Snapshot is not atomic. Refresh inventory and routing before mutation; no fixtures or receipts exist."
+}

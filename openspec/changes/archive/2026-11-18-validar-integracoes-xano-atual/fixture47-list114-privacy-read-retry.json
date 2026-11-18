@@ -1,0 +1,28 @@
+{
+  "layer": "fixture_default_list_privacy_reconciliation",
+  "workspace": 147717,
+  "run_id": "cbshared_35b8a42f44c4",
+  "user_id": 47,
+  "list_id": 114,
+  "remote_writes": 1,
+  "passed": true,
+  "write_attempts": [
+    {
+      "action": "make_list_private_114",
+      "state": "accepted",
+      "started_at": "2026-11-18T00:51:34.433319+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T00:51:34.728938+00:00"
+    }
+  ],
+  "references": [],
+  "candidate_sha256": "0c7a1701072a15a7f6b65180f2de48bc3bad75dbb37b536b7d063ceac26abb33",
+  "list_count_before": 34,
+  "item_count_before": 6,
+  "phase": "complete",
+  "list_count_after": 34,
+  "item_count_after": 6,
+  "unrelated_lists_unchanged": true,
+  "all_items_unchanged": true,
+  "verified_private": true
+}

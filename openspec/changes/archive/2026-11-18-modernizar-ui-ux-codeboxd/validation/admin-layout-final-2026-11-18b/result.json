@@ -1,0 +1,32 @@
+{
+  "layer": "browser_local_fictional_backend",
+  "expected": 10,
+  "completed": [
+    {
+      "case": 1,
+      "width": 1440,
+      "passed": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 2,
+      "width": 1440,
+      "passed": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 3,
+      "width": 1440,
+      "passed": true,
+      "javascript_errors": []
+    },
+    {
+      "case": 4,
+      "width": 1440,
+      "passed": true,
+      "javascript_errors": []
+    }
+  ],
+  "failure": "AssertionError: Locator expected to be visible\nActual value: None\nError: strict mode violation: get_by_text(\"Amostra somente para leitura; nenhuma decis\u00e3o ser\u00e1 enviada.\", exact=True) resolved to 8 elements:\n    1) <p class=\"admin-page-description\">Amostra somente para leitura; nenhuma decis\u00e3o ser\u2026</p> aka get_by_text(\"Amostra somente para leitura\").first\n    2) <p class=\"admin-page-description\">Amostra somente para leitura; nenhuma decis\u00e3o ser\u2026</p> aka get_by_text(\"Amostra somente para leitura\").nth(1)\n    3) <p class=\"admin-page-description\">Amostra somente para leitura; nenhuma decis\u00e3o ser\u2026</p> aka get_by_text(\"Amostra somente para leitura\").nth(2)\n    4) <p class=\"admin-page-description\">Amostra somente para leitura; nenhuma decis\u00e3o ser\u2026</p> aka get_by_text(\"Amostra somente para leitura\").nth(3)\n    5) <p class=\"admin-page-description\">Amostra somente para leitura; nenhuma decis\u00e3o ser\u2026</p> aka get_by_text(\"Amostra somente para leitura\").nth(4)\n    6) <p class=\"admin-page-description\">Amostra somente para leitura; nenhuma decis\u00e3o ser\u2026</p> aka get_by_text(\"Amostra somente para leitura\").nth(5)\n    7) <p class=\"admin-page-description\">Amostra somente para leitura; nenhuma decis\u00e3o ser\u2026</p> aka locator(\"article:nth-child(7) > .admin-page-description\")\n    8) <p class=\"admin-page-description\">Amostra somente para leitura; nenhuma decis\u00e3o ser\u2026</p> aka locator(\"article:nth-child(8) > .admin-page-description\")\n \nCall log:\n  - Expect \"to_be_visible\" get_by_text(\"Amostra somente para leitura; nenhuma decis\u00e3o ser\u00e1 enviada.\", exact=True) with timeout 5000ms\n  - waiting for get_by_text(\"Amostra somente para leitura; nenhuma decis\u00e3o ser\u00e1 enviada.\", exact=True)\n",
+  "normal_server_modified": false
+}

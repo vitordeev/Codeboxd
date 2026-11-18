@@ -1,0 +1,22 @@
+{
+  "layer": "approved_fixture_reconciliation",
+  "workspace": 147717,
+  "run_id": "cbshared_9182bcbf0edb",
+  "passed": false,
+  "remote_writes": 0,
+  "write_attempts": [],
+  "checks": [],
+  "fixture_ids": {
+    "users": [
+      48,
+      49
+    ],
+    "lists": [
+      119,
+      120
+    ]
+  },
+  "metadata_api_used_for_lists": true,
+  "phase": "interrupted",
+  "failure_reason": "ConnectError"
+}

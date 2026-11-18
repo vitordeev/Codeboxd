@@ -1,0 +1,20 @@
+{
+  "layer": "supervised_real_xano_pilot",
+  "run_id": "cbshared_4e7ab49fd225",
+  "passed": false,
+  "remote_writes": 0,
+  "checks": [],
+  "fixtures": {},
+  "write_attempts": [],
+  "admin_confirmed": true,
+  "pre_mutation_read_refresh": {
+    "inventory_complete": true,
+    "routing_verified": true,
+    "table_count": 14,
+    "remote_writes": 0,
+    "report_file": "refresh-12759131.json",
+    "existing_table_drift": []
+  },
+  "baseline_file": ".local\\shared-xano-preflight-20261117-drift-authorized\\baseline-hashes.json",
+  "failure_reason": "AttributeError"
+}
