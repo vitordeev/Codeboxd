@@ -174,6 +174,16 @@ button:disabled { cursor: wait; }
 .admin-dashboard-brand { font-size: 24px; text-decoration: none; }
 .admin-dashboard-brand :is(svg, .brand-icon) { width: 38px; height: 42px; }
 .admin-header-actions { display: flex; align-items: center; gap: 18px; }
+.admin-account { position: relative; }
+.admin-account-trigger { display: grid; width: 42px; height: 42px; place-items: center; overflow: hidden; padding: 0; border: 1px solid #625629; border-radius: 50%; background: #1d1b14; color: var(--yellow); cursor: pointer; }
+.admin-account-trigger:focus-visible,.admin-metric-link:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+.admin-account-avatar-image { width: 100%; height: 100%; object-fit: cover; }
+.admin-account-avatar-fallback { font-size: 13px; font-weight: 800; }
+.admin-account-panel { position: absolute; z-index: 30; top: calc(100% + 9px); right: 0; width: min(270px,calc(100vw - 32px)); padding: 16px; border: 1px solid #39383b; border-radius: 12px; background: #171719; box-shadow: 0 16px 40px rgba(0,0,0,.42); }
+.admin-account-name { color: #f6f5f2; font-size: 14px; font-weight: 750; overflow-wrap: anywhere; }
+.admin-account-username,.admin-account-role,.admin-account-note { margin-top: 5px; color: #aaa8ad; font-size: 12px; overflow-wrap: anywhere; }
+.admin-account-role { color: var(--yellow); }
+.admin-account-retry { min-height: 36px; margin-top: 8px; color: var(--yellow); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
 .admin-header-label { color: #aaa8ad; font-size: 13px; }
 .admin-logout-button { min-height: 40px; }
 .admin-dashboard-layout { width: min(100% - 40px, 1440px); display: grid; grid-template-columns: 210px minmax(0,1fr); gap: 34px; margin: 0 auto; padding: 32px 0 56px; }
@@ -193,7 +203,9 @@ button:disabled { cursor: wait; }
 .admin-dashboard-error svg { flex: 0 0 auto; margin-top: 1px; }
 .admin-loading-message { margin: 0 0 12px; color: #aaa8ad; font-size: 12px; }
 .admin-metrics-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; }
-.admin-metric-card { min-width: 0; padding: 18px; border: 1px solid #2e2e32; border-radius: 14px; background: #141416; }
+.admin-metric-card { display: block; min-width: 0; padding: 18px; border: 1px solid #2e2e32; border-radius: 14px; background: #141416; color: inherit; text-decoration: none; }
+.admin-metric-link { transition: border-color .18s, background .18s, transform .18s; }
+.admin-metric-link:hover { border-color: #625629; background: #19191a; transform: translateY(-2px); }
 .admin-metric-heading { display: flex; align-items: center; gap: 10px; }
 .admin-metric-icon { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid #625629; border-radius: 9px; background: rgba(245,200,16,.08); color: var(--yellow); }
 .admin-metric-label { overflow: hidden; color: #c6c4cb; font-size: 12px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
