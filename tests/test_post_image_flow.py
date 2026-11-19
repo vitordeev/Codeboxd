@@ -1,4 +1,5 @@
 import asyncio
+import hashlib
 import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -16,7 +17,8 @@ from Codeboxd_main.state.social import SocialState
 
 def reservation(state='reserved'):
     return ImageReservation(12, 7, 'a'*32, 'create', 0, 0, state, 'fixture',
-                            'codeboxd/posts/u7/'+'b'*32)
+                            'codeboxd/posts/u7/'+'b'*32,
+                            2 if state == 'attached' else 0)
 
 
 class FlowTests(unittest.IsolatedAsyncioTestCase):
@@ -106,7 +108,7 @@ class SocialImageIntegrationTests(unittest.IsolatedAsyncioTestCase):
         self.state._post_image_path=str(self.path)
         self.state.post_image_mime='image/png'
 
-    async def save(self, *, enabled=True, prepare=None, call=None, body='Rascunho'):
+    async def save(self, *, enabled=True, prepare=None, call=None, reconcile=None, body='Rascunho'):
         with patch.dict(os.environ, {'CLOUDINARY_UPLOADS_ENABLED': str(enabled).lower()}), \
              patch.object(SocialState, '_require_user', new=AsyncMock(return_value=True)), \
              patch.object(SocialState, '_persist_post_media', new=AsyncMock(return_value=0)), \
@@ -114,6 +116,8 @@ class SocialImageIntegrationTests(unittest.IsolatedAsyncioTestCase):
              patch.object(SocialState, '_call', new=call or AsyncMock(return_value={})), \
              patch('Codeboxd_main.state.social.prepare_image',
                    new=prepare or AsyncMock(return_value=(reservation(),SimpleNamespace(version=2)))), \
+             patch('Codeboxd_main.state.social.read_reservation',
+                   new=reconcile or AsyncMock(return_value=reservation('attached'))), \
              patch('Codeboxd_main.state.social.upload_file', new=AsyncMock()) as legacy:
             async for _ in self.state.save_post({'body': body}):
                 pass
@@ -128,6 +132,17 @@ class SocialImageIntegrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(payload['image_version'],2)
         self.assertFalse(self.state.post_editor_open)
         self.assertFalse(self.path.exists())
+
+    async def test_attached_reservation_retries_commit_without_new_upload(self):
+        api=AsyncMock(return_value={'id': 9})
+        prepare=AsyncMock(return_value=(reservation('attached'), None))
+        legacy=await self.save(call=api, prepare=prepare)
+        legacy.assert_not_awaited()
+        prepare.assert_awaited_once()
+        payload=api.await_args.args[2]
+        self.assertEqual(payload['image_reservation_id'],12)
+        self.assertEqual(payload['image_version'],2)
+        self.assertFalse(self.state.post_editor_open)
 
     async def test_external_failure_keeps_draft_file_and_does_not_fallback(self):
         self.state._navigation_reads={'old': {'payload': 'stale'}}
@@ -144,10 +159,27 @@ class SocialImageIntegrationTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_commit_timeout_preserves_draft_without_second_write(self):
         api=AsyncMock(side_effect=APIError('Timeout',503))
-        await self.save(call=api)
+        await self.save(call=api, reconcile=AsyncMock(return_value=reservation('reconciliation_required')))
         api.assert_awaited_once()
         self.assertTrue(self.path.exists())
         self.assertTrue(self.state.post_editor_open)
+
+    async def test_commit_timeout_clears_editor_only_when_reservation_is_attached(self):
+        api=AsyncMock(side_effect=APIError('Timeout',503))
+        content=self.path.read_bytes()
+        operation_key=hashlib.sha256((str(7)+'/'+'/'+'a'*32+'/'+
+            hashlib.sha256(content).hexdigest()).encode()).hexdigest()[:32]
+        reconciled=reservation('attached')
+        reconciled=ImageReservation(reconciled.id,reconciled.owner_id,operation_key,
+            reconciled.operation,reconciled.post_id,reconciled.expected_revision,
+            reconciled.state,reconciled.cloud,reconciled.public_id,reconciled.version)
+        reconcile=AsyncMock(return_value=reconciled)
+        await self.save(call=api, reconcile=reconcile)
+        api.assert_awaited_once()
+        reconcile.assert_awaited_once()
+        self.assertFalse(self.path.exists())
+        self.assertFalse(self.state.post_editor_open)
+        self.assertEqual(self.state._pending_post_image_reservation_id,0)
 
     async def test_response_for_previous_account_does_not_commit_or_clear_new_editor(self):
         async def changed(**kwargs):
@@ -160,6 +192,20 @@ class SocialImageIntegrationTests(unittest.IsolatedAsyncioTestCase):
         api.assert_not_awaited()
         self.assertTrue(self.path.exists())
         self.assertEqual(self.state.edit_post_body,'Outro rascunho')
+
+    async def test_pending_reservation_is_not_replaced_by_a_different_operation(self):
+        self.state._pending_post_image_reservation_id=12
+        self.state._pending_post_image_operation_key='a'*32
+        def different_context():
+            return (self.state._pending_post_image_reservation_id != 12
+                    or self.state._pending_post_image_operation_key != 'a'*32)
+        self.assertFalse(different_context())
+        reconcile=AsyncMock(return_value=reservation('reconciliation_required'))
+        api=AsyncMock(side_effect=APIError('Timeout',503))
+        await self.save(call=api, reconcile=reconcile)
+        api.assert_awaited_once()
+        reconcile.assert_awaited_once()
+        self.assertEqual(self.state._pending_post_image_reservation_id,12)
 
     async def test_flag_off_preserves_legacy_upload_path(self):
         prepare=AsyncMock()
@@ -216,6 +262,24 @@ class SocialImageIntegrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(api.await_args.args[:2],('PUT','/posts/25'))
         self.assertEqual(api.await_args.args[2]['image_action'],'replace')
         self.assertEqual(api.await_args.args[2]['expected_image_revision'],3)
+
+    async def test_attached_replacement_retries_revision_without_uploading_again(self):
+        self.state.edit_post_id='25'
+        self.state.post_existing_image_provider='cloudinary'
+        self.state.post_existing_image_revision=3
+        api=AsyncMock(return_value={'id':25})
+        prepare=AsyncMock(return_value=(ImageReservation(
+            12,7,'a'*32,'replace',25,3,'attached','fixture',
+            'codeboxd/posts/u7/'+'b'*32,4), None))
+        legacy=await self.save(call=api, prepare=prepare)
+        legacy.assert_not_awaited()
+        prepare.assert_awaited_once()
+        payload=api.await_args.args[2]
+        self.assertEqual(api.await_args.args[:2],('PUT','/posts/25'))
+        self.assertEqual(payload['image_action'],'replace')
+        self.assertEqual(payload['image_reservation_id'],12)
+        self.assertEqual(payload['image_version'],4)
+        self.assertEqual(payload['expected_image_revision'],3)
 
     async def test_disabled_upload_does_not_reprocess_existing_cloudinary_image(self):
         self.state.post_existing_image_provider='cloudinary'

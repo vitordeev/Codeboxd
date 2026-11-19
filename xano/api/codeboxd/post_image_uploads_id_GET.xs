@@ -20,13 +20,13 @@ query "post-image-uploads/{id}" verb=GET {
     db.get post_image_asset {
       field_name = "id"
       field_value = $input.id
-      output = ["id", "user_id", "post_id", "operation_key", "operation", "expected_image_revision", "state", "cloud", "public_id"]
+      output = ["id", "user_id", "post_id", "operation_key", "operation", "expected_image_revision", "state", "cloud", "public_id", "version"]
     } as $result
     precondition ($result != null && $result.user_id == $auth.id) {
       error_type = "notfound"
       error = "Operação não encontrada."
     }
   }
-  response = {contract_version: 1, id: $result.id, user_id: $result.user_id, operation_key: $result.operation_key, operation: $result.operation, post_id: $result.post_id, expected_image_revision: $result.expected_image_revision, state: $result.state, cloud: $result.cloud, public_id: $result.public_id}
+  response = {contract_version: 1, id: $result.id, user_id: $result.user_id, operation_key: $result.operation_key, operation: $result.operation, post_id: $result.post_id, expected_image_revision: $result.expected_image_revision, state: $result.state, cloud: $result.cloud, public_id: $result.public_id, version: $result.version}
   guid = "CBPostImageReadReserve20261117"
 }

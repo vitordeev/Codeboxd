@@ -20,6 +20,7 @@ class ImageReservation:
     state: str
     cloud: str
     public_id: str
+    version: int = 0
 
     @classmethod
     def parse(cls, body, *, owner_id, operation_key=None):
@@ -40,10 +41,14 @@ class ImageReservation:
                     or not isinstance(body.get('cloud'), str)
                     or not re.fullmatch(r'[A-Za-z0-9_-]+', body['cloud'])
                     or not isinstance(body.get('public_id'), str)
-                    or not re.fullmatch(rf'codeboxd/posts/u{owner_id}/[a-f0-9]{{32}}', body['public_id'])):
+                    or not re.fullmatch(rf'codeboxd/posts/u{owner_id}/[a-f0-9]{{32}}', body['public_id'])
+                    or type(body.get('version')) is not int
+                    or body['version'] < 0
+                    or (body['state'] == 'attached' and body['version'] <= 0)):
                 raise ValueError('Invalid reservation')
             return cls(body['id'], owner_id, body['operation_key'], body['operation'], body['post_id'],
-                       body['expected_image_revision'], body['state'], body['cloud'], body['public_id'])
+                               body['expected_image_revision'], body['state'], body['cloud'], body['public_id'],
+                               body['version'])
         except (ValueError, TypeError, KeyError):
             raise APIError('O serviço retornou uma reserva de imagem inválida.') from None
 

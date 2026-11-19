@@ -20,6 +20,7 @@ from ..services import catalog
 from ..services.api import APIError, base_url, request, rows
 from ..services.uploads import upload_file
 from ..services.post_image_flow import prepare_image
+from ..services.post_image_reservations import read_reservation
 
 
 class PublicListGroup(TypedDict):
@@ -251,6 +252,10 @@ class SocialState(SessionState):
     post_existing_image_provider: str = ''
     post_existing_image_revision: int = 0
     post_image_remove_requested: bool = False
+    _pending_post_image_reservation_id: int = rx.SessionStorage(
+        0, name='codeboxd_pending_post_image_reservation_id')
+    _pending_post_image_operation_key: str = rx.SessionStorage(
+        '', name='codeboxd_pending_post_image_operation_key')
     edit_comment_id: str = ''
     edit_comment_body: str = ''
     lists: list[dict[str,str]] = []
@@ -1817,6 +1822,8 @@ class SocialState(SessionState):
         self.post_existing_image_url=''
         self.post_existing_image_provider=''; self.post_existing_image_revision=0
         self.post_image_remove_requested=False
+        self._pending_post_image_reservation_id=0
+        self._pending_post_image_operation_key=''
         self._discard_post_upload()
 
     @rx.event
@@ -1865,12 +1872,26 @@ class SocialState(SessionState):
                         expected_revision=self.post_existing_image_revision,content=content,
                         mime=self.post_image_mime,current=current)
                     if not current(): return
-                    if image is not None:
-                        payload.update(image_reservation_id=reservation.id,image_version=image.version)
-                        if post_id:
-                            payload.update(image_action='replace',
-                                expected_image_revision=self.post_existing_image_revision)
+                    self._pending_post_image_reservation_id=reservation.id
+                    self._pending_post_image_operation_key=operation_key
+                    image_version=image.version if image is not None else reservation.version
+                    if image is None and reservation.state!='attached':
+                        raise APIError('A operação de imagem não está pronta para ser confirmada.')
+                    payload.update(image_reservation_id=reservation.id,image_version=image_version)
+                    if post_id:
+                        payload.update(image_action='replace',
+                            expected_image_revision=self.post_existing_image_revision)
+                    try:
                         await self._call(method,path,payload)
+                    except APIError as exc:
+                        if exc.status not in (408,429,500,502,503,504) and exc.status != 0:
+                            raise
+                        reconciled=await read_reservation(token=token,owner_id=owner,
+                            reservation_id=reservation.id)
+                        if reconciled.operation_key!=operation_key or reconciled.state!='attached':
+                            raise exc
+                        self._pending_post_image_reservation_id=0
+                        self._pending_post_image_operation_key=''
                 finally:
                     self._invalidate_navigation_reads()
             elif self._post_image_path:

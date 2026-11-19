@@ -87,6 +87,6 @@ query "post-image-uploads" verb=POST {
       }
     }
   }
-  response = {contract_version: 1, id: $result.id, user_id: $result.user_id, operation_key: $result.operation_key, operation: $result.operation, post_id: $result.post_id, expected_image_revision: $result.expected_image_revision, state: $result.state, cloud: $result.cloud, public_id: $result.public_id}
+  response = {contract_version: 1, id: $result.id, user_id: $result.user_id, operation_key: $result.operation_key, operation: $result.operation, post_id: $result.post_id, expected_image_revision: $result.expected_image_revision, state: $result.state, cloud: $result.cloud, public_id: $result.public_id, version: $result.version}
   guid = "CBPostImageReserve20261117"
 }

@@ -13,6 +13,9 @@ from Codeboxd_main.services.cloudinary_uploads import (
     CloudinaryImage, upload_post_image, verify_post_image, recover_post_image, MAX_BYTES)
 from Codeboxd_main.services.post_image_reservations import (
     ImageReservation, reserve_image, read_reservation)
+from Codeboxd_main.services.post_image_cleanup import (
+    CleanupCandidate, prepare_cleanup_preview)
+from datetime import datetime, timedelta, timezone
 
 ENV = {'CLOUDINARY_UPLOADS_ENABLED': 'true', 'CLOUDINARY_CLOUD_NAME': 'fixture',
        'CLOUDINARY_API_KEY': 'key', 'CLOUDINARY_API_SECRET': 'private-test-secret'}
@@ -24,7 +27,8 @@ ROOT = Path(__file__).resolve().parents[1]
 def reservation(**changes):
     return {'contract_version': 1, 'id': 12, 'user_id': 7, 'operation_key': KEY,
             'operation': 'create', 'post_id': 0, 'expected_image_revision': 0,
-            'state': 'reserved', 'cloud': 'fixture', 'public_id': PUBLIC_ID, **changes}
+            'state': 'reserved', 'cloud': 'fixture', 'public_id': PUBLIC_ID,
+            'version': 0, **changes}
 
 
 def image():
@@ -77,7 +81,8 @@ class ReservationTests(unittest.IsolatedAsyncioTestCase):
             api.assert_awaited_once()
 
     def test_malformed_or_foreign_reservations_are_rejected(self):
-        for changes in ({'id': True}, {'post_id': -1}, {'contract_version': True},
+        for changes in ({'id': True}, {'post_id': -1}, {'contract_version': True}, {'version': True},
+                        {'version': -1}, {'state': 'attached', 'version': 0},
                         {'state': []}, {'cloud': 'evil/host'}, {'public_id': 'codeboxd/posts/u8/'+'b'*32},
                         {'expected_image_revision': -1}, {'operation': 'replace', 'post_id': 0}):
             with self.assertRaises(APIError):
@@ -185,6 +190,62 @@ class ResourceVerificationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(calls,['GET'])
 
 
+class CleanupPreviewTests(unittest.TestCase):
+    def candidate(self, **changes):
+        now = datetime.now(timezone.utc)
+        values = {'asset_id': 12, 'owner_id': 7, 'cloud': 'fixture',
+                  'public_id': PUBLIC_ID, 'state': 'cleanup_pending',
+                  'retain_until': now-timedelta(hours=1),
+                  'reference_count': 0, 'provider_asset_id': 'asset-id'}
+        values.update(changes)
+        return CleanupCandidate(**values)
+
+    def test_preview_accepts_only_owned_expired_unreferenced_candidates(self):
+        preview = prepare_cleanup_preview(
+            owner_id=7, cloud='fixture', approval_reference='approval-2026-11-18',
+            candidates=[self.candidate()], now=datetime.now(timezone.utc))
+        self.assertEqual(preview.approval_reference, 'approval-2026-11-18')
+        self.assertEqual(len(preview.candidates), 1)
+
+    def test_preview_rejects_foreign_state_reference_retention_or_duplicate(self):
+        now = datetime.now(timezone.utc)
+        invalid = [
+            self.candidate(owner_id=8),
+            self.candidate(state='attached'),
+            self.candidate(reference_count=1),
+            self.candidate(retain_until=now + timedelta(hours=1)),
+            self.candidate(cloud='evil'),
+            self.candidate(public_id='codeboxd/posts/u8/'+'b'*32),
+            self.candidate(provider_asset_id=''),
+            self.candidate(asset_id=True),
+            self.candidate(asset_id=-1),
+            self.candidate(reference_count=True),
+        ]
+        for item in invalid:
+            with self.assertRaises(APIError):
+                prepare_cleanup_preview(owner_id=7, cloud='fixture',
+                    approval_reference='approval-2026-11-18',
+                    candidates=[item], now=now)
+        item = self.candidate()
+        with self.assertRaises(APIError):
+            prepare_cleanup_preview(owner_id=7, cloud='fixture',
+                approval_reference='approval-2026-11-18',
+                candidates=[item, item], now=now)
+
+    def test_preview_has_hard_ten_candidate_limit_and_never_exports_secrets(self):
+        now = datetime.now(timezone.utc)
+        candidates = [
+            CleanupCandidate(i+1, 7, 'fixture',
+                f'codeboxd/posts/u7/{i:032x}', 'cleanup_pending',
+                now-timedelta(hours=1), 0, f'asset-{i}')
+            for i in range(11)
+        ]
+        with self.assertRaises(APIError):
+            prepare_cleanup_preview(owner_id=7, cloud='fixture',
+                approval_reference='approval-2026-11-18',
+                candidates=candidates, now=now)
+
+
 class ReservationSchemaTests(unittest.TestCase):
     def test_journal_has_no_cascade_reference_and_unique_operation_and_resource(self):
         source = (ROOT/'xano/table/post_image_asset.xs').read_text(encoding='utf-8')
@@ -204,6 +265,8 @@ class ReservationSchemaTests(unittest.TestCase):
             self.assertIn('$actor.account_status == "active"', source)
         source = (ROOT/'xano/api/codeboxd/post_image_uploads_id_GET.xs').read_text(encoding='utf-8')
         self.assertIn('$result.user_id == $auth.id', source)
+        self.assertIn('"version"', source)
+        self.assertIn('version: $result.version', source)
         self.assertNotIn('api_secret', source)
 
 
