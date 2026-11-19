@@ -1,0 +1,91 @@
+{
+  "passed": true,
+  "layer": "real_components_fictional_backend",
+  "cases": [
+    {
+      "width": 320,
+      "draft_preserved_on_error": true,
+      "disabled_state": true,
+      "editor_escape_and_focus_return": true,
+      "confirmation_cancel_and_focus_return": true,
+      "focus_visible": true,
+      "secondary_target_44px": true,
+      "document_overflow": false,
+      "javascript_errors": [],
+      "clipboard_paste": true,
+      "dialog_tab_contained": true,
+      "contrast": {
+        "text": 17.150914301140737,
+        "border": 3.5471390095263184
+      }
+    },
+    {
+      "width": 390,
+      "draft_preserved_on_error": true,
+      "disabled_state": true,
+      "editor_escape_and_focus_return": true,
+      "confirmation_cancel_and_focus_return": true,
+      "focus_visible": true,
+      "secondary_target_44px": true,
+      "document_overflow": false,
+      "javascript_errors": [],
+      "clipboard_paste": true,
+      "dialog_tab_contained": true,
+      "contrast": {
+        "text": 17.150914301140737,
+        "border": 3.5471390095263184
+      }
+    },
+    {
+      "width": 768,
+      "draft_preserved_on_error": true,
+      "disabled_state": true,
+      "editor_escape_and_focus_return": true,
+      "confirmation_cancel_and_focus_return": true,
+      "focus_visible": true,
+      "secondary_target_44px": true,
+      "document_overflow": false,
+      "javascript_errors": [],
+      "clipboard_paste": true,
+      "dialog_tab_contained": true,
+      "contrast": {
+        "text": 17.150914301140737,
+        "border": 3.5471390095263184
+      }
+    },
+    {
+      "width": 1024,
+      "draft_preserved_on_error": true,
+      "disabled_state": true,
+      "editor_escape_and_focus_return": true,
+      "confirmation_cancel_and_focus_return": true,
+      "focus_visible": true,
+      "secondary_target_44px": true,
+      "document_overflow": false,
+      "javascript_errors": [],
+      "clipboard_paste": true,
+      "dialog_tab_contained": true,
+      "contrast": {
+        "text": 17.150914301140737,
+        "border": 3.5471390095263184
+      }
+    },
+    {
+      "width": 1440,
+      "draft_preserved_on_error": true,
+      "disabled_state": true,
+      "editor_escape_and_focus_return": true,
+      "confirmation_cancel_and_focus_return": true,
+      "focus_visible": true,
+      "secondary_target_44px": true,
+      "document_overflow": false,
+      "javascript_errors": [],
+      "clipboard_paste": true,
+      "dialog_tab_contained": true,
+      "contrast": {
+        "text": 17.150914301140737,
+        "border": 3.5471390095263184
+      }
+    }
+  ]
+}
