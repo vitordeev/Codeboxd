@@ -4,6 +4,8 @@
 
 ## Context
 
+17/11/2026 — Leituras reais podem usar o backend existente com conta autorizada e limite de chamadas. Mutações de 8.3 usam o lote de fixtures aprovado na [estratégia atual](../validar-integracoes-xano-atual/design.md); 429/lentidão induzidos ficam locais. Outro workspace não é requisito; metas e aceite real permanecem.
+
 Ver motivação e escopo em [proposal.md](proposal.md). Reflex 0.9.11.post1 mantém
 estados no servidor Python; Xano autentica e persiste dados; TMDB, Kitsu e Open
 Library atendem catálogo. DeepL pode participar das descrições. A identidade

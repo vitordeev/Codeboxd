@@ -146,6 +146,35 @@ class PasswordRecoveryTests(unittest.IsolatedAsyncioTestCase):
         request.assert_awaited_once()
         self.assertFalse(self.state.reset_completed)
 
+    async def test_reentering_recovery_page_after_success_clears_confirmation_and_preserves_email(self):
+        self.state.reset_email = 'member@example.com'
+        self.state.reset_code_requested = True
+        self.state.reset_completed = True
+        self.state.reset_success = True
+        self.state.reset_message = 'Senha redefinida.'
+        with patch('Codeboxd_main.state.session.request', new=AsyncMock()) as request:
+            self.state.enter_password_reset_page()
+        request.assert_not_awaited()
+        self.assertFalse(self.state.reset_completed)
+        self.assertFalse(self.state.reset_code_requested)
+        self.assertFalse(self.state.reset_success)
+        self.assertEqual(self.state.reset_message, '')
+        self.assertEqual(self.state.reset_email, 'member@example.com')
+
+    async def test_start_new_recovery_clears_success_without_sending_automatically(self):
+        self.state.reset_email = 'member@example.com'
+        self.state.reset_completed = True
+        self.state.reset_success = True
+        self.state.reset_message = 'Senha redefinida.'
+        with patch('Codeboxd_main.state.session.request', new=AsyncMock()) as request:
+            self.state.start_new_password_reset()
+        request.assert_not_awaited()
+        self.assertFalse(self.state.reset_completed)
+        self.assertFalse(self.state.reset_code_requested)
+        self.assertFalse(self.state.reset_success)
+        self.assertEqual(self.state.reset_message, '')
+        self.assertEqual(self.state.reset_email, 'member@example.com')
+
     async def test_progressive_form_uses_requested_email_without_second_field(self):
         with patch('Codeboxd_main.state.session.request', new=AsyncMock(return_value={})):
             await self.state.request_password_reset({'email': 'Member@Example.com'})

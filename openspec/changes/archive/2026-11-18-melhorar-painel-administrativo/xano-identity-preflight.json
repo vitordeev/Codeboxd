@@ -1,0 +1,18 @@
+{
+  "change": "melhorar-painel-administrativo",
+  "endpoint": "/admin/me (GET)",
+  "file": "xano/api/codeboxd/admin_me_GET.xs",
+  "sha256": "9cec8be0642af9acf4b9f4e24ed719ee4690746f7f49e8a9cf8a75bea6e14b44",
+  "scope": [
+    "authenticated active admin only",
+    "id",
+    "username",
+    "name",
+    "display_name",
+    "avatar_url",
+    "role"
+  ],
+  "private_data_included": false,
+  "remote_published": false,
+  "remote_validation": "not performed; workspace unavailable"
+}

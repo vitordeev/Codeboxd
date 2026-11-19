@@ -1,0 +1,10 @@
+{
+  "layer": "real_xano_read_only_preflight",
+  "remote_writes": 0,
+  "fixtures_created": 0,
+  "pilot_executed": false,
+  "passed": false,
+  "branch_verified": false,
+  "started_at": "2026-11-18T09:58:36.847646+00:00",
+  "failure_type": "ConnectError"
+}

@@ -19,6 +19,7 @@ from .session import SessionState
 from ..services import catalog
 from ..services.api import APIError, base_url, request, rows
 from ..services.uploads import upload_file
+from ..services.post_image_flow import prepare_image
 
 
 class PublicListGroup(TypedDict):
@@ -247,6 +248,9 @@ class SocialState(SessionState):
     post_image_filename: str = ''
     post_image_mime: str = ''
     post_existing_image_url: str = ''
+    post_existing_image_provider: str = ''
+    post_existing_image_revision: int = 0
+    post_image_remove_requested: bool = False
     edit_comment_id: str = ''
     edit_comment_body: str = ''
     lists: list[dict[str,str]] = []
@@ -462,11 +466,14 @@ class SocialState(SessionState):
             yield result
 
     async def _stage_post_image(self, files: list[rx.UploadFile]):
+        if self.post_saving: return
         if not await self._require_user(): return rx.redirect('/login')
         if len(files)!=1:
             self.notice='Selecione uma imagem.'
             return
+        context=(self.user_id,self._token(),self.post_editor_token)
         content=await files[0].read()
+        if context!=(self.user_id,self._token(),self.post_editor_token): return
         if len(content)>5*1024*1024:
             self.notice='A imagem deve ter no m\u00e1ximo 5 MB.'
             return
@@ -487,6 +494,7 @@ class SocialState(SessionState):
         self._post_image_path=str(path)
         self.post_image_filename=relative
         self.post_image_mime=mime
+        self.post_image_remove_requested=False
         self.notice='Imagem carregada. Ela ser\u00e1 salva junto com a publica\u00e7\u00e3o.'
         return rx.clear_selected_files('post_image_upload')
 
@@ -499,9 +507,16 @@ class SocialState(SessionState):
 
     @rx.event
     def remove_post_image(self):
-        if self.post_image_staging: return
+        if self.post_image_staging or self.post_saving: return
         self._discard_post_upload()
         self.notice='Imagem removida do rascunho.'
+
+    @rx.event
+    def remove_existing_post_image(self):
+        if self.post_saving or self.post_image_staging: return
+        if self.post_existing_image_provider!='cloudinary': return
+        self._discard_post_upload()
+        self.post_image_remove_requested=not self.post_image_remove_requested
 
     @rx.var
     def suggested_people(self) -> list[dict[str,str]]:
@@ -598,6 +613,8 @@ class SocialState(SessionState):
         self.post_media_query=''; self.post_media_results=[]; self._post_media_candidates={}; self._post_media_raw={}
         self.post_media_selected={'id':'','key':'','title':'','cover':''}
         self.post_existing_image_url=''
+        self.post_existing_image_provider=''; self.post_existing_image_revision=0
+        self.post_image_remove_requested=False
         self.edit_comment_id=''; self.edit_comment_body=''
         self.selected_review=''; self.selected_rating='0'; self.selected_status='planned'; self.selected_spoiler=False
         self.trailers=[]
@@ -1727,7 +1744,8 @@ class SocialState(SessionState):
             timestamp=post_timestamp(p)
             # Xano timestamps are milliseconds; accept seconds from legacy fixtures/workspaces too.
             published=datetime.fromtimestamp(timestamp / (1000 if timestamp > 10_000_000_000 else 1),tz=timezone.utc)
-            image=p.get('image') or p.get('image_url') or p.get('image_file') or ''
+            image=(p.get('image_url') if p.get('image_provider')=='cloudinary'
+                   else p.get('image') or p.get('image_url') or p.get('image_file')) or ''
             if isinstance(image,dict):
                 image=image.get('url') or image.get('path') or image.get('file') or ''
                 if isinstance(image,dict):
@@ -1738,7 +1756,9 @@ class SocialState(SessionState):
             self.posts.append(dict(id=str(p['id']),user_id=str(p['user_id']),author=person['display_name'],
                 avatar=person['avatar_url'],media_cover=catalog.safe_url(m.get('cover_url')),
                 body=str(p.get('body') or ''),published_at=published.strftime('%d/%m/%Y'),spoiler=str(bool(p.get('spoiler'))),media_id=str(p.get('media_id') or 0),media_title=m.get('title',''),
-                image_url=catalog.safe_url(image),likes_count=str(p.get('likes_count','')),comments_count=str(p.get('comments_count',''))))
+                image_url=catalog.safe_url(image),image_provider=str(p.get('image_provider') or ''),
+                image_revision=str(p.get('image_revision') or 0),
+                likes_count=str(p.get('likes_count','')),comments_count=str(p.get('comments_count',''))))
 
     @rx.event
     async def load_feed(self):
@@ -1782,6 +1802,9 @@ class SocialState(SessionState):
                 else:
                     self.post_media_selected={'id':'','key':'','title':'','cover':''}
                 self.post_existing_image_url=p.get('image_url','')
+                self.post_existing_image_provider=str(p.get('image_provider') or '')
+                self.post_existing_image_revision=int(p.get('image_revision') or 0)
+                self.post_image_remove_requested=False
 
     @rx.event
     def cancel_post(self):
@@ -1792,6 +1815,8 @@ class SocialState(SessionState):
         self._post_media_candidates={}; self._post_media_raw={}
         self.post_media_selected={'id':'','key':'','title':'','cover':''}
         self.post_existing_image_url=''
+        self.post_existing_image_provider=''; self.post_existing_image_revision=0
+        self.post_image_remove_requested=False
         self._discard_post_upload()
 
     @rx.event
@@ -1806,23 +1831,51 @@ class SocialState(SessionState):
             self.notice='A publicação mudou. Abra a edição novamente.'
             return
         owner=self.user_id; token=self._token()
+        def current():
+            return (self.user_id==owner and self._token()==token and
+                    self.edit_post_id==post_id and self.post_editor_token==editor_token)
         self.post_saving=True
         yield
         try:
             if not await self._require_user():
                 yield rx.redirect('/login')
                 return
-            if self.user_id!=owner or self._token()!=token or self.edit_post_id!=post_id or self.post_editor_token!=editor_token:
+            if not current():
                 self.notice='A sessão ou a publicação mudou. Abra o editor novamente.'
                 return
             media_id=await self._persist_post_media()
-            if self.user_id!=owner or self._token()!=token or self.edit_post_id!=post_id or self.post_editor_token!=editor_token:
+            if not current():
                 self.notice='A sessão ou a publicação mudou. Abra o editor novamente.'
                 return
             method='PUT' if post_id else 'POST'
             path='/posts'+('/'+post_id if post_id else '')
             payload=dict(body=str(form.get('body','')).strip(),media_id=media_id,spoiler=form.get('spoiler')=='on')
-            if self._post_image_path:
+            if not payload['body'] or len(payload['body'])>5000:
+                raise APIError('O texto deve ter entre 1 e 5000 caracteres.')
+            external_enabled=os.getenv('CLOUDINARY_UPLOADS_ENABLED','false').strip().lower()=='true'
+            if self._post_image_path and external_enabled:
+                image_path=Path(self._post_image_path)
+                content=image_path.read_bytes()
+                operation_key=hashlib.sha256((str(owner)+'/'+post_id+'/'+editor_token+'/'+
+                    hashlib.sha256(content).hexdigest()).encode()).hexdigest()[:32]
+                self._invalidate_navigation_reads()
+                try:
+                    reservation,image=await prepare_image(token=token,owner_id=owner,
+                        operation_key=operation_key,post_id=int(post_id or 0),
+                        expected_revision=self.post_existing_image_revision,content=content,
+                        mime=self.post_image_mime,current=current)
+                    if not current(): return
+                    if image is not None:
+                        payload.update(image_reservation_id=reservation.id,image_version=image.version)
+                        if post_id:
+                            payload.update(image_action='replace',
+                                expected_image_revision=self.post_existing_image_revision)
+                        await self._call(method,path,payload)
+                finally:
+                    self._invalidate_navigation_reads()
+            elif self._post_image_path:
+                if self.post_existing_image_provider=='cloudinary':
+                    raise APIError('Novos uploads externos estão desativados. A imagem atual foi preservada.')
                 image_path=Path(self._post_image_path)
                 form_data={key:str(value).lower() if isinstance(value,bool) else str(value)
                            for key,value in payload.items()}
@@ -1830,15 +1883,25 @@ class SocialState(SessionState):
                 # JSON writes, including an uncertain outcome after a timeout.
                 self._invalidate_navigation_reads()
                 try:
-                    await upload_file(path,method=method,token=self._token(),data=form_data,field='image_upload',
+                    await upload_file(path,method=method,token=token,data=form_data,field='image_upload',
                         filename=image_path.name,content=image_path.read_bytes(),mime=self.post_image_mime)
                 finally:
                     self._invalidate_navigation_reads()
+            elif self.post_image_remove_requested:
+                capabilities=await self._call('GET','/post-image-capabilities',paginate=False)
+                if not current(): return
+                if not isinstance(capabilities,dict) or capabilities.get('contract_version')!=1:
+                    raise APIError('A remoção de imagem ainda não está disponível.')
+                payload.update(image_action='remove',
+                    expected_image_revision=self.post_existing_image_revision)
+                await self._call(method,path,payload)
             else:
                 await self._call(method,path,payload)
+            if not current(): return
             self.cancel_post(); await self._refresh_posts(); self.notice='Publicação salva.'
         except (ValueError,TypeError): self.notice='Selecione uma obra válida.'
-        except APIError as exc: self._failure(exc)
+        except APIError as exc:
+            if current(): self._failure(exc)
         finally: self.post_saving=False
 
     @rx.event

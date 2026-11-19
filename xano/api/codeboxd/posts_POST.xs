@@ -7,6 +7,8 @@ int media_id?=0
 bool spoiler?=false
 image image?
 file image_upload?
+int image_reservation_id?=0 filters=min:0
+int image_version?=0 filters=min:0
  }
  stack {
     function.run "Security/require_current_session" {
@@ -33,6 +35,17 @@ precondition ($media != null) {
   error = "Registro não encontrado."
 }
 }}
+precondition ($input.image_reservation_id == 0 || ($input.image == null && $input.image_upload == null && $input.image_version > 0)) {
+ error_type = "inputerror"
+ error = "Envio de imagem contraditório."
+}
+conditional {
+ if ($input.image_reservation_id > 0) {
+  function.run "PostImages/create_post" {
+   input = {user_id: $auth.id, extras: $auth.extras, reservation_id: $input.image_reservation_id, version: $input.image_version, body: $input.body, media_id: $input.media_id, spoiler: $input.spoiler}
+  } as $result
+ }
+ else {
 conditional {
  if ($input.image_upload != null) {
 storage.create_image {
@@ -48,6 +61,8 @@ var $post_image { value = $input.image }
 db.add post {
  data = {user_id: $auth.id, media_id: $input.media_id, image: $post_image, body: $input.body, spoiler: $input.spoiler, updated_at: now}
 } as $result
+ }
+}
  }
  response = $result
  guid = "pyzcTfQxoALUmuvA6thVWWqcda8"

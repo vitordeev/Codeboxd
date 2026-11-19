@@ -1,0 +1,113 @@
+{
+  "layer": "supervised_real_xano_pilot",
+  "run_id": "cbshared_4e7ab49fd225",
+  "passed": false,
+  "remote_writes": 6,
+  "checks": [
+    {
+      "check": "original_active_admin_confirmed",
+      "passed": true
+    }
+  ],
+  "fixtures": {
+    "user_a": {
+      "id": 44,
+      "username": "cbshared_4e7ab49fd225_a",
+      "email_sha256": "d5295cb62d81804e69c7dc7fcb41d376186ce27149166d429dc0c52766c785b8",
+      "password_sha256": "acf51fef323915a8284aaab92225b7d10e6533b9c8e307fc32882892705a3561",
+      "created_at": "2026-11-17T23:51:18.564607+00:00"
+    },
+    "profile_a": {
+      "id": 36,
+      "user_id": 44
+    },
+    "defaults_a": [
+      {
+        "id": 106,
+        "user_id": 44,
+        "default_key": "44:planned",
+        "is_public": false
+      },
+      {
+        "id": 107,
+        "user_id": 44,
+        "default_key": "44:completed",
+        "is_public": false
+      }
+    ],
+    "user_b": {
+      "id": 45,
+      "username": "cbshared_4e7ab49fd225_b",
+      "email_sha256": "3d32e5a135e8418b7563c15f9ccdbc392f5f674e7d2b549f64dd379792973c8d",
+      "password_sha256": "8d4bb273d33158110da1da7c6c4cce8f4ced0d042c42743f60c5d65bc06559e2",
+      "created_at": "2026-11-17T23:51:20.204440+00:00"
+    },
+    "profile_b": {
+      "id": 37,
+      "user_id": 45
+    },
+    "defaults_b": [
+      {
+        "id": 108,
+        "user_id": 45,
+        "default_key": "45:planned",
+        "is_public": false
+      }
+    ]
+  },
+  "write_attempts": [
+    {
+      "action": "signup_a",
+      "state": "accepted",
+      "started_at": "2026-11-17T23:51:18.054797+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-17T23:51:18.564607+00:00"
+    },
+    {
+      "action": "privatize_default_a",
+      "state": "accepted",
+      "started_at": "2026-11-17T23:51:19.078704+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-17T23:51:19.382943+00:00"
+    },
+    {
+      "action": "privatize_default_a",
+      "state": "accepted",
+      "started_at": "2026-11-17T23:51:19.402295+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-17T23:51:19.650724+00:00"
+    },
+    {
+      "action": "signup_b",
+      "state": "accepted",
+      "started_at": "2026-11-17T23:51:19.663558+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-17T23:51:20.204440+00:00"
+    },
+    {
+      "action": "privatize_default_b",
+      "state": "accepted",
+      "started_at": "2026-11-17T23:51:20.704692+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-17T23:51:21.023666+00:00"
+    },
+    {
+      "action": "privatize_default_b",
+      "state": "rejected_no_retry",
+      "started_at": "2026-11-17T23:51:21.033509+00:00",
+      "http_status": 429,
+      "finished_at": "2026-11-17T23:51:21.433488+00:00"
+    }
+  ],
+  "admin_confirmed": true,
+  "pre_mutation_read_refresh": {
+    "inventory_complete": true,
+    "routing_verified": true,
+    "table_count": 14,
+    "remote_writes": 0,
+    "report_file": "refresh-40557604.json",
+    "existing_table_drift": []
+  },
+  "baseline_file": ".local\\shared-xano-preflight-20261117-drift-authorized\\baseline-hashes.json",
+  "failure_reason": "write_rejected_429"
+}

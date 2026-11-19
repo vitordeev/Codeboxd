@@ -1,0 +1,9 @@
+## 1. Reconciliar o estado atual
+
+- [x] 1.1 Reconsultar `openspec list --json`, os sete checklists funcionais e suas evidências mais recentes; registrar totais e bloqueios e verificar que nenhuma contagem depende de resumos antigos. Em 14/11/2026, CLI e checklists confirmam 47/111 concluídas e 64 abertas. Evidências recentes mantêm abertas a restauração 3.2 após HTTP 403, a entrega/comparação de e-mail sem domínio autenticado, a homologação sem workspace isolado, e os aceites amplos de performance/UI/Cloudinary.
+- [x] 1.2 Atualizar as seções de estado atual em `openspec/README.md`, `openspec/CONTEXTO.md`, `openspec/PENDENCIAS.md` e `openspec/RELATORIO_STATUS.md`, mantendo IDs, histórico datado e distinção entre validações locais, simuladas, remotas e de navegador; verificar os links para changes/evidências. Quadro atual publicado em README; outros resumos apontam para ele. Todos os links locais dos quatro documentos existem; um link histórico quebrado em RELATORIO_STATUS foi corrigido para o diretório arquivado.
+
+## 2. Validar a reconciliação documental
+
+- [x] 2.1 Conferir a tabela atual contra os checklists e o CLI, confirmar que a change documental não foi somada ao total funcional e revisar o diff para garantir que histórico e alterações preexistentes foram preservados. Os sete checklists totalizam 47/111; a change documental permanece excluída. O diff limita-se aos resumos acordados e a um link histórico quebrado corrigido; o JSON preexistente não foi alterado.
+- [x] 2.2 Executar `openspec validate reconciliar-estado-changes-abertas --type change` e `git diff --check`; registrar resultados e limitações nesta change, mantendo aberta qualquer verificação sem evidência. OpenSpec aprovado, `git diff --check` aprovado e alvos locais/âncora do quadro conferidos. Nenhuma chamada remota, alteração funcional ou validação de navegador foi realizada nesta change documental.

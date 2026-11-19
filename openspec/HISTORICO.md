@@ -51,13 +51,13 @@ execução real não iniciada. Sem novo commit ou publicação no fechamento.
 conferir evid?ncias reais j? registradas de reports e mensagens e a exibi??o
 local do snapshot. 21 testes admin aprovados nesta rodada; sem novas chamadas
 remotas. Restam 13 tarefas dependentes de sess?o admin leg?tima.
-[Confer?ncia](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md).
+[Confer?ncia](changes/archive/2026-11-12-gerenciamento-website/validation/retomada-evidencias-2026-10-22.md).
 
 22/10 — Retomada de `gerenciamento-website`: feedback e paginação unificados,
 botões de página bloqueados durante loading, 21 testes e oito cenários de
 navegador fictícios aprovados em desktop/celular. Tarefas 6.2/6.3 encerradas;
 19/34 concluídas, sem mutações administrativas reais.
-[Evidências](changes/gerenciamento-website/validation/interface-2026-10-22.md).
+[Evidências](changes/archive/2026-11-12-gerenciamento-website/validation/interface-2026-10-22.md).
 
 22/10/2026 — Feed e listas arquivados em 6/6 após sincronizar três requisitos
 em `social-feed` e `user-lists`, preservando cenários anteriores. As 19 specs
@@ -179,7 +179,7 @@ complementa o histórico arquivado sem substituir suas evidências.
 | 23/09/2026 | Kitsu substitui consultas Jikan; mapeamento legado e deduplicação Xano | `docs/KITSU.md`; ranking 20, busca 4, Cowboy Bebop, 3 relacionados, 1 trailer; Naruto preserva identidade Jikan; 86 testes e navegador histórico |
 | 23/09/2026 e checkpoint posterior | Home com fileiras horizontais, cinco coleções de livros/três de animes; pôster inteiro; streaming TMDB BR | `docs/CHECKPOINT_ATUAL.md`, catálogo, página e CSS atuais; não repetir a exigência antiga de home exclusivamente vertical |
 | Até 26/09/2026 | Planejamento e implementação administrativa local | `docs/ADMIN_OPERATIONS.md`: dry-run reconheceu contratos; não comprova publicação administrativa |
-| 27/09/2026 | `/admin/demo` com dados fictícios e sem escrita | `changes/gerenciamento-website/validation/local-demo-2026-09-27.md`; HTTP 200 e compilação históricos; não substitui integração real |
+| 27/09/2026 | `/admin/demo` com dados fictícios e sem escrita | `changes/archive/2026-11-12-gerenciamento-website/validation/local-demo-2026-09-27.md`; HTTP 200 e compilação históricos; não substitui integração real |
 | 13/10/2026 | Reanálise local | 106 testes e compilação passaram; revisão documental, correção de contagem e arquivamento das duas entregas concluídas |
 | 13/10/2026, após reanálise | Correções operacionais | Ignore/índice corrigidos preservando 434 arquivos existentes; `.venv` instalada; Unicode/URL de banner corrigidos; volume configurado; 113 testes e compilação passaram; teste Docker e tratamento de credenciais antigos pendentes |
 
@@ -194,7 +194,7 @@ complementa o histórico arquivado sem substituir suas evidências.
 
 - [Modelo Xano](changes/archive/2026-10-13-criar-modelo-dados-xano/tasks.md): 37 tarefas; sete capacidades de dados consolidadas em `specs/`.
 - [Fundação](changes/archive/2026-10-13-definir-fundacao-codeboxd/tasks.md): 87 tarefas; nove capacidades funcionais consolidadas em `specs/`.
-- [Administração ativa](changes/gerenciamento-website/tasks.md): 34 tarefas próprias, 17 concluídas e 17 abertas.
+- [Administração — checklist arquivado](changes/archive/2026-11-12-gerenciamento-website/tasks.md): 34 tarefas; os estados 17 concluídas/17 abertas registrados nas seções anteriores são históricos.
 
 A busca de anime pendente na fundação referia-se à Jikan. A evidência Kitsu de 23/09 resolveu o objetivo de busca externa, sem exigir recuperar um provedor substituído. O item 11.7 estava escrito como `- []`, invisível à contagem do CLI; foi corrigido e encerrado após a validação documental. Antes da revisão o CLI mostrava 85/86, mas havia 87 IDs reais.
 

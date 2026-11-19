@@ -1,0 +1,36 @@
+{
+  "layer": "supervised_real_api",
+  "started_at": "2026-11-17T14:33:13.595953+00:00",
+  "approval_reference_sha256": "5c5d1443e2d19ed7eded4198ca25ecfa98d2fec6037e691d952c03e68aa51092",
+  "passed": true,
+  "restoration_needed": false,
+  "checks": [
+    {
+      "scenario": "single_request_accepted_not_delivery_proof",
+      "passed": true
+    },
+    {
+      "scenario": "operator_received_new_code",
+      "passed": true
+    },
+    {
+      "scenario": "original_password_saved",
+      "passed": true
+    },
+    {
+      "scenario": "restored_login_identity_matches",
+      "passed": true
+    },
+    {
+      "scenario": "controlled_account_identity_confirmed",
+      "passed": true
+    }
+  ],
+  "previous_trial_sha256": "4b8455564d19a1b58d42ca103fb96963652f17cd8d402914d463ec46928d4962",
+  "phase": "restored",
+  "mail_requests_attempted": 1,
+  "requests_attempted": 6,
+  "failure_reason": "confirm_same_account_and_valid_matching_password",
+  "last_http_status": 200,
+  "acceptance_scope": "restoration_only_linked_to_previous_trial"
+}

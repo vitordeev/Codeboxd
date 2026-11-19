@@ -1,5 +1,7 @@
 ## 1. Preparação local
 
+**17/11/2026 — supersedida:** 4/8 preservado. 2.2 e 3.1–3.3 foram descontinuados como pré-requisitos por decisão do usuário, sem marcar entrega inexistente. Não executar provisionamento. A continuação está em [validar-integracoes-xano-atual](../validar-integracoes-xano-atual/tasks.md); as quatro caixas anteriores ficam abertas por preservação de histórico e não são bloqueios atuais.
+
 - [x] 1.1 Implementar gerador allowlist de contratos sem dados/env/envio, remover GUID/canonical herdados e verificar com testes e manifesto do pacote real.
 - [x] 1.2 Implementar validação do destino protegido e configuração de exemplo separada; testar recusa de host/workspace da origem e configurações incompletas.
 - [x] 1.3 Documentar comandos, evidências e limites; executar testes pertinentes, git diff --check e openspec validate preparar-homologacao-xano-admin --type change.

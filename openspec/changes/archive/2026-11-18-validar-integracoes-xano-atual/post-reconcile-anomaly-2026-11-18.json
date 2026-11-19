@@ -1,0 +1,13 @@
+{
+  "source": "read-only metadata inventory after fixture reconciliation",
+  "remote_writes": 0,
+  "table": "user_list",
+  "record_id": 110,
+  "user_id": 0,
+  "default_key": null,
+  "title_empty": true,
+  "is_public": true,
+  "present_in_pre_pilot_baseline": false,
+  "created_by_pilot_executor": false,
+  "resolution": "unreviewed; do not mutate pending owner confirmation"
+}

@@ -1,0 +1,15 @@
+{
+  "layer": "independent_metadata_snapshot_review",
+  "branch_verified": true,
+  "api_group_ids": {
+    "auth_group": 429670,
+    "social_group": 433585
+  },
+  "descriptor_sha256": "4d59af5b888fa050ec730a29d9323ba5228af909f80ef3dc9fb36a6c4297c185",
+  "workspace": 147717,
+  "branch": "v1",
+  "data_source": "live",
+  "remote_writes": 0,
+  "origin_disclosed": false,
+  "future_execution_requires_refresh": true
+}

@@ -1,0 +1,10 @@
+{
+  "layer": "supervised_real_xano_pilot",
+  "run_id": "cbshared_9182bcbf0edb",
+  "passed": false,
+  "remote_writes": 0,
+  "checks": [],
+  "fixtures": {},
+  "write_attempts": [],
+  "admin_confirmed": true
+}

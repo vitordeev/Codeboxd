@@ -5,6 +5,7 @@ import reflex as rx
 
 from .session import SessionState
 from ..services.api import APIError, request
+from ..services import catalog
 
 
 class AdminState(SessionState):
@@ -28,6 +29,7 @@ class AdminState(SessionState):
     users_page: int = 1
     users_total: int = 0
     users_next_page: int = 0
+    users_loaded: bool = False
     users: list[dict[str, str]] = []
     user_details_id: str = ''
     user_action_id: str = ''
@@ -64,6 +66,104 @@ class AdminState(SessionState):
     report_review_status: str = ''
     report_review_decision: str = ''
     report_review_loading: bool = False
+    admin_identity_open: bool = False
+    admin_identity_loading: bool = False
+    admin_identity_loaded: bool = False
+    admin_identity_error: str = ''
+    admin_display_name: str = ''
+    admin_username: str = ''
+    admin_avatar_url: str = ''
+    _admin_identity_token: str = ''
+
+    @rx.var
+    def admin_initials(self) -> str:
+        label = (self.admin_display_name or self.admin_username or self.user_name or 'A').strip()
+        initials = ''.join(part[0] for part in label.split()[:2])
+        return (initials or 'A').upper()
+
+    @rx.var
+    def admin_role_label(self) -> str:
+        return 'Administrador' if self.user_role == 'admin' else self.user_role
+
+    @rx.event
+    async def toggle_admin_identity(self):
+        if self.admin_identity_open:
+            self.admin_identity_open = False
+            return
+        self.admin_identity_open = True
+        async for event in self._load_admin_identity():
+            if event is not None:
+                yield event
+
+    @rx.event
+    async def retry_admin_identity(self):
+        async for event in self._load_admin_identity(force=True):
+            if event is not None:
+                yield event
+
+    async def _load_admin_identity(self, force: bool = False):
+        token = self._token()
+        if not token:
+            self.admin_identity_open = False
+            yield rx.redirect('/admin/login')
+            return
+        if self._admin_identity_token != token:
+            self.admin_identity_loaded = False
+            self.admin_display_name = ''
+            self.admin_username = ''
+            self.admin_avatar_url = ''
+            self.admin_identity_error = ''
+        if self.admin_identity_loaded and not force:
+            return
+        self.admin_identity_loading = True
+        self.admin_identity_error = ''
+        yield
+        try:
+            if not await self._validate_session():
+                self.admin_identity_open = False
+                if not self._token():
+                    yield rx.redirect('/admin/login')
+                return
+            if not self.is_admin:
+                self.admin_identity_open = False
+                yield rx.redirect('/')
+                return
+            result = await request('GET', '/admin/me', group='social', token=token)
+            if self._token() != token:
+                return
+            if (not isinstance(result, dict) or result.get('role') != 'admin'
+                    or str(result.get('id') or '') != str(self.user_id)):
+                raise APIError('Invalid administrator identity response.')
+            self.admin_display_name = str(result.get('display_name') or '').strip()[:80]
+            self.admin_username = str(result.get('username') or self.user_name).strip()[:30]
+            self.admin_avatar_url = catalog.safe_url(result.get('avatar_url'))
+            self.admin_identity_loaded = True
+            self._admin_identity_token = token
+        except APIError as exc:
+            if self._token() != token:
+                return
+            if exc.status in (401, 403):
+                self._clear_session()
+                self.admin_identity_open = False
+                yield rx.redirect('/admin/login' if exc.status == 401 else '/')
+                return
+            self.admin_identity_error = 'Could not load the profile photo and display name.'
+            self.admin_identity_loaded = True
+            self._admin_identity_token = token
+        finally:
+            self.admin_identity_loading = False
+
+    @rx.event
+    def logout(self):
+        self.admin_identity_open = False
+        self.admin_identity_loaded = False
+        self.admin_identity_error = ''
+        self.admin_display_name = ''
+        self.admin_username = ''
+        self.admin_avatar_url = ''
+        self._admin_identity_token = ''
+        self._clear_session()
+        return rx.redirect('/login', replace=True)
 
     def _action_is_current(self, token: str, fields: dict) -> bool:
         return token == self._token() and all(
@@ -126,9 +226,33 @@ class AdminState(SessionState):
 
     @rx.event
     async def guard_users_page(self):
-        allowed = await self._require_admin()
-        if allowed is not True:
-            return allowed if allowed is not False else None
+        async for event in self._load_users():
+            if event is not None:
+                yield event
+
+    async def _load_users(self):
+        if self.users_loading:
+            return
+        self.users_loading = True
+        self.users_error = ''
+        yield
+        try:
+            allowed = await self._require_admin()
+            if allowed is not True:
+                if allowed is not False:
+                    yield allowed
+                return
+            await self._fetch_users()
+            self.users_loaded = True
+        except APIError as exc:
+            self.users_error = str(exc)
+            if exc.status == 401:
+                self._clear_session()
+                yield rx.redirect('/admin/login')
+            elif exc.status == 403:
+                yield rx.redirect('/')
+        finally:
+            self.users_loading = False
 
     @rx.event
     async def search_users(self, form: dict):
@@ -140,30 +264,9 @@ class AdminState(SessionState):
         self.users_page = 1
         self.users_error = ''
         self.users_notice = ''
-        if not self.users_query:
-            self.users = []
-            self.users_total = 0
-            self.users_next_page = 0
-            self.users_error = 'Informe um nome, usuário ou identificador para pesquisar.'
-            return
-        self.users_loading = True
-        yield
-        try:
-            allowed = await self._require_admin()
-            if allowed is not True:
-                if allowed is not False:
-                    yield allowed
-                return
-            await self._fetch_users()
-        except APIError as exc:
-            self.users_error = str(exc)
-            if exc.status == 401:
-                self._clear_session()
-                yield rx.redirect('/admin/login')
-            elif exc.status == 403:
-                yield rx.redirect('/')
-        finally:
-            self.users_loading = False
+        async for event in self._load_users():
+            if event is not None:
+                yield event
 
     @rx.event
     def toggle_user_details(self, user_id: str):
@@ -171,28 +274,12 @@ class AdminState(SessionState):
 
     @rx.event
     async def change_users_page(self, page: int):
-        if self.users_loading or page < 1 or page == self.users_page or not self.users_query:
+        if self.users_loading or page < 1 or page == self.users_page:
             return
         self.users_page = page
-        self.users_error = ''
-        self.users_loading = True
-        yield
-        try:
-            allowed = await self._require_admin()
-            if allowed is not True:
-                if allowed is not False:
-                    yield allowed
-                return
-            await self._fetch_users()
-        except APIError as exc:
-            self.users_error = str(exc)
-            if exc.status == 401:
-                self._clear_session()
-                yield rx.redirect('/admin/login')
-            elif exc.status == 403:
-                yield rx.redirect('/')
-        finally:
-            self.users_loading = False
+        async for event in self._load_users():
+            if event is not None:
+                yield event
 
     @rx.event
     def open_user_status_dialog(self, user_id: str, status: str):
@@ -254,10 +341,11 @@ class AdminState(SessionState):
             self.user_action_loading = False
 
     async def _fetch_catalog(self):
+        per_page = 35 if self.catalog_type in ('movie', 'series', 'anime') else 25
         result = await request(
             'GET', '/admin/catalog', group='social', token=self._token(),
             params={'media_type': self.catalog_type, 'search': self.catalog_query,
-                    'page': self.catalog_page, 'per_page': 25},
+                    'page': self.catalog_page, 'per_page': per_page},
         )
         if not isinstance(result, dict) or not isinstance(result.get('items'), list):
             raise APIError('O serviço retornou o catálogo em formato inesperado.')
@@ -569,8 +657,13 @@ class AdminState(SessionState):
 
     @rx.event
     async def load_reports(self):
+        self.reports_status_filter = 'pending'
+        self.reports_type_filter = ''
+        self.reports_reason_filter = ''
+        self.reports_page = 1
         async for event in self._load_reports():
-            yield event
+            if event is not None:
+                yield event
 
     @rx.event
     async def search_reports(self, form: dict):

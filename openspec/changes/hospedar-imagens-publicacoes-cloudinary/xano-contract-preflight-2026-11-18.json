@@ -1,0 +1,142 @@
+﻿{
+    "change":  "hospedar-imagens-publicacoes-cloudinary",
+    "created_at":  "2026-11-18",
+    "target":  {
+                   "workspace_id":  147717,
+                   "workspace_name":  "Pedro\u0027s Workspace",
+                   "branch":  "v1",
+                   "instance":  "x8ki-letl-twmt.n7.xano.io"
+               },
+    "backup":  {
+                   "path":  ".local/cloudinary-xano-backup-2026-11-18",
+                   "documents":  85,
+                   "environment_variables_included":  false,
+                   "records_included":  false,
+                   "manifest_sha256":  "3679adbe9f108e32347ccd9871338219dd75c13fc841f2ee8b4e59596fb69b06"
+               },
+    "bundle":  {
+                   "sha256":  "afc1091b59e2382367b346008c0abd5d399168b748246327853f0428dd92378a",
+                   "file_count":  13,
+                   "files":  [
+                                 {
+                                     "local_path":  "table/post.xs",
+                                     "remote_path":  "table/post.xs",
+                                     "local_sha256":  "32679d8a18bd4716ef7953cb706a7c880a869123e8db5fc33a78028e7183cc9a",
+                                     "baseline_present":  true,
+                                     "baseline_sha256":  "cb59cf252c709f75ace9a3eee957a0f61bedfe257ed86be3f8ca1dbe0b522b36"
+                                 },
+                                 {
+                                     "local_path":  "table/post_image_asset.xs",
+                                     "remote_path":  "table/post_image_asset.xs",
+                                     "local_sha256":  "992163b7d41cdc0ddf837644852fb866bcb6d1d9a0347a97d79c908f9aa5ad3a",
+                                     "baseline_present":  false,
+                                     "baseline_sha256":  null
+                                 },
+                                 {
+                                     "local_path":  "function/PostImages/create_post.xs",
+                                     "remote_path":  "function/PostImages/create_post.xs",
+                                     "local_sha256":  "f04519859d552131508839434d4a2c074ecdfe5cb24276c90e0368086ddbe9fe",
+                                     "baseline_present":  false,
+                                     "baseline_sha256":  null
+                                 },
+                                 {
+                                     "local_path":  "function/PostImages/queue_cleanup.xs",
+                                     "remote_path":  "function/PostImages/queue_cleanup.xs",
+                                     "local_sha256":  "2cf27e6c6ab08e332b6908b7cc6b1d8c09ab872047002fe2a47d7b06952cae5f",
+                                     "baseline_present":  false,
+                                     "baseline_sha256":  null
+                                 },
+                                 {
+                                     "local_path":  "function/PostImages/update_post.xs",
+                                     "remote_path":  "function/PostImages/update_post.xs",
+                                     "local_sha256":  "b97c00241c6f319d3007f07be0b029c3f26b2f0384568e618d31d15739575af0",
+                                     "baseline_present":  false,
+                                     "baseline_sha256":  null
+                                 },
+                                 {
+                                     "local_path":  "function/PostImages/verify_resource.xs",
+                                     "remote_path":  "function/PostImages/verify_resource.xs",
+                                     "local_sha256":  "e3c36dcc3487bf6127ed7bbf36c11dd7f0730ac58441e9c18631de0aabec6774",
+                                     "baseline_present":  false,
+                                     "baseline_sha256":  null
+                                 },
+                                 {
+                                     "local_path":  "api/codeboxd/post_image_capabilities_GET.xs",
+                                     "remote_path":  "api/codeboxd/post_image_capabilities_GET.xs",
+                                     "local_sha256":  "bd620366e71738134704e64b291643fef314d8cb68bffb3070d6ae2f8e212c41",
+                                     "baseline_present":  false,
+                                     "baseline_sha256":  null
+                                 },
+                                 {
+                                     "local_path":  "api/codeboxd/post_image_uploads_POST.xs",
+                                     "remote_path":  "api/codeboxd/post_image_uploads_POST.xs",
+                                     "local_sha256":  "7a5901c7b221c66523e6f375449c986269462cd0e532b323c0310994fdd05462",
+                                     "baseline_present":  false,
+                                     "baseline_sha256":  null
+                                 },
+                                 {
+                                     "local_path":  "api/codeboxd/post_image_uploads_id_GET.xs",
+                                     "remote_path":  "api/codeboxd/post_image_uploads_id_GET.xs",
+                                     "local_sha256":  "b7ba63d1a6f6d648367053771253b03fb5f8b778935f72b9e54a42c8c8700103",
+                                     "baseline_present":  false,
+                                     "baseline_sha256":  null
+                                 },
+                                 {
+                                     "local_path":  "api/codeboxd/post_image_uploads_id_begin_POST.xs",
+                                     "remote_path":  "api/codeboxd/post_image_uploads_id_begin_POST.xs",
+                                     "local_sha256":  "9eafc81aee5977880437cea6d05242578ebe5663e0cfd3ea12c296f19e6576e9",
+                                     "baseline_present":  false,
+                                     "baseline_sha256":  null
+                                 },
+                                 {
+                                     "local_path":  "api/codeboxd/posts_POST.xs",
+                                     "remote_path":  "api/codeboxd/posts_POST.xs",
+                                     "local_sha256":  "f5588d31f3eaf1183e61ce4617ec9044c3ca08a42c459d9512d6ec503f48d5bd",
+                                     "baseline_present":  true,
+                                     "baseline_sha256":  "80bdc3e74ea870ea0fd2fe2e061dd2eb6505b15ab6ab00ef71f74f777a94c0a5"
+                                 },
+                                 {
+                                     "local_path":  "api/codeboxd/posts_id_PUT.xs",
+                                     "remote_path":  "api/codeboxd/posts/id_PUT.xs",
+                                     "local_sha256":  "bb191d05d55b67e99b1ff090654d5119e27d5d677c644adb90a557108bc284c1",
+                                     "baseline_present":  true,
+                                     "baseline_sha256":  "fbabb0fcdf80dfbd4e18a90818d36073994683730e85b5599910c249ae7a759d"
+                                 },
+                                 {
+                                     "local_path":  "api/codeboxd/posts_id_DELETE.xs",
+                                     "remote_path":  "api/codeboxd/posts/id_DELETE.xs",
+                                     "local_sha256":  "ca46ac644644ffab6a85f916f7093078b9e88a5e4465d30fcb5582ed5f314d57",
+                                     "baseline_present":  true,
+                                     "baseline_sha256":  "536fd5502065fda6658628130e25f0c6d73f56745a422dd9b1f71ebe30e037bb"
+                                 }
+                             ],
+                   "planned_command":  "xano workspace push -d xano -w 147717 -b v1 -i \"table/post.xs\" -i \"table/post_image_asset.xs\" -i \"function/PostImages/**\" -i \"api/codeboxd/post_image*.xs\" -i \"api/codeboxd/posts_POST.xs\" -i \"api/codeboxd/posts_id_PUT.xs\" -i \"api/codeboxd/posts_id_DELETE.xs\" --transaction --no-guids"
+               },
+    "preview":  {
+                    "tables":  {
+                                   "create":  1,
+                                   "update":  1
+                               },
+                    "functions":  {
+                                      "create":  4,
+                                      "update":  0
+                                  },
+                    "api_endpoints":  {
+                                          "create":  4,
+                                          "update":  3
+                                      },
+                    "critical_errors":  0
+                },
+    "full_workspace_preview_blocker":  "Unfiltered preview includes unrelated Quick Start/generate_magic_link syntax error; excluded by the 13-file filter.",
+    "safety":  {
+                   "preview_only":  true,
+                   "published":  false,
+                   "records_changed":  false,
+                   "environment_changed":  false,
+                   "feature_flags_changed":  false,
+                   "cloudinary_uploads_enabled":  false,
+                   "post_images_contract_ready":  false,
+                   "assets_uploaded_or_deleted":  false
+               },
+    "approval_reference":  "cloudinary-publish-afc1091b59e2"
+}

@@ -32,6 +32,27 @@ precondition ($record.user_id == $auth.id) {
 }
 db.transaction {
  stack {
+db.get user {
+ field_name = "id"
+ field_value = $auth.id
+ lock = true
+} as $actor_lock
+function.run "Security/require_current_session" {
+ input = {user_id: $auth.id, extras: $auth.extras, allow_reset: false}
+}
+precondition ($actor_lock != null && $actor_lock.account_status == "active") {
+ error_type = "accessdenied"
+ error = "Operação não permitida."
+}
+db.get post {
+ field_name = "id"
+ field_value = $input.id
+ lock = true
+} as $locked_post
+precondition ($locked_post != null && $locked_post.user_id == $auth.id) {
+ error_type = "notfound"
+ error = "Publicação não encontrada."
+}
 db.query comment {
  where = $db.comment.post_id == $input.id
  return = {type: "list"}
@@ -57,6 +78,13 @@ db.del post_like {
 db.del post {
  field_name = "id"
  field_value = $input.id
+}
+conditional {
+ if ($locked_post.image_asset_record_id != null && $locked_post.image_asset_record_id > 0) {
+  function.run "PostImages/queue_cleanup" {
+   input = {asset_record_id: $locked_post.image_asset_record_id, user_id: $auth.id, post_id: $locked_post.id, replaced: false}
+  }
+ }
 }
  }
 }

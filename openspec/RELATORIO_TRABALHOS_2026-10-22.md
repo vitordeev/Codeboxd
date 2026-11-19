@@ -26,7 +26,7 @@ Estado: **8/10**, tarefas 3.2 e 3.4 abertas. Próximo passo: alinhar destinatár
 permitido ou domínio verificado; depois comprovar envio aceito, recebimento,
 troca de senha, novo login, rejeição de reutilização e restauração da conta.
 
-[Publicação, testes e limites](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md).
+[Publicação, testes e limites](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md).
 
 ## Feed e inclusão em listas
 

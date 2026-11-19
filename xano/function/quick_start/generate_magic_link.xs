@@ -1,4 +1,4 @@
-// Generate a hashed six-digit reset code, at most once per minute per account.
+// Generate a six-digit reset code, hash it before storing, and only send the plain code by mail.
 function "Quick Start/generate_magic_link" {
   input {
     email email filters=trim|lower
@@ -34,12 +34,15 @@ function "Quick Start/generate_magic_link" {
                   max = 999999
                 } as $number
                 var $code { value = $number|to_text }
+                security.hash_password {
+                  text_password = $code
+                } as $hashed_code
 
                 db.edit user {
                   field_name = "id"
                   field_value = $user.id
                   data = {
-                    password_reset: {token: $code, expiration: (now|add_secs_to_timestamp:900), used: false}
+                    password_reset: {token: $hashed_code, expiration: (now|add_secs_to_timestamp:900), used: false}
                     password_reset_attempts: 0
                     password_reset_requested_at: now
                     password_reset_format: "six_digits"

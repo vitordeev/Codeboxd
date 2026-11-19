@@ -1,4 +1,31 @@
-# Estado do Codeboxd — 27/10/2026
+# Estado do Codeboxd — atualização 17/11/2026
+
+## Resumo vigente
+
+Último fechamento: [recuperação de senha 12/12](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md), senha restaurada e login/identidade confirmados pela execução real e pelo usuário. A restauração deixou de ser bloqueio vigente; referências anteriores preservam histórico.
+
+Fechamento posterior de 17/11: [e-mail concluído, 5/5](changes/archive/2026-11-17-melhorar-email-recuperacao/aceite-final-2026-11-17.md), com chegada real e melhora percebida confirmada pelo usuário. Aceite qualitativo, sem redução percentual ou SLA comprovados. Comparação deixa de ser pendência desta entrega; restauração permanece aberta.
+
+17/11 — Concluídas e arquivadas: SendGrid **5/5** e duas changes documentais **4/4**. [Evidências da integração](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md). Spec do provedor sincronizada; nenhuma nova alteração de senha/envio nesta rodada. Domínio próprio foi excluído dos pré-requisitos.
+
+17/11 — [Estratégia sem novo workspace](changes/validar-integracoes-xano-atual/matriz-validacao.md): planejador offline com 18 testes novos, suíte 736/736 e OpenSpec 39/39. Preparação isolada supersedida em 4/8; quatro caixas históricas não são pré-requisitos nem entregas. Validação real no destino existente continua pendente.
+
+Continuação de 17/11: [Cloudinary local 6/17](changes/hospedar-imagens-publicacoes-cloudinary/implementacao-2026-11-17.md), suíte 718/718, compile e prévia Xano de 13 documentos aprovados. Flag false; aceite remoto, navegador e limpeza supervisionada ainda abertos.
+
+As quatro changes funcionais vigentes somam **35/87 tarefas concluídas e 52
+abertas**, segundo `openspec list --json` e os checklists atuais. Os critérios
+remotos e de navegador permanecem abertos quando não há evidência própria. O
+quadro único, com contagens, bloqueios e links, está em
+[README.md — Estado atual](README.md#estado-atual-17112026).
+
+**Bloqueios principais:** recuperação da conta controlada após HTTP 403;
+comparação real do tempo de entrega com remetente individual verificado; preparação e execução
+do lote real no Xano atual. Outro workspace não é requisito. `gerenciamento-website` foi arquivada em 34/34 para o
+escopo de leitura, sem aceite de mutações administrativas reais.
+
+Auditoria de 17/11: [plano de conclusão e evidências](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md), suíte local 675/675, compile, pip check e prévia limitada dos contratos de busca aprovados; nenhuma publicação Xano.
+
+## Registros históricos
 
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
@@ -20,7 +47,7 @@ As seções abaixo preservam a reconciliação anterior.
 Busca administrativa: tarefa 3.1 concluída após correção e publicação limitada
 ao GET /admin/users. Backup conferido, dry-run posterior sem delta e 79 checks
 reais aprovados em 34 requisições, sem 429. Administração **22/34**; demais
-critérios continuam abertos. [Evidências e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
+critérios continuam abertos. [Evidências e limites](changes/archive/2026-11-12-gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
 ## Listas concluídas e arquivadas
 
@@ -45,21 +72,10 @@ garante disponibilidade contínua dos provedores ou funcionamento atual de todas
 
 ## Trabalho ainda ativo
 
-| Change funcional ativa | Concluídas | Abertas | Critérios restantes |
-| --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
-| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
-| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
-
-As contagens vêm dos checklists, não medem o percentual global do produto.
-As três changes têm planejamento completo; isso não significa implementação concluída.
-
-Evidências mais recentes:
-
-- [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
-- [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
-- [Administração, 22/10](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
-- [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
+O estado funcional vigente está no [quadro consolidado](README.md#estado-atual-14112026)
+e nos checklists vinculados. São sete changes ativas, 47/111 tarefas concluídas
+e 64 abertas. Os registros históricos acima não substituem essa fonte atual nem
+comprovam critérios posteriores à data de cada evidência.
 
 ## Limites da avaliação
 

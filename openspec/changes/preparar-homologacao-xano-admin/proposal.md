@@ -1,5 +1,7 @@
 ## Why
 
+**17/11/2026 — estratégia supersedida por decisão do usuário.** Outro ambiente deixou de ser pré-requisito. A continuação segue [validar-integracoes-xano-atual](../validar-integracoes-xano-atual/proposal.md). O provisionamento abaixo é histórico; seus itens não executados não foram entregues nem bloqueiam o novo plano.
+
 O aceite administrativo precisa de dados descartáveis e o usuário escolheu
 homologação isolada. Hoje só está acessível o workspace compartilhado 147717;
 executar mutações nele contrariaria a decisão registrada.

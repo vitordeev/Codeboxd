@@ -1,0 +1,13 @@
+# Contratos candidatos de busca — 17/11/2026
+
+Incremento da tarefa 5.1, mantida aberta até seus critérios completos. GETs de perfis/listas passam a aceitar consulta opcional e retornar envelope `items/total/page/next_page/per_page` quando há busca. Ausência de `q` sem outros filtros mantém o array legado, limite 100 e ordem por ID. Busca limita a página a 50 e preserva o tamanho 20 pedido pela interface.
+
+Listas filtram visibilidade, criador e texto no banco antes de totais/paginação; descrição é opt-in. Ordenação candidata por título e ID é determinística; ranking de correspondência deve ser finalizado e validado antes de concluir 5.1. Três addons incluem autor público e contagens para personalizadas/padrão, evitando chamadas HTTP por resultado no cliente. Custo real de execução dos addons e plano de índices continuam sem medição no Xano; não alegar ausência de N+1 no banco só pela composição do contrato.
+
+Índices locais existentes conferidos: profile(user_id único, username único); user_list(user_id, default_key único); user_list_item(list_id); user_media_list_status(user_id,status,id). Busca por substring em título/descrição não é resolvida por um índice btree simples: avaliar plano real antes de introduzir índice novo ou prometer ganho.
+
+Exemplos sem dados privados: `/profiles?q=leitora&page=1&per_page=20`, `/lists/public?q=ficcao&search_in=title_description&creator_id=41&page=1&per_page=20`. Metadados de listas privadas não são incluídos nas consultas públicas. Detalhes continuam separados em endpoints público e autenticado já existentes localmente; 5.2–5.4 não foram encerradas.
+
+Evidências: seis testes em `tests/test_public_search_contracts.py` aprovados, suíte completa **675/675**, pip check e compile aprovados. A prévia remota de cinco includes exatos no workspace 147717, branch v1, foi aprovada e retornou **3 addons CREATE e 2 endpoints UPDATE**, sem tabelas, registros ou ambiente. Não publicou nem executou consultas contra fixtures Xano. Detalhes e plano geral em [relatório da auditoria](../../archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md).
+
+Referências técnicas consultadas: [operações de banco XanoScript](https://raw.githubusercontent.com/xano-inc/xano-developer-mcp/main/src/xanoscript_docs/database.md) e [addons XanoScript](https://raw.githubusercontent.com/xano-inc/xano-developer-mcp/main/src/xanoscript_docs/addons.md). Implementação segue os padrões já usados nos GETs administrativos do repositório. Antes de publicar: backup do lote, classificação da prévia, teste de execução, compatibilidade, custo dos addons, ranking, índices e privacidade com contas controladas.

@@ -14,7 +14,9 @@ from Codeboxd_main.state.social import SocialState
 class HomePerformanceTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         catalog._public_cache.clear()
+        catalog._public_result_cache.clear()
         self.addCleanup(catalog._public_cache.clear)
+        self.addCleanup(catalog._public_result_cache.clear)
 
     async def test_cache_expires_and_returns_independent_copies(self):
         client = AsyncMock()
@@ -178,6 +180,49 @@ class HomePerformanceTests(unittest.IsolatedAsyncioTestCase):
             with self.assertRaises(APIError):
                 await catalog.fetch('https://provider.example/list', cache=True)
             self.assertEqual(remote.await_count, 2)
+
+    async def test_public_result_cache_shares_pending_reads_and_returns_copies(self):
+        started, release = asyncio.Event(), asyncio.Event()
+        calls = 0
+
+        async def load():
+            nonlocal calls
+            calls += 1
+            started.set()
+            await release.wait()
+            return {'items': [1]}
+
+        first = asyncio.create_task(catalog._public_result_cache_get('detail', {'id': 1}, 60, load))
+        await started.wait()
+        second = asyncio.create_task(catalog._public_result_cache_get('detail', {'id': 1}, 60, load))
+        await asyncio.sleep(0)
+        release.set()
+        result1, result2 = await asyncio.gather(first, second)
+
+        self.assertEqual(calls, 1)
+        result1['items'].clear()
+        self.assertEqual(result2, {'items': [1]})
+        self.assertEqual(
+            await catalog._public_result_cache_get('detail', {'id': 1}, 60, load),
+            {'items': [1]})
+        self.assertEqual(calls, 1)
+        self.assertFalse(catalog._public_result_pending)
+
+    async def test_public_result_cache_does_not_store_failures(self):
+        calls = 0
+
+        async def load():
+            nonlocal calls
+            calls += 1
+            if calls == 1:
+                raise APIError('Unavailable', 503)
+            return {'ok': True}
+
+        with self.assertRaises(APIError):
+            await catalog._public_result_cache_get('detail', {'id': 2}, 60, load)
+        await asyncio.sleep(0)
+        self.assertEqual(await catalog._public_result_cache_get('detail', {'id': 2}, 60, load), {'ok': True})
+        self.assertEqual(calls, 2)
 
     async def test_pending_registry_is_bounded_without_dropping_reads(self):
         release = asyncio.Event()

@@ -1,24 +1,51 @@
-# Pendências atuais — 27/10/2026
+# Pendências atuais — 18/11/2026
 
-11/11/2026 — [UI/UX: controles e foco implementados](changes/modernizar-ui-ux-codeboxd/validation/controles-2026-11-11.md):
-2.2 concluída na família piloto, UI **4/26**. Campos, ações secundárias, feedback,
-vazio e diálogos compartilham padrões; foco de editor programático corrigido.
-632 testes e matrizes locais aprovados. 3.2/3.3, shell e demais famílias seguem
-abertos; nenhuma integração remota ou mudança nas worktrees de colaboradores.
+## Resumo vigente
 
-11/11/2026 — [Carrosséis: paginação e capa indisponível comprovadas](changes/modernizar-ui-ux-codeboxd/validation/carrosseis-dados-2026-11-11.md)
-em quatro larguras com backend fictício. Sem mudança no código do produto.
-3.3 ainda exige comparação quantitativa com baseline; 3.2 exige aparelho físico.
-UI/UX preservada em 3/26, sem nova publicação ou alteração de develop.
+Atualização de 18/11: o run cbshared_e695fd5320e4 concluiu os checks API de persistência, autoria e privacidade; lista 125/126 removidas, usuários 50/51 desativados e eventos administrativos confirmados. A change Xano fica 6/6; reconciliação arquivada com receipts. Exclusões via metadata foram documentadas como desvio após perda do token de proprietário.
 
-11/11/2026 — [Salvar trabalhos e sincronizar develop](changes/salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md):
+Atualização final da recuperação: [12/12 concluídas](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md). Senha restaurada, login e identidade confirmados em 17/11, após autorização específica. Os bloqueios de restauração/recusa descritos abaixo são históricos e foram resolvidos por esta retomada; não se aplicam mais ao estado vigente.
+
+Fechamento posterior de 17/11: [melhoria do e-mail concluída, 5/5](changes/archive/2026-11-17-melhorar-email-recuperacao/aceite-final-2026-11-17.md). Recebimento real em aproximadamente 25 s até confirmação e usuário relata estar mais rápido; aceite qualitativo substitui benchmark adicional. A comparação deixa de ser bloqueio vigente. Restauração da conta permanece aberta e não foi autorizada por esse teste de entrega.
+
+17/11 — SendGrid concluída em 5/5 e arquivada: [aceite e limites](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md). A evidência real de recebimento/troca/login foi reconciliada com a conferência atual de leitura. As duas changes documentais completas também foram arquivadas.
+
+18/11 — Histórico do primeiro lote cbshared_9182bcbf0edb: oito escritas, depois corrigido e reconciliado em change operacional arquivada. O aceite atual está concluído pelo lote cbshared_e695fd5320e4, 6/6; ver recibos na change arquivada em 18/11.
+
+Conclusão em 18/11: lote funcional cbshared_e695fd5320e4 validou persistência/autoria/privacidade, removeu listas customizadas, desativou contas e verificou auditoria admin. A change está 6/6; desvio de metadata para listas está registrado.
+
+Atualização de 18/11: Cloudinary segue 6/17; suíte 756/756, compile Reflex e pip check aprovados. Treze contratos publicados e confirmados por leitura; flags desligadas. Aceites autenticados de Xano, navegador e executor de limpeza continuam pendentes. [Recibo](changes/hospedar-imagens-publicacoes-cloudinary/xano-contract-execution-2026-11-18.json).
+
+As tres changes funcionais ativas somam **28/63 tarefas concluidas e 35 abertas** apos o cancelamento de UI/UX. Fonte: `openspec list --json` e checklists atuais; nao representa percentual de conclusao do produto. Consulte [README.md ? Estado atual](README.md#estado-atual-18112026).
+
+
+Bloqueios prioritários: listas customizadas e aceites de persistência/autoria/visibilidade do Xano seguem pendentes; o último lote foi interrompido por HTTP 429 e não deve ser repetido com as mesmas fixtures. Outra rodada depende de corrigir a limitação, gerar novo baseline/IDs e aprovar novo lote. Recuperação foi concluída em 12/12 e a comparação de e-mail aceita qualitativamente; domínio próprio/DNS não será usado, por decisão do usuário. Outro workspace não é requisito. Não marcar planejamento/simulação como aceite integrado.
+`gerenciamento-website` foi arquivada em 34/34 somente no escopo de leitura;
+mutações administrativas reais continuam fora desse aceite.
+
+Os registros datados seguintes preservam o estado e os resultados das respectivas
+rodadas; para números vigentes, usar o quadro atual e os checklists vinculados.
+
+17/11/2026 — [auditoria e plano de hoje](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md): suíte 675/675, compile, pip check e prévia Xano de busca aprovados. Contratos ainda não publicados; critérios funcionais incompletos permanecem abertos.
+
+12/11/2026 — Oito changes concluídas foram arquivadas em
+`changes/archive/2026-11-12-*`; seis sincronizaram seus deltas com as specs
+principais (validação: 29 specs aprovadas) e duas não tinham deltas. A change
+`gerenciamento-website` encerrou 34/34 tarefas no escopo de leitura em
+desktop/celular, buscas vazias e falha parcial controlada. Mutações, persistência,
+autorização negativa integrada e auditoria reais não foram verificadas; exigem
+change OpenSpec futura, homologação isolada e autorização específica. Nenhuma
+escrita no live foi autorizada. A change de mascotes foi arquivada como reversão;
+seus contratos são históricos e não afirmam implementação atual.
+
+11/11/2026 — [Salvar trabalhos e sincronizar develop](changes/archive/2026-11-12-salvar-checkpoints-sincronizar-develop/retomada-2026-11-11.md):
 integração publicada em develop e validada com 632 testes/compile e OpenSpec padrão 34/34;
 cinco checkpoints guardam as frentes e versões históricas. Recibo de push/refs
 confirma a publicação e a develop local limpa por fast-forward. Nenhuma pendência funcional foi
 encerrada por salvar no Git: Cloudinary 3/17 e UI/UX 3/26, sem ativação de provider
 ou mutação Xano. Entradas anteriores preservam seu contexto de planejamento/local.
 
-11/11/2026 — [UI/UX: primeiro lote local após aprovação](changes/modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
+11/11/2026 — [UI/UX: primeiro lote local após aprovação](changes/archive/2026-11-18-modernizar-ui-ux-codeboxd/validation/fundamentos-carrosseis-2026-11-11.md):
 3/26 tarefas, com baseline Home/login/ficha, tokens e piloto de contraste,
 carrossel comum de mouse/teclado/toque nativo na Home e recomendações. Toque
 validado por emulação, não por aparelho físico; carregar mais/falha de capa,
@@ -47,43 +74,43 @@ deve verificar painel/permissões ou disponibilizar instância isolada. Sem comp
 publicação de contratos, alteração da origem ou piloto administrativo executado.
 
 11/11/2026 — Usuário escolheu homologação para o piloto administrativo.
-[Descoberta atual e limite de acesso](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+[Descoberta atual e limite de acesso](changes/archive/2026-11-12-gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
 um perfil configurado, somente workspace 147717 acessível; destino isolado não
 identificado. Solicitar identificação/configuração de homologação ou planejar
 criação vazia em escopo próprio antes de qualquer provisão. Não usar live como
 fallback. Administração 33/34; nenhuma escrita executada.
 
-11/11/2026 — [Piloto administrativo preparado offline](changes/gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
+11/11/2026 — [Piloto administrativo preparado offline](changes/archive/2026-11-12-gerenciamento-website/validation/piloto-mutacoes-2026-11-11.md):
 25 registros propostos, retenção de 16 e nove candidatos próprios à limpeza;
 583 testes locais passaram. Pré-voo atual: uma branch live e uma fonte, sem
 isolamento adicional demonstrado; exclusões/cascatas ainda não confirmadas.
 Decidir destino e verificar limpeza antes de seed; nenhum registro criado,
 alterado ou excluído. 9.2 preservada em 33/34; plano completo de 239 não reduzido.
 
-11/11/2026 — [Leituras administrativas integradas aprovadas](changes/gerenciamento-website/validation/resultado-leituras-2026-11-11.md)
+11/11/2026 — [Leituras administrativas integradas aprovadas](changes/archive/2026-11-12-gerenciamento-website/validation/resultado-leituras-2026-11-11.md)
 em desktop/celular, sem alterações remotas administrativas. A tarefa 9.2 continua
 33/34 por exigir mutações, auditoria e permissões integradas sobre fixtures
 controladas; A2–A4 continuam sem autorização específica. Não repetir os cenários
 de leitura aprovados sem regressão ou nova necessidade.
 
-11/11/2026 — [Confirmação manual posterior](changes/recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md):
+11/11/2026 — [Confirmação manual posterior](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/aceite-usuario-2026-11-11.md):
 usuário recebeu código, trocou senha e entrou com a nova. Essa confirmação supera
 a falta de recebimento inicial; não fecha replay/restauração, comparação de
 latência ou alinhamento do remetente. Checklists funcionais preservados.
 
-11/11/2026 — [Bloqueio de entrega confirmado no ensaio atual](changes/melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md):
+11/11/2026 — [Bloqueio de entrega confirmado no ensaio atual](changes/archive/2026-11-17-melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md):
 SendGrid processing, cinco adiamentos 421/4.7.32, sem delivered. Usuário sem
 código; nenhuma troca de senha até o diagnóstico. Aguardar domínio próprio/DNS
 e autorização de configuração, sem reenviar para contornar a causa. Changes de
 e-mail/recuperação continuam abertas; nenhuma entrega ou comparação comprovada.
 
 11/11/2026 — Preparação do executor de dois códigos concluída localmente:
-[testes, limites e escopo do ensaio](changes/recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md).
+[testes, limites e escopo do ensaio](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/executor-dois-codigos-2026-11-11.md).
 O bloqueio técnico da restauração por sessão comum foi removido do executor;
 faltam autorização específica, conta/caixa controlada e aceite real. Recuperação
 mantida 9/11 e SendGrid 4/5. Sem envio ou alteração remota.
 
-11/11/2026 — [Critérios de aceite e sequência recomendada](changes/integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
+11/11/2026 — [Critérios de aceite e sequência recomendada](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/aceite-2026-11-11.md):
 SendGrid 4/5, experiência do e-mail 4/5 e recuperação 9/11. Remetente verificado,
 zero domínios autenticados confirmados por GET. Falta ciclo na caixa controlada,
 restauração compatível com credencial exclusiva e comparação real de entrega.
@@ -92,14 +119,14 @@ remota `29d0456`, main remota `42ff4dd`; PRs #31/#32 já integradas. Nada fechad
 
 10/11/2026 - Auditoria Git e branch de integracao publicada; PR ainda aguarda criacao autenticada. [Registro e link do PR](changes/otimizar-performance-app/validation/integracao-develop-2026-11-10.md). `origin/develop` em 4a7cabe; administracao 33/34 e performance 17/37 preservadas. Branch `pedro` mantida por conter documentacao historica obsoleta; P0 movel ainda sem evidencia suficiente. Nenhuma tarefa foi fechada.
 
-09/11/2026 — [relatório consolidado do projeto](changes/gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
+09/11/2026 — [relatório consolidado do projeto](changes/archive/2026-11-12-gerenciamento-website/validation/relatorio-projeto-2026-11-09.md):
 administração 33/34, performance 17/37 e recuperação 8/10, 23 tarefas abertas.
 Executor administrativo ensaiado somente em memória: 22 testes novos e 26
 regressões aprovados, journal e releitura após PUT simulados. Nenhum acesso Xano
 nesta rodada. Homologação integrada continua pendente de destino, preparação de
 setup/limpeza e autorização específica A2–A4; nenhuma tarefa encerrada.
 
-09/11/2026 — continuação local da administração: [guardas de prévia offline](changes/gerenciamento-website/validation/guardas-locais-2026-11-09.md)
+09/11/2026 — continuação local da administração: [guardas de prévia offline](changes/archive/2026-11-12-gerenciamento-website/validation/guardas-locais-2026-11-09.md)
 com 26 testes aprovados. Bloqueiam destino/ator/ID divergentes, alterações não
 aprovadas, cancelamento e métodos fora do escopo. Sem transporte ou chamadas
 Xano; setup/limpeza e integração das guardas ainda não executados. Definir destino
@@ -107,14 +134,14 @@ e obter A2–A4 antes de escrita; nenhuma fixture real aprovada. 9.2 segue 33/34
 
 09/11/2026 — após autorização de login/leitura A1, a conta admin existente foi
 autenticada e acessou dashboard, usuários, catálogo e reports pela API:
-[dez checks aprovados](changes/gerenciamento-website/validation/login-e-leituras-a1-2026-11-09.md),
+[dez checks aprovados](changes/archive/2026-11-12-gerenciamento-website/validation/login-e-leituras-a1-2026-11-09.md),
 sete respostas 200 (um POST de autenticação e seis GET). Sem mutações
 administrativas. Isso não equivale ao aceite do fluxo completo da UI; 9.2
 continua aberta, 33/34. A2–A4 permanecem sem autorização. As pendências de A1
 registradas abaixo descrevem o estado anterior ao login desta continuação.
 
 09/11/2026 — retomada administrativa posterior à atualização de contexto:
-[inventário A0 autorizado e executado](changes/gerenciamento-website/validation/pre-voo-a0-2026-11-09.md).
+[inventário A0 autorizado e executado](changes/archive/2026-11-12-gerenciamento-website/validation/pre-voo-a0-2026-11-09.md).
 Sete GET 200 no workspace 147717, zero mutações. Branch v1/live e fonte live;
 nenhum isolamento existente ou candidato a fixture confirmado para reuso.
 Há oito contas ativas (uma admin), 23 obras e cinco reports, todos somente lidos.
@@ -137,7 +164,7 @@ Nenhum commit, teste integrado ou acesso Xano nesta atualização.
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
 05/11/2026 — preparação documental da homologação integrada 9.2:
-[plano e autorizações A0–A4](changes/gerenciamento-website/design.md#plano-de-homologação-integrada-da-92--preparado-em-05112026).
+[plano e autorizações A0–A4](changes/archive/2026-11-12-gerenciamento-website/design.md#plano-de-homologação-integrada-da-92--preparado-em-05112026).
 Preferir destino isolado; disponibilidade atual ainda não inventariada. Proposto
 lote próprio com teto de 26 contas member, 104 obras, 30 reports e um post,
 além dos efeitos de signup/auditoria; preservar eventos e referências na limpeza.
@@ -150,14 +177,14 @@ Change mantida em 33/34, sem conclusão ou arquivamento.
 com resposta e renderização; Reports com dados reais carregado em 1440/390.
 Feedback de erros encoberto pelos modais foi identificado, documentado e
 corrigido, com regressão local. As modalidades e critérios por cenário estão na
-[continuação do aceite](changes/gerenciamento-website/validation/continuacao-9-2-2026-11-05.md).
+[continuação do aceite](changes/archive/2026-11-12-gerenciamento-website/validation/continuacao-9-2-2026-11-05.md).
 Manter 33/34 enquanto houver critério obrigatório de aceite integrado sem
 evidência; não confundir fixtures com novas mutações no Xano. Registros abaixo
 preservam seus estados históricos.
 
 Resultado da continuação: 68 cenários distintos aprovados com fixtures e dois
 casos reais de renderização de Reports; 44 cenários revalidados após corrigir
-feedback nos modais. [Matriz detalhada](changes/gerenciamento-website/validation/matriz-9-2-2026-11-05.md).
+feedback nos modais. [Matriz detalhada](changes/archive/2026-11-12-gerenciamento-website/validation/matriz-9-2-2026-11-05.md).
 Falta homologação da UI integrada ao Xano nos fluxos de alteração e na matriz
 completa de permissões, com contas/alvos descartáveis e escrita/limpeza definida.
 Nenhuma mutação remota foi executada; 9.2 continua aberta, administração 33/34.
@@ -200,37 +227,41 @@ de destinatário elegível e caixa controlada; administração **22/34** e perfo
 **14/37** mantêm seus critérios. Credenciais não substituem implementação e evidência.
 
 Busca administrativa publicada e validada: tarefa 3.1 concluída, 79 checks reais
-aprovados; administração agora **22/34**. [Entrega e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
+aprovados; administração agora **22/34**. [Entrega e limites](changes/archive/2026-11-12-gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
 ## Listas — concluídas e arquivadas
 
 Change [corrigir-duplicacao-listas-padrao](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/tasks.md): **11/11 tarefas concluídas**. Coleção própria separada, descoberta agrupada por autor com nome à direita do avatar, preparação idempotente publicada no Xano e 16 identidades legadas atribuídas. 411 testes, compilação/build, 18 checks API e 14 critérios de navegador com duas contas reais comprovados. Conta e registros descartáveis removidos; 19 listas e 8 vínculos originais preservados, zero duplicatas/conflitos. [Conclusão e evidências](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md).
 
-Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10/2026 por solicitação do usuário. Limite de chamadas em navegação rápida continua no escopo de performance; validação funcional final foi espaçada conforme a evidência. As três changes funcionais abaixo mantêm suas pendências e contagens.
+Quatro requisitos sincronizados nas specs principais e change arquivada em 26/10/2026 por solicitação do usuário. Limite de chamadas em navegação rápida continua no escopo de performance; validação funcional final foi espaçada conforme a evidência. As duas changes funcionais abaixo mantêm suas pendências e contagens.
 
-## Changes funcionais abertas
+## Changes funcionais em acompanhamento
 
-| Change funcional ativa | Concluídas | Abertas | Critérios restantes |
-| --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
-| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
-| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
+O quadro atual consolidado, as contagens e as evidências de cada change estão em
+[README.md — Estado atual](README.md#estado-atual-14112026). As sete changes
+funcionais somam 64 tarefas abertas; a change documental de reconciliação não
+entra nessa contagem.
 
-As contagens vêm dos checklists, não medem o percentual global do produto.
-As três changes têm planejamento completo; isso não significa implementação concluída.
+Bloqueios com dependências externas:
 
-Evidências mais recentes:
+- **Recuperação:** a conta controlada não foi restaurada após HTTP 403; não
+  repetir pedidos sem nova autorização. [Ensaio de 12/11](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md).
+- **SendGrid/e-mail:** sem domínio autenticado e comparação de entrega na caixa;
+  os adiamentos SPF/DKIM não são resolvidos por template ou reenvio.
+  [Diagnóstico](changes/archive/2026-11-17-melhorar-email-recuperacao/diagnostico-entrega-2026-11-11.md).
+- **Homologação:** sandbox HTTP 500 e criação de workspace HTTP 403; publicação
+  e piloto integrado aguardam destino isolado.
+  [Validação Xano](changes/preparar-homologacao-xano-admin/validation.md).
 
-- [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
-- [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
-- [Administração, 22/10](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
-- [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
+Performance, UI/UX e Cloudinary ainda têm critérios locais, integrados e de
+navegador em aberto; conferir seus checklists e evidências antes de iniciar cada
+lote. Não transferir testes de uma branch/worktree para comprovar outra.
 
-## Critérios administrativos restantes
+## Critérios administrativos restantes — histórico
 
 Registro historico de 27/10: Os 12 IDs abertos são 2.1–2.3, 3.2–3.3, 4.1–4.2, 5.2–5.4 e 9.1–9.2.
-Em 04/11, apos 119 checks reais aprovados, resta somente 9.2.
-[Evidencias atuais](changes/gerenciamento-website/validation/aceite-2026-11-04.md).
+Em 04/11, apos 119 checks reais aprovados, restava somente 9.2.
+[Evidencias da rodada](changes/archive/2026-11-12-gerenciamento-website/validation/aceite-2026-11-04.md).
 Telas/contratos já existem; falta completar os critérios reais indicados no checklist.
 5.1 e 5.5 estão concluídas; 6.2/6.3 tiveram validação local com fixtures.
 As leituras admin reais de 23/10 eliminam a antiga afirmação de que nunca houve
@@ -248,18 +279,18 @@ Esses itens são inventário para próximas changes ou correções autorizadas. 
 | P.3 | Alta antes de hospedar | URL concreta de banner corrigida/testada; execução e armazenamento locais, sem Docker | Manter backup do diretório de uploads; escolher persistência para hospedagem quando essa etapa for solicitada |
 | P.4 | Resolvida | Mensagens de erro de upload corrigidas e verificadas | Testes de rede, HTTP e JSON inválido passaram |
 | P.5 | Resolvida em 14/10/2026 | Contrato multipart e preservação do rascunho/cancelamento corrigidos; browser real validado | Criar/editar/recarregar, rejeitar inválido e cancelar passaram; posts, arquivos staged e blobs de teste limpos. Evidência em `validation/uploads-and-session-2026-10-13.md` |
-| P.6 | Bloqueada na entrega real | Código de seis dígitos implementado/publicado com 15 minutos, cinco tentativas, cooldown e uso único; fluxo de senha verificado no Xano | Confirmar chegada do e-mail e fluxo com caixa controlada. Change `recuperar-senha-codigo-6-digitos`; integração Resend publicada em 22/10, destinatário não elegível para o remetente de testes. Ver evidência Resend na tabela acima |
+| P.6 | Bloqueada na conclusão do ciclo controlado | Recuperação por código de seis dígitos está integrada ao SendGrid; em 12/11 o primeiro código foi recebido e a troca/login temporário foram confirmados, mas o segundo código retornou HTTP 403 antes da restauração. Conta de teste não restaurada. | Resolver a restauração com autorização específica e confirmar ciclo/reuso em caixa controlada. Sem terceiro pedido autorizado. [Evidência](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md); ver também [SendGrid](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/aceite-2026-11-11.md) |
 | P.7 | Média | `/likes` remoto ausente no último registro | Revalidar contrato remoto; manter fallback ou publicar rota após revisão; verificar curtidas sem N+1 |
 | P.8 | Resolvida para retomada | Checkpoints atuais de `docs/` apontam para OpenSpec; histórico anterior preservado | Novas alterações continuam centralizadas no OpenSpec |
 | P.9 | Conforme crescimento | Estado e páginas sociais concentram muitas responsabilidades | Separar por domínio quando houver necessidade concreta, mantendo rotas/eventos e testes relevantes |
 | P.10 | Fora da etapa atual | Publicação/domínio/HTTPS ainda não validados; Docker excluído por decisão do usuário | Definir hospedagem somente quando solicitada; operação atual local com `.venv` |
 | P.11 | Antes de reusar validações | Scripts históricos têm caminhos anteriores ao arquivo e portas fixas | Copiar/adaptar scripts para nova pasta de resultados; preservar arquivo histórico e não criar contas incidentalmente |
-| P.12 | Publicada em 19/10; validação funcional parcial | Três GETs corrigidos publicados após backup de 77 documentos e delta limitado; dry-run final sem mudanças. 18 testes locais passaram; visitante 401 e membro 403 confirmados | Validar buscas, caixa, vazio, filtros e paginação com admin aprovado e interface no navegador. Leituras admin reais posteriores registradas em 23/10; mutações e browser completo continuam pendentes. [Evidência](changes/gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md) |
+| P.12 | Publicada em 19/10; validação funcional parcial | Três GETs corrigidos publicados após backup de 77 documentos e delta limitado; dry-run final sem mudanças. 18 testes locais passaram; visitante 401 e membro 403 confirmados | Validar buscas, caixa, vazio, filtros e paginação com admin aprovado e interface no navegador. Leituras admin reais posteriores registradas em 23/10; mutações e browser completo continuam pendentes. [Evidência](changes/archive/2026-11-12-gerenciamento-website/validation/publicacao-buscas-admin-2026-10-19.md) |
 
-Atualização P.6 em 28/10: os testes locais de recuperação/cooldown passaram
+Registro histórico de P.6 em 28/10: os testes locais de recuperação/cooldown passaram
 (24 testes); a documentação oficial confirma a restrição do remetente de teste.
 Nenhuma chamada ou troca real executada. 3.2/3.4 continuam abertas até envio
-aceito a uma caixa elegível e ciclo/restauração controlados. [Evidências e próximo passo](changes/recuperar-senha-codigo-6-digitos/validation/elegibilidade-resend-2026-10-28.md).
+aceito a uma caixa elegível e ciclo/restauração controlados. [Evidências e próximo passo](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/elegibilidade-resend-2026-10-28.md).
 
 
 ## Ajustes visuais e entregas encerradas

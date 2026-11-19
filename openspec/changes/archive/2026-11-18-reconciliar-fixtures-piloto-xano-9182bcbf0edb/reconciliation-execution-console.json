@@ -1,0 +1,153 @@
+{
+  "layer": "approved_fixture_reconciliation",
+  "workspace": 147717,
+  "run_id": "cbshared_9182bcbf0edb",
+  "passed": true,
+  "remote_writes": 5,
+  "write_attempts": [
+    {
+      "action": "privatize_list_119",
+      "state": "accepted",
+      "started_at": "2026-11-18T09:47:47.660544+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T09:47:47.946495+00:00"
+    },
+    {
+      "action": "delete_list_119",
+      "state": "accepted",
+      "started_at": "2026-11-18T09:47:57.947052+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T09:47:59.427009+00:00"
+    },
+    {
+      "action": "delete_list_120",
+      "state": "accepted",
+      "started_at": "2026-11-18T09:48:09.427839+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T09:48:10.287523+00:00"
+    },
+    {
+      "action": "disable_user_49",
+      "state": "accepted",
+      "started_at": "2026-11-18T09:48:20.287989+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T09:48:21.181518+00:00"
+    },
+    {
+      "action": "disable_user_48",
+      "state": "accepted",
+      "started_at": "2026-11-18T09:48:31.182265+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T09:48:32.194746+00:00"
+    }
+  ],
+  "checks": [
+    {
+      "check": "fixture_identity_references_and_visibility_verified",
+      "passed": true
+    },
+    {
+      "check": "list_119_private_and_hidden",
+      "passed": true
+    },
+    {
+      "check": "list_119_deleted_and_items_preserved",
+      "passed": true
+    },
+    {
+      "check": "list_120_deleted_and_items_preserved",
+      "passed": true
+    },
+    {
+      "check": "user_49_disabled",
+      "passed": true
+    },
+    {
+      "check": "user_48_disabled",
+      "passed": true
+    }
+  ],
+  "fixture_ids": {
+    "users": [
+      48,
+      49
+    ],
+    "lists": [
+      119,
+      120
+    ]
+  },
+  "metadata_api_used_for_lists": true,
+  "phase": "complete",
+  "references": {
+    "119": [],
+    "120": []
+  },
+  "preflight": {
+    "users": {
+      "48": "7c1a1f5744f26b1bb65ffe904bfb40d0725d912eb51b8ab1b67f901843ff8304",
+      "49": "4c959c39666e022291e42d3294325c3e688a8a9dbebc483b00e949539b918d63"
+    },
+    "lists": {
+      "119": "c6e4d539bda6dbf267a98bca0cd3763592abfb045e71e5d0fc86ed6e2b6fba80",
+      "120": "510d409fa7b189c494b2dca86d9571024abd5bfcb9cccb232c23b21e7add3f4d"
+    },
+    "list_count": 40,
+    "item_count": 6,
+    "list_hashes": {
+      "24": "4b7a180d67d0f831b355e3cf56599d2bd7e39e41e639b0f9c3dc020016ea6355",
+      "25": "acb8ce981058c19559d9afce2e87c4fccc8547e511c89a4a296ebd1c26e521ce",
+      "26": "da02eff02327352b0db62d47d9ed0a44a3e927b7cd4f9727bdaeacf37a5f4ea8",
+      "27": "31659c383a2693305f0ddf7edc8251bbd2d01d83c1a7fcbe395d3a4229d56238",
+      "28": "e9708c70f68ad429f10214b6b2e8ea2d7e51571e6d064a6c28b6291a712f5dcd",
+      "29": "be02a9f54bce5f1fa2defdcf2b42de9dadb875949bc7f85bbd10c55d005d83da",
+      "30": "61994e9fa8763af55bdd886971fd44f39ffdfea151ba2686cd9fe9f0082b912b",
+      "31": "68f54a2cc3d5a4d1440a60608871f9eb8cdfd88e22800cdd771d99dad540c8d3",
+      "32": "cdd47755eb02963cab2a884ec043fdf6962ef779b6e9e1aaa3fada5f739c5912",
+      "33": "a4419d1b9039c0d682e19dfa89853abc5036f5cc863d655a761cbaf51e86713c",
+      "34": "86d8e351b5703a2780dd49c736b60bcae9a9b2e12f7009b2cf198dff72793c9e",
+      "35": "ef9625f765c0e2b8fcf2d867d7b52c8e80cfd65dcc82ec3cc3ac5942b3fe8dea",
+      "36": "13442c9a179328c6f3a7a558a73421991cfc7e525818440ee32013f79263af16",
+      "37": "707e8efec8f56b7717ab51646ba094628d0719739265bfb7d9819a46250f8e29",
+      "43": "bf8f2372901152cfe2e8c106ad49f1f16d2008b9793c0447f4d06aa043607641",
+      "44": "9b0c76597c6a68d24619ebb405d607f276844cd420edf9dc7742d6374cce3bae",
+      "45": "763863674af94b3b6944df6d380e1abf66c19ff32f1a82a0451d7e62cf87b63c",
+      "46": "7b695b8a4020cb18e2a0e3da697dd5859265e435af796457b12d99d6282c53a4",
+      "58": "791cabf23be164d1972002f3a751daa19fb77f5c8b4a13fee17e94251e2b4631",
+      "59": "f5ee0a04dbb26145ec92553363e184cbbd6bf176bf6e2c8e4e70f378fb7dea82",
+      "100": "a49e2f6713e823da52a53df2e596a3280ac1b46c7d7a1eb8eead95b20d62cf40",
+      "101": "a68a1e07f771d48b8d26ac301e361120ac5c913fd9b4dc0b9c70c59d3827dd02",
+      "102": "1a1b62a4046b250c517143215f092997b1438e65c4dd2d3d289ce22e7ae956bd",
+      "103": "8ebb9c91116858da60c6ffed19906427b799afc97a6d75f34f5f29cf0eb92392",
+      "104": "52dbdbff72d86a8330a57c8a4c7a3d55d95a2cc04510b10a76f8824127df20d8",
+      "105": "e08446fde18e09667c3b816cbcbd9c68c533ee31721972f4312d09cb99af9bdc",
+      "106": "294f47304e1a9f769531677ea310fb57311a4c9170d0ff17a35254d902f650ea",
+      "107": "e46115495f3cac98d1a9fcd8bd0fad863f75e3f63752c5f5b96f8f8f06934792",
+      "108": "7fdf87560c089d349ea9549141500f40daedac5af7463d9258224acb9f35e4ba",
+      "109": "a3748ee0dca67f97e542a74939dc4c246e9b1f20cd009c7bbba98be31dd6801c",
+      "111": "2e88702d7e7e7d06c58746a1256261dfa3c06fcafc6a796b942a00a2fefcefe3",
+      "112": "4ca409bdecf841774d6ca9a78c26f93d1fe7218c53a8cff35f62a621ea57c1d6",
+      "113": "6b972199097b642703847861064c34a96d64639c35a2cbc26c30a020b9b921fa",
+      "114": "03f86f5c9363a32928928e4569e92c5f6fd9516ae00bd5b0f6ce51a855a5896c",
+      "115": "02f02de8d35ecbb836b6dab193ca08959fe8f29df99a0767bd85ab0b67f3d00d",
+      "116": "797496f69b0546484c2ab515f179b537a734f167ad656d1757343ee1deca78d8",
+      "117": "0fdb9229b8285dde0d810a42f4943cc95259110ffa662202ec2c5d69454432ee",
+      "118": "4b750c9f97a411b4e9781a632f91db52e37f5a00e7dca65c28aae628c81989f3",
+      "119": "c6e4d539bda6dbf267a98bca0cd3763592abfb045e71e5d0fc86ed6e2b6fba80",
+      "120": "510d409fa7b189c494b2dca86d9571024abd5bfcb9cccb232c23b21e7add3f4d"
+    },
+    "item_hashes": {
+      "12": "12d394955b50c1461db35652fbe64d0bdaa363cc9c95c842a8dd56baa3852c22",
+      "13": "1ff28f71cce5f7e89856820cf459e72248bfcea67926de2d931242c24c3122a0",
+      "14": "5985c5029b082dd5f08699bb56f8aa8ff1a6b95a462131bddf0feb82936b6e53",
+      "16": "ee225cedbfaac833266a9d9484cc5da7a416995cddb874ed5b5ed3685738c2a4",
+      "17": "393ebad725b51e84f3ce49e5598570da3cc21f37e20b48c19d54220a76dfde9c",
+      "18": "91e9f7308d3feb5993d3f5776e13b3dbca10980333364ab2db7ca742722f2721"
+    },
+    "public_exposed_fixture_ids": [
+      119
+    ]
+  },
+  "admin_confirmed": true,
+  "completed_at": "2026-11-18T09:48:32.502830+00:00"
+}

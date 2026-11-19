@@ -1,0 +1,18 @@
+{
+  "layer": "supervised_real_xano_pilot",
+  "run_id": "cbshared_9182bcbf0edb",
+  "passed": false,
+  "remote_writes": 0,
+  "checks": [],
+  "fixtures": {},
+  "write_attempts": [],
+  "admin_confirmed": true,
+  "pre_mutation_read_refresh": {
+    "inventory_complete": true,
+    "routing_verified": true,
+    "table_count": 14,
+    "remote_writes": 0,
+    "report_file": "refresh-9d2402ea.json"
+  },
+  "failure_reason": "NameError"
+}

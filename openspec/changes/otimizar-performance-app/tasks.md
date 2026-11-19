@@ -25,6 +25,12 @@ Checklist 14/37 preservado; nao representa aceite global de performance.
 
 # Tasks
 
+12/11/2026 — Cache local para ficha e disponibilidade documentado em
+[evidência](validation/cache-fichas-concorrente-2026-11-12.md). Regressões novas
+cobrem deduplicação concorrente, cópias, erros e identidade legada; 50 testes
+focados e 635 testes locais passaram. É evidência simulada do incremento, não
+benchmark/browser e não encerra tarefas amplas de comparação.
+
 27/10/2026 — retomada após AP2: correção localizada do proxy de medição para
 responder a escritas bloqueadas sem deixar corpo pequeno pendente no socket.
 Vínculo 1.2/9.1/9.2; sem fechamento de tarefas amplas.
@@ -166,6 +172,8 @@ documentais no pedido de cada intervenção. Autorizações anteriores de outra
 rodada não autorizam alterações novas. Manter IDs e histórico.
 
 ## 1. Inventário e linha de base
+
+17/11/2026 — Estratégia vigente: medições no Xano atual com chamadas limitadas; mutações apenas em fixtures próprias do lote revisado. Outro workspace não é necessário. Falhas/429 induzidos permanecem locais; medições reais, metas, persistência e auditoria continuam exigidas. Ver [matriz por frente](../validar-integracoes-xano-atual/matriz-validacao.md). Critérios e checkboxes existentes preservados.
 
 Avanço parcial autorizado em 20/10: instrumento isolado e seis testes simulados
 criados; inventário inicial de rotas e chamadas registrado. Ainda sem medição

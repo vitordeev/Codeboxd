@@ -1,0 +1,59 @@
+{
+  "layer": "supervised_xano_fixture_reconciliation",
+  "run_id": "cbshared_35b8a42f44c4",
+  "passed": true,
+  "remote_writes": 2,
+  "checks": [
+    {
+      "check": "all_fixture_defaults_private",
+      "passed": true
+    },
+    {
+      "check": "fixture_identity_and_role_verified",
+      "passed": true
+    },
+    {
+      "check": "fixture_b_disabled",
+      "passed": true
+    },
+    {
+      "check": "fixture_a_disabled",
+      "passed": true
+    }
+  ],
+  "write_attempts": [
+    {
+      "action": "disable_fixture_b",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:05:18.957566+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:05:19.893453+00:00"
+    },
+    {
+      "action": "disable_fixture_a",
+      "state": "accepted",
+      "started_at": "2026-11-18T01:05:21.148244+00:00",
+      "http_status": 200,
+      "finished_at": "2026-11-18T01:05:21.573079+00:00"
+    }
+  ],
+  "fixture_ids": {
+    "users": [
+      46,
+      47
+    ],
+    "lists": [
+      111,
+      112,
+      113,
+      114
+    ]
+  },
+  "custom_lists_created": 0,
+  "phase": "partial_pilot_aborted_fixtures_disabled",
+  "admin_confirmed": true,
+  "disabled_users": [
+    47,
+    46
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "change": "hospedar-imagens-publicacoes-cloudinary",
+  "approval_reference": "cloudinary-publish-afc1091b59e2",
+  "bundle_sha256": "afc1091b59e2382367b346008c0abd5d399168b748246327853f0428dd92378a",
+  "target": {
+    "workspace_id": 147717,
+    "workspace_name": "Pedro's Workspace",
+    "branch": "v1",
+    "instance": "x8ki-letl-twmt.n7.xano.io"
+  },
+  "publication": {
+    "status": "published",
+    "documents": 13,
+    "command": "xano workspace push -d xano -w 147717 -b v1 -i \"table/post.xs\" -i \"table/post_image_asset.xs\" -i \"function/PostImages/**\" -i \"api/codeboxd/post_image*.xs\" -i \"api/codeboxd/posts_POST.xs\" -i \"api/codeboxd/posts_id_PUT.xs\" -i \"api/codeboxd/posts_id_DELETE.xs\" --transaction --no-guids --force",
+    "force_used_after_preview_and_explicit_user_approval": true,
+    "transaction": true,
+    "records_imported": false,
+    "environment_imported": false,
+    "flags_activated": false,
+    "assets_uploaded_or_deleted": false,
+    "files": [
+      "table/post.xs",
+      "table/post_image_asset.xs",
+      "function/PostImages/create_post.xs",
+      "function/PostImages/queue_cleanup.xs",
+      "function/PostImages/update_post.xs",
+      "function/PostImages/verify_resource.xs",
+      "api/codeboxd/post_image_capabilities_GET.xs",
+      "api/codeboxd/post_image_uploads_POST.xs",
+      "api/codeboxd/post_image_uploads_id_GET.xs",
+      "api/codeboxd/post_image_uploads_id_begin_POST.xs",
+      "api/codeboxd/posts_POST.xs",
+      "api/codeboxd/posts_id_PUT.xs",
+      "api/codeboxd/posts_id_DELETE.xs"
+    ]
+  },
+  "independent_readback": {
+    "backup_directory": ".local/cloudinary-xano-after-push-2026-11-18",
+    "documents": 94,
+    "all_13_documents_present": true,
+    "user_media_comment_post_like_tables_present": true,
+    "current_session_function_present": true,
+    "legacy_post_image_field_preserved": true,
+    "posts_get_returns_full_rows": true,
+    "journal_has_unique_operation_and_resource_indexes": true,
+    "capabilities_endpoint": {
+      "method": "GET",
+      "path": "/api:codeboxd/post-image-capabilities",
+      "status": 200,
+      "uploads_enabled": false,
+      "max_bytes": 5242880
+    },
+    "unauthenticated_reservation": {
+      "method": "POST",
+      "path": "/api:codeboxd/post-image-uploads",
+      "valid_synthetic_payload": true,
+      "status": 401,
+      "reservation_created": false
+    }
+  },
+  "cli_warnings": {
+    "unresolved_reference_warnings": true,
+    "independent_readback_found_referenced_user_media_tables_and_session_function": true,
+    "unfiltered_preview_unrelated_quick_start_syntax_error_excluded_by_filter": true
+  },
+  "local_validation": {
+    "full_suite": "756 passed",
+    "targeted_cloudinary_and_post_image_tests": "55 passed",
+    "reflex_compile_dry": "passed",
+    "pip_check": "passed",
+    "openspec_validate_all": "37 passed, 0 failed",
+    "git_diff_check": "passed with LF/CRLF normalization notices"
+  },
+  "remaining": [
+    "Xano private environment configuration and active flag state beyond the public combined capability result are not independently readable without importing secrets.",
+    "Authenticated API scenarios for active and disabled accounts, recovery sessions, two-account ownership, idempotent database transactions and concurrency remain untested.",
+    "Real Cloudinary upload, post/feed, replace/remove and cleanup scenarios remain untested.",
+    "Browser acceptance at 390px and 1440px remains untested.",
+    "Do not enable CLOUDINARY_UPLOADS_ENABLED or CLOUDINARY_POST_IMAGES_CONTRACT_READY until the remaining acceptance criteria pass."
+  ]
+}

@@ -48,8 +48,9 @@ class SessionRevocationTests(unittest.TestCase):
                 self.assertTrue(stack.startswith('function.run "' + GUARD_NAME + '"'), path.name)
                 allowed = 'allow_reset: true' if 'reset/update_password' in source else 'allow_reset: false'
                 self.assertIn(allowed, stack.split('}', 2)[0], path.name)
-        # 39 existing remote endpoints, local /likes, and two new status routes.
-        self.assertEqual(count, 42)
+        # 39 existing remote endpoints, local /likes, two status routes, and list detail.
+        # Three new owner-only image reservation routes join the protected API.
+        self.assertEqual(count, 46)
 
     def test_guard_insertion_preserves_existing_authorization(self):
         before = 'query "x/{id}" verb=DELETE {\n auth = "user"\n stack {\n precondition ($user.role == "admin") { error_type = "accessdenied" }\n }\n}'

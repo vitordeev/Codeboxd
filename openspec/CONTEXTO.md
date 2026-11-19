@@ -1,4 +1,15 @@
-# Contexto técnico e funcional — 27/10/2026
+# Contexto técnico e funcional — atualização de estado 18/11/2026
+
+Último fechamento: [recuperação de senha 12/12](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/fechamento-2026-11-17.md), restauração autorizada e login/identidade confirmados. A pendência de restauração citada nas entradas anteriores está resolvida, preservando o ensaio original com falha.
+
+17/11 — [Melhoria do e-mail concluída, 5/5](changes/archive/2026-11-17-melhorar-email-recuperacao/aceite-final-2026-11-17.md), após recebimento real e aceite qualitativo do usuário de que está mais rápido. Sem benchmark quantitativo ou SLA; comparação não bloqueia mais esta entrega. Restauração segue separada.
+
+12/11/2026 — `gerenciamento-website` foi arquivada em
+`changes/archive/2026-11-12-gerenciamento-website` após concluir **34/34**
+tarefas no escopo aprovado: leituras administrativas reais em 1440/390, buscas
+vazias e falha parcial controlada (evidência de 11/11). Isso não valida
+mutações, persistência ou auditoria reais; tais verificações exigem change
+futura e ambiente isolado. Os registros datados seguintes preservam seus estados históricos.
 
 05/11/2026 - Aplicacao atualizada em producao local (3030), sem Docker. 494 testes locais, 34 etapas reais desktop/celular e remocao na interface atualizada aprovados; dados descartaveis limpos. Performance 17/37, administracao 33/34 e recuperacao 8/10: **23 tarefas funcionais abertas**. Capa/sinopse mobile corrigida, validada em 20 cenarios e [arquivada](changes/archive/2026-11-05-corrigir-capa-sinopse-mobile/validation.md). [Evidencias e limites desta rodada](changes/otimizar-performance-app/validation/conclusao-2026-11-05.md). Resend: chave restrita ao envio; 401 ao listar dominios nao prova chave invalida. Recebimento/ciclo real de recuperacao continuam pendentes.
 
@@ -34,7 +45,7 @@ Busca administrativa em 27/10: GET /admin/users usa modos separados de ID,
 texto e listagem sem termo, includes com escape de curingas e filtros/paginação
 preservados. Publicado após autorização, com backup e dry-run posterior sem
 delta. 79 checks reais aprovados; tarefa 3.1 concluída, administração **22/34**.
-[Evidências e limites](changes/gerenciamento-website/validation/busca-parametros-2026-10-27.md).
+[Evidências e limites](changes/archive/2026-11-12-gerenciamento-website/validation/busca-parametros-2026-10-27.md).
 
 Listas: coleção pessoal separada de descoberta pública agrupada por autor; nome permanece à direita do avatar. Backend usa `user_list.default_key` anulável e único para proprietário/tipo padrão, preservando personalizadas homônimas. Cadastro e preparação compartilham função que reaproveita a lista sem sobrescrever suas personalizações. Contratos publicados, 16 chaves legadas atribuídas sem perda de 19 listas/8 vínculos e flag privada habilitada. Validação com 411 testes, 18 checks API e 14 critérios de navegador real concluída, incluindo limpeza descartável. [Conclusão da change, 11/11](changes/archive/2026-10-26-corrigir-duplicacao-listas-padrao/validation/conclusao.md). Quatro requisitos sincronizados e change arquivada em 26/10/2026; tabelas históricas abaixo preservam seu contexto original.
 
@@ -56,23 +67,22 @@ Ferramentas/scripts de implantação dessas entregas possuem destinos datados ou
 da change então ativa: adaptar em nova change antes de reutilizar, sem sobrescrever
 os relatórios arquivados. O scanner permanente de commits não depende dessas pastas.
 
-| Change funcional ativa | Concluídas | Abertas | Critérios restantes |
-| --- | ---: | ---: | --- |
-| [gerenciamento-website](changes/gerenciamento-website/tasks.md) | 33/34 | 1 | Aceite completo da interface no navegador real |
-| [otimizar-performance-app](changes/otimizar-performance-app/tasks.md) | 17/37 | 20 | Metas das demais jornadas, comparações completas, mutações, duas contas e browser real |
-| [recuperar-senha-codigo-6-digitos](changes/recuperar-senha-codigo-6-digitos/tasks.md) | 8/10 | 2 | Envio Resend aceito, chegada na caixa e ciclo completo de recuperação |
+## Estado atual das changes — 18/11/2026
 
-As contagens vêm dos checklists, não medem o percentual global do produto.
-As três changes têm planejamento completo; isso não significa implementação concluída.
+As tres changes funcionais ativas somam **28/63 tarefas concluidas e 35 abertas** apos o cancelamento de UI/UX. Fonte: `openspec list --json` e checklists atuais; nao representa percentual de conclusao do produto. Consulte [README.md ? Estado atual](README.md#estado-atual-18112026).
 
-Evidências mais recentes:
 
-- [Performance e conexões Xano, 24/10](changes/otimizar-performance-app/validation/conexoes-xano-2026-10-24.md): 374 testes históricos, compile/build e comparação de leituras reais; não comprova a jornada inteira.
-- [Leituras de admin e membro, 23/10](changes/otimizar-performance-app/validation/retomada-conclusao-2026-10-23.md): 44 e 70 checks, respectivamente; não substituem testes de mutações e navegador administrativo.
-- [Administração, 22/10](changes/gerenciamento-website/validation/retomada-evidencias-2026-10-22.md): 21/34; interface local com fixtures e reports documentados.
-- [Recuperação/Resend, 22/10](changes/recuperar-senha-codigo-6-digitos/validation/resend-integracao-2026-10-22.md): integração publicada; destinatário testado rejeitado pelo remetente de testes, sem entrega comprovada.
+Xano: change validar-integracoes-xano-atual concluída em 6/6. O run cbshared_e695fd5320e4 confirmou persistência/autoria/privacidade via API, limpeza das listas customizadas e desativação auditada; ver tasks.md e recibos. Não houve validação de navegador nesta change backend.
+
+Auditoria e plano anterior: [registro de 17/11](changes/archive/2026-11-17-finalizar-projeto-2026-11-17/relatorio.md). A busca Xano local e o resultado de 675 testes sao historicos; UI/UX foi cancelada em 18/11, implementacao revertida e tarefas abertas. Consulte `changes/archive/2026-11-18-modernizar-ui-ux-codeboxd/cancelamento-2026-11-18.md`.
 
 ## Produto e arquitetura
+
+17/11 — [Fechamento SendGrid](changes/archive/2026-11-17-integrar-sendgrid-recuperacao/fechamento-2026-11-17.md), com spec sincronizada em `recovery-email-delivery`, e arquivo das duas changes documentais 4/4. A restauração da conta não foi executada nem marcada concluída por esse fechamento.
+
+17/11 — [Reformulação autorizada](changes/archive/2026-11-18-validar-integracoes-xano-atual/matriz-validacao.md): a preparação isolada foi supersedida em 4/8, sem declarar entrega dos quatro itens restantes. O inventário bruto inclui as caixas históricas descontinuadas; o quadro vigente usa a substituta. Planejador offline validado em 18 testes; suíte atual 736/736 e OpenSpec 39/39. Nenhum provisionamento ou mutação remota nesta reformulação.
+
+Atualização de 18/11: Cloudinary permanece 6/17. 756 testes e compilação Reflex passaram; 13 contratos publicados e confirmados por leitura independente, com upload desativado. Testes integrados autenticados e navegador ainda pendentes. [Recibo](changes/hospedar-imagens-publicacoes-cloudinary/xano-contract-execution-2026-11-18.json).
 
 Tradução opcional: `services/translation.py` usa DEEPL_API_KEY somente no servidor
 para descrições das fichas Kitsu/Jikan/Open Library, com destino PT-BR, cache
@@ -133,7 +143,7 @@ no Xano. Trocar nota mantém a crítica em edição. [Evidência](changes/archiv
 | Seguidores | Seguir/deixar de seguir, sem duplicata nem auto-seguimento; feed dos seguidos | `specs/social-connections/`, `specs/data-social-connections/` |
 | Feed | Posts com mídia opcional, curtidas, comentários e autoria; imagem multipart e pesquisa de obra adicionadas posteriormente | `specs/social-feed/`, `specs/data-social-content/`; complementos em HISTORICO.md |
 | Listas | Listas públicas/privadas, ownership, itens sem duplicata, mesma mídia em listas diferentes | `specs/user-lists/`, `specs/data-user-lists/` |
-| Administração | Login dedicado, dashboard, pesquisa de contas, suspensão/reativação, correção/cadastro de obras e reports | Deltas em `changes/gerenciamento-website/specs/`; ainda não consolidados como entrega concluída |
+| Administração | Login dedicado, dashboard, pesquisa de contas, suspensão/reativação, correção/cadastro de obras e reports | Contratos principais em `specs/admin-dashboard/`, `specs/admin-user-management/`, `specs/admin-catalog-management/` e `specs/content-moderation/`; aceite integrado limitado a leituras, conforme change arquivada |
 
 ## Fontes e compatibilidade
 
@@ -152,12 +162,16 @@ O último registro remoto de `/likes` é HTTP 404. O feed usa `/posts/{id}/discu
 
 ## Segurança e dados
 
-Recuperação de senha atualizada em 14/10: código de seis dígitos, 15 minutos,
-até cinco tentativas, intervalo de 60 segundos para reenvio e uso único sob
-transação por conta. Envio pelo Xano integrado ao Resend desde 22/10; token intermediário de cinco
-minutos não é salvo como sessão no navegador. Contratos publicados e testes
-remotos/browser passaram, mas chegada em caixa real continua pendente na change
-`recuperar-senha-codigo-6-digitos` (P.6). UUIDs antigos exigem novo pedido. O serviço nativo falhou; Resend foi publicado, mas rejeitou o destinatário testado com o remetente de testes. Entrega e ciclo real permanecem abertos (8/10).
+Recuperação de senha usa código de seis dígitos, validade de 15 minutos, até
+cinco tentativas, cooldown de 60 segundos e uso único sob transação por conta.
+O endpoint Xano de recuperação está integrado ao SendGrid; o token intermediário
+de cinco minutos não é salvo como sessão no navegador. Em 12/11, o primeiro
+código foi recebido e a troca/login temporário foram confirmados; a validação do
+segundo código retornou HTTP 403 antes da restauração. A conta controlada
+permanece sem restauração e não houve autorização para um terceiro pedido.
+Recuperação está em 11/12; ver [evidência do ensaio](changes/archive/2026-11-17-recuperar-senha-codigo-6-digitos/validation/ciclo-controlado-2026-11-12.md).
+Entrega de e-mail e comparação real continuam dependentes de domínio autenticado
+e caixa controlada; não inferir entrega a partir da aceitação HTTP do provedor.
 
 Rodada 13–14/10/2026: tabela report e nove endpoints administrativos foram
 publicados; os quatro GETs rejeitaram visitante/membro, com admin/desativado e
@@ -166,7 +180,7 @@ opcional `file image_upload`, convertida em metadados após autorização; `imag
 existente continua compatível. Rascunhos são preservados em falha transitória de
 sessão e descartados com limpeza de arquivo ao cancelar. Browser de imagem passou
 com limpeza local/remota. Referências em `validation/uploads-and-session-2026-10-13.md`
-e `changes/gerenciamento-website/validation/publicacao-admin-2026-10-13.md`.
+e `changes/archive/2026-11-12-gerenciamento-website/validation/publicacao-admin-2026-10-13.md`.
 
 Autoria/ator vêm de `$auth.id`, não do payload. Endpoints protegem propriedade e acesso; listas privadas são filtradas no backend. Administração exige `admin` ativo em cada operação. Papel `moderator` não concede acesso administrativo automaticamente. Logs e respostas devem excluir credenciais.
 

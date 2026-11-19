@@ -1,0 +1,22 @@
+{
+  "layer": "supervised_real_xano_pilot",
+  "run_id": "cbshared_4ebe72bb683c",
+  "passed": false,
+  "remote_writes": 0,
+  "checks": [],
+  "fixtures": {},
+  "write_attempts": [],
+  "admin_confirmed": true,
+  "pre_mutation_read_refresh": {
+    "inventory_complete": true,
+    "routing_verified": true,
+    "table_count": 14,
+    "remote_writes": 0,
+    "report_file": "refresh-4f5cdc6a.json",
+    "existing_table_drift": [
+      "user"
+    ]
+  },
+  "baseline_file": ".local/shared-xano-preflight-20261117-final/baseline-hashes.json",
+  "failure_reason": "existing_data_changed_since_review"
+}
