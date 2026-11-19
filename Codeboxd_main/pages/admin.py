@@ -14,7 +14,7 @@ def admin_login_page() -> rx.Component:
                 rx.el.span("code", rx.el.span("boxd", class_name="brand-yellow")),
                 href="/",
                 class_name="brand admin-login-brand",
-                aria_label="Codeboxd — início",
+                aria_label="Codeboxd home",
             ),
             rx.el.div(
                 rx.el.div(
@@ -109,8 +109,8 @@ def _admin_pagination(page, next_page, loading, on_page) -> rx.Component:
     )
 
 
-def _metric_card(title: str, key: str, icon: str, detail: str) -> rx.Component:
-    return rx.el.article(
+def _metric_card(title: str, key: str, icon: str, detail: str, href: str = '') -> rx.Component:
+    content = rx.el.div(
         rx.el.div(
             rx.el.div(rx.icon(icon, size=19), class_name="admin-metric-icon"),
             rx.el.span(title, class_name="admin-metric-label"),
@@ -118,7 +118,78 @@ def _metric_card(title: str, key: str, icon: str, detail: str) -> rx.Component:
         ),
         rx.el.p(AdminState.dashboard_stats[key], class_name="admin-metric-value"),
         rx.el.p(detail, class_name="admin-metric-detail"),
-        class_name="admin-metric-card",
+        class_name="admin-metric-content",
+    )
+    if href:
+        return rx.el.a(content, href=href, aria_label=f"Abrir área: {title}",
+            class_name="admin-metric-card admin-metric-link")
+    return rx.el.article(content, class_name="admin-metric-card")
+
+
+def _admin_header() -> rx.Component:
+    return rx.el.header(
+        rx.el.a(
+            _logo_icon(), rx.el.span("code", rx.el.span("boxd", class_name="brand-yellow")),
+            href="/", class_name="brand admin-dashboard-brand", aria_label="Codeboxd home",
+        ),
+        rx.el.div(
+            rx.el.span("Administração", class_name="admin-header-label"),
+            rx.el.div(
+                rx.el.button(
+                    rx.cond(
+                        AdminState.admin_avatar_url != "",
+                        rx.el.img(src=AdminState.admin_avatar_url, alt="", aria_hidden=True,
+                            class_name="admin-account-avatar-image"),
+                        rx.el.span(AdminState.admin_initials, aria_hidden=True,
+                            class_name="admin-account-avatar-fallback"),
+                    ),
+                    type="button", on_click=AdminState.toggle_admin_identity,
+                    aria_label="Abrir identidade da pessoa administradora",
+                    aria_expanded=AdminState.admin_identity_open,
+                    aria_controls="admin-identity-panel", class_name="admin-account-trigger",
+                ),
+                rx.cond(
+                    AdminState.admin_identity_open,
+                    rx.el.div(
+                        rx.el.p(
+                            rx.cond(AdminState.admin_display_name != "", AdminState.admin_display_name,
+                                AdminState.user_name),
+                            class_name="admin-account-name",
+                        ),
+                        rx.el.p(
+                            "@" + rx.cond(AdminState.admin_username != "", AdminState.admin_username,
+                                AdminState.user_name),
+                            class_name="admin-account-username",
+                        ),
+                        rx.el.p(AdminState.admin_role_label, class_name="admin-account-role"),
+                        rx.cond(
+                            AdminState.admin_identity_loading,
+                            rx.el.p("Loading profile...", role="status", class_name="admin-account-note"),
+                            rx.fragment(),
+                        ),
+                        rx.cond(
+                            AdminState.admin_identity_error != "",
+                            rx.el.div(
+                                rx.el.p("Profile photo and display name unavailable; session identity is preserved.",
+                                    role="status", class_name="admin-account-note"),
+                                rx.el.button("Tentar novamente", type="button",
+                                    on_click=AdminState.retry_admin_identity,
+                                    disabled=AdminState.admin_identity_loading,
+                                    class_name="admin-account-retry"),
+                            ),
+                            rx.fragment(),
+                        ),
+                        id="admin-identity-panel", class_name="admin-account-panel",
+                    ),
+                    rx.fragment(),
+                ),
+                class_name="admin-account",
+            ),
+            rx.el.button("Sair", type="button", on_click=AdminState.logout,
+                class_name="quiet-button admin-logout-button"),
+            class_name="admin-header-actions",
+        ),
+        class_name="admin-dashboard-header",
     )
 
 
@@ -177,22 +248,7 @@ def _admin_sidebar(active: str) -> rx.Component:
 
 def admin_dashboard_page() -> rx.Component:
     return rx.el.div(
-        rx.el.header(
-            rx.el.a(
-                _logo_icon(),
-                rx.el.span("code", rx.el.span("boxd", class_name="brand-yellow")),
-                href="/",
-                class_name="brand admin-dashboard-brand",
-                aria_label="Codeboxd — início",
-            ),
-            rx.el.div(
-                rx.el.span("Administração", class_name="admin-header-label"),
-                rx.el.button("Sair", type="button", on_click=AdminState.logout,
-                    class_name="quiet-button admin-logout-button"),
-                class_name="admin-header-actions",
-            ),
-            class_name="admin-dashboard-header",
-        ),
+        _admin_header(),
         rx.el.main(
             _admin_sidebar("dashboard"),
             rx.el.section(
@@ -232,10 +288,13 @@ def admin_dashboard_page() -> rx.Component:
                     rx.fragment(),
                 ),
                 rx.el.div(
-                    _metric_card("Usuários", "users_total", "users-round", "Contas cadastradas"),
+                    _metric_card("Usuários", "users_total", "users-round", "Contas cadastradas",
+                        href="/admin/users"),
                     _metric_card("Publicações", "posts_total", "messages-square", "Histórias compartilhadas"),
-                    _metric_card("Obras no catálogo", "media_total", "clapperboard", "Filmes, séries, livros e animes"),
-                    _metric_card("Reports pendentes", "reports_pending", "flag", "Aguardando análise"),
+                    _metric_card("Obras no catálogo", "media_total", "clapperboard",
+                        "Filmes, séries, livros e animes", href="/admin/catalog/movies"),
+                    _metric_card("Reports pendentes", "reports_pending", "flag", "Aguardando análise",
+                        href="/admin/reports"),
                     class_name="admin-metrics-grid",
                 ),
                 rx.el.section(
@@ -335,31 +394,19 @@ def _admin_user_row(user: dict[str, str]) -> rx.Component:
 
 def admin_users_page() -> rx.Component:
     return rx.el.div(
-        rx.el.header(
-            rx.el.a(
-                _logo_icon(), rx.el.span("code", rx.el.span("boxd", class_name="brand-yellow")),
-                href="/", class_name="brand admin-dashboard-brand", aria_label="Codeboxd — início",
-            ),
-            rx.el.div(
-                rx.el.span("Administração", class_name="admin-header-label"),
-                rx.el.button("Sair", type="button", on_click=AdminState.logout,
-                    class_name="quiet-button admin-logout-button"),
-                class_name="admin-header-actions",
-            ),
-            class_name="admin-dashboard-header",
-        ),
+        _admin_header(),
         rx.el.main(
             _admin_sidebar("users"),
             rx.el.section(
                 rx.el.p("GERENCIAMENTO DE CONTAS", class_name="admin-page-eyebrow"),
                 rx.el.h1("Usuários", class_name="admin-page-title"),
-                rx.el.p("Pesquise contas e gerencie seu acesso ao Codeboxd.", class_name="admin-page-description"),
+                rx.el.p("Consulte contas ou pesquise por nome, usuário ou ID.", class_name="admin-page-description"),
                 rx.el.form(
                     rx.el.label("Buscar por nome, usuário ou ID", html_for="admin-user-search",
                         class_name="admin-search-label"),
                     rx.el.div(
                         rx.el.input(
-                            id="admin-user-search", name="search", type="search", required=True,
+                            id="admin-user-search", name="search", type="search",
                             placeholder="Ex.: nome de usuário ou 123", class_name="admin-search-input",
                             default_value=AdminState.users_query,
                         ),
@@ -405,7 +452,9 @@ def admin_users_page() -> rx.Component:
                             rx.el.p("Nenhuma conta encontrada para esta pesquisa."),
                             class_name="admin-activity-empty"),
                         rx.el.div(rx.icon("search", size=24),
-                            rx.el.p("Pesquise por nome, usuário ou identificador para consultar contas."),
+                        rx.el.p(rx.cond(AdminState.users_loaded,
+                            "Nenhuma conta corresponde aos filtros atuais.",
+                            "Carregando a lista de contas…")),
                             class_name="admin-activity-empty"),
                     ),
                 ),
@@ -489,19 +538,7 @@ def admin_catalog_page(media_type: str) -> rx.Component:
     labels = {"movie": "Filmes", "series": "Séries", "book": "Livros", "anime": "Animes"}
     label = labels[media_type]
     return rx.el.div(
-        rx.el.header(
-            rx.el.a(
-                _logo_icon(), rx.el.span("code", rx.el.span("boxd", class_name="brand-yellow")),
-                href="/", class_name="brand admin-dashboard-brand", aria_label="Codeboxd — início",
-            ),
-            rx.el.div(
-                rx.el.span("Administração", class_name="admin-header-label"),
-                rx.el.button("Sair", type="button", on_click=AdminState.logout,
-                    class_name="quiet-button admin-logout-button"),
-                class_name="admin-header-actions",
-            ),
-            class_name="admin-dashboard-header",
-        ),
+        _admin_header(),
         rx.el.main(
             _admin_sidebar(media_type),
             rx.el.section(
@@ -675,19 +712,7 @@ def _report_card(report: dict[str, str]) -> rx.Component:
 
 def admin_reports_page() -> rx.Component:
     return rx.el.div(
-        rx.el.header(
-            rx.el.a(
-                _logo_icon(), rx.el.span("code", rx.el.span("boxd", class_name="brand-yellow")),
-                href="/", class_name="brand admin-dashboard-brand", aria_label="Codeboxd — início",
-            ),
-            rx.el.div(
-                rx.el.span("Administração", class_name="admin-header-label"),
-                rx.el.button("Sair", type="button", on_click=AdminState.logout,
-                    class_name="quiet-button admin-logout-button"),
-                class_name="admin-header-actions",
-            ),
-            class_name="admin-dashboard-header",
-        ),
+        _admin_header(),
         rx.el.main(
             _admin_sidebar("reports"),
             rx.el.section(

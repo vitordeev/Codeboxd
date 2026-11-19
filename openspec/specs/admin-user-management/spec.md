@@ -45,3 +45,19 @@ O sistema MUST registrar a ação administrativa aplicada à conta, a pessoa res
 #### Scenario: Ação administrativa concluída
 - **WHEN** uma conta é suspensa ou reativada
 - **THEN** o sistema preserva um registro auditável da ação e de seu responsável
+
+
+### Requirement: Listagem inicial paginada de usuarios
+A area administrativa de usuarios MUST poder mostrar contas existentes em paginas quando a busca estiver vazia, mantendo os filtros e a protecao administrativa existentes. A listagem MUST continuar excluindo senhas, tokens e outros segredos.
+
+#### Scenario: Administradora abre a area sem busca
+- **WHEN** uma administradora acessa a area de usuarios sem informar um termo de busca
+- **THEN** o sistema apresenta a primeira pagina de contas autorizadas ou um estado vazio claro se nao houver resultados
+
+#### Scenario: Administradora navega pelas paginas sem busca
+- **WHEN** existem mais contas do que cabem na pagina atual e a busca permanece vazia
+- **THEN** a paginacao carrega a pagina seguinte sem exigir ou inventar um termo de busca
+
+#### Scenario: Pessoa sem acesso administrativo tenta abrir a listagem
+- **WHEN** uma pessoa sem papel administrativo solicita a listagem inicial
+- **THEN** o backend rejeita a consulta e nao revela dados das contas

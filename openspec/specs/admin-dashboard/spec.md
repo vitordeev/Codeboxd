@@ -64,3 +64,38 @@ O sistema MUST oferecer a rota `/admin/login` com formulário de e-mail e senha 
 #### Scenario: Sessão administrativa existente
 - **WHEN** uma pessoa administradora autenticada abre `/admin/login`
 - **THEN** o sistema redireciona para `/admin` sem solicitar as credenciais novamente
+
+
+### Requirement: Indicadores do dashboard abrem suas areas administrativas
+O dashboard MUST permitir abrir a area administrativa correspondente a cada indicador que tenha uma secao de gerenciamento existente. O card de publicacoes MUST permanecer informativo enquanto nao houver uma secao administrativa de publicacoes.
+
+#### Scenario: Administradora abre usuarios pelo indicador
+- **WHEN** a administradora seleciona o indicador de usuarios
+- **THEN** o sistema abre a area de usuarios e apresenta uma listagem inicial paginada sem exigir um termo de busca
+
+#### Scenario: Administradora abre o catalogo pelo indicador
+- **WHEN** a administradora seleciona o indicador de obras cadastradas
+- **THEN** o sistema abre a secao existente de catalogo, com acesso as abas por tipo de obra
+
+#### Scenario: Administradora abre reports pelo indicador
+- **WHEN** a administradora seleciona o indicador de reports pendentes
+- **THEN** o sistema abre a fila de reports com o filtro de pendentes aplicado
+
+#### Scenario: Indicador sem area administrativa correspondente
+- **WHEN** o dashboard apresenta o indicador de publicacoes e nao existe secao administrativa de publicacoes
+- **THEN** o indicador permanece informativo e nao leva a uma area sem relacao ou inexistente
+
+### Requirement: Identificacao compacta da pessoa administradora
+As paginas administrativas MUST apresentar um controle de avatar circular para a sessao administrativa validada. Ao ativa-lo, o controle MUST mostrar o nome de exibicao, o nome de usuario e o cargo da sessao atual. A identidade e o cargo MUST vir de dados verificados pelo servidor, e a interface MUST oferecer fallback legivel quando nao houver avatar ou perfil completo.
+
+#### Scenario: Administradora abre os dados da propria sessao
+- **WHEN** uma administradora autenticada ativa seu avatar no cabecalho
+- **THEN** o painel mostra o nome, o nome de usuario e o cargo administrativo associados a sessao atual
+
+#### Scenario: Perfil sem foto ou dados complementares
+- **WHEN** a sessao administrativa nao possui foto ou algum dado opcional de perfil
+- **THEN** o cabecalho mostra um fallback visual e usa somente os dados disponiveis da sessao sem bloquear a navegacao
+
+#### Scenario: Pessoa sem acesso administrativo tenta obter a identidade administrativa
+- **WHEN** uma pessoa visitante ou membro solicita os dados destinados ao cabecalho administrativo
+- **THEN** o backend rejeita a solicitacao sem revelar dados administrativos

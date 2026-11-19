@@ -45,3 +45,19 @@ O sistema MUST verificar a identidade externa e o tipo da obra antes de cadastra
 #### Scenario: Obra ainda não cadastrada
 - **WHEN** a identidade externa e o tipo não correspondem a um registro existente
 - **THEN** o sistema permite criar o registro somente após validar os campos exigidos
+
+
+### Requirement: Paginacao ampliada nas abas de filmes, series e animes
+As abas administrativas de filmes, series e animes MUST solicitar ate 35 registros existentes por pagina, preservando busca, ordenacao, identidade dos registros e paginacao. O sistema MUST apresentar apenas os registros disponiveis; nao deve criar, importar ou simular obras para completar a pagina. A aba de livros mantem o tamanho de pagina atual.
+
+#### Scenario: Existem ao menos 35 obras na categoria
+- **WHEN** uma administradora abre a primeira pagina de filmes, series ou animes com pelo menos 35 registros correspondentes
+- **THEN** a secao apresenta 35 registros reais e mantem a paginacao para os demais
+
+#### Scenario: Existem menos de 35 obras na categoria
+- **WHEN** a categoria ou o resultado da busca contem menos de 35 registros
+- **THEN** a secao apresenta somente os registros existentes e informa corretamente o estado vazio ou a quantidade disponivel
+
+#### Scenario: Categoria nao incluida no aumento
+- **WHEN** a administradora abre a aba de livros
+- **THEN** a paginacao conserva o tamanho de pagina vigente para livros

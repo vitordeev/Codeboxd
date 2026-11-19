@@ -143,6 +143,57 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotIn("password", self.state.users[0])
         self.assertEqual(self.state.users_total, 1)
 
+    async def test_users_page_loads_and_paginates_without_a_search_term(self):
+        self.state.session_token = "admin-token"
+        first = {"items": [{"id": 1, "username": "admin", "name": "Admin", "role": "admin"}],
+                 "total": 26, "page": 1, "next_page": 2}
+        second = {"items": [{"id": 2, "username": "member", "name": "Member", "role": "member"}],
+                  "total": 26, "page": 2, "next_page": 0}
+        with patch("Codeboxd_main.state.session.request", new=AsyncMock(
+                return_value={"id": 1, "role": "admin", "username": "admin"})), \
+                patch("Codeboxd_main.state.admin.request", new=AsyncMock(side_effect=[first, second])) as request:
+            async for _ in self.state.guard_users_page():
+                pass
+            self.assertTrue(self.state.users_loaded)
+            self.assertEqual(self.state.users[0]["username"], "admin")
+            async for _ in self.state.change_users_page(2):
+                pass
+
+        self.assertEqual(request.await_args_list[0].kwargs["params"], {
+            "search": "", "page": 1, "per_page": 25, "account_status": "", "role": "",
+        })
+        self.assertEqual(request.await_args_list[1].kwargs["params"], {
+            "search": "", "page": 2, "per_page": 25, "account_status": "", "role": "",
+        })
+        self.assertEqual(self.state.users_page, 2)
+
+    async def test_avatar_click_loads_only_the_current_admin_identity(self):
+        self.state.session_token = "admin-token"
+        with patch("Codeboxd_main.state.session.request", new=AsyncMock(return_value={
+                "id": 1, "role": "admin", "username": "victor"})), \
+                patch("Codeboxd_main.state.admin.request", new=AsyncMock(return_value={
+                    "id": 1, "username": "victor", "name": "Victor", "display_name": "Victor Dev",
+                    "avatar_url": "https://images.example/admin.png", "role": "admin"})) as request:
+            async for _ in self.state.toggle_admin_identity():
+                pass
+
+        request.assert_awaited_once_with("GET", "/admin/me", group="social", token="admin-token")
+        self.assertTrue(self.state.admin_identity_open)
+        self.assertEqual(self.state.admin_display_name, "Victor Dev")
+        self.assertEqual(self.state.admin_username, "victor")
+        self.assertEqual(self.state.admin_avatar_url, "https://images.example/admin.png")
+
+    async def test_member_cannot_load_admin_identity(self):
+        self.state.session_token = "member-token"
+        with patch("Codeboxd_main.state.session.request", new=AsyncMock(return_value={
+                "id": 7, "role": "member", "username": "member"})), \
+                patch("Codeboxd_main.state.admin.request", new=AsyncMock()) as request:
+            events = [event async for event in self.state.toggle_admin_identity()]
+
+        request.assert_not_awaited()
+        self.assertFalse(self.state.admin_identity_open)
+        self.assertTrue(events)
+
     async def test_user_search_rejects_member_before_reading_accounts(self):
         self.state.session_token = "member-token"
         with patch(
@@ -228,7 +279,7 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
 
         request.assert_awaited_once_with(
             "GET", "/admin/catalog", group="social", token="admin-token",
-            params={"media_type": "movie", "search": "", "page": 1, "per_page": 25},
+            params={"media_type": "movie", "search": "", "page": 1, "per_page": 35},
         )
         self.assertEqual(self.state.catalog_items[0]["identity_key"], "tmdb:movie:329865")
         self.assertNotIn("details", self.state.catalog_items[0])
@@ -250,7 +301,8 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
         self.state.session_token = 'admin-token'
         for kind, loader in [('movie', self.state.load_catalog_movies),
                              ('series', self.state.load_catalog_series),
-                             ('book', self.state.load_catalog_books)]:
+                             ('book', self.state.load_catalog_books),
+                             ('anime', self.state.load_catalog_anime)]:
             with self.subTest(kind=kind):
                 self.state.catalog_query = 'Filtro anterior'
                 self.state.catalog_page = 9
@@ -261,7 +313,8 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
                     async for _ in loader():
                         pass
                 self.assertEqual(request.await_args.kwargs['params'],
-                                 {'media_type': kind, 'search': '', 'page': 1, 'per_page': 25})
+                                 {'media_type': kind, 'search': '', 'page': 1,
+                                  'per_page': 25 if kind == 'book' else 35})
                 self.assertEqual(self.state.catalog_items[0]['title'], 'Obra cadastrada')
 
     async def test_show_all_catalog_clears_search_and_search_still_filters(self):
@@ -277,6 +330,30 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
                 pass
             self.assertEqual(request.await_args.kwargs['params']['search'], '')
             self.assertEqual(self.state.catalog_query, '')
+
+    async def test_catalog_keeps_real_counts_for_small_empty_and_rate_limited_results(self):
+        self.state.session_token = 'admin-token'
+        small = {'items': [{'id': 1, 'title': 'Only one', 'media_type': 'movie'}],
+                 'total': 1, 'page': 1, 'next_page': 0}
+        empty = {'items': [], 'total': 0, 'page': 1, 'next_page': 0}
+        with patch('Codeboxd_main.state.session.request', new=AsyncMock(
+                return_value={'id': 1, 'role': 'admin'})), \
+                patch('Codeboxd_main.state.admin.request', new=AsyncMock(
+                    side_effect=[small, empty, APIError('Rate limited', 429)])) as request:
+            async for _ in self.state.load_catalog_movies():
+                pass
+            self.assertEqual(len(self.state.catalog_items), 1)
+            self.assertEqual(self.state.catalog_total, 1)
+            async for _ in self.state.load_catalog_movies():
+                pass
+            self.assertEqual(self.state.catalog_items, [])
+            self.assertEqual(self.state.catalog_total, 0)
+            async for _ in self.state.load_catalog_movies():
+                pass
+
+        self.assertEqual(request.await_count, 3)
+        self.assertEqual(self.state.catalog_error, 'Rate limited')
+        self.assertEqual(self.state.session_token, 'admin-token')
 
     async def test_invalid_catalog_year_preserves_editor_and_does_not_write(self):
         self.state.catalog_edit_id = "42"
