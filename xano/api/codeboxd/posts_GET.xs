@@ -11,7 +11,10 @@ db.query post {
  sort = {post.id: "desc"}
  return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, metadata: false}}
 } as $rows
+api.lambda {
+ code = "return Array.isArray($var.rows) ? $var.rows.map(row => { const safe = {...row}; delete safe.image_asset_record_id; return safe; }) : null;"
+} as $public_rows
  }
- response = $rows
+ response = $public_rows
  guid = "EKfPmWtb4TCU-2nCYk6mkiHApxQ"
 }

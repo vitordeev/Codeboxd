@@ -140,6 +140,17 @@ retenção e estado. Autorização envelhecida ou estado alterado invalida o ite
 Falha preserva pendência/auditoria e não destrói a imagem nova ou histórica.
 Proposta explícita de retenção/lote não é configuração real já aplicada.
 
+Execução supervisionada local: a aprovação é o SHA-256 exato da prévia e a
+leitura autenticada fresca deve reproduzir o mesmo lote. Antes do provedor, o
+Xano reivindica cada registro em transação, sob lock, revalidando retenção,
+identidade e zero referências, com transição `cleanup_pending` para
+`reconciliation_required`. O executor consulta o recurso Cloudinary por
+identidade conhecida, compara asset_id/versão/formato/tamanho/dimensões e só
+então faz uma chamada assinada `destroy`. Resultado confirmado marca `deleted`;
+timeout ou resposta ambígua conserva `reconciliation_required`. Chamadas de
+escrita não são repetidas automaticamente; erro ao finalizar o journal exige
+reconciliação manual antes de qualquer nova ação.
+
 ### 5. Matriz dos onze fluxos exigidos
 
 | Fluxo | Comportamento esperado / evidência de aceite |

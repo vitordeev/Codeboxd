@@ -91,7 +91,7 @@ The system SHALL prevent users from modifying or deleting lists created by other
 - **THEN** the system SHALL deny the modification
 
 ### Requirement: Separate personal and public list discovery
-The system SHALL display only the authenticated owner's lists in the personal list collection. Other users' public lists SHALL be shown in a separately identified discovery context with ownership distinguishable. Visitors SHALL receive only public discovery content.
+The system SHALL display only the authenticated owner's lists in the personal list collection. Other users' public lists SHALL be shown in a separately identified discovery context with ownership distinguishable. Visitors SHALL receive only public discovery content. The authenticated `/listas` page MUST NOT show an “Explorar listas públicas” button; it MUST retain the personal lists control and visitors MUST continue to see public lists.
 
 #### Scenario: Identical standard titles across owners
 - **WHEN** an authenticated user opens their personal lists and other profiles have public lists with identical titles
@@ -106,6 +106,14 @@ The system SHALL display only the authenticated owner's lists in the personal li
 - **WHEN** a visitor opens list discovery
 - **THEN** only public lists SHALL be accessible and no personal collection SHALL be attributed to that visitor
 
+#### Scenario: Authenticated list page omits public exploration control
+- **WHEN** an authenticated user opens `/listas`
+- **THEN** the page shows the personal lists control without an “Explorar listas públicas” button
+
+#### Scenario: Personal list actions appear beside each other
+- **WHEN** an authenticated user opens their personal list collection
+- **THEN** “Minhas listas” and “Criar lista” SHALL appear in the same responsive action row
+- **AND** “Criar lista” SHALL remain unavailable outside the personal collection
 ### Requirement: Public lists grouped by owner
 The system SHALL group public lists by owner, displaying each owner's avatar and name as a profile link above their lists. Missing profile data SHALL use a neutral fallback without misattributing ownership or hiding public lists.
 

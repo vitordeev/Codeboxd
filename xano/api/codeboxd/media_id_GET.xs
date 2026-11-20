@@ -8,7 +8,7 @@ db.get media {
  field_name = "id"
  field_value = $input.id
 } as $result
-precondition ($result != null) {
+precondition ($result != null && $result.moderation_hidden != true) {
   error_type = "notfound"
   error = "Registro não encontrado."
 }

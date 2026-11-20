@@ -494,22 +494,25 @@ def book_item(item: dict) -> dict:
                  'Páginas': str(item.get('number_of_pages_median') or 'Não informado')})
 
 
-async def home_collection(key: str) -> list[dict]:
+async def home_collection(key: str, page: int = 1) -> list[dict]:
+    page = max(1, int(page))
     kind, _, _, selection = HOME_COLLECTIONS[key]
     if kind in ('movie', 'series'):
         token = os.getenv('TMDB_READ_TOKEN', '').strip()
         if not token: raise APIError('O catálogo de filmes e séries está indisponível.')
         payload = await fetch('https://api.themoviedb.org/3/' + selection,
-            params={'language': 'pt-BR', 'page': 1, 'region': 'BR'},
+            params={'language': 'pt-BR', 'page': page, 'region': 'BR'},
             headers={'Authorization': f'Bearer {token}'}, cache=True)
         items = [tmdb_item(item, kind) for item in payload.get('results', []) if not item.get('adult')]
     elif kind == 'anime':
-        payload = await kitsu_fetch('/anime', **{'sort': selection, 'page[limit]': 20, 'include': 'mappings'})
+        payload = await kitsu_fetch('/anime', **{
+            'sort': selection, 'page[limit]': 20, 'page[offset]': (page - 1) * 20,
+            'include': 'mappings'})
         items = kitsu_items(payload)
     else:
         if selection.startswith('title:'):
             payload = await fetch('https://openlibrary.org/search.json', params={
-                'title': selection.removeprefix('title:'), 'lang': 'pt', 'limit': 20,
+                'title': selection.removeprefix('title:'), 'lang': 'pt', 'page': page, 'limit': 20,
                 'fields': 'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'}, cache=True)
             items = [book_item(item) for item in payload.get('docs', [])]
         elif selection.startswith('titles:'):
@@ -517,13 +520,13 @@ async def home_collection(key: str) -> list[dict]:
             # independently than when several titles are combined in `q`.
             titles = [title.strip() for title in selection.removeprefix('titles:').split('|') if title.strip()]
             responses = await asyncio.gather(*(fetch('https://openlibrary.org/search.json', params={
-                'title': title, 'lang': 'pt', 'limit': 4,
+                'title': title, 'lang': 'pt', 'page': page, 'limit': 4,
                 'fields': 'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'}, cache=True)
                 for title in titles))
             items = [book_item(item) for payload in responses for item in payload.get('docs', [])]
         else:
             payload = await fetch('https://openlibrary.org/search.json', params={
-                'q': f'subject:{selection}', 'lang': 'pt', 'limit': 20,
+                'q': f'subject:{selection}', 'lang': 'pt', 'page': page, 'limit': 20,
                 'fields': 'key,title,author_name,first_publish_year,cover_i,number_of_pages_median,editions,editions.title'}, cache=True)
             items = [book_item(item) for item in payload.get('docs', [])]
     return list({item['identity_key']: item for item in items}.values())

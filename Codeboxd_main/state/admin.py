@@ -45,6 +45,7 @@ class AdminState(SessionState):
     catalog_total: int = 0
     catalog_next_page: int = 0
     catalog_items: list[dict[str, str]] = []
+    catalog_external_notice: str = ''
     catalog_create_loading: bool = False
     catalog_edit_id: str = ''
     catalog_edit_title: str = ''
@@ -66,6 +67,11 @@ class AdminState(SessionState):
     report_review_status: str = ''
     report_review_decision: str = ''
     report_review_loading: bool = False
+    report_removal_id: str = ''
+    report_removal_type: str = ''
+    report_removal_target_id: str = ''
+    report_removal_decision: str = ''
+    report_removal_loading: bool = False
     admin_identity_open: bool = False
     admin_identity_loading: bool = False
     admin_identity_loaded: bool = False
@@ -91,7 +97,9 @@ class AdminState(SessionState):
             self.admin_identity_open = False
             return
         self.admin_identity_open = True
-        async for event in self._load_admin_identity():
+        # The profile photo may have changed elsewhere in the site while this
+        # session stayed active; refresh identity on each menu opening.
+        async for event in self._load_admin_identity(force=True):
             if event is not None:
                 yield event
 
@@ -341,7 +349,7 @@ class AdminState(SessionState):
             self.user_action_loading = False
 
     async def _fetch_catalog(self):
-        per_page = 35 if self.catalog_type in ('movie', 'series', 'anime') else 25
+        per_page = 35
         result = await request(
             'GET', '/admin/catalog', group='social', token=self._token(),
             params={'media_type': self.catalog_type, 'search': self.catalog_query,
@@ -353,7 +361,7 @@ class AdminState(SessionState):
             raise APIError('O serviço retornou o catálogo em formato inesperado.')
         if not isinstance(result.get('total'), int) or not isinstance(result.get('page'), int):
             raise APIError('O serviço não retornou os dados de paginação do catálogo.')
-        self.catalog_items = [
+        stored_items = [
             {
                 'id': str(item.get('id') or ''),
                 'identity_key': str(item.get('identity_key') or ''),
@@ -367,6 +375,54 @@ class AdminState(SessionState):
             }
             for item in result['items']
         ]
+        items = list(stored_items)
+        self.catalog_external_notice = ''
+        kind = self.catalog_type
+        if kind in ('series', 'anime', 'book') and result['page'] == 1 and len(items) < 35:
+            known = {item['identity_key'] for item in items if item['identity_key']}
+            known_external = {
+                (item['external_source'], item['media_type'], item['external_id'])
+                for item in items if item['external_source'] and item['external_id']
+            }
+            pages = 2 if kind == 'series' else 3
+            try:
+                for provider_page in range(1, pages + 1):
+                    candidates = await catalog.search_one(self.catalog_query, kind, provider_page)
+                    if not candidates:
+                        break
+                    for candidate in candidates:
+                        if not isinstance(candidate, dict) or candidate.get('media_type') != kind:
+                            continue
+                        source = str(candidate.get('external_source') or '').strip()
+                        external_id = str(candidate.get('external_id') or '').strip()
+                        identity_key = str(candidate.get('identity_key') or f'{source}:{kind}:{external_id}')
+                        title = str(candidate.get('title') or '').strip()
+                        external_identity = (source, kind, external_id)
+                        if (not source or not external_id or not title or identity_key in known
+                                or external_identity in known_external):
+                            continue
+                        known.add(identity_key)
+                        known_external.add(external_identity)
+                        items.append({
+                            'id': '',
+                            'identity_key': identity_key,
+                            'external_source': source,
+                            'external_id': external_id,
+                            'media_type': kind,
+                            'title': title,
+                            'description': str(candidate.get('description') or ''),
+                            'cover_url': catalog.safe_url(candidate.get('cover_url')) or '',
+                            'year': str(candidate.get('year') or ''),
+                        })
+                        if len(items) >= 35:
+                            break
+                    if len(items) >= 35:
+                        break
+            except Exception:
+                self.catalog_external_notice = (
+                    'A fonte externa falhou; exibindo os registros cadastrados e os resultados já recebidos.'
+                )
+        self.catalog_items = items
         self.catalog_total = result['total']
         self.catalog_page = result['page']
         self.catalog_next_page = result.get('next_page') or 0
@@ -702,6 +758,92 @@ class AdminState(SessionState):
     @rx.event
     def set_report_review_decision(self, value: str):
         self.report_review_decision = value[:2000]
+
+    @rx.event
+    def open_report_target_removal(self, report_id: str):
+        report = next((row for row in self.reports if row.get('id') == report_id), None)
+        if (not report or report.get('target_type') not in ('post', 'media', 'comment', 'review')
+                or report.get('status') not in ('pending', 'reviewing')):
+            return
+        self.report_removal_id = report_id
+        self.report_removal_type = report['target_type']
+        self.report_removal_target_id = report.get('target_id', '')
+        self.report_removal_decision = ''
+        self.reports_error = ''
+
+    @rx.event
+    def close_report_target_removal(self):
+        if self.report_removal_loading:
+            return
+        self.report_removal_id = ''
+        self.report_removal_type = ''
+        self.report_removal_target_id = ''
+        self.report_removal_decision = ''
+
+    @rx.event
+    def set_report_removal_decision(self, value: str):
+        self.report_removal_decision = value[:2000]
+
+    @rx.event
+    async def confirm_report_target_removal(self):
+        if self.report_removal_loading or not self.report_removal_id:
+            return
+        decision = self.report_removal_decision.strip()
+        if not decision:
+            self.reports_error = 'A removal decision and reason are required.'
+            return
+        token = self._token()
+        fields = {
+            'report_removal_id': self.report_removal_id,
+            'report_removal_type': self.report_removal_type,
+            'report_removal_decision': self.report_removal_decision,
+        }
+        self.report_removal_loading = True
+        self.reports_error = ''
+        self.reports_notice = ''
+        yield
+        try:
+            allowed = await self._require_admin('reports')
+            if allowed is not True:
+                if allowed is not False:
+                    yield allowed
+                return
+            if not self._action_is_current(token, fields):
+                return
+            result = await request(
+                'POST', f'/admin/reports/{fields["report_removal_id"]}/remove-target',
+                group='social', token=token,
+                data={'decision': decision},
+            )
+            if not self._action_is_current(token, fields):
+                return
+            if not isinstance(result, dict) or result.get('success') is not True:
+                raise APIError('The moderation service did not confirm target removal.')
+            removal_notice = {
+                'post': 'Publicacao removida; report e snapshot preservados.',
+                'media': 'Obra ocultada; referencias historicas preservadas.',
+                'comment': 'Comentario removido; publicacao e report preservados.',
+                'review': 'Avaliacao removida; status na biblioteca preservado.',
+            }[fields['report_removal_type']]
+            self.report_removal_id = ''
+            self.report_removal_type = ''
+            self.report_removal_target_id = ''
+            self.report_removal_decision = ''
+            async for event in self._load_reports():
+                if event is not None:
+                    yield event
+            self.reports_notice = removal_notice
+        except APIError as exc:
+            if not self._action_is_current(token, fields):
+                return
+            self.reports_error = str(exc)
+            if exc.status == 401:
+                self._clear_session()
+                yield rx.redirect('/admin/login')
+            elif exc.status == 403:
+                yield rx.redirect('/')
+        finally:
+            self.report_removal_loading = False
 
     @rx.event
     async def save_report_review(self):

@@ -179,6 +179,7 @@ button:disabled { cursor: wait; }
 .admin-account-trigger:focus-visible,.admin-metric-link:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
 .admin-account-avatar-image { width: 100%; height: 100%; object-fit: cover; }
 .admin-account-avatar-fallback { font-size: 13px; font-weight: 800; }
+.admin-report-actions { flex-wrap: wrap; }
 .admin-account-panel { position: absolute; z-index: 30; top: calc(100% + 9px); right: 0; width: min(270px,calc(100vw - 32px)); padding: 16px; border: 1px solid #39383b; border-radius: 12px; background: #171719; box-shadow: 0 16px 40px rgba(0,0,0,.42); }
 .admin-account-name { color: #f6f5f2; font-size: 14px; font-weight: 750; overflow-wrap: anywhere; }
 .admin-account-username,.admin-account-role,.admin-account-note { margin-top: 5px; color: #aaa8ad; font-size: 12px; overflow-wrap: anywhere; }
@@ -260,9 +261,6 @@ button:disabled { cursor: wait; }
 .admin-dialog-confirm, .admin-dialog-confirm-danger { min-height: 40px; padding: 0 15px; border: 0; border-radius: 9px; background: var(--yellow); color: #111; font-weight: 800; cursor: pointer; }
 .admin-dialog-confirm-danger { background: #b64f40; color: white; }
 .admin-dialog-confirm:disabled, .admin-dialog-confirm-danger:disabled { opacity: .6; cursor: wait; }
-.admin-catalog-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; padding-bottom: 2px; }
-.admin-catalog-tab { padding: 8px 13px; border: 1px solid #34343a; border-radius: 999px; color: #c5c3ca; font-size: 12px; text-decoration: none; }
-.admin-catalog-tab:hover { border-color: var(--yellow); color: var(--yellow); }
 .admin-catalog-search-controls { display: grid; grid-template-columns: minmax(180px,1fr) auto; gap: 10px; }
 .admin-catalog-list { overflow: hidden; border: 1px solid #29292d; border-radius: 13px; background: #111113; }
 .admin-catalog-row { display: grid; grid-template-columns: 60px minmax(0,1fr) auto; align-items: center; gap: 15px; padding: 13px 16px; border-bottom: 1px solid #28282d; }
@@ -442,25 +440,22 @@ button:disabled { cursor: wait; }
 .catalog-shelf-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 16px; }
 .shelf-title { font-size: 19px; line-height: 1.3; font-weight: 650; color: #eeedf0; }
 .shelf-subtitle { color: #939199; font-size: 13px; line-height: 1.5; margin-top: 6px; }
-.shelf-controls { display: flex; gap: 8px; flex-shrink: 0; }
-.shelf-arrow { display: grid; place-items: center; width: 34px; height: 34px; color: #ddd; border: 1px solid #ffffff20; border-radius: 50%; background: #19191c; }
-.shelf-arrow:hover { border-color: var(--yellow); color: var(--yellow); }
 .catalog-rail { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 90px) / 6); gap: 18px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding: 4px 2px 16px; scrollbar-width: thin; scrollbar-color: #51482a #151518; }
+.catalog-rail-no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.catalog-rail-no-scrollbar::-webkit-scrollbar { display: none; }
 .shelf-card { min-width: 0; text-align: left; color: #eeedf0; scroll-snap-align: start; border-radius: 12px; align-self: start; background: transparent; }
 .shelf-poster { position: relative; border: 1px solid #ffffff15; border-radius: 12px; overflow: hidden; transition: border-color .18s ease, transform .18s ease; }
 .shelf-card:hover .shelf-poster { border-color: var(--yellow); transform: translateY(-3px); }
 .shelf-card-copy { padding: 12px 2px 2px; }
 .shelf-card-title { font-size: 14px; line-height: 1.45; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .shelf-card-meta { color: #908e98; font-size: 11px; margin-top: 5px; }
-.shelf-more { padding: 8px 0; font-size: 12px; color: var(--yellow); }
-.shelf-more:disabled { opacity: .5; }
 .shelf-empty { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; color: #a8a5b0; padding: 24px; margin-top: 16px; border: 1px dashed #343438; border-radius: 12px; font-size: 13px; }
 .shelf-skeleton { aspect-ratio: 2 / 3; margin-top: 16px; border-radius: 12px; background: linear-gradient(120deg,#18181c,#25252a,#18181c); }
 .home-library-banner { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 30px; border: 1px solid #51472b; border-radius: 18px; background: radial-gradient(ellipse at 100% 0,#403718,#171612 65%); }
 .home-library-banner h2 { font-size: clamp(20px,2.2vw,28px); font-weight: 700; }
 .home-library-banner p:not(.eyebrow) { font-size: 13px; line-height: 1.6; color: #bab4a5; margin-top: 8px; }
 .home-library-banner > a { flex-shrink: 0; }
-.shelf-card:focus-visible,.shelf-arrow:focus-visible,.catalog-jump-link:focus-visible,.catalog-rail:focus-visible,.shelf-more:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+.shelf-card:focus-visible,.catalog-jump-link:focus-visible,.catalog-rail:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
 @media(max-width:1000px) { .catalog-rail { grid-auto-columns: calc((100% - 54px) / 4); } .spotlight-copy { padding: 36px; } }
 @media(max-width:640px) {
  .home-spotlight { min-height: 440px; border-radius: 18px; } .spotlight-copy { padding: 28px 22px; } .spotlight-title { font-size: 34px; } .spotlight-description { font-size: 13px; } .spotlight-kicker { font-size: 13px; }
@@ -468,7 +463,7 @@ button:disabled { cursor: wait; }
  .spotlight-actions { gap: 10px; } .spotlight-actions > * { font-size: 12px; padding: 10px 14px; }
  .catalog-jump { gap: 8px; } .catalog-jump-label { width: 100%; margin-bottom: 5px; } .catalog-jump-link { padding: 9px 12px; font-size: 12px; }
  .catalog-group { gap: 24px; padding-top: 18px; } .catalog-group-title { font-size: 23px; } .catalog-rail { grid-auto-columns: 43%; gap: 12px; } .shelf-title { font-size: 17px; } .shelf-subtitle { font-size: 12px; }
- .catalog-shelf-heading { gap: 10px; } .shelf-controls { gap: 5px; } .shelf-arrow { width: 30px; height: 30px; }
+ .catalog-shelf-heading { gap: 10px; }
  .home-library-banner { flex-direction: column; align-items: start; padding: 24px; }
 }
 @media(prefers-reduced-motion:reduce) { .shelf-poster { transition: none; } .shelf-card:hover .shelf-poster { transform: none; } }

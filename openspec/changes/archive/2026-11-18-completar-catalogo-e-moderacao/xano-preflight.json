@@ -1,0 +1,55 @@
+{
+  "change": "completar-catalogo-e-moderacao",
+  "generated_on": "2026-11-18",
+  "remote_published": false,
+  "remote_data_imported_or_removed": false,
+  "remote_validation": "not performed; Xano workspace unavailable",
+  "scope": "Manual TMDB/Kitsu catalog import uses existing admin/catalog POST. Report target removal is a new admin-only endpoint. Media uses moderation_hidden with references preserved; post removal reuses comment/like cascade and image cleanup queue.",
+  "files": [
+    {
+      "path": "xano/table/media.xs",
+      "sha256": "15d5986aaa8a4f0fe7bcccd9a2688f0eaed90bacd31c7ccdcfe10c312592ad9d"
+    },
+    {
+      "path": "xano/api/codeboxd/admin_reports_id_remove_target_POST.xs",
+      "sha256": "9d31e89e08eab90924365a22de7cbf39de5f185ebf0eb56596786572e194a58f"
+    },
+    {
+      "path": "xano/api/codeboxd/admin_catalog_GET.xs",
+      "sha256": "f5749a3d2da78c52e819d355fba710d68c4049a74929598fd2d841237bc22a82"
+    },
+    {
+      "path": "xano/api/codeboxd/admin_dashboard_GET.xs",
+      "sha256": "1d4e403dd0ade3a32cbfbe044699f5b6a3d07fcad2d703f3b4767e350ea8e138"
+    },
+    {
+      "path": "xano/api/codeboxd/interactions_PUT.xs",
+      "sha256": "557cdc11ab3b8d7ab900e0f02e328d788dd003d047b20fe865de692f3d41ae11"
+    },
+    {
+      "path": "xano/api/codeboxd/lists_id_items_POST.xs",
+      "sha256": "ea7f2a01c3bccd6e84c9533014f6802888d7f77b421abfaba7d5a5a6b5a7032f"
+    },
+    {
+      "path": "xano/api/codeboxd/media_GET.xs",
+      "sha256": "f3f2321e7494e25d89258d4012f6bce6c48c957b6514a8c6485390d47f6ce1ef"
+    },
+    {
+      "path": "xano/api/codeboxd/media_id_GET.xs",
+      "sha256": "d58c6c228c5b48033381b2a86f24556ae92ddb14e10b5b5c72cafa04f610738e"
+    },
+    {
+      "path": "xano/api/codeboxd/posts_POST.xs",
+      "sha256": "b66b285f6039de43490f52c2a6ecf42fe0dc38bfbe98d4b8f90342199c506805"
+    },
+    {
+      "path": "xano/api/codeboxd/posts_id_PUT.xs",
+      "sha256": "edfc4ff16aa7c0db8aa9a46c59edc78beb67fa00f36870fc2932bef471082dc5"
+    },
+    {
+      "path": "xano/function/Lists/set_media_list_status.xs",
+      "sha256": "f5b99d27c0dcea7b78b3d62a4ba0f35bf29dafe87810dc1f92db8bd865edf0ad"
+    }
+  ],
+  "required_remote_migration": "Add media.moderation_hidden with default false and verify/backfill existing rows to false before enabling public filters."
+}

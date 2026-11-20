@@ -34,6 +34,7 @@ query "admin/dashboard" verb=GET {
     } as $posts_total
 
     db.query media {
+      where = $db.media.moderation_hidden != true
       return = {type: "count"}
     } as $media_total
 

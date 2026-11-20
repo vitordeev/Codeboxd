@@ -290,11 +290,12 @@ def admin_dashboard_page() -> rx.Component:
                 rx.el.div(
                     _metric_card("Usuários", "users_total", "users-round", "Contas cadastradas",
                         href="/admin/users"),
-                    _metric_card("Publicações", "posts_total", "messages-square", "Histórias compartilhadas"),
                     _metric_card("Obras no catálogo", "media_total", "clapperboard",
                         "Filmes, séries, livros e animes", href="/admin/catalog/movies"),
                     _metric_card("Reports pendentes", "reports_pending", "flag", "Aguardando análise",
                         href="/admin/reports"),
+                    _metric_card("Publicações", "posts_total", "messages-square", "Histórias compartilhadas",
+                        href="/feed"),
                     class_name="admin-metrics-grid",
                 ),
                 rx.el.section(
@@ -526,9 +527,13 @@ def _catalog_item_row(item: dict[str, str]) -> rx.Component:
             rx.el.p(item["description"], class_name="admin-catalog-description"),
             class_name="admin-catalog-copy",
         ),
-        rx.el.button(
-            "Editar", type="button", on_click=AdminState.open_catalog_editor(item),
-            class_name="quiet-button admin-catalog-edit",
+        rx.cond(
+            item["id"] != "",
+            rx.el.button(
+                "Editar", type="button", on_click=AdminState.open_catalog_editor(item),
+                class_name="quiet-button admin-catalog-edit",
+            ),
+            rx.fragment(),
         ),
         class_name="admin-catalog-row",
     )
@@ -544,16 +549,8 @@ def admin_catalog_page(media_type: str) -> rx.Component:
             rx.el.section(
                 rx.el.p("GERENCIAMENTO DO CATÁLOGO", class_name="admin-page-eyebrow"),
                 rx.el.h1(label, class_name="admin-page-title"),
-                rx.el.p("Veja as obras cadastradas nesta seção. Use a busca para encontrar um título específico.",
+                rx.el.p("Consulte e gerencie as obras desta seção.",
                     class_name="admin-page-description"),
-                rx.el.nav(
-                    rx.el.a("Filmes", href="/admin/catalog/movies", class_name="admin-catalog-tab"),
-                    rx.el.a("Séries", href="/admin/catalog/series", class_name="admin-catalog-tab"),
-                    rx.el.a("Livros", href="/admin/catalog/books", class_name="admin-catalog-tab"),
-                    rx.el.a("Animes", href="/admin/catalog/anime", class_name="admin-catalog-tab"),
-                    class_name="admin-catalog-tabs",
-                    aria_label="Tipo de obra",
-                ),
                 rx.el.details(
                     rx.el.summary("Adicionar obra", class_name="admin-catalog-create-summary"),
                     rx.el.p("Informe a fonte e o identificador externo. Se a identidade já existir, abriremos o registro atual.",
@@ -606,7 +603,13 @@ def admin_catalog_page(media_type: str) -> rx.Component:
                 rx.cond(
                     AdminState.catalog_items.length() > 0,
                     rx.el.section(
-                        rx.el.p("Resultados: " + AdminState.catalog_total.to_string(), class_name="admin-users-count"),
+                        rx.el.p("Resultados: " + AdminState.catalog_items.length().to_string(),
+                            class_name="admin-users-count"),
+                        rx.cond(
+                            AdminState.catalog_external_notice != "",
+                            rx.el.p(AdminState.catalog_external_notice, role="status", class_name="admin-dashboard-error"),
+                            rx.fragment(),
+                        ),
                         rx.el.div(rx.foreach(AdminState.catalog_items, _catalog_item_row), class_name="admin-catalog-list"),
                         _admin_pagination(AdminState.catalog_page, AdminState.catalog_next_page,
                             AdminState.catalog_loading, AdminState.change_catalog_page),
@@ -704,6 +707,20 @@ def _report_card(report: dict[str, str]) -> rx.Component:
             rx.el.button("Rejeitar", type="button",
                 on_click=AdminState.open_report_review(report["id"], "rejected"),
                 disabled=AdminState.reports_loading, class_name="admin-dialog-confirm-danger"),
+            rx.cond(
+                ((report["target_type"] == "post") | (report["target_type"] == "media")
+                 | (report["target_type"] == "comment") | (report["target_type"] == "review"))
+                & ((report["status"] == "pending") | (report["status"] == "reviewing")),
+                rx.el.button(
+                    rx.cond(report["target_type"] == "post", "Remover publicação",
+                        rx.cond(report["target_type"] == "media", "Ocultar obra",
+                            rx.cond(report["target_type"] == "comment", "Excluir comentário", "Remover avaliação"))),
+                    type="button", on_click=AdminState.open_report_target_removal(report["id"]),
+                    disabled=AdminState.reports_loading | AdminState.report_removal_loading,
+                    class_name="admin-dialog-confirm-danger",
+                ),
+                rx.fragment(),
+            ),
             class_name="admin-report-actions",
         ),
         class_name="admin-report-card",
@@ -736,6 +753,7 @@ def admin_reports_page() -> rx.Component:
                             rx.el.option("Mensagens", value="message"),
                             rx.el.option("Publicações", value="post"),
                             rx.el.option("Comentários", value="comment"),
+                            rx.el.option("Avaliações", value="review"),
                             rx.el.option("Perfis", value="profile"),
                             rx.el.option("Obras", value="media"),
                             name="target_type", default_value=AdminState.reports_type_filter,
@@ -800,6 +818,58 @@ def admin_reports_page() -> rx.Component:
                     ),
                     class_name="admin-confirm-dialog", role="dialog", aria_modal="true",
                     aria_label="Registrar decisão de moderação",
+                ),
+                class_name="admin-dialog-overlay",
+            ),
+            rx.fragment(),
+        ),
+        rx.cond(
+            AdminState.report_removal_id != "",
+            rx.el.div(
+                rx.el.div(
+                    rx.el.h2(
+                        rx.cond(AdminState.report_removal_type == "post", "Remover publicação reportada?",
+                            rx.cond(AdminState.report_removal_type == "media", "Ocultar obra reportada?",
+                                rx.cond(AdminState.report_removal_type == "comment", "Excluir comentário reportado?",
+                                    "Remover avaliação reportada?"))),
+                        class_name="admin-dialog-title",
+                    ),
+                    rx.el.p(
+                        "Report #" + AdminState.report_removal_id + " - alvo #"
+                        + AdminState.report_removal_target_id,
+                        class_name="admin-dialog-copy",
+                    ),
+                    rx.el.p(
+                        rx.cond(AdminState.report_removal_type == "post",
+                            "A publicação e seus comentários/curtidas serão removidos. O report e o snapshot permanecem para auditoria.",
+                            rx.cond(AdminState.report_removal_type == "media",
+                                "A obra sai das seleções públicas, mas listas e interações antigas permanecem preservadas.",
+                                rx.cond(AdminState.report_removal_type == "comment",
+                                    "Somente o comentário será excluído. A publicação pai e o report permanecem.",
+                                    "A nota e a crítica serão removidas; o status da obra na biblioteca será preservado."))),
+                        class_name="admin-dialog-copy",
+                    ),
+                    rx.el.label("Justificativa obrigatoria", html_for="admin-report-removal-decision",
+                        class_name="admin-search-label"),
+                    rx.el.textarea(
+                        id="admin-report-removal-decision", value=AdminState.report_removal_decision,
+                        on_change=AdminState.set_report_removal_decision, max_length=2000,
+                        class_name="admin-user-reason",
+                    ),
+                    _admin_feedback(AdminState.reports_error, "", False, ""),
+                    rx.el.div(
+                        rx.el.button("Cancelar", type="button", on_click=AdminState.close_report_target_removal,
+                            disabled=AdminState.report_removal_loading, class_name="quiet-button"),
+                        rx.el.button(
+                            rx.cond(AdminState.report_removal_loading, "Salvando...", "Confirmar remocao"),
+                            type="button", on_click=AdminState.confirm_report_target_removal,
+                            disabled=AdminState.report_removal_loading,
+                            class_name="admin-dialog-confirm-danger",
+                        ),
+                        class_name="admin-dialog-actions",
+                    ),
+                    class_name="admin-confirm-dialog", role="dialog", aria_modal="true",
+                    aria_label="Confirmar remocao moderada",
                 ),
                 class_name="admin-dialog-overlay",
             ),

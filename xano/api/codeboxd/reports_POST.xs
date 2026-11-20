@@ -3,7 +3,7 @@ query "reports" verb=POST {
   auth = "user"
 
   input {
-    enum target_type { values = ["message", "post", "comment", "profile", "media"] }
+    enum target_type { values = ["message", "post", "comment", "profile", "media", "review"] }
     text target_id filters=trim|min:1|max:120
     enum reason { values = ["spam", "harassment", "inappropriate", "other"] }
     text description filters=trim|min:1|max:2000
@@ -102,21 +102,43 @@ query "reports" verb=POST {
                     }
                   }
                   else {
-                    precondition ($numeric_target_id > 0) {
-                      error_type = "inputerror"
-                      error = "Identificador de obra inválido."
-                    }
-                    db.get media {
-                      field_name = "id"
-                      field_value = $numeric_target_id
-                      output = ["id", "media_type", "title", "year"]
-                    } as $target
-                    precondition ($target != null) {
-                      error_type = "notfound"
-                      error = "Obra não encontrada."
-                    }
-                    var $safe_snapshot {
-                      value = {media_type: $target.media_type, title: $target.title, year: $target.year}
+                    conditional {
+                      if ($input.target_type == "review") {
+                        precondition ($numeric_target_id > 0) {
+                          error_type = "inputerror"
+                          error = "Identificador de avaliacao invalido."
+                        }
+                        db.get user_media_interaction {
+                          field_name = "id"
+                          field_value = $numeric_target_id
+                          output = ["id", "user_id", "media_id", "rating", "review", "spoiler"]
+                        } as $target
+                        precondition ($target != null && $target.user_id != $auth.id && (($target.rating != null && $target.rating > 0) || ($target.review != null && $target.review != ""))) {
+                          error_type = "notfound"
+                          error = "Avaliacao nao encontrada ou nao pode ser denunciada."
+                        }
+                        var $safe_snapshot {
+                          value = {media_id: $target.media_id, rating: $target.rating, review: $target.review, spoiler: $target.spoiler}
+                        }
+                      }
+                      else {
+                        precondition ($numeric_target_id > 0) {
+                          error_type = "inputerror"
+                          error = "Identificador de obra invalido."
+                        }
+                        db.get media {
+                          field_name = "id"
+                          field_value = $numeric_target_id
+                          output = ["id", "media_type", "title", "year"]
+                        } as $target
+                        precondition ($target != null) {
+                          error_type = "notfound"
+                          error = "Obra nao encontrada."
+                        }
+                        var $safe_snapshot {
+                          value = {media_type: $target.media_type, title: $target.title, year: $target.year}
+                        }
+                      }
                     }
                   }
                 }

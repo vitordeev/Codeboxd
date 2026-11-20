@@ -112,6 +112,68 @@ class BackendImageContractTests(unittest.TestCase):
         self.assertNotIn('api.request',queue)
         self.assertNotIn('db.del post_image_asset',delete)
 
+    def test_public_post_reads_do_not_expose_the_operational_journal_reference(self):
+        for name in ('posts_GET.xs', 'feed_GET.xs'):
+            source = self.source(f'api/codeboxd/{name}')
+            self.assertIn('db.query post {', source, name)
+            self.assertIn('delete safe.image_asset_record_id', source, name)
+            self.assertIn('response = $public_rows', source, name)
+            code = self.codes(f'api/codeboxd/{name}')[-1]
+            rows = [{'id': 1, 'image_url': 'https://cdn.example/image.png',
+                     'image_provider': 'cloudinary', 'image_revision': 2,
+                     'image_asset_record_id': 99, 'body': 'fixture'}]
+            projected = self.evaluate(code, {}, {'rows': rows})
+            self.assertEqual(projected, [{key: value for key, value in rows[0].items()
+                                          if key != 'image_asset_record_id'}])
+
+    def test_cleanup_candidate_read_is_admin_only_bounded_and_read_only(self):
+        source = self.source('api/codeboxd/admin_post_image_cleanup_candidates_GET.xs')
+        self.assertIn('query "admin/post-image-cleanup-candidates" verb=GET', source)
+        self.assertIn('auth = "user"', source)
+        self.assertIn('Security/require_current_session', source)
+        self.assertIn('$actor.account_status == "active" && $actor.role == "admin"', source)
+        self.assertIn('int per_page?=10 filters=min:1|max:10', source)
+        self.assertIn('$db.post_image_asset.state == "cleanup_pending"', source)
+        self.assertIn('$db.post_image_asset.retain_until <= now', source)
+        self.assertIn('$db.post.image_asset_record_id == $asset.id', source)
+        self.assertIn('reference_count: $references', source)
+        self.assertIn('response = {contract_version: 1, fetched_at: now, records: $records}', source)
+        self.assertNotIn('api.request', source)
+        self.assertNotIn('db.edit ', source)
+        self.assertNotIn('db.del ', source)
+
+    def test_cleanup_claim_rechecks_approved_identity_and_references_under_lock(self):
+        source = self.source('api/codeboxd/admin_post_image_cleanup_id_claim_POST.xs')
+        self.assertIn('auth = "user"', source)
+        self.assertIn('Security/require_current_session', source)
+        self.assertIn('$actor.account_status == "active" && $actor.role == "admin"', source)
+        self.assertIn('db.transaction', source)
+        self.assertIn('lock = true', source)
+        self.assertIn('$asset.state == "cleanup_pending"', source)
+        self.assertIn('$asset.retain_until <= now', source)
+        self.assertIn('$asset.asset_id == $input.asset_id && $asset.version == $input.version', source)
+        self.assertIn('$db.post.image_asset_record_id == $asset.id', source)
+        self.assertIn('precondition ($references == 0)', source)
+        self.assertIn('state: "reconciliation_required"', source)
+        self.assertIn('"cleanup_started:" ~ $input.approval_sha256', source)
+        self.assertNotIn('api.request', source)
+
+    def test_cleanup_result_is_bound_to_claim_and_only_marks_confirmed_delete(self):
+        source = self.source('api/codeboxd/admin_post_image_cleanup_id_result_POST.xs')
+        self.assertIn('auth = "user"', source)
+        self.assertIn('Security/require_current_session', source)
+        self.assertIn('db.transaction', source)
+        self.assertIn('lock = true', source)
+        self.assertIn('$asset.state == "reconciliation_required"', source)
+        self.assertIn('"cleanup_started:" ~ $input.approval_sha256', source)
+        self.assertIn('if ($input.result == "deleted")', source)
+        self.assertIn('state: $next_state', source)
+        self.assertIn('value = "deleted"', source)
+        self.assertIn('value = "reconciliation_required"', source)
+        self.assertIn('response = {contract_version: 1', source)
+        self.assertNotIn('last_error_code: $result_record.last_error_code', source)
+        self.assertNotIn('api.request', source)
+
     def test_replace_and_remove_require_revision_inside_the_locked_transaction(self):
         source=self.source('function/PostImages/update_post.xs')
         self.assertIn('lock = true',source)

@@ -4,7 +4,7 @@ table report {
     int id
     timestamp created_at?=now
     int reporter_user_id { table = "user" }
-    enum target_type { values = ["message", "post", "comment", "profile", "media"] }
+    enum target_type { values = ["message", "post", "comment", "profile", "media", "review"] }
     text target_id filters=trim|min:1|max:120
     enum reason { values = ["spam", "harassment", "inappropriate", "other"] }
     text description? filters=trim|max:2000

@@ -12,6 +12,7 @@ table media {
     text cover_url?
     int year?
     json details?
+    bool moderation_hidden?=false
   }
   index = [
     {type: "primary", field: [{name: "id"}]}

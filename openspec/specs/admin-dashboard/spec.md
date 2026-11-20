@@ -67,7 +67,7 @@ O sistema MUST oferecer a rota `/admin/login` com formulário de e-mail e senha 
 
 
 ### Requirement: Indicadores do dashboard abrem suas areas administrativas
-O dashboard MUST permitir abrir a area administrativa correspondente a cada indicador que tenha uma secao de gerenciamento existente. O card de publicacoes MUST permanecer informativo enquanto nao houver uma secao administrativa de publicacoes.
+O dashboard MUST permitir abrir a area relacionada a cada indicador. Os cards de usuarios, catalogo e reports MUST abrir suas respectivas areas administrativas existentes. O card de publicacoes MUST abrir o feed principal do Codeboxd em `/feed` e MUST aparecer por ultimo na fileira de indicadores.
 
 #### Scenario: Administradora abre usuarios pelo indicador
 - **WHEN** a administradora seleciona o indicador de usuarios
@@ -81,16 +81,28 @@ O dashboard MUST permitir abrir a area administrativa correspondente a cada indi
 - **WHEN** a administradora seleciona o indicador de reports pendentes
 - **THEN** o sistema abre a fila de reports com o filtro de pendentes aplicado
 
+#### Scenario: Administradora abre o feed pelo indicador de publicacoes
+- **WHEN** a administradora seleciona o card de publicacoes no dashboard
+- **THEN** o sistema abre o feed principal do CodeBoxd em `/feed`
+
+#### Scenario: Card de publicacoes aparece ao final
+- **WHEN** o dashboard apresenta a fileira de indicadores
+- **THEN** o card de publicacoes aparece depois dos cards de usuarios, catalogo e reports
+
 #### Scenario: Indicador sem area administrativa correspondente
-- **WHEN** o dashboard apresenta o indicador de publicacoes e nao existe secao administrativa de publicacoes
-- **THEN** o indicador permanece informativo e nao leva a uma area sem relacao ou inexistente
+- **WHEN** o indicador de publicacoes nao possui uma secao administrativa propria
+- **THEN** o card abre o feed principal relacionado em `/feed` sem direcionar para uma area administrativa sem relacao
 
 ### Requirement: Identificacao compacta da pessoa administradora
-As paginas administrativas MUST apresentar um controle de avatar circular para a sessao administrativa validada. Ao ativa-lo, o controle MUST mostrar o nome de exibicao, o nome de usuario e o cargo da sessao atual. A identidade e o cargo MUST vir de dados verificados pelo servidor, e a interface MUST oferecer fallback legivel quando nao houver avatar ou perfil completo.
+As paginas administrativas MUST apresentar um controle de avatar circular para a sessao administrativa validada. Ao ativa-lo, o controle MUST mostrar o nome de exibicao, o nome de usuario e o cargo da sessao atual. A identidade e o cargo MUST vir de dados verificados pelo servidor, e a interface MUST oferecer fallback legivel quando nao houver avatar ou perfil completo. Sempre que o menu de identidade for aberto, o painel MUST atualizar esses dados do perfil atual, incluindo a foto, sem reutilizar uma resposta antiga da mesma sessao.
 
 #### Scenario: Administradora abre os dados da propria sessao
 - **WHEN** uma administradora autenticada ativa seu avatar no cabecalho
 - **THEN** o painel mostra o nome, o nome de usuario e o cargo administrativo associados a sessao atual
+
+#### Scenario: Foto de perfil atualizada no site
+- **WHEN** a administradora salva uma nova foto no perfil do site e abre novamente o menu administrativo
+- **THEN** o painel busca o perfil atual e mostra a nova foto sem exigir novo login
 
 #### Scenario: Perfil sem foto ou dados complementares
 - **WHEN** a sessao administrativa nao possui foto ou algum dado opcional de perfil
