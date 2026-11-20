@@ -34,7 +34,7 @@ query "admin/catalog" verb=GET {
     conditional {
       if ($input.search == "") {
         db.query media {
-          where = $db.media.media_type == $input.media_type
+          where = $db.media.media_type == $input.media_type && $db.media.moderation_hidden != true
           sort = {media.title: "asc", media.id: "asc"}
           output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.identity_key", "items.external_source", "items.external_id", "items.media_type", "items.title", "items.description", "items.cover_url", "items.year"]
           return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}
@@ -43,7 +43,7 @@ query "admin/catalog" verb=GET {
       }
       else {
         db.query media {
-          where = $db.media.media_type == $input.media_type && $db.media.title includes $search_literal
+          where = $db.media.media_type == $input.media_type && $db.media.moderation_hidden != true && $db.media.title includes $search_literal
           sort = {media.title: "asc", media.id: "asc"}
           output = ["itemsReceived", "curPage", "nextPage", "prevPage", "offset", "itemsTotal", "pageTotal", "items.id", "items.identity_key", "items.external_source", "items.external_id", "items.media_type", "items.title", "items.description", "items.cover_url", "items.year"]
           return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, totals: true, metadata: true}}

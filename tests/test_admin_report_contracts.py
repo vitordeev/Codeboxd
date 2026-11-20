@@ -14,10 +14,19 @@ class AdminReportContractTests(unittest.TestCase):
         self.assertIn('"Contas cadastradas",\n                        href="/admin/users"', page)
         self.assertIn('"Filmes, s\u00e9ries, livros e animes", href="/admin/catalog/movies"', page)
         self.assertIn('"Aguardando an\u00e1lise",\n                        href="/admin/reports"', page)
-        self.assertIn('_metric_card("Publica\u00e7\u00f5es", "posts_total", "messages-square", "Hist\u00f3rias compartilhadas")', page)
+        dashboard = page.split("def admin_dashboard_page", 1)[1].split("def _admin_user_row", 1)[0]
+        metric_positions = [
+            dashboard.index('_metric_card("Usu\u00e1rios"'),
+            dashboard.index('_metric_card("Obras no cat\u00e1logo"'),
+            dashboard.index('_metric_card("Reports pendentes"'),
+            dashboard.index('_metric_card("Publica\u00e7\u00f5es"'),
+        ]
+        self.assertEqual(metric_positions, sorted(metric_positions))
+        self.assertIn('"Hist\u00f3rias compartilhadas",\n                        href="/feed"', dashboard)
         self.assertIn('"/admin/users"', routes)
         self.assertIn('"/admin/catalog/movies"', routes)
         self.assertIn('"/admin/reports"', routes)
+        self.assertIn('route="/feed"', routes)
 
     def test_report_creation_snapshots_each_supported_target_without_mutating_it(self):
         source = (XANO / "reports_POST.xs").read_text(encoding="utf-8")

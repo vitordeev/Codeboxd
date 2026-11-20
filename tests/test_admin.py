@@ -183,6 +183,28 @@ class AdminDashboardTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(self.state.admin_username, "victor")
         self.assertEqual(self.state.admin_avatar_url, "https://images.example/admin.png")
 
+    async def test_reopening_admin_identity_refreshes_profile_photo(self):
+        self.state.session_token = "admin-token"
+        identity_responses = [
+            {"id": 1, "username": "victor", "name": "Victor", "display_name": "Victor Dev",
+             "avatar_url": "", "role": "admin"},
+            {"id": 1, "username": "victor", "name": "Victor", "display_name": "Victor Dev",
+             "avatar_url": "https://images.example/new-photo.png", "role": "admin"},
+        ]
+        with patch("Codeboxd_main.state.session.request", new=AsyncMock(return_value={
+                "id": 1, "role": "admin", "username": "victor"})), \
+                patch("Codeboxd_main.state.admin.request", new=AsyncMock(
+                    side_effect=identity_responses)) as request:
+            async for _ in self.state.toggle_admin_identity():
+                pass
+            async for _ in self.state.toggle_admin_identity():
+                pass
+            async for _ in self.state.toggle_admin_identity():
+                pass
+
+        self.assertEqual(request.await_count, 2)
+        self.assertEqual(self.state.admin_avatar_url, "https://images.example/new-photo.png")
+
     async def test_member_cannot_load_admin_identity(self):
         self.state.session_token = "member-token"
         with patch("Codeboxd_main.state.session.request", new=AsyncMock(return_value={

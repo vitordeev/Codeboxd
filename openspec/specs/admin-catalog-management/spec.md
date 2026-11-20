@@ -47,17 +47,40 @@ O sistema MUST verificar a identidade externa e o tipo da obra antes de cadastra
 - **THEN** o sistema permite criar o registro somente após validar os campos exigidos
 
 
+### Requirement: Excluir logicamente obra removida por moderacao
+Uma obra removida por decisao administrativa MUST deixar de aparecer no catalogo publico e MUST deixar de aceitar novas interacoes/listas. A remocao MUST preservar o registro, as referencias historicas de usuarios, o report e sua auditoria; a area administrativa MUST identificar a obra como removida.
+
+#### Scenario: Obra reportada e removida
+- **WHEN** uma administradora confirma a remocao da obra vinculada a um report
+- **THEN** a obra desaparece de buscas e selecoes publicas, referencias historicas permanecem consistentes e o report continua consultavel
+
+#### Scenario: Usuario tenta criar nova referencia a obra removida
+- **WHEN** uma pessoa tenta avaliar, listar ou vincular uma obra removida
+- **THEN** o backend rejeita a nova referencia sem apagar dados historicos existentes
+
 ### Requirement: Paginacao ampliada nas abas de filmes, series e animes
-As abas administrativas de filmes, series e animes MUST solicitar ate 35 registros existentes por pagina, preservando busca, ordenacao, identidade dos registros e paginacao. O sistema MUST apresentar apenas os registros disponiveis; nao deve criar, importar ou simular obras para completar a pagina. A aba de livros mantem o tamanho de pagina atual.
+As abas administrativas de filmes, series, livros e animes MUST apresentar ate 35 resultados por pagina, preservando busca, identidade e paginacao dos registros cadastrados. Quando series, animes ou livros tiverem menos de 35 registros cadastrados, a primeira pagina MUST complementar a exibicao com resultados reais de TMDB, Kitsu ou Open Library, respectivamente, sem gravar esses resultados. Resultados externos MUST NOT receber uma etiqueta de "nao cadastrado" nem acao de edicao de registro salvo. A administracao MUST NOT oferecer uma acao de importacao/completamento em lote.
 
 #### Scenario: Existem ao menos 35 obras na categoria
-- **WHEN** uma administradora abre a primeira pagina de filmes, series ou animes com pelo menos 35 registros correspondentes
+- **WHEN** uma administradora abre a primeira pagina de qualquer categoria com pelo menos 35 registros correspondentes
 - **THEN** a secao apresenta 35 registros reais e mantem a paginacao para os demais
 
 #### Scenario: Existem menos de 35 obras na categoria
 - **WHEN** a categoria ou o resultado da busca contem menos de 35 registros
-- **THEN** a secao apresenta somente os registros existentes e informa corretamente o estado vazio ou a quantidade disponivel
+- **THEN** series, animes e livros completam a exibicao com resultados externos ate 35, enquanto filmes apresentam apenas os registros existentes
+
+#### Scenario: Resultado externo e somente para consulta
+- **WHEN** uma obra vem do provedor externo
+- **THEN** a interface apresenta a obra sem etiqueta de cadastro, nao permite edita-la como registro persistido e nao a grava no catalogo
+
+#### Scenario: Aba aberta sem acao de importacao
+- **WHEN** a administradora abre series, animes ou livros
+- **THEN** o sistema consulta candidatos externos para exibicao sem criar registros ou oferecer importacao em lote
 
 #### Scenario: Categoria nao incluida no aumento
-- **WHEN** a administradora abre a aba de livros
-- **THEN** a paginacao conserva o tamanho de pagina vigente para livros
+- **WHEN** a administradora abre a aba de filmes
+- **THEN** a pagina mantem ate 35 registros cadastrados e nao consulta resultados externos
+
+#### Scenario: Navegacao por categoria sem abas duplicadas
+- **WHEN** a administradora abre uma categoria do catalogo
+- **THEN** as categorias sao acessadas pela navegacao lateral, sem uma segunda fileira de abas no topo

@@ -19,7 +19,7 @@ function "Lists/set_media_list_status" {
       field_name = "id"
       field_value = $input.media_id
     } as $media
-    precondition ($media != null) {
+    precondition ($media != null && ($media.moderation_hidden != true || $input.status == null)) {
       error_type = "notfound"
       error = "Obra não encontrada."
     }
@@ -31,6 +31,15 @@ function "Lists/set_media_list_status" {
           field_value = $input.user_id
           lock = true
         } as $actor_lock
+      db.get media {
+        field_name = "id"
+        field_value = $input.media_id
+        lock = true
+      } as $locked_media
+      precondition ($locked_media != null && ($locked_media.moderation_hidden != true || $input.status == null)) {
+        error_type = "notfound"
+        error = "Removed work is unavailable."
+      }
         db.query user_media_list_status {
           where = $db.user_media_list_status.user_id == $input.user_id && $db.user_media_list_status.media_id == $input.media_id
           return = {type: "single"}

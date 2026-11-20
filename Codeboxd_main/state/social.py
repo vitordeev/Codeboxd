@@ -84,7 +84,8 @@ def present_media(m: dict) -> dict[str,str]:
 # Reusing the catalog loader preserves provider limits, ordering and fallbacks.
 _HOME_CATALOG_FIELDS = (
     'featured_items', 'popular_movies', 'popular_series', 'home_collections',
-    'home_collection_errors', 'home_loaded', 'popular_exhausted',
+    'home_collection_errors', 'home_collection_pages', 'home_collection_exhausted',
+    'home_loaded', 'popular_exhausted',
     '_popular_pages', '_popular_loaded',
 )
 
@@ -173,8 +174,12 @@ class SocialState(SessionState):
     popular_series: list[dict[str,str]] = []
     home_collections: dict[str,list[dict[str,str]]] = {key: [] for key in catalog.HOME_COLLECTIONS}
     home_collection_errors: list[str] = []
+    home_collection_pages: dict[str,int] = {key: 1 for key in catalog.HOME_COLLECTIONS}
+    home_collection_exhausted: list[str] = []
+    home_collection_loading: list[str] = []
     home_loaded: bool = False
     popular_exhausted: list[str] = []
+    popular_loading: list[str] = []
     _popular_pages: dict[str,int] = {'movie':1, 'series':1}
     _popular_loaded: list[str] = []
     catalog_items: list[dict[str,str]] = []
@@ -756,7 +761,8 @@ class SocialState(SessionState):
 
     def _interaction(self, i: dict) -> dict[str,str]:
         result=present_media(self._media.get(str(i['media_id']),{'id':i['media_id']}))
-        result.update(status={'planned':'Quero ver / ler','in_progress':'Em andamento','completed':'Concluído','dropped':'Abandonado'}.get(i['status'],i['status']),
+        result.update(interaction_id=str(i.get('id') or ''),
+            status={'planned':'Quero ver / ler','in_progress':'Em andamento','completed':'Concluído','dropped':'Abandonado'}.get(i['status'],i['status']),
             rating=str(i.get('rating') or 'Sem nota').replace('.',','),review=str(i.get('review') or ''),spoiler=str(bool(i.get('spoiler'))))
         return result
 
@@ -890,6 +896,11 @@ class SocialState(SessionState):
                     items=await catalog.home_collection(key)
                     if stamp!=self._route_stamp(): return
                     self.home_collections[key]=[present_media(m) for m in items]
+                    self.home_collection_pages={**self.home_collection_pages,key:1}
+                    if not items and key not in self.home_collection_exhausted:
+                        self.home_collection_exhausted=[*self.home_collection_exhausted,key]
+                    else:
+                        self.home_collection_exhausted=[value for value in self.home_collection_exhausted if value != key]
                     self.home_collection_errors=[value for value in self.home_collection_errors if value != key]
                 except (APIError, KeyError, TypeError, ValueError):
                     if stamp!=self._route_stamp(): return
@@ -920,22 +931,65 @@ class SocialState(SessionState):
 
     @rx.event
     async def more_popular(self, kind: str):
-        if self.busy or self.home_loading or kind not in ('movie', 'series') or kind in self.popular_exhausted: return
-        self.busy=True
-        yield
+        if self.home_loading or kind not in ('movie', 'series') or kind in self.popular_exhausted or kind in self.popular_loading: return
+        stamp=self._route_stamp()
+        self.popular_loading=[*self.popular_loading,kind]
         try:
+            yield
             page=self._popular_pages[kind]+1 if kind in self._popular_loaded else 1
             found,errors=await catalog.search('',kind,page)
+            if stamp != self._route_stamp(): return
             attribute='popular_movies' if kind=='movie' else 'popular_series'
-            existing={item['key']:item for item in getattr(self,attribute)} if page > 1 or not found else {}
+            current=getattr(self,attribute)
+            existing={item['key']:item for item in current}
             existing.update({item['identity_key']:present_media(item) for item in found})
             setattr(self,attribute,list(existing.values()))
             if found and kind not in self._popular_loaded: self._popular_loaded=[*self._popular_loaded,kind]
-            if found or not errors: self._popular_pages[kind]=page
-            if not found and not errors: self.popular_exhausted=[*self.popular_exhausted,kind]
+            if found and not errors: self._popular_pages[kind]=page
+            if not errors and len(existing) == len(current) and kind not in self.popular_exhausted:
+                self.popular_exhausted=[*self.popular_exhausted,kind]
             self.notice=' '.join(errors)
         finally:
-            self.busy=False
+            self.popular_loading=[value for value in self.popular_loading if value != kind]
+
+    @rx.event
+    async def load_more_popular(self, kind: str, near_end: bool):
+        if near_end is not True:
+            return
+        async for event in self.more_popular(kind):
+            yield event
+
+    @rx.event
+    async def load_more_home_collection(self, key: str, near_end: bool):
+        if (near_end is not True or key not in catalog.HOME_COLLECTIONS
+                or key in self.home_collection_exhausted or key in self.home_collection_loading
+                or self.router.url.path.rstrip('/') != '' or self.search_active):
+            return
+        stamp=self._route_stamp()
+        self.home_collection_loading=[*self.home_collection_loading,key]
+        self.notice=''
+        try:
+            page=self.home_collection_pages.get(key,1)+1
+            found=await catalog.home_collection(key,page)
+            if stamp != self._route_stamp(): return
+            current=self.home_collections.get(key,[])
+            existing={item['key']:item for item in current}
+            existing.update({item['identity_key']:present_media(item) for item in found})
+            additions=[item for item in existing.values() if item['key'] not in {row['key'] for row in current}]
+            if additions:
+                self.home_collections={**self.home_collections,key:list(existing.values())}
+                self.home_collection_pages={**self.home_collection_pages,key:page}
+                self.home_collection_exhausted=[value for value in self.home_collection_exhausted if value != key]
+            elif key not in self.home_collection_exhausted:
+                self.home_collection_exhausted=[*self.home_collection_exhausted,key]
+            self.home_collection_errors=[value for value in self.home_collection_errors if value != key]
+        except (APIError, KeyError, TypeError, ValueError) as exc:
+            if stamp == self._route_stamp():
+                if key not in self.home_collection_errors:
+                    self.home_collection_errors=[*self.home_collection_errors,key]
+                self.notice=str(exc)
+        finally:
+            self.home_collection_loading=[value for value in self.home_collection_loading if value != key]
 
     @rx.event
     def cover_failed(self, url: str):
@@ -1918,7 +1972,7 @@ class SocialState(SessionState):
             return rx.redirect('/login')
         target_id = str(target_id).strip()
         external_media = target_type == 'media' and bool(self._selected_raw)
-        if target_type not in ('post', 'comment', 'profile', 'media') or (not target_id and not external_media):
+        if target_type not in ('post', 'comment', 'profile', 'media', 'review') or (not target_id and not external_media):
             self.notice = 'Este conteúdo não pode ser denunciado.'
             return
         self.report_target_type = target_type

@@ -1,4 +1,4 @@
-"""Prepared server-only Cloudinary transport; not yet wired into post persistence."""
+"""Server-only Cloudinary transport for the gated external post-image flow."""
 from dataclasses import dataclass, field
 import hashlib
 import hmac
@@ -214,3 +214,64 @@ async def recover_post_image(*, owner_id: int, public_id: str) -> CloudinaryImag
         return _read_image({**resource, 'signature': signature}, config, public_id)
     except (ValueError, TypeError, KeyError):
         raise APIError('A imagem ainda não pôde ser conciliada. A operação continua pendente.') from None
+
+
+async def destroy_cleanup_candidate(candidate: dict) -> str:
+    """Verify an exact orphan in Cloudinary, then issue one signed destroy call.
+
+    Any lookup, transport, or ambiguous provider response raises APIError so the
+    caller can persist an uncertain outcome. This function never retries.
+    """
+    config = provider_config()
+    if not isinstance(candidate, dict):
+        raise APIError('O candidato de limpeza é inválido.')
+    owner_id = candidate.get('owner_id')
+    public_id = candidate.get('public_id')
+    if (candidate.get('cloud') != config.cloud_name or type(owner_id) is not int
+            or owner_id <= 0 or not isinstance(public_id, str)
+            or not re.fullmatch(rf'codeboxd/posts/u{owner_id}/[a-f0-9]{{32}}', public_id)):
+        raise APIError('A identidade do candidato não corresponde ao Cloudinary configurado.')
+
+    resource = await _lookup_resource(config, public_id)
+    expected = {
+        'public_id': public_id,
+        'asset_id': candidate.get('asset_id'),
+        'version': candidate.get('version'),
+        'format': candidate.get('format'),
+        'bytes': candidate.get('bytes'),
+        'width': candidate.get('width'),
+        'height': candidate.get('height'),
+        'resource_type': 'image',
+        'type': 'upload',
+    }
+    if any(type(resource.get(key)) is not type(value) or resource.get(key) != value
+           for key, value in expected.items()):
+        raise APIError('O asset no Cloudinary mudou desde a prévia aprovada.')
+    try:
+        verified = _read_image({**resource, 'signature': hashlib.sha256(
+            (f'public_id={public_id}&version={resource["version"]}' + config.api_secret).encode()
+        ).hexdigest()}, config, public_id)
+    except (ValueError, TypeError, KeyError):
+        raise APIError('Os metadados do asset não passaram na verificação.') from None
+    if verified.asset_id != candidate.get('asset_id'):
+        raise APIError('O asset no Cloudinary mudou desde a prévia aprovada.')
+
+    timestamp = str(int(time.time()))
+    canonical = f'public_id={public_id}&timestamp={timestamp}' + config.api_secret
+    signature = hashlib.sha1(canonical.encode()).hexdigest()
+    try:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(20, connect=5),
+                                     follow_redirects=False) as client:
+            response = await client.post(
+                f'https://api.cloudinary.com/v1_1/{config.cloud_name}/image/destroy',
+                data={'public_id': public_id, 'timestamp': timestamp,
+                      'api_key': config.api_key, 'signature': signature})
+    except httpx.RequestError:
+        raise APIError('Resultado incerto da limpeza no provedor; requer reconciliação.') from None
+    try:
+        body = response.json()
+    except ValueError:
+        body = None
+    if response.is_success and isinstance(body, dict) and body.get('result') == 'ok':
+        return 'deleted'
+    raise APIError('Resultado incerto da limpeza no provedor; requer reconciliação.')

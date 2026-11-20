@@ -8,7 +8,7 @@ int per_page?=100 filters=min:1|max:100
  }
  stack {
 db.query media {
- where = $input.identity_key == "" || $db.media.identity_key == $input.identity_key
+ where = $db.media.moderation_hidden != true && ($input.identity_key == "" || $db.media.identity_key == $input.identity_key)
  sort = {media.id: "asc"}
  return = {type: "list", paging: {page: $input.page, per_page: $input.per_page, metadata: false}}
 } as $rows

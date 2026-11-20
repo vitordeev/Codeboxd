@@ -31,7 +31,7 @@ query "admin/reports" verb=GET {
       error = "Estado de report inválido."
     }
 
-    precondition ($input.target_type == "" || $input.target_type == "message" || $input.target_type == "post" || $input.target_type == "comment" || $input.target_type == "profile" || $input.target_type == "media") {
+    precondition ($input.target_type == "" || $input.target_type == "message" || $input.target_type == "post" || $input.target_type == "comment" || $input.target_type == "profile" || $input.target_type == "media" || $input.target_type == "review") {
       error_type = "inputerror"
       error = "Tipo de alvo inválido."
     }

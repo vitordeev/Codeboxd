@@ -30,7 +30,7 @@ db.get media {
  field_name = "id"
  field_value = $input.media_id
 } as $record
-precondition ($record != null) {
+precondition ($record != null && $record.moderation_hidden != true) {
   error_type = "notfound"
   error = "Registro não encontrado."
 }

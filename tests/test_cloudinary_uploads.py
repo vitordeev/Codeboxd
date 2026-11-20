@@ -9,12 +9,14 @@ from unittest.mock import patch
 import httpx
 
 from Codeboxd_main.services.api import APIError
-from Codeboxd_main.services.cloudinary_uploads import upload_post_image, upload_config, post_image_payload, _read_image, MAX_BYTES
+from Codeboxd_main.services.cloudinary_uploads import (upload_post_image, upload_config, post_image_payload,
+    _read_image, destroy_cleanup_candidate, MAX_BYTES)
 
 ENV = {'CLOUDINARY_UPLOADS_ENABLED': 'true', 'CLOUDINARY_CLOUD_NAME': 'demo-test',
        'CLOUDINARY_API_KEY': 'dummy-key', 'CLOUDINARY_API_SECRET': 'dummy-secret'}
 PUBLIC_ID = 'codeboxd/posts/u7/fixed-id'
 PNG = b'\x89PNG\r\n\x1a\n' + b'fictional-image'
+REAL_ASYNC_CLIENT = httpx.AsyncClient
 
 
 def image():
@@ -26,7 +28,7 @@ def image():
 
 class CloudinaryUploadTests(unittest.IsolatedAsyncioTestCase):
     async def send(self, handler, **kwargs):
-        client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+        client = REAL_ASYNC_CLIENT(transport=httpx.MockTransport(handler))
         with patch.dict(os.environ, ENV, clear=True), \
              patch('Codeboxd_main.services.cloudinary_uploads.httpx.AsyncClient', return_value=client), \
              patch('Codeboxd_main.services.cloudinary_uploads.time.time', return_value=1700000000), \
@@ -146,3 +148,46 @@ class CloudinaryUploadTests(unittest.IsolatedAsyncioTestCase):
                     post_image_payload(altered, owner_id=7)
             with patch.dict(os.environ, {'CLOUDINARY_UPLOADS_ENABLED': 'false'}), self.assertRaises(APIError):
                 post_image_payload(uploaded, owner_id=7)
+
+    async def test_cleanup_checks_exact_cloudinary_resource_then_destroys_once(self):
+        public_id = 'codeboxd/posts/u7/' + 'a'*32
+        resource = image() | {'public_id': public_id,
+            'secure_url': f'https://res.cloudinary.com/demo-test/image/upload/v1/{public_id}.png'}
+        candidate = {'owner_id': 7, 'cloud': 'demo-test', 'public_id': public_id,
+            'asset_id': 'test-asset', 'version': 1, 'format': 'png', 'bytes': 100,
+            'width': 40, 'height': 30}
+        calls = []
+        def handler(request):
+            calls.append(request)
+            if request.method == 'GET':
+                return httpx.Response(200, json=resource)
+            self.assertEqual(request.url.path, '/v1_1/demo-test/image/destroy')
+            self.assertIn(b'public_id=codeboxd%2Fposts%2Fu7%2F' + b'a'*32, request.content)
+            self.assertNotIn(b'dummy-secret', request.content)
+            return httpx.Response(200, json={'result': 'ok'})
+        def client_factory(**kwargs):
+            return REAL_ASYNC_CLIENT(transport=httpx.MockTransport(handler), **kwargs)
+        with patch.dict(os.environ, ENV, clear=True), \
+             patch('Codeboxd_main.services.cloudinary_uploads.httpx.AsyncClient', side_effect=client_factory), \
+             patch('Codeboxd_main.services.cloudinary_uploads.time.time', return_value=1700000000):
+            self.assertEqual(await destroy_cleanup_candidate(candidate), 'deleted')
+        self.assertEqual([call.method for call in calls], ['GET', 'POST'])
+
+    async def test_cleanup_metadata_mismatch_never_calls_destroy(self):
+        public_id = 'codeboxd/posts/u7/' + 'a'*32
+        resource = image() | {'public_id': public_id, 'asset_id': 'changed-asset',
+            'secure_url': f'https://res.cloudinary.com/demo-test/image/upload/v1/{public_id}.png'}
+        candidate = {'owner_id': 7, 'cloud': 'demo-test', 'public_id': public_id,
+            'asset_id': 'test-asset', 'version': 1, 'format': 'png', 'bytes': 100,
+            'width': 40, 'height': 30}
+        calls = []
+        def handler(request):
+            calls.append(request)
+            return httpx.Response(200, json=resource)
+        def client_factory(**kwargs):
+            return REAL_ASYNC_CLIENT(transport=httpx.MockTransport(handler), **kwargs)
+        with patch.dict(os.environ, ENV, clear=True), \
+             patch('Codeboxd_main.services.cloudinary_uploads.httpx.AsyncClient', side_effect=client_factory):
+            with self.assertRaises(APIError):
+                await destroy_cleanup_candidate(candidate)
+        self.assertEqual([call.method for call in calls], ['GET'])

@@ -118,18 +118,7 @@ def grid(items, render, empty):
         rx.el.p(empty,class_name='p-8 border border-dashed border-white/15 rounded-2xl text-gray-400'))
 
 
-def shelf_arrow(shelf_id, title, direction):
-    # IDs and directions are constants defined here, never user input.
-    script = """(() => { const row = document.getElementById('%s');
-        if (row) row.scrollBy({left: row.clientWidth * .85 * %d,
-        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); })()""" % (shelf_id, direction)
-    return rx.el.button(rx.icon('chevron-left' if direction < 0 else 'chevron-right', size=19),
-        type='button', on_click=rx.call_script(script), class_name='shelf-arrow',
-        aria_label=('Anteriores: ' if direction < 0 else 'Próximos: ') + title,
-        aria_controls=shelf_id)
-
-
-def catalog_shelf(title, subtitle, items, kind, shelf_id, footer=None):
+def catalog_shelf(title, subtitle, items, kind, shelf_id, load_more_event):
     def card(m, index):
         return rx.el.button(
             rx.el.div(cover_image(m),
@@ -138,29 +127,32 @@ def catalog_shelf(title, subtitle, items, kind, shelf_id, footer=None):
                 rx.el.p(m['kind'] + ' · ' + m['year'], class_name='shelf-card-meta'), class_name='shelf-card-copy'),
             type='button', on_click=S.open_featured(m['source'],m['external_id'],kind),
             class_name='shelf-card', key=m['key'])
+    near_end_script = """(() => {
+        const rail = document.getElementById('%s');
+        return !!rail && rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 240;
+    })()""" % shelf_id
     return rx.el.section(
         rx.el.div(rx.el.div(rx.el.h3(title,id=shelf_id+'-heading',class_name='shelf-title'),
             rx.el.p(subtitle,class_name='shelf-subtitle')),
-            rx.el.div(shelf_arrow(shelf_id,title,-1),shelf_arrow(shelf_id,title,1),class_name='shelf-controls'),
             class_name='catalog-shelf-heading'),
-        rx.el.div(rx.foreach(items,card),id=shelf_id,class_name='catalog-rail',
-            role='region',aria_label=title,tab_index=0),
-        footer if footer is not None else rx.fragment(),
+        rx.el.div(rx.foreach(items,card),id=shelf_id,
+            class_name='catalog-rail catalog-rail-no-scrollbar',role='region',
+            aria_label=title,tab_index=0,
+            on_scroll=rx.call_script(near_end_script,callback=load_more_event).throttle(350)),
         class_name='catalog-shelf',aria_labelledby=shelf_id+'-heading')
 
 
 def popular_section(title, items, kind):
-    return rx.cond(items.length()>0,catalog_shelf(title,
-        'Os títulos em alta no TMDB. Encontre o seu próximo favorito.',items,kind,'popular-'+kind,
-        footer=rx.cond(~S.popular_exhausted.contains(kind),
-            rx.el.button('Carregar mais filmes' if kind=='movie' else 'Carregar mais séries',
-                on_click=S.more_popular(kind),type='button',disabled=S.busy | S.home_loading,class_name='shelf-more'))))
+    subtitle='Os títulos em alta no TMDB. Encontre o seu próximo favorito.'
+    return rx.cond(items.length()>0,catalog_shelf(title,subtitle,items,kind,'popular-'+kind,
+        S.load_more_popular(kind)))
 
 
 def collection_section(key):
     kind,title,subtitle,_ = HOME_COLLECTIONS[key]
     return rx.cond(S.home_collections[key].length()>0,
-        catalog_shelf(title,subtitle,S.home_collections[key],kind,key),
+        catalog_shelf(title,subtitle,S.home_collections[key],kind,key,
+            S.load_more_home_collection(key)),
         rx.el.section(rx.el.h3(title,class_name='shelf-title'),
             rx.cond(~S.home_loaded,
                 rx.el.div(*[rx.el.div(class_name='shelf-skeleton') for _ in range(6)],
@@ -393,13 +385,20 @@ def spoiler(body, flag):
         rx.el.p(body,class_name='whitespace-pre-wrap mt-3')),rx.el.p(body,class_name='whitespace-pre-wrap'))
 
 
-def interaction(i):
+def interaction(i, reportable=False):
+    report_action = rx.cond(reportable, rx.cond(
+        (~S.owns_profile) & (i['interaction_id'] != '')
+        & ((i['review'] != '') | (i['rating'] != 'Sem nota')),
+        rx.el.button('Denunciar avaliação', type='button',
+            on_click=S.open_report('review', i['interaction_id']), class_name='quiet-button'),
+        rx.fragment(),
+    ), rx.fragment())
     return rx.el.article(
         rx.el.a(rx.cond(i['cover']!='',rx.el.img(src=i['cover'],alt=i['title'],loading='lazy'),
             rx.icon('book-open',size=28)),href='/obra/'+i['id'],class_name='activity-cover'),
         rx.el.div(rx.el.a(i['title'],href='/obra/'+i['id'],class_name='font-semibold'),
             rx.el.p(i['kind']+' · '+i['status']+' · '+i['rating'],class_name='activity-meta'),
-            spoiler(i['review'],i['spoiler']),class_name='min-w-0'),class_name='activity-card')
+            spoiler(i['review'],i['spoiler']),report_action,class_name='min-w-0'),class_name='activity-card')
 
 
 def library_page():
@@ -462,7 +461,7 @@ def profile_page():
         rx.el.section(rx.el.h2('Avaliações e atividades',class_name='section-title'),
             rx.cond(S.profile_activity_loading,rx.el.p('Carregando atividades…',role='status'),
                 rx.cond(S.profile_activity_error!='',rx.el.p(S.profile_activity_error,role='alert',class_name='text-red-400'),
-                    rx.cond(S.profile_activity.length()>0,rx.foreach(S.profile_activity,interaction),rx.el.p('Nenhuma experiência registrada.',class_name='empty-state')))),id='atividades',class_name='space-y-4'),
+                    rx.cond(S.profile_activity.length()>0,rx.foreach(S.profile_activity,lambda activity:interaction(activity,reportable=True)),rx.el.p('Nenhuma experiência registrada.',class_name='empty-state')))),id='atividades',class_name='space-y-4'),
         rx.el.section(rx.el.h2('Seguidores',class_name='section-title'),
             rx.cond(S.profile_people_loading,rx.el.p('Carregando seguidores…',role='status'),
                 rx.cond(S.profile_people_error!='',rx.el.p(S.profile_people_error,role='alert',class_name='text-red-400'),grid(S.followers,person,'Ainda não há seguidores.'))),id='seguidores'),
@@ -702,9 +701,8 @@ def lists_page():
         rx.el.h2(rx.cond(S.is_authenticated & (S.list_scope=='own'),'Suas listas','Listas públicas'),class_name='section-title'),
         rx.cond(S.is_authenticated,rx.el.div(
             button('Minhas listas',S.change_list_scope('own'),disabled=S.list_saving | (S.list_scope=='own')),
-            button('Explorar listas públicas',S.change_list_scope('public'),disabled=S.list_saving | (S.list_scope=='public')),
+            rx.cond(S.list_scope=='own',button('Criar lista',S.new_list,disabled=S.list_saving)),
             class_name='flex flex-wrap gap-3')),
-        rx.cond(S.is_authenticated & (S.list_scope=='own'),button('Criar lista',S.new_list,disabled=S.list_saving)),
         editor(rx.cond(S.selected_list['id']=='','Criar lista','Editar lista'),'Organize suas próximas descobertas.',
             rx.el.form(field('Título','title',S.selected_list['title'],required=True,max_length=120),
                 textarea('Descrição','description',S.selected_list['description'],max_length=2000),

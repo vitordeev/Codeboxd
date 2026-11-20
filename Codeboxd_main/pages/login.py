@@ -186,9 +186,11 @@ def login_page() -> rx.Component:
             # ---- Coluna esquerda: marca + ilustração ----
             rx.el.section(
                 rx.el.div(
-                    rx.el.div(
+                    rx.el.a(
                         _logo_icon(),
                         rx.el.span("codeboxd", class_name="text-2xl font-bold tracking-tight text-[#F5B300] font-sans"),
+                        href="/",
+                        aria_label="Voltar para a página inicial do Codeboxd",
                         class_name="flex items-center gap-3 mb-12 sm:mb-16",
                     ),
                     rx.el.h1(
