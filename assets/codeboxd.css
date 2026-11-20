@@ -443,6 +443,9 @@ button:disabled { cursor: wait; }
 .catalog-rail { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 90px) / 6); gap: 18px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding: 4px 2px 16px; scrollbar-width: thin; scrollbar-color: #51482a #151518; }
 .catalog-rail-no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
 .catalog-rail-no-scrollbar::-webkit-scrollbar { display: none; }
+.catalog-rail--dragging, .catalog-rail--dragging * { cursor: grabbing !important; user-select: none; -webkit-user-select: none; }
+.catalog-rail--dragging { scroll-snap-type: none; }
+.catalog-rail--dragging img { -webkit-user-drag: none; }
 .shelf-card { min-width: 0; text-align: left; color: #eeedf0; scroll-snap-align: start; border-radius: 12px; align-self: start; background: transparent; }
 .shelf-poster { position: relative; border: 1px solid #ffffff15; border-radius: 12px; overflow: hidden; transition: border-color .18s ease, transform .18s ease; }
 .shelf-card:hover .shelf-poster { border-color: var(--yellow); transform: translateY(-3px); }

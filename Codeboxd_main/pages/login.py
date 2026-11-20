@@ -89,6 +89,7 @@ body {
 HEAD_COMPONENTS = [
     rx.el.link(rel="icon", type="image/svg+xml", href=rx.asset("codeboxd-logo.svg")),
     rx.el.link(rel="stylesheet", href="/codeboxd.css"),
+    rx.el.script(src=rx.asset("catalog-rail-drag.js"), defer=True),
     rx.el.link(rel="preconnect", href="https://fonts.googleapis.com"),
     rx.el.link(rel="preconnect", href="https://fonts.gstatic.com", cross_origin=""),
     rx.el.link(
