@@ -31,6 +31,13 @@ assets/external/
 node_modules/
 *.log
 
+# Netlify and deployment outputs
+.netlify/
+dist/
+coverage/
+htmlcov/
+.coverage
+
 # Editor and OS temporary files
 .DS_Store
 Thumbs.db

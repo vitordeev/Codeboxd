@@ -22,6 +22,10 @@ Tecnologias
 
 </div>
 
+## Publicar na Netlify
+
+O frontend Reflex pode ser exportado para a Netlify, mas a aplicação também precisa de um backend Python público com WebSocket. Consulte [Deploy Netlify](docs/DEPLOY_NETLIFY.md) para configurar as URLs e gerar o pacote-fonte.
+
 <div align="center">
 
 ✦ Sobre o CodeBoxd
