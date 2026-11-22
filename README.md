@@ -1,239 +1,145 @@
-<div align="center">
+# CodeBoxd — Descubra, organize e compartilhe
 
-CodeBoxd — Descubra e Compartilhe
+O CodeBoxd é uma aplicação web para pessoas que gostam de filmes, séries, animes e livros. Ela reúne descoberta de obras, registros pessoais e recursos sociais para que cada pessoa organize o que acompanha e compartilhe suas opiniões.
 
-Seu universo cultural, em uma única comunidade.
+## 1. Apresentação
 
-Descubra novas histórias, registre suas experiências e compartilhe aquilo que faz parte de você.
+Catálogos culturais costumam ficar separados, enquanto avaliações, listas e conversas ficam espalhadas por vários lugares. O CodeBoxd reúne esses registros em um perfil cultural e aproxima pessoas com interesses semelhantes.
 
-<br>
+O público principal são leitores e espectadores que querem descobrir obras, acompanhar o que já consumiram e conversar sobre suas experiências. A aplicação também tem uma área administrativa para a equipe responsável pela comunidade.
 
+## 2. Acesso ao aplicativo
 
+### Versão publicada
 
+**Não há uma versão publicada para acessar nesta entrega.** Para conhecer e usar o aplicativo, siga as instruções de execução local abaixo.
 
+### Executar localmente
 
-<br>
+Na raiz do repositório, com Python 3.12 instalado, abra o PowerShell e execute:
 
-Sobre •
-Universos •
-Funcionalidades •
-Experiência •
-Tecnologias
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+python -m reflex run
+```
 
-</div>
+Configure no arquivo `.env` as variáveis necessárias para as integrações antes de usar buscas, login e dados remotos. Não compartilhe esse arquivo. O endereço local aparece no terminal quando o Reflex inicia; a porta pode variar conforme o que estiver disponível no computador.
 
-<div align="center">
+### Principais páginas
 
-✦ Sobre o CodeBoxd
+| Página | Endereço local | Para que serve |
+| --- | --- | --- |
+| Descobrir | `/` | Buscar e explorar obras |
+| Cadastro | `/cadastro` | Criar uma conta |
+| Login | `/login` | Entrar como membro |
+| Obra | `/obra/<id>` | Ver detalhes, avaliar e organizar uma obra |
+| Biblioteca | `/biblioteca` | Consultar obras registradas |
+| Comunidade | `/comunidade` | Encontrar outros perfis |
+| Feed | `/feed` | Ver publicações da comunidade |
+| Listas | `/listas` | Consultar e organizar listas |
+| Meu perfil | `/conta` | Ver ou editar o próprio perfil |
+| Administração | `/admin/login` | Entrar na área administrativa, para contas autorizadas |
 
-O CodeBoxd é uma plataforma social criada para quem vive histórias dentro e fora das telas.
+## 3. Perfis de usuários
 
-Em um único ambiente, o usuário pode explorar filmes, séries, animes e livros, registrar o que está acompanhando, publicar avaliações, montar coleções e encontrar pessoas com interesses parecidos.
+| Perfil | O que pode fazer |
+| --- | --- |
+| Visitante | Explorar e pesquisar o catálogo e abrir páginas de obras. Para salvar registros, publicar ou seguir pessoas, precisa criar uma conta. |
+| Membro cadastrado | Manter biblioteca, avaliações e listas; editar o perfil; acompanhar pessoas e participar das áreas sociais disponíveis. |
+| Administrador | Acessar o painel restrito, consultar métricas e ferramentas de usuários, catálogo e denúncias. O acesso exige uma conta com papel administrativo concedido pela equipe. |
 
-Mais do que um catálogo, o CodeBoxd transforma cada descoberta em uma experiência compartilhada.
+## 4. Funcionalidades
 
-</div>
+- **Catálogo:** filmes, séries, animes e livros, com dados obtidos de serviços externos. A disponibilidade de informações, capas e recomendações depende desses serviços.
+- **Busca e descoberta:** pesquisa por título e navegação por categoria na página inicial.
+- **Detalhes da obra:** descrição e informações disponíveis; algumas obras também exibem trailers, recomendações e opções de onde assistir.
+- **Avaliações e biblioteca:** registrar uma nota, escrever uma crítica, indicar spoiler e acompanhar o status de uma obra.
+- **Listas:** reunir obras em listas pessoais e escolher a visibilidade pública ou privada.
+- **Comunidade e perfis:** encontrar perfis, seguir pessoas e consultar atividades e avaliações.
+- **Feed:** acompanhar publicações e interações da comunidade.
+- **Moderação:** administradores podem consultar denúncias, analisar o contexto e escolher uma decisão compatível com o tipo de conteúdo reportado.
 
-<br>
+## 5. Manual de utilização
 
-<table>
-  <tr>
-    <td align="center" width="33%">
-      <h3>🔎 Descubra</h3>
-      Encontre obras, gêneros e novas recomendações em diferentes universos culturais.
-    </td>
-    <td align="center" width="33%">
-      <h3>⭐ Registre</h3>
-      Guarde suas notas, opiniões, progresso e tudo aquilo que marcou sua experiência.
-    </td>
-    <td align="center" width="33%">
-      <h3>💬 Compartilhe</h3>
-      Acompanhe pessoas, publique avaliações e descubra histórias através da comunidade.
-    </td>
-  </tr>
-</table>
+### Jornada de visitante: descobrir uma obra
 
-<div align="center">
+1. Abra a página **Descobrir** (`/`).
+2. Digite um título no campo de busca ou escolha uma categoria: filmes, séries, animes ou livros.
+3. Selecione um resultado para abrir a ficha da obra.
+4. Consulte as informações disponíveis e as recomendações.
+5. Para salvar uma avaliação na conta, organizar a obra na biblioteca ou participar da comunidade, crie uma conta e entre no aplicativo.
 
-◈ Quatro universos, uma só experiência
+**Resultado esperado:** a obra aparece na página de detalhes. Os dados disponíveis variam conforme o catálogo externo.
 
+### Jornada de membro: registrar uma avaliação
 
+1. Abra `/cadastro`, preencha nome, usuário, e-mail e senha e selecione **Criar conta**. Se já tiver cadastro, use `/login`.
+2. Pesquise uma obra em **Descobrir** e abra seus detalhes.
+3. Escolha uma nota de meia a cinco estrelas, informe o status da obra e escreva sua crítica.
+4. Marque a opção de spoiler quando o texto revelar partes importantes da história.
+5. Selecione **Salvar avaliação**.
+6. Consulte o resultado em **Biblioteca** (`/biblioteca`) ou no seu perfil (`/conta`).
 
+**Resultado esperado:** a obra e os dados registrados ficam associados à conta, desde que a integração remota esteja disponível. Sem login, a nota escolhida na página da obra fica somente no navegador e não é publicada no perfil.
 
+### Jornada de membro: organizar uma lista
 
+1. Entre na conta e abra **Listas** (`/listas`).
+2. Crie uma lista, informe título e descrição e escolha se será pública ou privada.
+3. Pesquise obras dentro da lista ou abra uma obra e escolha **Adicionar a outra lista**.
+4. Consulte a lista para conferir as obras incluídas.
 
-<br><br>
+**Resultado esperado:** a coleção aparece na página de listas com a visibilidade escolhida. A disponibilidade da gravação depende da conexão com o backend.
 
-Cada tipo de conteúdo possui informações próprias, mas todos fazem parte do mesmo perfil cultural do usuário.
+### Jornada de membro: conhecer a comunidade
 
-</div>
+1. Abra **Comunidade** (`/comunidade`) e escolha um perfil.
+2. Se estiver conectado, selecione **Seguir** para acompanhar a pessoa.
+3. Abra **Feed** (`/feed`) para consultar publicações e interações disponíveis.
+4. Em **Meu perfil** (`/conta`), use **Editar perfil** para atualizar nome, usuário, bio e foto. O editor também permite enviar um banner.
 
-🎬 Filmes
+**Resultado esperado:** o perfil mostra as informações e atividades carregadas pelo serviço. Upload de imagens depende da configuração integrada de armazenamento.
 
-📺 Séries
+### Jornada de membro: publicar no feed
 
-🌸 Animes
+1. Abra **Feed** (`/feed`) e selecione **Criar publicação**.
+2. Escreva o texto. Se quiser, pesquise e associe uma obra e marque **Contém spoilers**.
+3. Opcionalmente selecione uma imagem e confira a prévia.
+4. Selecione **Publicar**. Em uma publicação existente, use os controles disponíveis para curtir ou abrir os comentários.
 
-📚 Livros
+**Resultado esperado:** a publicação aparece no feed quando a gravação no backend é confirmada. O envio de imagem tem a limitação descrita na seção 7.
 
-Sinopse, duração, elenco, direção e trailer
+### Jornada administrativa: analisar uma denúncia
 
-Temporadas, episódios, elenco e situação da obra
+1. Acesse `/admin/login` com uma conta administrativa autorizada.
+2. No painel, abra **Reports/Denúncias** e use os filtros de status, tipo ou motivo.
+3. Leia o contexto da denúncia. Abrir um report, por si só, não remove o conteúdo.
+4. Registre uma decisão e sua justificativa. Se a equipe decidir remover o alvo, use a ação correspondente ao tipo: publicação, comentário, avaliação ou obra.
 
-Episódios, estúdio, temporada e situação da obra
+**Resultado esperado:** a decisão fica registrada conforme as permissões e endpoints administrativos disponíveis. A interface separa a revisão da denúncia da remoção do conteúdo.
 
-Autoria, editora, edição, páginas e ISBN
+## 6. Exemplos de utilização
 
-<div align="center">
+- **Organizar uma sessão de cinema:** pesquise um filme, registre a avaliação depois de assistir e adicione-o a uma lista chamada “Favoritos de ficção científica”.
+- **Acompanhar uma série:** marque a obra como “Quero ver / ler” e depois atualize seu registro quando terminar.
+- **Compartilhar uma crítica:** escreva uma avaliação no perfil e marque como spoiler se revelar acontecimentos da trama.
+- **Moderar conteúdo:** um administrador filtra denúncias de comentários, lê o contexto e decide entre registrar uma decisão ou remover apenas o comentário reportado.
 
-✨ Tudo o que você precisa
+Os exemplos são cenários de uso, não dados ou contas de demonstração. Não há credenciais de teste publicadas neste repositório.
 
-Recursos pensados para transformar consumo cultural em memória, organização e conversa.
+## 7. Limitações conhecidas
 
-</div>
+- Não há endereço público de produção nesta entrega; o aplicativo deve ser executado localmente e depende da configuração privada das integrações.
+- Busca, autenticação, biblioteca, feed, listas e administração dependem de configuração e disponibilidade do Xano e dos provedores externos.
+- O cadastro também depende de `XANO_SOCIAL_URL` e do endpoint de cadastro social publicado; sem essa configuração a aplicação informa que o cadastro ainda está em preparação.
+- Recursos de imagem em publicações dependem da integração Cloudinary/Xano. A validação integrada e o ciclo de limpeza de imagens ainda têm pendências; não trate esse fluxo como garantido antes de uma conferência no ambiente publicado.
+- O catálogo pode não fornecer todos os campos, capas, trailers ou disponibilidade de streaming para cada obra.
+- Os controles administrativos aparecem apenas para contas autorizadas; este README não fornece credenciais administrativas.
+- Não incluí capturas de tela porque ainda não há imagens atuais verificadas da aplicação em execução.
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <h3>🔍 Explore sem limites</h3>
-      Pesquise títulos, navegue por categorias e encontre conteúdos populares, recentes ou bem avaliados.
-    </td>
-    <td align="center" width="50%">
-      <h3>⭐ Dê a sua nota</h3>
-      Avalie de 0,5 a 5 estrelas e publique opiniões com identificação de spoiler.
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <h3>🗂️ Organize suas histórias</h3>
-      Crie listas públicas ou privadas e reúna conteúdos por tema, momento ou preferência.
-    </td>
-    <td align="center" width="50%">
-      <h3>📌 Acompanhe seu progresso</h3>
-      Marque uma obra como planejada, em andamento, concluída ou abandonada.
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <h3>👥 Encontre sua comunidade</h3>
-      Siga outros perfis e conheça novas obras por meio das atividades de quem você acompanha.
-    </td>
-    <td align="center" width="50%">
-      <h3>📰 Construa seu histórico</h3>
-      Mantenha avaliações, listas e experiências reunidas em um perfil que representa você.
-    </td>
-  </tr>
-</table>
+---
 
-<div align="center">
-
-↗ Uma jornada simples e social
-
-
-
-
-
-
-
-<br><br>
-
-O usuário descobre uma obra, consulta suas informações, registra a experiência, organiza o conteúdo e compartilha sua opinião com outras pessoas.
-
-</div>
-
-🏠 Início
-
-Destaques, tendências, conteúdos populares e recomendações reunidos em uma experiência dinâmica.
-
-🔍 Busca e descoberta
-
-Pesquisa por título e filtros para navegar entre filmes, séries, animes, livros e gêneros.
-
-🎞️ Detalhes da obra
-
-Sinopse, informações técnicas, elenco, autoria, trailer, avaliações e conteúdos relacionados.
-
-📰 Feed
-
-Um espaço para acompanhar notas, avaliações, listas e atividades publicadas pela comunidade.
-
-👤 Perfil
-
-Histórico, listas, avaliações e preferências que formam a identidade cultural de cada usuário.
-
-<div align="center">
-
-⚙ Por trás da experiência
-
-Uma arquitetura simples e organizada, com cada tecnologia concentrada em sua principal responsabilidade.
-
-<br>
-
-
-
-
-
-
-</div>
-
-flowchart LR
-    U[Comunidade] --> R[Aplicação Reflex]
-    R --> X[APIs Xano]
-    X --> D[(Dados e autenticação)]
-
-<div align="center">
-
-O Reflex apresenta a experiência da aplicação, enquanto o Xano gerencia autenticação, dados e regras de negócio.
-
-</div>
-
-<div align="center">
-
-🎨 Identidade visual
-
-Uma interface escura, moderna e imersiva, com cores vivas para diferenciar ações e universos da plataforma.
-
-<br>
-
-
-
-
-
-
-
-<br><br>
-
-O amarelo representa a identidade principal do CodeBoxd. As cores complementares ajudam a dar personalidade aos diferentes tipos de conteúdo e interações.
-
-</div>
-
-<div align="center">
-
-🌐 Um catálogo conectado
-
-O universo do CodeBoxd pode ser enriquecido com dados de plataformas especializadas.
-
-<br>
-
-
-
-
-
-</div>
-
-<div align="center">
-
-💛 Feito para quem sempre procura a próxima história
-
-O CodeBoxd nasce da ideia de que aquilo que assistimos e lemos também conta um pouco sobre quem somos.
-
-Projeto acadêmico desenvolvido por uma equipe de três estudantes de Análise e Desenvolvimento de Sistemas.
-
-<br>
-
-Descubra. Avalie. Organize. Compartilhe.
-
-<sub>CodeBoxd — todas as suas histórias em um só lugar.</sub>
-
-</div>
-
+CodeBoxd — projeto acadêmico desenvolvido por uma equipe de três estudantes de Análise e Desenvolvimento de Sistemas.

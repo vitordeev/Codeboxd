@@ -35,3 +35,23 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.tmp
+
+# Build and test output
+/build/
+/dist/
+/coverage/
+/htmlcov/
+.coverage*
+.tox/
+.nox/
+npm-debug.log*
+
+# Local editor and merge artifacts
+.idea/
+.vscode/*.local.json
+*.code-workspace
+.history/
+*.swp
+*.swo
+*.bak
+*.orig
